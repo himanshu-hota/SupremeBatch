@@ -1,0 +1,12 @@
+	public static void MaxInArray(int arr[]) {
+		int maxSoFar = Integer.MIN_VALUE;
+		
+		for(int item : arr) {
+			if(item > maxSoFar) {
+				maxSoFar = item;
+			}
+		}
+		
+		System.out.println("Maximum number in the array is : " + maxSoFar);
+	}
+	

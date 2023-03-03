@@ -1,0 +1,10 @@
+	public static void findUnique(ArrayList<Integer> arr) {
+		int ans = 0;
+		for(Integer element : arr) {
+			ans = ans ^ element ;
+		}
+		if(ans !=0)
+			System.out.println("Unique element is : " + ans);
+		else
+			System.out.println("No unique element found!!!");
+	}

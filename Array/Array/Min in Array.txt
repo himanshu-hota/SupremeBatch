@@ -1,0 +1,12 @@
+	public static void MinInArray(int arr[]) {
+		int minSoFar = Integer.MAX_VALUE;
+		
+		for(int item : arr) {
+			if(item < minSoFar) {
+				minSoFar = item;
+			}
+		}
+		
+		System.out.println("Minimum number in the array is : " + minSoFar);
+	}
+	

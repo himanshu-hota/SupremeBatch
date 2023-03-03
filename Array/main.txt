@@ -1,0 +1,45 @@
+import java.util.*;
+
+
+public class Array {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+//		ArrayList<Integer> arr = new ArrayList<>(Arrays.asList(1,0,1,0,1,0,0,0,0,0,0,0,0));
+		ArrayList<ArrayList<Integer>> arr = new ArrayList<ArrayList<Integer>>();
+		ArrayList<Integer> a1 = new ArrayList<>();
+		a1.add(1);
+		a1.add(2);
+		a1.add(3);
+		a1.add(4);
+		a1.add(5);
+		a1.add(6);
+		
+		ArrayList<Integer> a2 = new ArrayList<>();
+		a2.add(41);
+		a2.add(42);
+		a2.add(43);
+		a2.add(44);
+		a2.add(45);
+		a2.add(46);
+		
+		arr.add(a1);
+		arr.add(a2);
+		
+//		int arr[][] = {
+//				{1,2,3},
+//				{4,55,6},
+//				{45,255,16},
+//				{10,0,12}
+//		};
+//		
+
+}
+}
+	
+
+	
+
+
+	

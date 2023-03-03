@@ -1,0 +1,15 @@
+	public static void transpose(int arr[][]) {
+
+		 int colLength = arr[0].length;
+		 int rowLength = arr.length;	
+		 
+		 int transpose[][] = new int[colLength][rowLength];
+		
+		for(int i = 0; i < rowLength ; i++) {
+			for(int j = 0 ; j < colLength ; j++) {
+				 transpose[j][i] = arr[i][j];
+			}
+		}
+		System.out.println("Transpose of the given 2D array is : ");
+		print2DArray(transpose);
+	}

@@ -1,0 +1,10 @@
+	//2d arrays
+
+	
+
+
+
+
+
+
+	// 2d arrays end here 

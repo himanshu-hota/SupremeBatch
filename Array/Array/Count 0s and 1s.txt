@@ -1,0 +1,16 @@
+	public static void countZeroesAndOnes(int[] arr) {
+		int numZero = 0;
+		int numOne = 0;
+		
+		for(int item : arr) {
+			if(item == 0) {
+				numZero++;
+			}else if(item == 1) {
+				numOne++;
+			}
+		}
+		
+		System.out.println("Count of zeroes : " + numZero);
+		System.out.println("Count of Ones: " + numOne);
+	}
+	
