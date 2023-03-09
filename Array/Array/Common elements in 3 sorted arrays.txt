@@ -1,0 +1,35 @@
+    ArrayList<Integer> commonElements(int A[], int B[], int C[], int n1, int n2, int n3) {
+        // code here 
+        ArrayList<Integer> arr = new ArrayList<Integer>();
+        ArrayList<Integer> finalAnswer = new ArrayList<Integer>();
+        int i=0,j=0,k=0;
+        
+        // traverse all arrays
+        while(i < n1 && j < n2 && k < n3){
+            // check if all elements are same 
+            if((A[i] == B[j]) && (B[j] == C[k])){
+                
+                    arr.add(A[i]);
+                    i++;
+                    j++;
+                    k++;
+                
+                }else if(A[i] < B[j]){
+                    i++;
+                }else if(B[j] < C[k]){
+                    j++;
+                }else{
+                    k++;
+                }
+            
+        }
+        // remove duplicate elements
+            for (Integer element : arr) {
+  
+                    if (!finalAnswer.contains(element)) {
+                        finalAnswer.add(element);
+                    }
+        }
+        
+        return finalAnswer;
+    }
