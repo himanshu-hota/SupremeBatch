@@ -1,0 +1,30 @@
+ static ArrayList<Integer> factorial(int N){
+        //code here
+     ArrayList<Integer> result = new ArrayList<>();
+        int size = 1;
+        int carry =0;
+        result.add(0,1);
+        int val =2;
+        
+        while(N>=val){
+            
+            for(int i = size-1;i>=0;i--){
+                int temp = result.get(i)*val+carry;
+                result.set(i,temp%10);
+                carry = temp/10;
+            }
+            
+            while(carry!=0){
+                result.add(0,carry%10);
+                carry = carry/10;
+                size++;
+            }
+            val++;
+        }
+        
+        
+        return result;
+    }
+
+
+    Video :- https://www.youtube.com/watch?v=vxPBrr5x2jk&t=2s
