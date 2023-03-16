@@ -1,0 +1,26 @@
+    public int peakIndexInMountainArray(int[] arr) {
+        
+        int start = 0;
+        int end = arr.length - 1;
+        int mid = start + (end - start) / 2;
+        
+        while(start < end){
+            // if mid element is less than next element then peak element can not present in left sorted array
+            if(arr[mid] < arr[mid+1]){
+                start = mid+1;
+            }else{
+                end = mid; // we are not doing mid - 1 because mid can be the peak index becaue peak element can be in the right sorted array
+            }
+
+            //update midde index
+            mid = start + (end - start) /2;
+        }
+            return start;
+    }
+
+    practice link :- https://leetcode.com/problems/peak-index-in-a-mountain-array/description/
+
+
+    Note :- 1. when doing e = mid or s = mid , keep in mind that you should not use <= in while condition , because it can get stuck in infinite loop.
+            2. peak index can never be present in the left sorted array.
+            3. we have done e = mid because mid index can also be the peak index because it also has the property of arr[mid]> arr[mid+1] if it is from right sorted array.
