@@ -1,0 +1,67 @@
+
+
+     public static boolean isPossible(ArrayList<Integer> arr,int n , int k, int sol){
+         
+         int timeSum = 0 ;
+         int painters = 1;
+         
+         for(int i = 0 ; i < n ; i++) {
+             // if current time is greater than sol then there is no possibility 
+             if(arr.get(i) > sol){
+                 return false;
+             }
+             
+             //if sum till current time is greater than solution then 
+             if(timeSum + arr.get(i) > sol){
+
+                //allocate board to new painter
+                 painters++;
+
+                 //reset time
+                 timeSum = arr.get(i);
+
+                 //if current number of painter is greater than required then there is no possibility
+                 if(painters > k){
+                     return false;
+                 }
+             }else{
+                // add current time to sum of time
+                 timeSum += arr.get(i);
+             }
+             
+         }
+         return true;
+     }
+
+
+    public static int findLargestMinDistance(ArrayList<Integer> arr, int k)
+    {
+        //    Write your code here.
+        int sum =0;
+        //calculate total time
+        for(Integer i : arr){
+            sum += i;
+        }
+
+        int n = arr.size();
+        int ans = 0;
+        int start  =0;
+        int end = sum;
+        int mid = start + (end - start)/2;
+        
+        while(start <= end) {
+        
+        //if there is possibility of current time to be ans then
+            if(isPossible(arr,n,k,mid)){
+                //search for lower time 
+                end = mid-1;
+                ans = mid;
+            }else{
+                start = mid+1;
+            }
+            
+            mid = start + (end - start) /2;
+        }
+        
+        return ans;
+    }

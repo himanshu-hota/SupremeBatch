@@ -1,0 +1,99 @@
+import java.util.*;
+
+public class Solution {
+
+
+	public static int getPairsWithDifferenceK(int arr[], int k) {
+		//Write your code here
+		int count = 0;
+		int i = 0 ; 
+		int j = i+1;
+
+    //-------------------Brute 1 ------------------------
+        // Arrays.sort(arr);
+		// while( j< arr.length){
+		// 	int diff = Math.abs(arr[i] - arr[j]);
+		// 	if(diff == k){
+		// 		count++;
+		// 		i++;
+		// 		j++;
+		// 	}else if(diff < k){
+		// 		j++;
+		// 	}else {
+		// 		i++;
+		// 	}
+		// }
+        //------------------- End ------------------------
+
+
+    //-------------------Brute 2 ------------------------
+		for(i=0 ; i< arr.length ; i++){
+			for(j=i+1 ; j< arr.length ; j++){
+				int diff = Math.abs(arr[i] - arr[j]);
+
+				if(diff==k){
+					count++;
+				}
+			}
+		}
+        //-------------------Brute 1------------------------
+		return count;
+	}
+}
+
+
+
+
+
+
+-----------------------------------Optimized---------------------------------------------------
+
+
+// import java.util.*;
+
+// public class Solution {
+
+// 	public static int bs(int arr[] , int start , int target){
+
+// 		int end = arr.length -1;
+// 		int mid = start + (end - start)/2;
+
+// 		while(start <= end){
+// 			if(arr[mid] == target){
+// 				return mid;
+// 			}else if(target < arr[mid]){
+// 				end = mid -1;
+// 			}else{
+// 				start = mid+1;
+// 			}
+
+// 			mid = start + (end - start)/2;
+// 		}
+
+// 		return -1;
+// 	}
+
+// 	public static int getPairsWithDifferenceK(int arr[], int k) {
+// 		//Write your code here
+// 		int count = 0;
+
+// 		for(int i = 0  ;i < arr.length ; i++){
+// 			int ans = bs(arr, i+1 , arr[i] + k);
+// 			if(ans != -1){
+// 				count++;
+// 			}
+// 		}
+
+// 		return count+count;
+// 	}
+// }
+
+
+
+
+Note :- 1. In the Optimized Solution we are sorting the array.
+        2. then we are traversing the array and checking if for any element at index 'i'
+           there is an element in the range i+1 to n such that arr[i] - arr[x] = key
+           which can be also written as arr[i] + k = arr[x]
+        3. then we are performing Binary Search to search the element and then 
+           adding the pair (arr[i] , arr[i+1] + k) to the map for unique pairs.

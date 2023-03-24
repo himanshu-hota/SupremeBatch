@@ -1,0 +1,68 @@
+ 
+    public static boolean isPossible(int A[],int N,int M,int sol){
+        
+        int students =  1;
+        int pageSum = 0;
+        
+        for(int i = 0 ; i < N ; i++){
+            // if current book has more pages than solution then return false
+            if(A[i] > sol){
+                return false;
+            }
+            
+            //if sum of pages including current book is greater than solution then 
+            if(pageSum + A[i] > sol){
+                //allocate book to next student
+                students++;
+
+                //reset sum of pages to current book
+                pageSum = A[i];
+
+                //if current number of students become greater than desired then return false
+                if(students > M){
+                    return false;
+                }
+            }else{
+                //add current pages to sum
+                pageSum += A[i];
+            }
+            
+        }
+        
+        //if everything was good then it is a possible solution
+        return true;
+    }
+    
+    //Function to find minimum number of pages.
+    public static int findPages(int[]arr,int N,int M)
+    {
+        //Your code here
+        
+        if(M>N)
+            return -1;
+        
+        int start =0;
+        //calculate total number of pages
+        int end = Arrays.stream(arr).sum();
+        
+        int mid = (start + end) >> 1;
+        int ans = 0;
+        
+        while(start <= end){
+            //if middle number of pages is solution s then
+            if(isPossible(arr,N,M,mid)){
+                //store number of pages
+                ans= mid; 
+
+                // search for lower value
+                end = mid-1;
+            }else{
+                //search for higher values
+                start = mid+1;
+            }
+            
+            mid = (start + end) >> 1;
+        }
+        
+        return ans;
+    }

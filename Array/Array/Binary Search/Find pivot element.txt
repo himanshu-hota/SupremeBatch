@@ -6,14 +6,18 @@
 		
 		while(start <= end) {
 			
-			if(mid+1 <arr.length  && arr[mid]> arr[mid+1]) {
+			if(start == end) {
+				pivot = start;
+				break;
+			}
+			
+			if(mid+1 < end  && arr[mid]> arr[mid+1]) {
 				pivot = mid;
 				break;
-			}else if(mid-1 >=0 && arr[mid-1] > arr[mid]) {
+			}else if(mid-1 >= start && arr[mid-1] > arr[mid]) {
 				pivot = mid-1;
 				break;
-			}else if(arr[start] >= arr[mid]) {
-				
+			}else if(arr[start] > arr[mid]) {
 				end = mid-1;
 			}else {
 				start = mid+1;
@@ -31,10 +35,10 @@
 	}
 
     Note:- 1. if the element at the middle index is the pivot then it should be greater than the next elment.
-           2. if the element just before the middle element is the pivto than it should be greater than the middle element.
+           2. if the element just before the middle element is the pivot than it should be greater than the middle element.
            3. if the element just after the middle element is the pivot then it should be greater than the middle element.
-           4. if the element at the starting index is equal or greater than the middle element then we dont need the right part of the array as pivot is present in the left part.
-           5. if the element at the starting index is greater than the middle element then the pivot is on the right part of the array. 
+           4. if the element at the starting index is greater than the middle element then we dont need the right part of the array as pivot is present in the left part.
+           5. if the element at the starting index is smaller than the middle element then the pivot is on the right part of the array. 
 
     special note:- if the starting element is smaller than the middle element that simply means that array is sorted till middle element , 
                    clearly means that we dont need the left part of the array.

@@ -1,0 +1,56 @@
+public static void findOddOccurance(int arr[]) {
+		int start = 0;
+		int end = arr.length-1;
+		int mid = start + (end - start) /2;
+		
+		 while(start <= end) {
+			 
+			 //1st case
+			 if(start == end) {
+				 System.out.println(arr[mid]);
+				 return;
+			 }
+			 
+			//2nd case
+			 if(mid%2 == 0) {
+				 if(arr[mid] == arr[mid+1]) {
+					 start = mid+2;
+				 }else {
+					 end = mid;
+				 }
+			 }else {
+				 if(arr[mid]  == arr[mid-1]) {
+					 start = mid+1;
+				 }else {
+					 end = mid-1;
+				 }
+			 }
+			 
+			 mid = start +(end - start)/2;
+		 }
+		 
+		 System.out.println("No odd element found!!!");
+	}
+
+    Note :- 
+
+    1. Answer will be always on the even index.
+    2. if middle index is even 
+                                a. if middle element and next to it is equal then you are on the left part of the array.
+                                b. Answer is on the right part.
+                                c. s = mid+2 // mid + 2 because we have already checked mid+1 element
+
+                                d. if middle element and next to it is not equal then you are on the right part of the array
+                                e. Answer is on the left part of the array
+                                f. e = mid // mid because we have not checked mid-1 yet.
+
+    3. if middle index is odd
+                                a. if middle element and its previous element is equal then you are on the left part of the array                                
+                                b. Answer is on the right part 
+                                c. s = mid + 1 // since we have not checked mid + 1.
+
+                                d. if middle element and its previous element is not equal then you are on the right part of the array.
+                                e. Answer is on the left part.
+                                f. e = mid-1
+	
+	4. if both pointer are at same index then it is the answer/

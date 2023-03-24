@@ -1,0 +1,51 @@
+  public static int ExSearchHelper(int arr[],int start , int end,int target) {
+    	
+    	int mid = start + (end - start)/2;
+    	
+    	while(start <= end) {
+    		if(arr[mid] == target) {
+    			return mid;
+    		}else if(target < arr[mid]) {
+    			end =  mid-1;
+    		}else {
+    			start = mid+1;
+    		}
+    		
+    		mid = start + (end - start) / 2;
+    	}
+    	
+    	return -1;
+    }
+    
+    public static void ExponentialSearch(int arr[],int target) {
+    	
+    	if(arr[0] == target) {
+    		System.out.println("Element found at 0th index");
+    		return;
+    	}
+    	
+    	
+    	int i = 0 ; 
+    	int j = 1;
+    	int n = arr.length -1;
+    	
+    	
+    	
+    	//find range
+    	while(j<n && arr[j] < target) {
+    		i = j;
+    		j = j*2;
+    	}
+    	
+    	
+    	//search
+    	int ans  = ExSearchHelper(arr, i/2, Math.min(j, n) , target);
+    	
+    	if(ans >0) {
+    		System.out.println("Element present at : " + ans + "th index");
+    	}else {
+    		System.out.println("Element not found!!!");
+    	}
+    		
+    	
+    }
