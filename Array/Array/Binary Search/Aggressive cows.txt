@@ -1,0 +1,53 @@
+ public static boolean isPossible(int arr[],int n , int k , int sol){
+    
+    int cows = 1; // count of current placed cows
+    int pos = arr[0]; // place first cow at very first position
+ 
+    for(int i =1 ; i< n ; i++){
+        // if current difference is a possible difference then place a new cow
+        if(arr[i] - pos >=sol){
+            cows++; // increase count of cows
+            pos = arr[i]; //place a new cow
+            
+            //if all desired cows are placed then return true 
+            if(cows == k ){
+                return true; 
+            }
+        }
+    }
+    
+        // else return false because it is not a possible solution
+        return false;
+    }
+    
+    public static int solve(int n, int k, int[] stalls) {
+        //sort the array at the very first of the code if it is not sorted
+        Arrays.sort(stalls);
+        
+        int start = 0; 
+        int end = stalls[stalls.length-1] - stalls[0]; // calculate max difference
+        int mid = start + (end - start) /2;
+        int ans = 0 ;
+        
+        
+        
+        while(start <= end){
+            // if solution is possible then search for larger difference
+            if(isPossible(stalls ,n , k , mid)){
+                ans = mid;
+                start = mid+1;
+                
+            }else{
+                end = mid -1;
+            }
+            
+            mid = start + ( end - start)/2;
+        }
+        
+        return   ans;
+    }
+
+
+
+    GFG :- https://practice.geeksforgeeks.org/problems/aggressive-cows/1
+    CodeStudio :- https://www.codingninjas.com/codestudio/problems/aggressive-cows_1082559?leftPanelTab=1
