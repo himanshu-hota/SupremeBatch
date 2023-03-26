@@ -1,0 +1,66 @@
+	public static boolean isPossible(ArrayList<Long> trees , long m , long sol) {
+		// initial wood length
+		long woodCollected = 0;
+		
+		for(int i = 0; i < trees.size(); i++) {
+            // if height of the tree is greater than sol then only include that tree
+			if(trees.get(i) > sol) {
+                // add length of wood after chopping
+				woodCollected += trees.get(i) - sol;
+			}
+		}
+		
+        // check if collected wood is equal or greater than required , if true then it is a possible solution
+		return woodCollected >= m;
+	}
+	
+	public static long maxSawBlade(ArrayList<Long> trees,long m) {
+		long start = 0; 
+		long end = trees.get(trees.size() -1 );
+//		long end = Collections.max(trees);
+		long ans = -1;
+		long mid = start + (end - start) /2;
+		
+
+		while(start <= end ){
+			// if mid value can be a solution then search for heigher height to reduce length of wood
+			if(isPossible(trees,m,mid)) {
+				ans =mid;
+				start = mid+1;
+			}else {
+				end = mid -1;
+			}
+			
+			
+			mid = start + (end - start)/2;
+		}
+		
+		
+		return ans;
+	}
+	
+	public static long ekoSpoj() {
+		
+		Scanner sc= new Scanner(System.in);  
+		System.out.println("Enter number of trees");
+		long n = sc.nextLong();
+		System.out.println("Enter length of wood");
+		long m = sc.nextLong();
+		
+		ArrayList<Long> trees = new ArrayList<>();
+		
+        // enter tree heights
+		while(n-- >0) {
+			long height = sc.nextLong();
+			trees.add(height);
+		}
+		
+        //sort trees
+		Collections.sort(trees);
+		
+        // grab answer
+		long ans = maxSawBlade(trees,m);
+		
+		
+		return ans;
+	}

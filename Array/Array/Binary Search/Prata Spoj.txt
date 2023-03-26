@@ -1,0 +1,81 @@
+	public static boolean isPossibleSolution(ArrayList<Long> cookRanks , long p , long sol) {
+        
+        //initial count of pratas
+		long currPratas = 0;
+		
+		
+		for(int i = 0 ; i<cookRanks.size(); i++) {
+			long r = cookRanks.get(i); // rank of current cook
+			long j = 1; // 1R + 2R + 3R + 4R ..... nR ----> here j is the number 1,2,3,4,.....n
+			long timeTaken = 0; // initial time taken
+			
+			while(true) {
+                // if timeTaken to make pratas is less than the solution then
+				if(timeTaken + j*r <= sol) {
+					++currPratas; // cook a new prata
+					timeTaken += j*r; // add this time to to total time taken
+					++j; // increase counter 
+				}else {
+					break;
+				}
+			}
+			
+            //check if we could able to make desired number of pratas
+			if(currPratas >= p) {
+				return true; //if true then it is a possible solution
+			}
+			
+		}
+		
+        // else it is not a possible solution
+		return false;
+	}
+	
+	public static long minTimeToCookPratas(ArrayList<Long> cookRanks, long p) {
+		long start = 0;
+		long r= cookRanks.get(cookRanks.size() -1); // rank of most unefficient cook
+		long end =  ( r * (p * (p+1))/2 ); // total time taken by the most unefficient cook will be maximum time to cook n pratas
+		long ans = -1;
+		long mid = start + (end - start)/2;
+		
+		while(start <= end) {
+            // if it is a possible solution then search for lower time
+			if(isPossibleSolution(cookRanks, p , mid)) {
+				ans = mid;
+				end = mid -1;
+			}else {
+				start = mid+1;
+			}
+			
+			mid = start + (end - start) /2;
+			
+		}
+		
+		return ans;
+		
+		
+	}
+	
+	public static long prataSpoj() {
+		ArrayList<Long> cookRanks = new ArrayList<>();
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("Enter number of pratas");
+		long p = sc.nextLong();
+		System.out.println("Enter number of cooks");
+		long c = sc.nextLong();
+		
+		System.out.println("Enter ranks of cooks");
+		while(c-- >0) {
+			long rank = sc.nextLong();
+			cookRanks.add(rank);
+		}
+		
+        //sort list
+		Collections.sort(cookRanks);
+		
+		long ans = minTimeToCookPratas(cookRanks,p);
+		
+		return ans;
+		
+	}
