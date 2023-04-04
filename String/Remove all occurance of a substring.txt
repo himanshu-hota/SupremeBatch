@@ -1,0 +1,13 @@
+    public String removeOccurrences(String s, String part) {
+
+    // loop till our string has the given part
+    while(s.contains(part)){
+            int i = s.indexOf(part); //find the first occurance of the substring
+
+            s = s.substring(0,i)+s.substring(i + part.length(),s.length()); //trim that part
+        }
+
+        //return answer
+        return s;
+
+    }

@@ -1,0 +1,37 @@
+ public static String removeDuplicates(String s) {
+
+        //we are using StringBuilder because it is faster than regular string and StringBuffer
+        StringBuilder ans = new StringBuilder("");
+        
+        int i = 0; 
+        while(i<s.length()){
+
+
+            int len = ans.length();
+
+             //if our answer has any character then do further operations
+             if(len > 0){
+                 
+                 //if last character of our answer and the current character are same then it will be adjacent 
+                 if(ans.charAt(len-1) == s.charAt(i)){
+                    ans.delete(len-1,len);
+                }else{
+                    ans.append(s.charAt(i));
+                }
+             
+             }else{ //else put the character in tha answer
+
+                ans.append(s.charAt(i));
+                 
+             }
+
+             // go to next character
+             i++;
+        }
+
+        return ans.toString();
+    }
+
+
+    Leetcode :- https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/description/
+    

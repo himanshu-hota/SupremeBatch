@@ -1,0 +1,33 @@
+public static String removeConsecutiveDuplicates(String s) {
+
+		// Write your code here
+
+        
+		StringBuilder ans = new StringBuilder("");
+
+		int i = 0;
+
+		while(i < s.length()){
+			int len = ans.length();
+
+            //if our answer string has any character then only proceed further
+			if(len > 0){
+				//if last character of our answer string and current character are same then dont add it to answer
+				if(!(ans.charAt(len-1) == s.charAt(i))){
+					ans.append(s.charAt(i));
+				}
+
+			}else{ // if answer string is empty then add the current character
+				ans.append(s.charAt(i));
+			}
+
+            // move to next character
+			i++;
+		}
+
+        // convert stringbuilder to string and return it
+		return ans.toString();
+	}
+
+
+    CodeStudio :- https://www.codingninjas.com/codestudio/problems/remove-consecutive-duplicates_893195?leftPanelTab=1
