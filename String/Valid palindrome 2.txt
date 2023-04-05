@@ -37,3 +37,7 @@
         // if everything looks good then it is a palindrome string
         return true;
 	}
+
+    CodeStudio :- https://www.codingninjas.com/codestudio/problems/valid-palindrome_2663285?leftPanelTab=1
+
+    Leetcode :- https://leetcode.com/problems/valid-palindrome-ii/description/ 

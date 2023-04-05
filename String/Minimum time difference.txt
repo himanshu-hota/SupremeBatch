@@ -1,0 +1,42 @@
+ public int findMinDifference(List<String> timePoints) {
+        
+        
+        int arr[] = new int[timePoints.size()]; // an array to store time in integer
+        int k =0; //index counter for time array
+
+        for(String str : timePoints){
+            
+            // calculate hour of current string
+            int hour = Integer.parseInt(str.substring(0,2));
+            // calculate minute of current string
+            int minute = Integer.parseInt(str.substring(3,5));
+            // calculate total minutes 
+            int totalMinutes = hour*60 + minute;
+            // add this minutes to the array
+            arr[k++] = totalMinutes;
+        }
+
+        // sort the minutes array to reduce number of comparasion
+        Arrays.sort(arr);
+        
+        // initialize initial min value
+        int min = Integer.MAX_VALUE;
+        
+        // loop till n-1 element to calculate min value
+        for(int i =0 ;i < arr.length-1; i++){
+            int currDiff = arr[i+1] - arr[i];
+            // get minimum of current and min value
+            min = Math.min(min, currDiff);
+        } 
+
+        // compare last and first element as it also may be the answer because time goes circulary --> 00:00 comes after 23:59 every time 
+        int lastDiff1 = (arr[0] + 1440) -  arr[arr.length-1];
+        int lastDiff2 = arr[arr.length-1] - arr[0]; // 2nd edge case
+        int lastDiff = Math.min(lastDiff1,lastDiff2);
+        
+        min = Math.min(min,lastDiff);
+
+        // return final answer
+        return min;
+
+    }

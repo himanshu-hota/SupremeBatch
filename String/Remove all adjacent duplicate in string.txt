@@ -16,7 +16,7 @@
                  if(ans.charAt(len-1) == s.charAt(i)){
                     ans.delete(len-1,len);
                 }else{
-                    ans.append(s.charAt(i));
+                    ans.append(s.charAt(i)); // if they are not same then append it to our answer
                 }
              
              }else{ //else put the character in tha answer
