@@ -1,0 +1,30 @@
+
+    public String reverseOnlyLetters(String S) {
+    
+        // createing string builder because in string builder operations are fast
+        StringBuilder sb = new StringBuilder(S);
+
+        // iterate through the letters
+        for (int i = 0, j = S.length() - 1; i < j;) {
+
+            
+            if (!Character.isLetter(sb.charAt(i))) {
+                ++i; // if currect character is not a valid a alphabet then move the pointer
+            } else if (!Character.isLetter(sb.charAt(j))) {
+                --j; // if currect character is not a valid a alphabet then move the pointer
+            } else { // if both characters are alphabet then swap 
+                char temp = S.charAt(j);
+                sb.setCharAt(j, S.charAt(i));
+                sb.setCharAt(i, temp);
+                i++;
+                j--;
+            }
+        }
+
+        //conver it to a string 
+        return sb.toString();
+    }
+
+    Leetcode :- https://leetcode.com/problems/reverse-only-letters/
+
+    CodeStudio :- https://www.codingninjas.com/codestudio/problems/reverse-only-letters_1235236

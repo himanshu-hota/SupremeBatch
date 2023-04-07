@@ -1,0 +1,34 @@
+	public static String longestCommonPrefix(String[] arr, int n) {
+		// if array is null or has only one string then return empty string
+		if(arr == null || arr.length <0){
+			return "";
+		}
+
+        // index counter
+		int idx =0;
+
+        // sort array in lexicographical order so that we can track prefix easily
+		Arrays.sort(arr);
+        // grab first string
+		StringBuilder s1 = new StringBuilder(arr[0]);
+        // grab last string
+		StringBuilder s2 = new StringBuilder(arr[n-1]);
+
+        // loop till index count is less than length of both strings
+		while(idx < s1.length() && idx < s2.length()){
+			if(s1.charAt(idx) == s2.charAt(idx)){ // go forward only if both characters at same index are same
+				idx++;
+			}else{
+				break; // else break the loop
+			}
+		}
+
+        // return the longest common prefix part of the string
+		return s1.substring(0,idx);
+
+	}
+
+
+LeetCode :- https://leetcode.com/problems/longest-common-prefix/description/
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/longest-common-prefix_2090383

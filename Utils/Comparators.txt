@@ -1,0 +1,137 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+
+
+// class Student implements Comparable<Student> {
+// 	int marks;
+// 	java.lang.String name;
+	
+// 	public Student(int marks, java.lang.String name) {
+// 		super();
+// 		this.marks = marks;
+// 		this.name = name;
+// 	}
+	
+//     @Override
+//      public int compareTo(Student obj){
+//          return this.marks - obj.marks;
+//      }
+	
+	
+// 	@Override
+// 	public java.lang.String toString() {
+// 		return "Student [marks=" + marks + ", name=" + name + "]";
+// 	}
+
+
+
+// 	public int getMarks() {
+// 		return marks;
+// 	}
+
+// 	public void setMarks(int marks) {
+// 		this.marks = marks;
+// 	}
+
+// 	public java.lang.String getName() {
+// 		return name;
+// 	}
+
+// 	public void setName(java.lang.String name) {
+// 		this.name = name;
+// 	}
+	
+	
+	
+// }
+
+class Student {
+	int marks;
+	java.lang.String name;
+	
+	public Student(int marks, java.lang.String name) {
+		super();
+		this.marks = marks;
+		this.name = name;
+	}
+	
+    // @Override
+    //  public int compareTo(Student obj){
+    //      return this.marks - obj.marks;
+    //  }
+	
+	
+	@Override
+	public java.lang.String toString() {
+		return "Student [marks=" + marks + ", name=" + name + "]";
+	}
+
+
+
+	public int getMarks() {
+		return marks;
+	}
+
+	public void setMarks(int marks) {
+		this.marks = marks;
+	}
+
+	public java.lang.String getName() {
+		return name;
+	}
+
+	public void setName(java.lang.String name) {
+		this.name = name;
+	}
+	
+	
+	
+}
+
+
+
+
+class Solution {
+    public static void main(String[] args) {
+    List<Student> students = new ArrayList<>();
+		
+		students.add(new Student(46,"Ram"));
+		students.add(new Student(65,"Shyam"));
+		students.add(new Student(82,"Radhe"));
+		students.add(new Student(98,"Arjun"));
+        students.add(new Student(89,"Arjun"));
+		students.add(new Student(34,"Bheem"));
+		students.add(new Student(56,"Krishna"));
+		students.add(new Student(77,"Maruti"));
+		
+        
+        System.out.println("Before sorting:");
+		students.forEach(System.out::println);
+        // Collections.sort(students); // when it implements Comparable
+        Collections.sort(students, new SortByNameThenMarks()); // custom comparator
+        // Collections.sort(students, (Student a,Student b) -> a.marks - b.marks); // lambda expression 1
+        // Collections.sort(students, (Student a,Student b) -> a.name.compareTo(b.name)); // lambda expression 2
+        
+        System.out.println();
+        System.out.println("After sorting:");
+        students.forEach(System.out::println);
+        
+
+    }
+}
+
+
+class SortByNameThenMarks implements Comparator<Student> {
+
+    @Override
+    public int compare(Student obj1,Student obj2){
+        if(obj1.name.equals(obj2.name)){
+            return obj1.marks - obj2.marks ;
+        }else{
+            return obj1.name.compareTo(obj2.name);
+        }
+    }
+
+}
+

@@ -1,0 +1,50 @@
+public boolean isAnagram(String a, String b) {
+
+        // if length of both are not same then its not possible to have a anagram
+        if(a.length() != b.length()){
+            return false;
+        }
+        
+        // array to track frequency
+        int HashTable[] = new int[256];
+        // temp fill array with 0
+        Arrays.fill(HashTable,0);
+        
+        
+        int i = 0;
+        
+        // iterate String 1 and decrease the value at the given character index
+        while(i< a.length()){
+            HashTable[a.charAt(i)]--;
+         
+            i++;
+        }
+
+        i = 0;
+        // iterate String 1 and increase the value at the given character index
+        while(i< b.length()){
+         
+            HashTable[b.charAt(i)]++;
+            i++;
+        }
+        
+        
+        i =0;
+        
+        
+       // if at any index the value is not zero then there are character whose frequency mismatch in both string hence it is not a valid anagram 
+       while(i< 256){
+            if(HashTable[i] != 0)        {
+                return false;
+            }
+            i++;
+        }
+        
+        
+        // if everything looks good till here then it is a valid anagram
+        return true;
+    }
+
+    LeetCode :- https://leetcode.com/problems/valid-anagram/
+
+    CodeStudio :- https://www.codingninjas.com/codestudio/problems/anagram-pairs_626517
