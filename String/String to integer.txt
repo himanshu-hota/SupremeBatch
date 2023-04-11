@@ -1,0 +1,55 @@
+  public static int atoi(String str) {
+        
+        // remove all white spaces
+        str = str.trim();
+
+        // checker for negative and positive
+        boolean isNegative = false;
+        // variable to store answer
+        int num = 0; 
+        int i  =0;
+
+        // if string length is zero then answer will be zero
+        if(str.length() == 0){
+            return 0;
+        }
+
+        // check if string is positive or negative
+        if(str.charAt(i) == '-'){
+            isNegative = true;
+            ++i;
+        }else if(str.charAt(i) == '+'){
+            ++i;
+        }
+
+        // traverse string
+        for(; i< str.length() ;i++){
+            // get current character
+            char c = str.charAt(i);
+
+            // check if current character is a numeric value or not
+            if(!Character.isDigit(c)){
+                continue; // continue if string is like "dfdf1651fdsf" otherwise break
+            }
+
+            // get the numeric value from current character
+            int digit = Character.getNumericValue(c);   
+            
+            // int digit = s.charAt(i) - '0'; // custom way to get numeric value 
+
+            if(num > (Integer.MAX_VALUE - digit)/10){
+                return isNegative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+            }
+
+            // caluculate number
+            num = num*10 + digit;
+  
+        }
+
+        // if number is negative then return negative value otherwise positive
+        return isNegative ? -num : num;
+    }
+
+    Leetcode :- https://leetcode.com/problems/string-to-integer-atoi/description/
+
+    CodeStudio :- https://www.codingninjas.com/codestudio/problems/atoi_981270?leftPanelTab=1
