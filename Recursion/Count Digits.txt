@@ -1,0 +1,9 @@
+    static int countDigits(int num){
+              if(num == 0){
+            return 0;
+        }
+
+        return 1 + countDigits(num/10);
+    }
+
+    

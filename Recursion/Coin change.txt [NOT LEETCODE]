@@ -1,0 +1,44 @@
+
+static int solve(int arr[],int target){
+        if(target == 0){
+            return 0;
+        }else if(target < 0){
+            return Integer.MAX_VALUE;
+        }
+
+        int min = Integer.MAX_VALUE;
+
+        for(int i = 0 ; i < arr.length ; i++){
+            int ans = solve(arr, target - arr[i]);
+            if(ans != Integer.MAX_VALUE){
+                min = Math.min(min, ans+1);
+            }
+        }
+
+        return min;
+    }
+
+
+
+
+    
+Here's how the function works:
+
+If the target is 0, it means that we have already found a combination of elements that sum up to the target. In this case, the function returns 0.
+
+If the target is negative, it means that we have exceeded the target value by subtracting some elements from it. Since we can't have negative elements in the sum, we return Integer.MAX_VALUE to signify that no valid combination of elements can sum up to the target.
+
+If we haven't found a valid combination of elements yet, we proceed to iterate over each element in the array.
+
+For each element, we recursively call the solve function with the new target value obtained by subtracting the element from the original target value.
+
+The result of the recursive call is stored in the ans variable.
+
+If ans is not Integer.MAX_VALUE, it means that we have found a valid combination of elements that sum up to the new target value. In this case, we update the min variable to be the minimum of its current value and the value of ans+1.
+
+Finally, we return the value of min.
+
+
+
+
+Special note :- ans+1 ka matlab ek element more hai , value ni hai 

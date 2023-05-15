@@ -1,0 +1,16 @@
+     public static String removeString(String str, String removeStr) {
+        int index = str.indexOf(removeStr);
+        if (index == -1) {
+            return str; // Base case: removeStr not found in str
+        }
+        String modifiedStr = str.substring(0, index) + str.substring(index + removeStr.length());
+        return removeString(modifiedStr, removeStr); // Recursive call to removeString()
+    }
+
+
+
+
+
+
+// Time complexity :- O(NM)                     N = str.length() M = part.size()
+

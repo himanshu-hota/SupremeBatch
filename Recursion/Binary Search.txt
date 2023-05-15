@@ -1,0 +1,22 @@
+
+    static int bs(int arr[],int start,int end,int target){
+        int mid = start + (end-start)/2;
+
+        // if starting point exceeds the ending point then the element is not in the array
+        if(start > end){
+            return -1;
+        }
+
+        // if middle element is target then return the mid index
+        if(arr[mid] == target){
+            return mid;
+        }
+        
+        // if middle element is less then the target then the answer is on the right part
+        if(arr[mid] < target){
+            return bs(arr,mid+1,end,target);
+        }else{ // else it is on the left part of the array
+            return bs(arr,start,mid-1,target);
+        }
+
+    }

@@ -1,0 +1,15 @@
+    static int lastOccur(String str , char c,int i ){
+        if( i<0){
+            return -1;
+        }
+        
+        
+        if(str.charAt(i) == c){
+            return i;
+        }
+
+        System.out.println("ran");
+        int ans = lastOccur(str,c,i-1);
+        return ans;
+
+    }

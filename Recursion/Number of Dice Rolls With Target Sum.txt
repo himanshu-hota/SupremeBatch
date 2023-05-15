@@ -1,0 +1,14 @@
+ public int numRollsToTarget(int n, int k, int target) {
+        if(n == 0 && target == 0 ) return 1; // when no dice remaining and target has reched
+        if(target < 0) return 0; // when there is no target
+        if(n != 0 && target == 0) return 0; // when no remaining dice and target not reached
+        if(n == 0 && target != 0) return 0; // when no left dice and target not reached
+
+        int ans = 0;
+
+        for(int i = 1 ; i <= k ; i++){
+            ans = ans + numRollsToTarget(n-1,k, target - i); // in each recursive call one dice is thrown and target is reduced by i 
+        }
+
+        return ans;
+    }
