@@ -1,0 +1,66 @@
+class Solution {
+    
+    static int dx[] = {1,0,0,-1}; // Offsets for the row coordinate
+    static int dy[] = {0,-1,1,0}; // Offsets for the column coordinate
+    static char direction[] = {'D','L','R','U'}; // Directions: Down, Left, Right, Up
+    
+    // Function to check if the current position is safe to move
+    static boolean isSafe(int i, int j, int row, int col, int maze[][], boolean visited[][]) {
+        if (((i >= 0 && i < row) && (j >= 0 && j < col)) && (maze[i][j] == 1) && (visited[i][j] == false)) {
+            return true; // The current position is safe to move
+        } else {
+            return false; // The current position is not safe to move
+        }
+    }
+    
+    // Function to solve the maze recursively
+    static void solveMaze(int maze[][], int row, int col, int i, int j, boolean visited[][], ArrayList<String> path, String output) {
+        if (i == row - 1 && j == col - 1) {
+            path.add(output); // Add the output to the path list when the destination is reached
+            return; // Return to backtrack and explore other paths
+        }
+    
+        for (int k = 0; k < 4; k++) {
+            int newX = i + dx[k]; // Calculate the new row coordinate
+            int newY = j + dy[k]; // Calculate the new column coordinate
+            char dir = direction[k]; // Get the corresponding direction character
+    
+            if (isSafe(newX, newY, row, col, maze, visited)) {
+                visited[newX][newY] = true; // Mark the new cell as visited
+                solveMaze(maze, row, col, newX, newY, visited, path, output + dir); // Recursively solve the maze from the new position
+                visited[newX][newY] = false; // Mark the cell as unvisited (backtrack)
+            }
+        }
+    }
+    
+    public static ArrayList<String> findPath(int[][] m, int n) {
+        int row = n; // Number of rows in the maze
+        int col = n; // Number of columns in the maze
+            
+        ArrayList<String> path = new ArrayList<>(); // List to store the paths
+        String output = ""; // Current path being explored
+            
+        if(m[0][0] == 0){
+            return path; // If the starting position is blocked, return empty path list
+        }
+        
+        boolean [][]visited = new boolean[n][n]; // Matrix to track visited cells
+        
+        visited[0][0] = true; // Mark the starting cell as visited
+        
+        solveMaze(m, row, col, 0, 0, visited, path, output); // Solve the maze
+        
+        return path; // Return the list of paths
+    }
+}
+
+TIme Complexity :- O(4*n);
+Space Complexity :- O(n);
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/rat-in-a-maze-problem/1?utm_source=geeksforgeeks&utm_medium=article_practice_tab&utm_campaign=article_practice_tab
+
+
+
+
+

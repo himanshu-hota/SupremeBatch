@@ -1,0 +1,74 @@
+public class QuickSort {
+    public static void main(String[] args) {
+        int[] arr = {8, 1, 3, 4, 20, 50, 50, 50, 50, 50, 5, 1, 1, 1, 1, 2, 2, 2, 50, 30};
+        int n = arr.length;
+
+        int s = 0;
+        int e = n - 1;
+        quickSort(arr, s, e);
+
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+
+
+    static void quickSort(int arr[],int s, int e){
+        if(s>=e){
+            return;
+        }
+        
+        // Get the partition point
+        int p = partition(arr,s,e);
+        // Recursive call for left part from pivot
+        quickSort(arr,s,p-1);
+        // Recursive call for right part from pivot
+        quickSort(arr,p+1,e);
+    }
+
+    static int partition(int arr[],int s, int e){
+        // pick pivot element
+        int pivot = arr[s]; 
+        // pick pivot index
+        int pivotIndex= s;
+
+        // count number of elements smaller than pivot
+        int count = 0;
+        for(int i =s+1;i<=e;i++) {
+            if(arr[i] <= pivot) count++;
+        }
+
+        // calculate correct position of pivot element
+        int correctIndex = s + count;
+        // place pivot element at its correct position
+        swap(arr,correctIndex,pivotIndex);
+        // update pivot index
+        pivotIndex = correctIndex;
+
+        // assign i as starting point and j as ending point
+        int i = s;
+        int j = e;
+
+        // iterate till i is less than pivotIndex also j is greater than pivotIndex
+        while(i< pivotIndex && j > pivotIndex){
+            while(arr[i] <= pivot) i++; // go to the element which is larger than pivot if any
+            while(arr[j] > pivot) j--; // go to the element which is less than pivot if any 
+
+            // swap the elements if found such pair which are not in order
+            if(i < pivotIndex && j> pivotIndex){
+                swap(arr,i,j);
+            }
+        }
+
+        // return pivot index as element in the pivot index is at its correct position 
+        return pivotIndex;
+    }
+
+    public static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}
+

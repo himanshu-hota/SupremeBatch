@@ -1,0 +1,19 @@
+Sorting Algorithm	 |   Time Complexity (Worst Case)	Space Complexity (Worst Case)
+--------------------------------------------------------------------------------------
+Bubble Sort          |   	O(n^2)                    |          	O(1)
+                        
+Selection Sort	     |       O(n^2)                   |           	O(1)
+
+Insertion Sort	     |       O(n^2)                   |           	O(1)
+
+Merge Sort	         |       O(n log n)	              |             O(n)
+
+Quick Sort           |   	O(n^2)                    |          	O(log n)
+
+Heap Sort	         |       O(n log n)	              |             O(1)
+
+Counting Sort	     |       O(n + k)	              |             O(n + k)
+
+Radix Sort	         |       O(d * (n + k))	          |             O(n + k)
+
+Bucket Sort	         |       O(n^2) (worst case)      |             O(n)

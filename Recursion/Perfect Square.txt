@@ -1,0 +1,31 @@
+class Solution {
+
+    static int numHelper(int n){
+        // if n is 0 then we found a correct way to get answer
+        if(n == 0) return 1;
+        // if n is negative then sol not possible
+        if(n < 0) return 0;
+
+        int ans = Integer.MAX_VALUE; // default value for answer
+        int end = (int)(Math.sqrt(n)); // get the perfect square just equal or smaller than n
+        int i = 1;
+        while(i <= end){
+            int perfectSquare = i*i; // generate perfect square of i
+            int numOfPerfectSquares = 1 + numHelper(n - perfectSquare); // count frequency of possible perfect square 
+            if(numOfPerfectSquares < ans) ans = numOfPerfectSquares; // if it is smaller than previously found answer then it is the new answer
+            ++i;
+        }
+
+        // return answer        
+        return ans;
+
+    }
+
+    public int numSquares(int n) {
+        return numHelper(n)-1; // -1 beacause the helper function returns answer with added 1
+    }
+}
+
+
+Time complexity :- O(square root to the power n); -> O(n to the power n);
+Space complexity :- O(n)
