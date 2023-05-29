@@ -1,0 +1,48 @@
+class Solution {
+
+    // This method recursively generates all possible combinations of letters corresponding to the given digits
+    static void solve(List<String> phone, List<String> ans, int index, String digits, StringBuilder output) {
+        if (index >= digits.length()) {
+            ans.add(output.toString());  // Add the generated combination to the answer list
+            return;
+        }
+
+        int digit = (int)(digits.charAt(index) - '0');  // Get the digit at the current index
+        String value = phone.get(digit);  // Get the corresponding letters for the digit
+        for (int i = 0; i < value.length(); i++) {
+            char ch = value.charAt(i);  // Get each letter from the digit's corresponding letters
+            output.append(ch);  // Append the letter to the output string
+            solve(phone, ans, index + 1, digits, output);  // Recursive call to generate combinations for the next digit
+            output.deleteCharAt(output.length() - 1);  // Remove the last added letter from the output string
+        }
+    }
+
+    public List<String> letterCombinations(String digits) {
+        List<String> ans = new ArrayList<>();  // List to store all generated combinations
+        if (digits.length() == 0) {
+            return ans;  // If no digits are provided, return an empty list
+        }
+
+        List<String> phone = new ArrayList<>();  // List to store the mapping of digits to letters
+        phone.add(" ");
+        phone.add(" ");
+        phone.add("abc");
+        phone.add("def");
+        phone.add("ghi");
+        phone.add("jkl");
+        phone.add("mno");
+        phone.add("pqrs");
+        phone.add("tuv");
+        phone.add("wxyz");
+
+        int index = 0;  // Starting index for generating combinations
+        StringBuilder output = new StringBuilder();  // StringBuilder to build the output combinations
+
+        solve(phone, ans, index, digits, output);  // Call the solve method to generate all combinations
+        return ans;  // Return the generated combinations
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/letter-combinations-of-a-phone-number_983623?leftPanelTab=1

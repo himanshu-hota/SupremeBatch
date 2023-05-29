@@ -1,0 +1,94 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+class Solution {
+
+    private Map<Integer, Boolean> rowCheck;
+    private Map<Integer, Boolean> upperLeftDiagonalCheck;
+    private Map<Integer, Boolean> bottomLeftDiagonalCheck;
+
+    // Store the solution as a list of strings
+    private void storeSolution(List<List<Character>> board, int n, List<List<String>> ans) {
+        List<String> temp = new ArrayList<>();
+        for (List<Character> row : board) {
+            StringBuilder output = new StringBuilder();
+            for (char cell : row) {
+                output.append(cell);
+            }
+            temp.add(output.toString());
+        }
+        ans.add(temp);
+    }
+
+    // Check if it is safe to place a queen at a particular cell
+    private boolean isSafe(int row, int col, List<List<Character>> board, int n) {
+        if (rowCheck.getOrDefault(row, false))
+            return false;
+
+        if (upperLeftDiagonalCheck.getOrDefault(n - 1 + col - row, false))
+            return false;
+
+        if (bottomLeftDiagonalCheck.getOrDefault(row + col, false))
+            return false;
+
+        return true;
+    }
+
+    // Recursive backtracking function to solve the N-Queens problem
+    private void solve(List<List<Character>> board, int col, int n, List<List<String>> ans) {
+        // Base case: If all queens have been placed, store the solution and return
+        if (col >= n) {
+            storeSolution(board, n, ans);
+            return;
+        }
+
+        // Try placing a queen in each row of the current column
+        for (int row = 0; row < n; row++) {
+            if (isSafe(row, col, board, n)) {
+                // Place the queen at the cell
+                board.get(row).set(col, 'Q');
+                rowCheck.put(row, true);
+                upperLeftDiagonalCheck.put(n - 1 + col - row, true);
+                bottomLeftDiagonalCheck.put(row + col, true);
+
+                // Recurse to the next column
+                solve(board, col + 1, n, ans);
+
+                // Backtrack: Remove the queen from the cell
+                board.get(row).set(col, '.');
+                rowCheck.put(row, false);
+                upperLeftDiagonalCheck.put(n - 1 + col - row, false);
+                bottomLeftDiagonalCheck.put(row + col, false);
+            }
+        }
+    }
+
+    // Main function to solve the N-Queens problem
+    public List<List<String>> solveNQueens(int n) {
+        // Initialize the board with empty cells
+        List<List<Character>> board = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            List<Character> row = new ArrayList<>();
+            for (int j = 0; j < n; j++) {
+                row.add('.');
+            }
+            board.add(row);
+        }
+
+        // Initialize variables and maps
+        List<List<String>> ans = new ArrayList<>();
+        int col = 0;
+        rowCheck = new HashMap<>();
+        upperLeftDiagonalCheck = new HashMap<>();
+        bottomLeftDiagonalCheck = new HashMap<>();
+
+        // Solve the N-Queens problem using backtracking
+        solve(board, col, n, ans);
+        return ans;
+    }
+}
+
+
+LeetCode :- https://chat.openai.com/c/f8bcf1d0-fc75-41d1-a2db-b9695bb33092
