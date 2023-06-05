@@ -1,0 +1,32 @@
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<Integer> arr = new ArrayList<>(); // List to store current combination
+        List<List<Integer>> ans = new ArrayList<>(); // List to store all combinations
+        helper(candidates, target, arr, ans, 0); // Call the helper function to find combinations
+        return ans; // Return the list of combinations
+    }
+
+    static void helper(int[] candidates, int target, List<Integer> arr, List<List<Integer>> ans, int idx) {
+        // Base case: If the target is achieved (sum is 0), add the current combination to the result list
+        if (target == 0) {
+            ans.add(new ArrayList<>(arr)); // Create a new instance of 'arr' before adding to 'ans'
+            return;
+        }
+
+        // If the target is negative, it means the current combination exceeds the target, so backtrack
+        if (target < 0) {
+            return;
+        }
+
+        // Iterate through the candidates starting from the given index
+        for (int i = idx; i < candidates.length; i++) {
+            arr.add(candidates[i]); // Add the current candidate to the combination
+            // Recursive call: Reduce the target by the current candidate and move to the next index
+            helper(candidates, target - candidates[i], arr, ans, i);
+            arr.remove(arr.size() - 1); // Remove the last added candidate (backtrack)
+        }
+    }
+    
+}
+
+LeetCode :- https://leetcode.com/problems/combination-sum/description/

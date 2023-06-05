@@ -72,3 +72,38 @@ public class QuickSort {
     }
 }
 
+
+
+// method 2
+
+
+static void quickSort(int arr[], int start, int end) {
+    if (start >= end)
+        return; // Base case: If the array has 0 or 1 elements, it is already sorted
+
+    int pivot = end; // Choose the last element as the pivot
+    int i = start - 1; // Initialize the index of the smaller element
+    int j = start; // Initialize the traversal index from the start
+    int temp = 0; // Temporary variable for swapping elements
+
+    while (j < end) {
+        if (arr[j] < arr[pivot]) {
+            ++i; // Increment the index of the smaller element
+            // Swap arr[i] and arr[j]
+            temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+        ++j; // Move to the next element
+    }
+
+    ++i;
+    // Swap the pivot element with the element at index i
+    temp = arr[i];
+    arr[i] = arr[pivot];
+    arr[pivot] = temp;
+
+    // Recursively sort the two sub-arrays
+    quickSort(arr, start, i - 1); // Sort elements before the partition
+    quickSort(arr, i + 1, end); // Sort elements after the partition
+}

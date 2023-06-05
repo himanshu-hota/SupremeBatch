@@ -1,0 +1,35 @@
+class Solution {
+    public int countArrangement(int n) {
+        // Create an array to track the arrangement of numbers
+        int[] arr = new int[n + 1];
+
+        // Call the helper function to count the valid arrangements
+        return countHelper(arr, n, 1);
+    }
+    
+    // Helper function to count the valid arrangements recursively
+    static int countHelper(int[] arr, int n, int currNum) {
+        // Base case: If we have reached n + 1, it means we have found a valid arrangement
+        if (currNum == n + 1) {
+            return 1;
+        }
+        
+        int ans = 0; // Variable to store the count of valid arrangements
+        
+        // Try all possible numbers from 1 to n for the current position
+        for (int i = 1; i <= n; i++) {
+            // Check if the current number is not used and satisfies the condition
+            if (arr[i] == 0 && (currNum % i == 0 || i % currNum == 0)) {
+                arr[i] = currNum; // Assign the current number to the current position
+                // Recursively count the valid arrangements for the next position
+                ans += countHelper(arr, n, currNum + 1);
+                arr[i] = 0; // Reset the current position after backtracking
+            }
+        }
+
+        return ans; // Return the total count of valid arrangements
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/beautiful-arrangement/description/

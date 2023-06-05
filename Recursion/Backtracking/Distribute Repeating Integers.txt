@@ -1,0 +1,71 @@
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Solution {
+    public boolean canDistribute(int[] nums, int[] quantity) {
+        // Create a map to count the frequency of each number in 'nums'
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        // Convert the map values to an array 'count' to represent the count of each number
+        int[] count = new int[map.size()];
+        int index = 0;
+        for (int value : map.values()) {
+            count[index++] = value;
+        }
+
+        // Sort the 'quantity' array in ascending order
+        Arrays.sort(quantity);
+
+        // Reverse the 'quantity' array to have it in descending order
+        reverseArray(quantity);
+
+        // Check if the quantities can be distributed among the counts
+        return helper(count, quantity, 0);
+    }
+
+    // Recursive helper method to check if quantities can be distributed
+    static boolean helper(int[] count, int[] quantity, int ithCustomer) {
+        if (ithCustomer >= quantity.length) {
+            // All quantities have been distributed, return true
+            return true;
+        }
+
+        for (int i = 0; i < count.length; i++) {
+            if (count[i] >= quantity[ithCustomer]) {
+                // Distribute the quantity to the current count
+                count[i] -= quantity[ithCustomer];
+
+                // Recursively check if remaining quantities can be distributed
+                if (helper(count, quantity, ithCustomer + 1)) {
+                    return true;
+                }
+
+                // Undo the distribution to explore other possibilities
+                count[i] += quantity[ithCustomer];
+            }
+        }
+
+        // Unable to distribute the quantities, return false
+        return false;
+    }
+
+    // Helper method to reverse the elements of an array
+    private static void reverseArray(int[] arr) {
+        int start = 0;
+        int end = arr.length - 1;
+        while (start < end) {
+            int temp = arr[start];
+            arr[start] = arr[end];
+            arr[end] = temp;
+            start++;
+            end--;
+        }
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/distribute-repeating-integers/description/
