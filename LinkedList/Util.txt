@@ -1,0 +1,394 @@
+// --------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------- Linked List --------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------
+
+package snippet;
+import java.util.Scanner;
+
+// Node class
+class Node {
+  int data;
+  Node next;
+
+  Node(int d){
+      data = d;
+      next = null;
+  }
+  
+}
+
+public class Snippet {
+	
+	static Node head = null;
+	static Node tail = null; 
+	
+    // Inserting node at the front
+    public static void insertfront(int data){
+    	Node new_node = new Node(data);
+    	
+    	if(head == null) {
+    		head = new_node;
+    		tail = new_node;
+    	 }else {
+    		new_node.next = head;
+    		head = new_node;
+    	}
+                               
+    }
+    
+    //inserting node at the end 
+    public static void insertEnd(int data) {
+    	
+    	Node newNode = new Node(data);
+    	
+    	if(tail == null) {
+    		head = newNode;
+    		tail = newNode;
+    	}else {
+    		tail.next = newNode;
+    		tail = newNode;
+    	}
+   
+    }
+    
+    public static int findLen() {
+    	Node temp = head;
+    	int len = 0;
+    	while(temp != null) {
+    		temp = temp.next;
+    		len++;
+    	}
+    	
+    	return len;
+    }
+    
+    //inserting at given position
+    public static void insertAtPos(int pos,int data) {
+    	
+    	if(head == null) {
+    		Node newNode = new Node(data);
+    		head = newNode;
+    		tail = newNode;
+    		return;
+    	}
+    	
+    	if(pos == 0) {
+    		insertfront(data);
+    		return;
+    	}
+    	int len = findLen();
+    	
+    	if(pos>= len) {
+    		insertEnd(data);
+    		return;
+    	}
+    	
+    	Node prev= head;
+    	int i = 1;
+    	while(i< pos) {
+    		i++;
+    		prev= prev.next;
+    		
+    	}
+    	
+    	Node curr = prev.next;
+    	
+    	Node newNode = new Node(data);
+    	newNode.next = curr;
+    	prev.next = newNode;
+    	
+    }
+    
+    // Printing the List
+    public static void print()
+    {
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.data + " ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+    
+    public static void removeFirst() {
+    	if(head == null) {
+    		return;
+    	}else {
+    		head = head.next;
+    	}
+    }
+    
+    public static void removeLast() {
+    	if(tail == null) {
+    		return;
+    	}else {
+    		Node temp = head;
+    		
+    		while(temp.next.next != null) {
+    			temp = temp.next;
+    		}
+    		
+    		temp.next = null;
+    		tail = temp;
+    	}
+    }
+    
+    public static void removeFromPos(int pos) {
+    	if(head == null) {
+    		return ;
+    	}
+    	
+    	if(pos == 1 ) {
+    		removeFirst();
+    		return;
+    	}
+    	
+    	int len = findLen();
+    	
+    	if(pos>= len) {
+    		removeLast();
+    		return;
+    	}
+    	
+    	Node prev = head;
+    	int i =1;
+    	while(i< pos-1) {
+    		prev = prev.next;
+    		i++;
+    	}
+    	
+    	prev.next = prev.next.next;
+    	
+    	
+    }
+  
+    public static void main(String args[])
+    {
+   	  	
+        insertfront(6);
+        insertfront(5);
+        insertfront(8);
+        insertfront(9);
+        insertEnd(111);
+        insertEnd(112);
+        insertAtPos(7,323);
+        
+        print();
+      
+        removeFromPos(15);
+        print();
+    }
+}
+
+
+
+// --------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------- Doubly Linked List -------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------
+
+
+package snippet;
+//import java.util.Scanner;
+
+// Node class
+class Node {
+  int data;
+  Node next;
+  Node prev;
+
+  Node(){
+	  this.next = null;
+	  this.prev = null;
+  }
+  
+  Node(int d){
+      this.data = d;
+      this.next = null;
+      this.prev = null;
+  }
+  
+}
+
+public class Snippet {
+	
+	static Node head = null;
+	static Node tail = null; 
+	
+    // Inserting node at the front
+    public static void insertAtHead(int data){
+    	Node newNode = new Node(data);
+    	
+    	if(head == null) {
+    		head = newNode;
+    		tail = newNode;
+    	}else {
+    		newNode.next = head;
+        	head.prev = newNode;
+        	head = newNode;
+    	}
+    	    	
+    	
+    	
+                               
+    }
+    
+    //inserting node at the end 
+    public static void insertAtTail(int data) {
+    	Node newNode = new Node(data);
+    	
+    	if(tail == null) {
+    		head = newNode;
+    		tail = newNode;
+    	}else {
+    		newNode.prev = tail;
+    		tail.next = newNode;
+    		tail = newNode;
+    	}
+    }
+    
+    public static int findLen() {
+    	Node temp = head;
+    	int len = 0;
+    	while(temp != null) {
+    		temp = temp.next;
+    		len++;
+    	}
+    	
+    	return len;
+    }
+    
+    //inserting at given position
+    public static void insertAtPos(int pos,int data) {
+    	Node newNode = new Node(data);
+    	if(head == null) {
+    		head = newNode;
+    		tail = newNode;
+    	}else {
+    		
+    		if(pos <= 1) {
+    			insertAtHead(data);
+    			return;
+    		}
+    		int len = findLen();
+    		
+    		if(pos > len) {
+    			insertAtTail(data);
+    		}else {
+    			Node prev = head;
+        		int i = 1;
+        		       		
+        		while(i<pos-1) {
+        			prev = prev.next;
+        			i++;
+        		}
+        		         		        		
+        		Node curr = prev.next;
+        		newNode.next = curr;
+        		curr.prev = newNode;
+        		newNode.prev = prev;
+        		prev.next = newNode;
+    		}
+    		
+    		
+    		
+    	}
+  	
+    }
+    
+    // Printing the List
+    public static void print()
+    {
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.data + " ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+    
+    public static void removeFirst() {
+    	if(head == null) {
+    		return;
+    	}else {
+    		
+    		// if there is only one element
+    		if(head.prev == null) {
+    			head = head.next;
+    			return;
+    		}else {
+    			head = head.next;
+    			head.prev = null;
+    		}
+    		
+    		
+    		
+    	}
+    }
+    
+    public static void removeLast() {
+    	if(tail == null) {
+    		return;
+    	}else {
+    		// if there is only one element
+    		if(tail.prev == null) {
+    			tail = null;
+    			head = null;    			
+    			return;
+    		}else {
+    			tail = tail.prev;
+    			tail.next = null;
+    		}
+    		
+    	    
+    		
+    	}
+    }
+    
+    public static void removeFromPos(int pos) {
+      	if(head == null ) {
+      		return;
+      	}
+      	
+      	if(pos == 1 || pos == 0) {
+      		removeFirst();
+      		return;
+      	}
+      	
+      	int len = findLen();
+      	
+      	if(pos >= len) {
+      		removeLast();
+      		return ;
+      	}
+      	
+      	Node temp = head;
+      	int i = 1;
+      	while(i< pos-1) {
+      		temp = temp.next;
+      		i++;
+      	}
+      	      	
+      	Node chain = temp.next.next;
+      	temp.next = chain;
+      	chain.prev = temp;
+      	
+    }
+  
+    public static void main(String args[]) {
+   	  	
+    	insertAtTail(1);
+    	insertAtTail(2);
+    	insertAtTail(3);
+    	insertAtTail(4);
+    	insertAtTail(5);
+    	insertAtTail(6);
+    	print();
+    	System.out.println("-----");
+    	removeFromPos(3);
+    	print();
+    	
+ 
+    }
+}
+
+

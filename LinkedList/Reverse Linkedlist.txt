@@ -1,0 +1,37 @@
+  // using recursion
+    static void reverse() {
+        head = reverseUtil(null,head);
+    }
+
+    static Node reverseUtil(Node prev, Node curr) {
+    	
+    	if(curr == null) {
+    		return prev;
+    	}
+    	
+    	// get then chain
+    	Node next = curr.next;
+    	// point current element to previous element
+    	curr.next = prev;
+    	// Ek case solve kar diya baki recursion sambhal lega
+    	return reverseUtil(curr,next);
+    }
+    
+    
+    // Using loop 
+    static void rev() {
+    	Node curr = head;
+    	Node prev = null;
+    	Node next = null;
+    	
+    	while(curr != null) {
+    		if(curr.next == null) {
+    			head = curr;
+    		}
+    		next = curr.next;
+    		curr.next = prev;
+    		prev = curr;
+    		curr = next;
+    	}
+    	
+    }
