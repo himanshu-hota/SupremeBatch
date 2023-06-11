@@ -1,0 +1,55 @@
+public static Node removeLoop(Node head) {
+    // Write your code here.
+
+    // Check if head is null
+    if (head == null)
+        return head;
+
+    // Initialize two pointers: slow and fast
+    Node slow = head;
+    Node fast = head;
+
+    // Detect the loop
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+
+        // Check if slow and fast pointers meet
+        if (slow == fast)
+            break;
+    }
+
+    // If a loop is detected
+    if (slow == fast) {
+        slow = head;
+
+        // If slow and fast are not the same node
+        if (slow != fast) {
+            // Move slow and fast pointers until they meet at the loop start node
+            while (slow.next != fast.next) {
+                slow = slow.next;
+                fast = fast.next;
+            }
+
+            // Unlink the last node to remove the loop
+            fast.next = null;
+            return head;
+        } else {
+            // If slow and fast are the same node, it means the loop starts at the head
+            while (fast.next != slow) {
+                fast = fast.next;
+            }
+
+            // Unlink the last node to remove the loop
+            fast.next = null;
+            return head;
+        }
+    }
+
+    // No loop found
+    return head;
+}
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/interview-shuriken-42-detect-and-remove-loop_241049?leftPanelTab=0
+
+GFG :- https://practice.geeksforgeeks.org/problems/remove-loop-in-linked-list/1

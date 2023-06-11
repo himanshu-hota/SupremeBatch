@@ -1,0 +1,148 @@
+
+class Solution
+{
+    
+    static int findLen(Node head){
+        Node temp = head;
+        int count = 0;
+        while(temp != null){
+            temp = temp.next;
+            count++;
+        }
+        
+        return count;
+    }
+    
+    
+    public static Node reverse(Node head, int k)
+    {
+        //Your code here
+        
+        if(head == null) return head;
+        
+        // find length of the list
+        int len = findLen(head);
+        
+        Node prev = null;
+        Node curr = head;
+        Node next = null;
+        int count = 0;
+        
+        // reverse the n%k elements for example n = 10 k = 4 (10%4 = 2 then remaining 2 elements after k groups )
+        if(k > len) {
+         while(count < len){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+            count++;
+            }          
+            
+            return prev;
+        };
+        
+        // reverse list
+        while(count < k){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+            count++;
+        }
+        
+        // if still there are elements left then do recursion
+        if(next != null){
+            // now point the next of the head to remaining chain
+            head.next = reverse(next,k);
+        }
+        
+        // prev is our new head now as it is holding the node that need to be connected to the remaining chain
+        return prev;
+        
+    }
+}
+
+
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/reverse-a-linked-list-in-groups-of-given-size/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+
+//------------------------------------------------ CodeStudio -------------------------------------------------
+
+public class Solution {
+
+    // Helper function to find the length of the linked list
+    static int findLen(Node head) {
+        Node temp = head;
+        int count = 0;
+        while (temp != null) {
+            temp = temp.next;
+            count++;
+        }
+        return count;
+    }
+
+    // Recursive function to reverse a portion of the linked list based on given indices
+    static Node reverse(Node head, int idx, ArrayList<Integer> b) {
+        if (head == null) return head;
+        if (idx >= b.size()) return head;
+        
+        // Find the length of the list
+        int len = findLen(head);
+        
+        Node prev = null;
+        Node curr = head;
+        Node next = null;
+        int count = 0;
+        
+        // Reverse the n%k elements, for example, if n = 10 and k = 4, reverse 10%4 = 2 elements after k groups
+        if (b.get(idx) > len) {
+            while (count < len) {
+                next = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = next;
+                count++;
+            }
+            
+            return prev;
+        }
+        
+        // Reverse the list
+        while (count < b.get(idx)) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+            count++;
+        }
+        
+        // If there are still elements left, perform recursion
+        if (next != null) {
+            // Point the next of the head to the remaining chain
+            head.next = reverse(next, idx + 1, b);
+        }
+        
+        // 'prev' is our new head now as it is holding the node that needs to be connected to the remaining chain
+        return prev;
+    }
+
+    public static Node getListAfterReverseOperation(Node head, int n, int b[]) {
+        // Write your code here.
+        
+        // this is because we dont want to consider 0 as a block size
+        ArrayList<Integer> arr = new ArrayList<>();
+        for (int i : b) {
+            if (i > 0) {
+                arr.add(i);
+            }
+        }
+        
+        // Reverse the linked list based on the indices in the 'arr' list
+        return reverse(head, 0, arr);
+    }
+}
+
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/reverse-blocks_763406?leftPanelTab=1
