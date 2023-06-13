@@ -1,0 +1,63 @@
+class Solution {
+
+    // Function to reverse a linked list
+    static ListNode reverse(ListNode head){
+        if(head == null) return null;
+        if(head.next == null) return head;
+
+        ListNode prev = null;
+        ListNode curr = head;
+        ListNode next = null;
+
+        while(curr != null){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        return prev;
+    }
+
+    // Function to check if a linked list is a palindrome
+    public boolean isPalindrome(ListNode head) {
+        if(head == null) return false;
+        if(head.next == null) return true;
+
+        // Find the middle of the linked list
+        ListNode slow = head;
+        ListNode fast = head.next;
+
+        while(fast != null){
+            fast = fast.next;
+            if(fast != null){
+                slow = slow.next;
+                fast = fast.next;
+            }
+        }
+
+        // Reverse the second half of the linked list
+        ListNode headOfMiddle = reverse(slow.next);
+
+        // Connect the reversed linked list with the previous chain
+        slow.next = headOfMiddle;
+
+        ListNode p1 = head; // Pointer to the start of the original linked list
+        ListNode p2 = headOfMiddle; // Pointer to the start of the reversed linked list
+
+        // Compare the values of corresponding nodes in both halves
+        while(p2 != null){
+            if(p1.val != p2.val){
+                return false; // Not a palindrome
+            } else{
+                p1 = p1.next;
+                p2 = p2.next;
+            }
+        }
+
+        return true; // Linked list is a palindrome
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/palindrome-linked-list/description/

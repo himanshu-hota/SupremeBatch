@@ -1,0 +1,38 @@
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        // Check if the head node is null or if there is only one node in the list
+        // In such cases, there are no duplicates to remove, so return the head as it is.
+        if(head==null || head.next==null){
+             return head;
+        }
+
+        // Create a dummy node 'prev' and make it point to the head.
+        // This is done to handle the case where the head node itself is a duplicate.
+        ListNode prev = new ListNode();
+        prev.next=head;
+        ListNode curr=prev;
+
+        // Traverse the list until there are at least two more nodes available
+        while(curr.next!=null && curr.next.next!=null){
+            // Check if the current node's value is equal to the value of the next node
+            if(curr.next.val==curr.next.next.val){
+                int value=curr.next.val;
+                // If there are consecutive nodes with the same value, remove them all
+                while(curr.next!=null && curr.next.val==value){
+                    curr.next=curr.next.next;
+                }
+            }
+            else{
+                // If the current node's value is not equal to the value of the next node,
+                // move the current pointer to the next node
+                curr=curr.next;
+            }  
+        }
+        
+        // Return the modified list starting from the next node of the dummy node.
+        return prev.next;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/

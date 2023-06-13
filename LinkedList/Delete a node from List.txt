@@ -1,0 +1,70 @@
+public class Solution {
+	// Function to find the length of a linked list
+	static int findLen(LinkedListNode<Integer> head) {
+		LinkedListNode<Integer> temp = head;
+		int count = 0;
+		while (temp != null) {
+			temp = temp.next;
+			count++;
+		}
+
+		return count;
+	}
+
+	// Function to remove the last node of a linked list
+	static void removeLast(LinkedListNode<Integer> head) {
+		if (head == null || head.next == null)
+			return;
+
+		LinkedListNode<Integer> temp = head;
+		LinkedListNode<Integer> prev = null;
+
+		while (temp.next != null) {
+			prev = temp;
+			temp = temp.next;
+		}
+
+		prev.next = null;
+	}
+
+	public static LinkedListNode<Integer> deleteNode(LinkedListNode<Integer> head, int pos) {
+		// Check if the list is empty or contains only one node
+		if (head == null || head.next == null)
+			return head;
+
+		// Remove the first node if the position is 0
+		if (pos == 0)
+			return head.next;
+
+		// Find the length of the linked list
+		int len = findLen(head);
+
+		// If the position is invalid or beyond the length, return the original list
+		if (pos >= len)
+			return head;
+
+		// If the position is the last node, remove the last node and return the list
+		if (pos == len - 1) {
+			removeLast(head);
+			return head;
+		}
+
+		// Find the node at the specified position and remove it from the list
+		LinkedListNode<Integer> prev = head;
+		int i = 1;
+		while (i < pos && prev.next != null) {
+			prev = prev.next;
+			i++;
+		}
+
+		LinkedListNode<Integer> curr = prev.next;
+		prev.next = curr.next;
+
+		return head;
+	}
+}
+
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/delete-node-in-ll_5881?leftPanelTab=0
+
+LeetCode :- https://leetcode.com/problems/delete-node-in-a-linked-list/

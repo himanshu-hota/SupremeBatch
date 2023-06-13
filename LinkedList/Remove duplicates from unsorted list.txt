@@ -1,0 +1,101 @@
+public class Solution {
+    // Function to perform merge sort on a linked list
+    static LinkedListNode<Integer> mergeSort(LinkedListNode<Integer> head) {
+        // Check if the list is empty or contains only one node
+        if (head == null || head.next == null)
+            return head;
+        
+        // Find the middle node of the list
+        LinkedListNode<Integer> mid = getMiddle(head);
+        
+        // Split the list into two halves
+        LinkedListNode<Integer> head1 = head;
+        LinkedListNode<Integer> head2 = mid.next;
+        mid.next = null;
+        
+        // Recursively perform merge sort on the two halves
+        LinkedListNode<Integer> newHead1 = mergeSort(head1);
+        LinkedListNode<Integer> newHead2 = mergeSort(head2);
+        
+        // Merge the sorted halves
+        LinkedListNode<Integer> finalHead = merge(newHead1, newHead2);
+        
+        return finalHead;
+    }
+    
+    // Function to merge two sorted linked lists
+    static LinkedListNode<Integer> merge(LinkedListNode<Integer> head1, LinkedListNode<Integer> head2) {
+        // Create a new node 'merged' to store the merged list
+        LinkedListNode<Integer> merged = new LinkedListNode<Integer>(-1);
+        LinkedListNode<Integer> temp = merged;
+        
+        // Merge the two lists by comparing the node values
+        while (head1 != null && head2 != null) {
+            if (head1.data < head2.data) {
+                temp.next = head1;
+                head1 = head1.next;
+            } else {
+                temp.next = head2;
+                head2 = head2.next;
+            }
+            temp = temp.next;
+        }
+        
+        // Append any remaining nodes from the first list
+        while (head1 != null) {
+            temp.next = head1;
+            head1 = head1.next;
+            temp = temp.next;
+        }
+        
+        // Append any remaining nodes from the second list
+        while (head2 != null) {
+            temp.next = head2;
+            head2 = head2.next;
+            temp = temp.next;
+        }
+        
+        return merged.next;
+    }
+    
+    // Function to find the middle node of a linked list
+    static LinkedListNode<Integer> getMiddle(LinkedListNode<Integer> head) {
+        // Check if the list is empty or contains only one node
+        if (head == null || head.next == null)
+            return head;
+        
+        // Use the two-pointer technique to find the middle node
+        LinkedListNode<Integer> slow = head;
+        LinkedListNode<Integer> fast = head.next;
+        
+        while (fast != null) {
+            fast = fast.next;
+            if (fast != null) {
+                fast = fast.next;
+                slow = slow.next;
+            }
+        }
+        
+        return slow;
+    }
+
+    public static LinkedListNode<Integer> removeDuplicates(LinkedListNode<Integer> head) {
+        // Perform merge sort on the linked list
+        LinkedListNode<Integer> newHead = mergeSort(head);
+
+        LinkedListNode<Integer> curr = newHead;
+
+        // Iterate through the sorted list and remove duplicates
+        while (curr != null && curr.next != null) {
+            if (curr.data == curr.next.data) {
+                curr.next = curr.next.next;
+            } else {
+                curr = curr.next;
+            }
+        }
+
+        return newHead;
+    }
+}
+
+LeetCode :- https://www.codingninjas.com/codestudio/problems/remove-duplicates-from-unsorted-linked-list_1069331
