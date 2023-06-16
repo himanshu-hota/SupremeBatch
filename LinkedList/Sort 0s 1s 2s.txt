@@ -1,0 +1,89 @@
+public class Solution {
+    public static Node sortList(Node head) {
+        // Check if the list is empty or contains only one element
+        if (head == null || head.next == null)
+            return head;
+
+        // Initialize an array to store the count of each element
+        int arr[] = {0, 0, 0};
+
+        // Traverse the linked list and count the occurrences of each element
+        Node temp = head;
+        while (temp != null) {
+            arr[temp.data]++;
+            temp = temp.next;
+        }
+
+        // Reconstruct the linked list in sorted order using the count array
+        temp = head;
+        int i = 0;
+        while (temp != null) {
+            if (arr[i] == 0) {
+                i++;
+            } else {
+                // Assign the value of 'i' to the current node
+                temp.data = i;
+                // Decrease the count of 'i' in the array
+                --arr[i];
+                temp = temp.next;
+            }
+        }
+
+        // Return the sorted linked list
+        return head;
+    }
+}
+
+
+// --------------------------------------- Pointer Approach ------------------------------------------------
+
+
+static Node segregate(Node head) {
+    // Check if the linked list is empty or contains only one node
+    if (head == null || head.next == null)
+        return head;
+
+    // Create three dummy nodes for each category
+    Node zeroHead = new Node(-1); // Head of the list containing 0s
+    Node oneHead = new Node(-1);  // Head of the list containing 1s
+    Node twoHead = new Node(-1);  // Head of the list containing 2s
+
+    // Initialize tails for each category
+    Node zeroTail = zeroHead; // Tail of the list containing 0s
+    Node oneTail = oneHead;   // Tail of the list containing 1s
+    Node twoTail = twoHead;   // Tail of the list containing 2s
+
+    // Traverse the linked list
+    Node current = head;
+    while (current != null) {
+        // Categorize the node based on its value
+        if (current.data == 0) {
+            // Append the node to the list of 0s
+            zeroTail.next = current;
+            zeroTail = current;
+        } else if (current.data == 1) {
+            // Append the node to the list of 1s
+            oneTail.next = current;
+            oneTail = current;
+        } else {
+            // Append the node to the list of 2s
+            twoTail.next = current;
+            twoTail = current;
+        }
+
+        // Move to the next node
+        current = current.next;
+    }
+
+    // Connect the three categories together
+    zeroTail.next = (oneHead.next != null) ? oneHead.next : twoHead.next; // Connect list of 0s with list of 1s or 2s
+    oneTail.next = twoHead.next; // Connect list of 1s with list of 2s
+    twoTail.next = null; // Set the next of the tail of 2s to null to end the list
+
+    // Return the head of the sorted linked list
+    return zeroHead.next;
+}
+
+
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/sort-linked-list-of-0s-1s-2s_1071937?leftPanelTab=1

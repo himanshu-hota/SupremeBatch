@@ -1,0 +1,25 @@
+create comments for this code 
+public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    if (headA == null || headB == null) {
+        return null;
+    }
+
+    ListNode a = headA;
+    ListNode b = headB;
+
+    // this loop terminates only when the value of a and b are same
+    // either both are null
+    // or both holds the same value
+    while (a != b) {
+        a = (a == null) ? headB : a.next;
+        b = (b == null) ? headA : b.next;
+    }
+
+    return a;
+}
+
+LeetCode :- https://leetcode.com/problems/intersection-of-two-linked-lists/description/
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/intersection-of-linked-list_630457?leftPanelTab=1
+
+GFG :- https://practice.geeksforgeeks.org/problems/intersection-point-in-y-shapped-linked-lists/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

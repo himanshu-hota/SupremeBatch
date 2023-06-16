@@ -1,0 +1,30 @@
+public ListNode mergeNodes(ListNode head) {
+    if (head == null) return head;
+
+    ListNode slow = head;  // Pointer to traverse the list
+    ListNode fast = head.next;  // Pointer to advance faster in the list
+    ListNode newLastNode = null;  // Pointer to track the new last node
+    int sum = 0;  // Variable to accumulate the sum of non-zero values
+
+    while (fast != null) {
+        if (fast.val != 0) {
+            sum += fast.val;  // Add non-zero values to the sum
+        } else {
+            slow.val = sum;  // Store the sum in the current node
+            newLastNode = slow;  // Update the new last node pointer
+            sum = 0;  // Reset the sum
+            slow = slow.next;  // Move slow pointer to the next node
+        }
+        fast = fast.next;  // Move fast pointer to the next node
+    }
+
+    newLastNode.next = null;  // Set the next pointer of the new last node to null
+    System.gc();  // Perform garbage collection to free up memory
+
+    return head;  // Return the modified linked list
+}
+
+
+LeetCode :- https://leetcode.com/problems/merge-nodes-in-between-zeros/description/
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/sum-between-zeroes_630463  

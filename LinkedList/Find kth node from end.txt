@@ -1,0 +1,45 @@
+class Solution
+{
+   static int findLen(Node head){
+        Node temp = head;
+        int count  =0;
+        while(temp != null){
+            temp = temp.next;
+            count++;
+        }
+
+        return count;
+    }
+    
+    //Function to find the data of nth node from the end of a linked list.
+    int getNthFromLast(Node head, int n)
+    {
+    	// Your code here	
+    	    if(head == null) return head.data;
+
+        // calculate length of the linkedlist
+        int len = findLen(head);
+
+        // if list has only one element and n == 1
+        if(len <= 1 && n ==1) return head.data;
+        // if it asks to find first node
+        if(len == n) return head.data;
+        // if node to find doesn't exists
+        if(n > len) return -1;
+        
+        Node curr = head;
+        // calculate index of node to delete
+        int nodeToFind = len - n;
+        int count = 1;
+
+        // go to 1 node before the nodeToFind
+        while(count < nodeToFind && curr != null){
+            curr = curr.next;
+            count++;
+        }
+
+       return curr.next.data;
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/nth-node-from-end-of-linked-list/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

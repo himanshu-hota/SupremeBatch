@@ -1,0 +1,34 @@
+class GfG
+{
+    // Function to merge two sorted linked lists
+    static Node merge(Node a, Node b){
+        if(a == null) return b; // If first linked list is empty, return the second linked list
+        if(b == null) return a; // If second linked list is empty, return the first linked list
+        
+        Node ans = null;
+        
+        // Compare the data of the nodes in both linked lists
+        if(a.data <= b.data){
+            ans = a; // Assign the smaller node to 'ans'
+            a.bottom = merge(a.bottom, b); // Recursively merge the remaining nodes of the first linked list with the second linked list
+        }else{
+            ans = b; // Assign the smaller node to 'ans'
+            b.bottom = merge(a, b.bottom); // Recursively merge the first linked list with the remaining nodes of the second linked list
+        }
+        
+        return ans; // Return the merged linked list
+    }
+    
+    // Function to flatten a multilevel linked list
+    Node flatten(Node root)
+    {
+        if(root == null) return root; // If the root is null, return null
+        
+        // Recursively flatten the next linked list
+        Node mergedLL = merge(root, flatten(root.next));
+        
+        return mergedLL; // Return the flattened linked list
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/da62a798bca208c7a678c133569c3dc7f5b73500/1

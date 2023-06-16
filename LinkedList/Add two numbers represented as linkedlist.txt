@@ -1,0 +1,81 @@
+class Solution {
+    // Function to add two numbers represented by linked lists.
+
+    // Helper function to reverse a linked list.
+    static Node reverse(Node head) {
+        Node prev = null;
+        Node curr = head;
+        Node next = null;
+
+        // Reverse the linked list using three pointers.
+        while (curr != null) {
+            next = curr.next;  // Store the next node.
+            curr.next = prev;  // Reverse the current node's next pointer.
+            prev = curr;  // Move the prev pointer.
+            curr = next;  // Move the curr pointer.
+        }
+
+        return prev;  // Return the new head of the reversed list.
+    }
+
+    static Node addTwoLists(Node l1, Node l2) {
+        if (l1 == null) return l2;  // If one list is empty, return the other list.
+        if (l2 == null) return l1;
+
+        // Reverse the input linked lists for easier addition.
+        l1 = reverse(l1);
+        l2 = reverse(l2);
+
+        Node ansHead = null;  // Head of the resulting sum list.
+        Node ansTail = null;  // Tail of the resulting sum list.
+
+        int carry = 0;  // Carry value for addition.
+        int sum = 0;  // Sum of digits at the current positions.
+
+        // Perform addition digit by digit until both lists are processed.
+        while (l1 != null || l2 != null) {
+            sum = carry;
+            
+            // Add the digits from both lists and the carry.
+            if (l1 != null) {
+                sum += l1.data;
+                l1 = l1.next;
+            }
+            if (l2 != null) {
+                sum += l2.data;
+                l2 = l2.next;
+            }
+
+            // Calculate the digit and carry for the current position.
+            int digit = sum % 10;
+            carry = sum / 10;
+
+            // Create a new node for the digit and update the result list.
+            Node newNode = new Node(digit);
+            if (ansHead == null) {
+                ansHead = newNode;
+                ansTail = newNode;
+            } else {
+                ansTail.next = newNode;
+                ansTail = newNode;
+            }
+        }
+
+        // Add any remaining carry to the result list.
+        if (carry != 0) {
+            Node newNode = new Node(carry);
+            ansTail.next = newNode;
+            ansTail = newNode;
+        }
+
+        // Reverse the answer linked list to restore the correct order.
+        ansHead = reverse(ansHead);
+
+        return ansHead;  // Return the head of the resulting sum list.
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/add-two-numbers/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/add-two-numbers-represented-by-linked-lists/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
