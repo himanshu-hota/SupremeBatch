@@ -1,0 +1,57 @@
+class Solution {
+
+    // Method to find the length of the linked list
+    static int findLen(ListNode head){
+        if(head == null) return 0;
+
+        int count = 0;
+        ListNode temp = head;
+        while(temp != null){
+            temp = temp.next;
+            ++count;
+        }
+
+        return count;
+    }
+
+    public ListNode rotateRight(ListNode head, int k) {
+        // Check for edge cases
+        if(head == null) return head;
+        if(k <= 0) return head;
+
+        int len = findLen(head);
+
+        int actualK = k % len;
+
+        // If actualK is 0, the rotation doesn't change the list
+        if(actualK == 0 ) return head;
+        int newLastNodePos = len - actualK - 1;
+
+        int count = 0; 
+        ListNode newHead = null, newLastNode = head;
+
+        // Traverse to find the new last node position
+        while(newLastNode != null && count < newLastNodePos){
+            newLastNode = newLastNode.next;
+            count++;
+        }
+
+        // Set the new head and break the connection to form the rotated list
+        newHead = newLastNode.next;
+        newLastNode.next = null;
+        ListNode temp = newHead;
+
+        // Traverse to the last node of the new head
+        while(temp.next != null){
+            temp = temp.next;
+        }
+
+        // Connect the last node of the new head to the original head
+        temp.next = head;
+
+        return newHead;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/rotate-list/description/

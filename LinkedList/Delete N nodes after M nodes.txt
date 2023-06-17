@@ -1,0 +1,36 @@
+static void linkdelete(Node head, int M, int N) {
+    // Check if the head is null, indicating an empty list
+    if (head == null) return;
+
+    Node curr = head;
+    int count = 1;
+    // Traverse to the Mth node
+    while (curr != null && count < M) {
+        curr = curr.next;
+        count++;
+    }
+
+    // If we reached the end of the list before finding the Mth node, return
+    if (curr == null) return;
+    Node MthNode = curr;
+    curr = curr.next;
+
+    count = 0;
+    // Traverse N nodes from the Mth node and delete them
+    while (curr != null && count < N) {
+        curr = curr.next;
+        count++;
+    }
+
+    // Link the Mth node to the node after the deleted nodes
+    MthNode.next = curr;
+
+    // Perform garbage collection to free up memory
+    System.gc();
+
+    // Recursively call linkdelete with the updated current node and continue deleting nodes
+    linkdelete(curr, M, N);
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/delete-n-nodes-after-m-nodes-of-a-linked-list/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
