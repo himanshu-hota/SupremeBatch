@@ -1,0 +1,25 @@
+public class Solution {
+
+    static void insertInOrder(Stack<Integer> stack, int target) {
+        if (stack.isEmpty() || stack.peek() <= target) {
+            stack.push(target); // If the stack is empty or the top element is less than or equal to the target, push the target onto the stack.
+        } else {
+            int temp = stack.pop(); // Pop the top element from the stack.
+            insertInOrder(stack, target); // Recursively call insertInOrder to insert the target in the correct sorted position.
+            stack.push(temp); // Push back the popped element onto the stack.
+        }
+    }
+
+    public static void sortStack(Stack<Integer> stack) {
+        if (!stack.isEmpty()) {
+            int temp = stack.pop(); // Pop the top element from the stack.
+            sortStack(stack); // Recursively call sortStack to sort the remaining elements in the stack.
+            insertInOrder(stack, temp); // Insert the popped element in its correct sorted position within the stack.
+        }
+    }
+
+}
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/sort-a-stack_985275?leftPanelTab=1
+
+GFG :- https://practice.geeksforgeeks.org/problems/sort-a-stack/1

@@ -1,0 +1,24 @@
+public static void deleteMiddle(Stack<Integer> inputStack, int N) {
+	// Calculate the size of the inputStack
+	int size  = inputStack.size();
+	
+	// Check if N/2+1 equals the size, indicating that we have reached the middle element
+	if(N/2+1 == size){
+		inputStack.pop(); // Remove the middle element
+		return; // Exit the function
+	}
+
+	// If the middle element is not reached yet, remove the top element and store it in a temporary variable
+	int temp2 = inputStack.pop();
+
+	// Recursively call deleteMiddle on the remaining elements
+	deleteMiddle(inputStack, N);
+
+	// Push the stored element back onto the stack after the recursion is complete
+	inputStack.push(temp2);
+}
+
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/delete-middle-element-from-stack_985246?leftPanelTab=1
+
+GFG :- https://practice.geeksforgeeks.org/problems/delete-middle-element-of-a-stack/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

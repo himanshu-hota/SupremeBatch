@@ -1,0 +1,31 @@
+import java.util.Stack;
+
+public class Solution {
+
+  // Recursive helper function to push an element to the bottom of the stack
+  static void helper(Stack<Integer> st, int x) {
+    // If the stack is empty, simply push the element and return
+    if (st.size() == 0) {
+      st.push(x);
+      return;
+    }
+
+    // Remove the top element from the stack
+    int temp = st.pop();
+
+    // Recursively call pushAtBottom to push the element to the bottom
+    pushAtBottom(st, x);
+
+    // Push the removed element back onto the stack
+    st.push(temp);
+  }
+
+  // Wrapper function to call the helper function
+  public static Stack<Integer> pushAtBottom(Stack<Integer> myStack, int x) {
+    helper(myStack, x);
+    return myStack;
+  }
+}
+
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/insert-an-element-at-its-bottom-in-a-given-stack_1171166?leftPanelTab=1

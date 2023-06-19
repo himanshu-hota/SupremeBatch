@@ -1,0 +1,138 @@
+import java.util.*;
+
+class Stacks {
+	int size;
+	int arr[];
+	int top1;
+	int top2;
+	
+	Stacks(int size){
+		this.size = size;
+		this.arr = new int[size];
+		this.top1 = -1;
+		this.top2 = size;
+	}
+	
+	public void push1(int data) {
+		if(top2-top1 <= 1) {
+			System.out.println("Can not insert data , Stack is full");
+		}else {
+			arr[++top1] = data;
+		}
+	}
+	
+	public void push2(int data) {
+		if(top2-top1 <= 1) {
+			System.out.println("Can not insert data , Stack is full");
+		}else {
+			arr[--top2] = data;
+		}
+	}
+	
+	public int pop1() {
+		if(top1 == -1) {
+			System.out.println("Can not delete data , Stack is empty");
+			return -1;
+		}else {
+			return arr[top1--];
+		}
+	}
+	
+	public int pop2() {
+		if(top2 == size) {
+			System.out.println("Can not delete data , Stack is empty");
+			return -1;
+		}else {
+			return arr[top2++];
+		}
+	}
+	
+	
+	public boolean isFull() {
+		if(top2 - top1 > 1) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean isEmp1() {
+		if(top1 == -1) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean isEmp2() {
+		if(top2 == size) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean isEmpty() {
+		if(isEmp1() && isEmp2()) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public void pop() {
+		while(!isEmp1()) {
+			System.out.println("Popped element is : " + this.pop1());
+		}
+		
+		while(!isEmp2()) {
+			System.out.println("Popped element is : " + this.pop2());
+		}
+	}
+	
+	public int size() {
+		if(isEmpty()) {
+			System.out.println("Stack has no elements");
+			return -1;
+		}else {
+			int s = top1 + (size - top2) + 1;
+			return s;
+		}
+	}
+	
+	public int length() {
+		return size;
+	}
+}
+
+
+public class Stackss {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Stacks st = new Stacks(5);
+		
+		st.push1(1);
+		st.push1(2);
+		st.push1(3);
+		st.push2(4);
+		st.push2(5);
+
+		
+			
+		System.out.println("Length of the stack is: " + st.length());
+		
+		System.out.println("Size of the stack is: " + st.size());
+		
+		while(!st.isEmpty()) {
+			st.pop();
+		}
+		
+
+	}
+
+}
+
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/implement-two-stacks-in-an-array/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

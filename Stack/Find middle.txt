@@ -1,0 +1,19 @@
+public static void findMiddle(Stack<Integer> inputStack, int N) {
+	// Calculate the size of the inputStack
+	int size  = inputStack.size();
+	
+	// Check if N/2+1 equals the size, indicating that we have reached the middle element
+	if(N/2+1 == size){
+		System.out.print(s.peek()) //  the middle element
+		return; // Exit the function
+	}
+
+	// If the middle element is not reached yet, remove the top element and store it in a temporary variable
+	int temp2 = inputStack.pop();
+
+	// Recursively call deleteMiddle on the remaining elements
+	findMiddle(inputStack, N);
+
+	// Push the stored element back onto the stack after the recursion is complete
+	inputStack.push(temp2);
+}

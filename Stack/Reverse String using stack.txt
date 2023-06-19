@@ -1,0 +1,35 @@
+import java.util.*;
+
+class Solution {
+    public void reverseString(char[] s) {
+        Stack<Character> st = new Stack<>(); // Create a stack to store characters
+
+        for (int i = 0; i < s.length; i++) {
+            st.push(s[i]); // Push each character of the input array onto the stack
+        }
+
+        int i = 0;
+        while (!st.isEmpty()) {
+            s[i++] = st.pop(); // Pop characters from the stack and store them back in the input array, reversing the order
+        }
+    }
+
+    public static String reverseString2(String s) {
+        Stack<Character> st = new Stack<>(); // Create a stack to store characters
+        StringBuilder rev = new StringBuilder(); // Create a StringBuilder to store the reversed string
+
+        for (int i = 0; i < s.length(); i++) {
+            st.push(s.charAt(i)); // Push each character of the input string onto the stack
+        }
+
+        while (!st.isEmpty()) {
+            rev.append(st.pop()); // Pop characters from the stack and append them to the StringBuilder, reversing the order
+        }
+
+        return rev.toString(); // Convert the StringBuilder to a String and return the reversed string
+    }
+}
+
+
+
+    CodeStudio :- https://www.codingninjas.com/codestudio/problems/reverse-the-string_799927?leftPanelTab=1

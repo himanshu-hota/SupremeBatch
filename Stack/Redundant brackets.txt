@@ -1,0 +1,23 @@
+public static boolean findRedundantBrackets(String s) {
+    Stack<Character> st = new Stack<Character>(); // Create a stack to store characters
+    for (int i = 0; i < s.length(); i++) {
+        char c = s.charAt(i); // Get the current character
+        if (c == '+' || c == '-' || c == '*' || c == '/') {
+            st.push(c); // Push operators onto the stack
+        } else if (c == '(') {
+            st.push(c); // Push opening parentheses onto the stack
+        } else if (c == ')') {
+            if (st.peek() == '(')
+                return true; // If the top of the stack is an opening parenthesis, there are redundant brackets, return true
+            while (st.peek() != '(') {
+                st.pop(); // Pop characters until an opening parenthesis is found
+            }
+            st.pop(); // Pop the opening parenthesis from the stack
+        }
+    }
+    return false; // No redundant brackets found, return false
+}
+
+LeetCode :- https://www.codingninjas.com/codestudio/problems/redundant-brackets_975473'
+
+GFG :- https://practice.geeksforgeeks.org/problems/e015cb4d3f354b035d9665e7c8a54a7aefb1901b/1

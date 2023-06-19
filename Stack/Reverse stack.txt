@@ -1,0 +1,37 @@
+import java.util.Stack;
+
+public class Solution {
+
+	// Helper function to insert an element at the bottom of the stack
+	static void insertAtBottom(Stack<Integer> st, int x) {
+		// If the stack is empty, simply push the element
+		if (st.size() == 0) {
+			st.push(x);
+			return;
+		}
+
+		int top = st.pop(); // Remove the top element
+
+		insertAtBottom(st, x); // Recursively insert the element at the bottom
+
+		st.push(top); // Push the removed element back onto the stack
+	}
+
+	// Function to reverse the stack
+	public static void reverseStack(Stack<Integer> stack) {
+		// Base case: If the stack is empty, there's nothing to reverse
+		if (stack.size() == 0) {
+			return;
+		}
+
+		int top = stack.pop(); // Remove the top element
+
+		reverseStack(stack); // Recursively reverse the remaining elements
+
+		insertAtBottom(stack, top); // Insert the popped element at the bottom
+	}
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/reverse-a-stack/1
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/reverse-stack-using-recursion_631875?leftPanelTab=1

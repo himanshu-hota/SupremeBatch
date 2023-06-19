@@ -1,0 +1,99 @@
+import java.util.*;
+
+class Stacks {
+	int size;
+	int arr[];
+	int top;
+	
+	Stacks(int size){
+		this.size = size;
+		this.arr = new int[size];
+		this.top = -1;
+	}
+	
+	public void push(int data) {
+		if(isFull()) {
+			System.out.println("Can not insert data , Stack is full");
+		}else {
+			arr[++top] = data;
+		}
+	}
+	
+	public int pop() {
+		if(isEmpty()) {
+			System.out.println("Can not delete data , Stack is empty");
+			return -1;
+		}else {
+			return arr[top--];
+		}
+	}
+	
+	public int peek() {
+		if(isEmpty()) {
+			System.out.println("Stack has no elements");
+			return -1;
+		}else {
+			return arr[top];
+		}
+		
+	}
+	
+	public boolean isFull() {
+		if(top == size-1) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean isEmpty() {
+		if(top == -1) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public int size() {
+		if(isEmpty()) {
+			System.out.println("Stack has no elements");
+			return -1;
+		}else {
+			return top+1;
+		}
+	}
+	
+	public int length() {
+		return size;
+	}
+}
+
+
+public class Stackss {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Stacks st = new Stacks(5);
+		
+		st.push(1);
+		st.push(2);
+		st.push(3);
+//		st.push(4);
+//		st.push(5);
+
+		
+			
+		System.out.println("Element at top is:" + st.peek());
+		
+		System.out.println("Length of the stack is: " + st.length());
+		
+		System.out.println("Size of the stack is: " + st.size());
+		
+		while(!st.isEmpty()) {
+			System.out.println("Popped element is:" + st.pop());
+		}
+		
+
+	}
+
+}
