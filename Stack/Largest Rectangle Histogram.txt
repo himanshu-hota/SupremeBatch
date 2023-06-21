@@ -1,0 +1,86 @@
+import java.util.Stack;
+
+public class Solution {
+    // Helper method to find the next smaller element for each element in the array
+    static int[] nextSmaller(int[] input) {
+        Stack<Integer> s = new Stack<>();
+        s.push(-1);
+
+        int[] ans = new int[input.length];
+
+        for (int i = input.length - 1; i >= 0; i--) {
+            int curr = input[i];
+
+            // Find the next smaller element in the stack
+            while (s.peek() != -1 && input[s.peek()] >= curr) {
+                s.pop();
+            }
+
+            // Store the index of the next smaller element
+            ans[i] = s.peek();
+
+            // Push the current element's index onto the stack
+            s.push(i);
+        }
+        return ans;
+    }
+
+    // Helper method to find the previous smaller element for each element in the array
+    static int[] prevSmaller(int[] input) {
+        Stack<Integer> s = new Stack<>();
+        s.push(-1);
+
+        int[] ans = new int[input.length];
+
+        // Traverse the array from left to right to find the previous smaller element
+        for (int i = 0; i < input.length; i++) {
+            int curr = input[i];
+
+            // Find the previous smaller element in the stack
+            while (s.peek() != -1 && input[s.peek()] >= curr) {
+                s.pop();
+            }
+
+            // Store the index of the previous smaller element
+            ans[i] = s.peek();
+
+            // Push the current element's index onto the stack
+            s.push(i);
+        }
+        return ans;
+    }
+
+    public int largestRectangleArea(int[] heights) {
+        // Step 1: Get the previous smaller element indices using prevSmaller method
+        int[] prev = prevSmaller(heights);
+
+        // Step 2: Get the next smaller element indices using nextSmaller method
+        int[] next = nextSmaller(heights);
+
+        int maxArea = Integer.MIN_VALUE;
+        int size = heights.length;
+
+        // Calculate the maximum area for each element
+        for (int i = 0; i < size; i++) {
+            int length = heights[i];
+
+            if (next[i] == -1) {
+                next[i] = size;
+            }
+
+            int width = next[i] - prev[i] - 1;
+
+            int area = length * width;
+            maxArea = Math.max(maxArea, area);
+        }
+
+        // Explicitly invoke garbage collector to free up memory (optional)
+        System.gc();
+
+        return maxArea;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/largest-rectangle-in-histogram/description/
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/largest-rectangle-in-a-histogram_1058184?leftPanelTab=1

@@ -1,0 +1,63 @@
+import java.util.ArrayList;
+import javafx.util.Pair;
+
+class MinStack {
+    ArrayList<Pair<Integer, Integer>> st;
+
+    public MinStack() {
+        st = new ArrayList<>();
+    }
+    
+    // Pushes a value onto the stack
+    public void push(int val) {
+        if (st.isEmpty()) {
+            // If stack is empty, set both value and minimum to val
+            Pair<Integer, Integer> p = new Pair(val, val);
+            st.add(p);
+        } else {
+            // Get the previous minimum value and compare it with val
+            int prevMin = st.get(st.size() - 1).getValue();
+            int newMin = Math.min(val, prevMin);
+            // Create a new pair with val and the new minimum, then add it to the stack
+            Pair<Integer, Integer> p = new Pair<>(val, newMin);
+            st.add(p);
+        }
+    }
+    
+    // Pops the top element from the stack
+    public void pop() {
+        if (!st.isEmpty()) {
+            // Remove the top element from the stack
+            st.remove(st.size() - 1);
+        } else {
+            return;
+        }
+    }
+    
+    // Returns the top element of the stack
+    public int top() {
+        if (!st.isEmpty()) {
+            // Return the key (value) of the top element in the stack
+            return st.get(st.size() - 1).getKey();   
+        } else {
+            // Stack is empty, return -1
+            return -1;
+        }
+    }
+    
+    // Returns the minimum value in the stack
+    public int getMin() {
+        if (!st.isEmpty()) {
+            // Return the value of the top element in the stack (minimum value)
+            return st.get(st.size() - 1).getValue();
+        } else {
+            // Stack is empty, return -1
+            return -1;
+        }
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/min-stack/description/
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/min-stack_3843991?leftPanelTab=1

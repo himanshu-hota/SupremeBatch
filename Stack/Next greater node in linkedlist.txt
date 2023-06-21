@@ -1,0 +1,37 @@
+public int[] nextLargerNodes(ListNode head) {
+    if (head == null)
+        return new int[0]; // Empty list, return an empty array
+    
+    ArrayList<Integer> nums = new ArrayList<>(); // Create an ArrayList to store the node values
+    while (head != null) {
+        nums.add(head.val); // Add each node value to the ArrayList
+        head = head.next;
+    }
+    
+    int ans[] = new int[nums.size()]; // Create an array to store the results
+    if (nums.size() == 0)
+        return ans; // If the ArrayList is empty, return the empty array
+    
+    Stack<Integer> st = new Stack<>(); // Create a stack to process the node values
+    int n = ans.length;
+    st.push(0); // Push the index of the first node to the stack
+    
+    // Iterate over the node values in reverse order
+    for (int i = n - 1; i >= 0; i--) {
+        int curr = nums.get(i); // Get the current node value
+        
+        // Pop values from the stack until a greater value is found or the stack becomes empty
+        while (!st.isEmpty() && st.peek() <= curr) {
+            st.pop();
+        }
+        
+        ans[i] = st.peek(); // Assign the next larger value to the current index in the result array
+        st.push(curr); // Push the current value to the stack
+    }
+    
+    System.gc(); // Explicitly invoke garbage collection (not necessary in most cases)
+    return ans; // Return the result array
+}
+
+
+LeetCode :- https://leetcode.com/problems/next-greater-node-in-linked-list/description/

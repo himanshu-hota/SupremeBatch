@@ -1,0 +1,29 @@
+public int longestValidParentheses(String s) {
+    if (s.length() == 0)
+        return 0;
+
+    Stack<Integer> st = new Stack<>();
+    st.push(-1);
+    int maxLen = 0;
+    for (int i = 0; i < s.length(); i++) {
+        char ch = s.charAt(i);
+
+        if (ch == '(') {
+            st.push(i); // Push the index of an opening parenthesis onto the stack
+        } else {
+            st.pop(); // Match a closing parenthesis by popping the top of the stack
+
+            if (st.isEmpty()) {
+                st.push(i); // If the stack is empty after popping, push the current index
+            } else {
+                int len = i - st.peek(); // Calculate the length of the valid substring
+                maxLen = Math.max(maxLen, len); // Update maxLen if necessary
+            }
+        }
+    }
+
+    return maxLen; // Return the length of the longest valid parentheses substring
+}
+
+
+LeetCode :- https://leetcode.com/problems/longest-valid-parentheses/description/

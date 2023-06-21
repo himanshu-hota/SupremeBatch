@@ -1,0 +1,33 @@
+static int[] nextGreaterElement(int n, int arr[]) {
+    int ans[] = new int[n]; // Create an array to store the next greater elements
+    
+    Stack<Integer> st = new Stack<>(); // Create a stack to process the elements
+    
+    // Iterate over the elements in reverse order
+    for (int i = 2 * n - 1; i >= 0; i--) {
+        int curr = arr[i % n]; // Get the current element
+        
+        // Pop elements from the stack until a greater element is found or the stack becomes empty
+        while (!st.isEmpty() && st.peek() <= curr) {
+            st.pop();
+        }
+        
+        if (i < n) {
+            // Assign the next greater element to the current index in the result array
+            if (st.isEmpty()) {
+                ans[i] = -1; // If the stack is empty, there is no greater element
+            } else {
+                ans[i] = st.peek(); // Get the top element of the stack as the next greater element
+            }
+        }
+        
+        st.push(curr); // Push the current element to the stack
+    }
+    
+    return ans; // Return the result array
+}
+
+
+LeetCode :- https://leetcode.com/problems/next-greater-element-ii/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/next-greater-element-2/1

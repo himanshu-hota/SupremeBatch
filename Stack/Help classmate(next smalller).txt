@@ -1,0 +1,34 @@
+public static int[] help_classmate(int arr[], int n) {
+    // Create a stack to store the elements
+    Stack<Integer> st = new Stack<>();
+    
+    // Push -1 as the initial value into the stack
+    st.push(-1);
+    
+    // Create an array to store the final result
+    int ans[] = new int[n];
+    
+    // Iterate over the array in reverse order
+    for(int i = n-1; i >= 0; i--) {
+        int curr = arr[i]; // Get the current element
+        
+        // Pop elements from the stack until the top element is greater than or equal to the current element
+        while(st.peek() >= curr) {
+            st.pop();
+        }
+        
+        // Store the next smaller element in the ans array
+        ans[i] = st.peek();
+        
+        // Push the current element into the stack
+        st.push(curr);
+    }
+    
+    // Return the final result
+    return ans;
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/fab3dbbdce746976ba35c7b9b24afde40eae5a04/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/next-smaller-element_1112581?leftPanelTab=1
