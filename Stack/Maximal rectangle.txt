@@ -1,0 +1,113 @@
+class Solution {
+
+  static int[] nextSmaller(int[] input){
+  Stack<Integer> s = new Stack<>();
+  s.push(-1);
+  
+    int[] ans = new int[input.length];
+
+  for(int i=input.length-1; i>=0; i--) {
+          int curr = input[i];
+
+          //apka answer stack me 
+          while(s.peek() != -1 && input[s.peek()] >= curr) {
+                  s.pop();
+          }
+
+          //chotta element mil chuka h -> ans store
+          ans[i] = s.peek();
+
+          //push krdo curr element ko
+          s.push(i);
+  }
+  return ans;
+    }
+
+    static int[] prevSmaller(int[] input){
+         Stack<Integer> s = new Stack<>();
+        s.push(-1);
+        int[] ans = new int[input.length];
+
+        //left to right -> prev smaller
+        for(int i=0; i<input.length; i++) {
+                int curr = input[i];
+
+                //apka answer stack me 
+                while(s.peek() != -1 && input[s.peek()] >= curr) {
+                        s.pop();
+                }
+
+                //chotta element mil chuka h -> ans store
+                ans[i] = s.peek();
+
+                //push krdo curr element ko
+                s.push(i);
+        }
+        return ans;
+    }
+
+    public int largestRectangleArea(int[] heights) {
+         //step1: prevSmaller output
+        int prev[] = prevSmaller(heights);
+
+        //step2: nextSmaller call
+        int next[] = nextSmaller(heights);
+
+        int maxArea = Integer.MIN_VALUE;
+        int size = heights.length;
+
+        for(int i=0; i<size; i++) {
+                int length = heights[i];
+                
+                if(next[i] == -1) {
+                        next[i] = size;
+                }
+
+                int width = next[i] - prev[i] - 1;
+
+                int area = length * width;
+                maxArea = Math.max(maxArea, area);
+        }
+        System.gc();
+        return maxArea;
+    }
+
+    public int maximalRectangle(char[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+        int arr[][] = new int[n][m];
+
+        // convert char to int
+        for(int i = 0; i< n;i++){
+            for(int j = 0; j<m ;j++){
+                arr[i][j] = matrix[i][j] - '0';
+            }
+        }
+
+        //calculate max Rectangle in first row
+        int area = largestRectangleArea(arr[0]);
+
+        for(int i = 1 ;i< n ;i++){
+            for(int j = 0 ; j < m ; j++){
+                // sum of cols till current row to form a histogram till current row
+                if(arr[i][j] == 1){
+                    arr[i][j] += arr[i-1][j];
+                }else{ // if curr element is 0 then can not include above 1s because base cannot be 0
+                    arr[i][j] = 0;
+                }
+            }
+
+            // calculate ractangle till current row
+            int currArea = largestRectangleArea(arr[i]);
+            // get max of previous rectangle and current
+            area = Math.max(area,currArea);
+        }
+
+        return area;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/maximal-rectangle/description/
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/maximum-size-rectangle-sub-matrix-with-all-1-s_893017?leftPanelTab=0

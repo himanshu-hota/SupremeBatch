@@ -1,0 +1,44 @@
+class Solution {
+
+    class Car{
+        int pos;
+        int speed;
+        Car(int pos,int speed){
+            this.pos = pos;
+            this.speed = speed;
+        }
+    }
+
+    public int carFleet(int target, int[] position, int[] speed) {
+        
+        ArrayList<Car> cars = new ArrayList<>();
+
+        // Create Car objects and add them to the ArrayList
+        for(int i = 0; i < speed.length; i++){
+            Car car = new Car(position[i], speed[i]);
+            cars.add(car);
+        }
+
+        // Sort the cars based on their positions
+        Collections.sort(cars, (Car a, Car b) -> a.pos - b.pos);
+
+        Stack<Float> st = new Stack<>();
+        for(Car x : cars){
+            Car car = x;
+            float time = (target - car.pos) / (float)(car.speed);
+
+            // Remove any slower cars from the stack
+            while(!st.isEmpty() && time >= st.peek()) {
+                st.pop();
+            }
+
+            // Push the current car's time onto the stack
+            st.push(time);
+        }
+        
+        return st.size(); // Return the number of car fleets
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/car-fleet/description/
