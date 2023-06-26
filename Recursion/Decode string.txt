@@ -1,0 +1,22 @@
+ public String decodeString(String s) {
+          
+        StringBuilder result = new StringBuilder();
+        while(i < s.length() && s.charAt(i) != ']'){
+            // if current character is number then do this
+            if(Character.isDigit(s.charAt(i))){
+                int k = 0;
+                // get the digit which can be like 23423 any thing
+                while(i < s.length() && Character.isDigit(s.charAt(i)))
+                    k = k*10 + s.charAt(i++) - '0';
+                i++; // to skip the opening [
+                //recursive call
+                String r = decodeString(s);
+                // repeat the number
+                while(k-- > 0)
+                    result.append(r);
+                i++; // to skip the opening [
+            } else // if curr char is not a number then do this
+                result.append(s.charAt(i++));
+        }
+        return result.toString();
+    }

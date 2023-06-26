@@ -1,0 +1,63 @@
+import java.util.*;
+
+class Solution {
+
+
+    // method 2 without stack
+    // static boolean helper(StringBuilder str){
+
+    //     if(str.length() == 0) return true;
+    //     int found = str.indexOf("abc");
+   
+    //     if(found >= 0){
+    //         StringBuilder tLeft = new StringBuilder(str.substring(0,found));
+    //         StringBuilder tRight = new StringBuilder(str.substring(found+3,str.length()));
+    //         return helper(tLeft.append(tRight));
+    //     }
+
+    //     return false;
+    // }
+
+    public boolean isValid(String s) {
+        if(s.charAt(0) != 'a') return false;
+
+        // stack to store answer
+        Stack<Character> st = new Stack<>();
+
+        
+        for(int i = 0; i<s.length() ; i++){
+            // extract out current character
+            char ch = s.charAt(i);
+
+            // if curr is a then push it to the stack
+            if(ch == 'a'){
+                st.push(ch);
+            }else if(ch == 'b' ){
+                 // if curr is b and top elem at st is a then push it to the st
+                    if(!st.isEmpty() && st.peek() == 'a'){
+                        st.push(ch);
+                    }else{ // else return false because we demand 'a' to be present before 'b'
+                        return false;
+                    }
+                    
+            }else{
+                // if curr is 'c' and top element is 'b' then pop one element
+                if(!st.isEmpty() && st.peek() == 'b'){
+                     st.pop();
+                     if(!st.isEmpty() && st.peek() == 'a'){ // if after popping one element top is 'a' then again pop one element
+                        st.pop();
+                     }else{ // else return false because we demand 'a' to be present before 'b'
+                         return false;
+                     }
+                }else{ // if top is not 'b' then return false because we demand 'b' to be present before 'c'
+                    return false;
+                }
+            }
+
+            
+        }
+
+        // if stil there are elements in the stack then it is not a valid word
+        return st.isEmpty() ? true : false;
+    }
+}

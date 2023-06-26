@@ -1,0 +1,39 @@
+   public static String decodeString(String s) {
+       // Write your code here.
+       Stack < StringBuilder > strStack = new Stack < > ();
+       Stack < Integer > numStack = new Stack < > ();
+       int num = 0;
+       StringBuilder prevString = new StringBuilder();
+
+       for (char ch: s.toCharArray()) {
+            // if found a num then calculate num
+           if (ch >= '0' && ch <= '9') {
+               num = num * 10 + ch - '0';
+           } else if (ch == '[') { // if it is a opening brace then push and reset prevstring and num
+               strStack.push(prevString);
+               numStack.push(num);
+               num = 0;
+               prevString = new StringBuilder();
+           } else if (ch == ']') { // if it is a closing brace
+              // get the curr string which is to be repeated
+               StringBuilder currStr = prevString;
+               // set prevsting to the prev answer
+               prevString = strStack.pop();
+               // get how many times to repeat
+               int numOfRep = numStack.pop();
+                
+               // repeat the string 
+               while (numOfRep-- > 0) {
+                   prevString.append(currStr);
+               }
+           } else { // if found a character then add it o prev string
+               prevString.append(ch);
+           }
+       }    
+       
+        // return the final answer
+       return prevString.toString();
+   }
+
+   CodeStudio :- https://www.codingninjas.com/studio/problems/decode-string_696319?leftPanelTab=1
+   LeetCode :- https://leetcode.com/problems/decode-string/description/

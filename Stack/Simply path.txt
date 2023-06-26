@@ -1,0 +1,65 @@
+class Solution {
+
+    static void reverse(Stack<String> st,StringBuilder str){
+        if(st.isEmpty()) return;
+
+        String minPath = st.pop();
+        reverse(st,str);
+        str.append(minPath);
+    }   
+
+    public String simplifyPath(String path) {
+        Stack<String> st = new Stack<>();
+
+        int i = 0; 
+
+        while(i< path.length()){
+            int start = i; // put pointer at ith char
+            int end = i+1; // put pointer at one char ahead of starting
+
+            // move the end pointer till char at end
+            // is '/' to make a perfect   directory
+            while(end<path.length() && path.charAt(end) != '/'){
+                ++end;
+            }
+
+            // generate substring from pointers
+            String minPath = path.substring(start, end);
+            // put iterating pointer at end to generate
+            // new substring in next call
+            i = end;
+            
+            // if minpath is not a perfect directory then skip it
+            if(minPath.equals("/") || minPath.equals("/.")){
+                continue;
+            }
+            
+            // if minPath tells to go one level up then go back
+            // back removing top element
+            // else add the directory to stack
+            if(!minPath.equals("/..")){
+                st.push(minPath);
+            }else if(!st.isEmpty()){
+                st.pop();
+            }
+        }
+
+        // create a ans string to store answer
+        StringBuilder ans = new StringBuilder();
+
+        // if stack is empty then return '/'
+        // otherwise generate correct answer by
+        // reversing the stack
+        if(st.isEmpty()){
+            ans.append("/");
+        }else{
+            reverse(st,ans);
+        }
+    
+    // at the end return answer
+    return ans.toString();
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/simplify-path/description/

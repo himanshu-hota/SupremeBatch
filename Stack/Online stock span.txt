@@ -1,0 +1,25 @@
+class StockSpanner {
+
+    Stack<Pair<Integer,Integer>> st;
+
+    public StockSpanner() { 
+        st = new Stack<>();
+    }
+    
+    public int next(int price) {
+        int span = 1;
+
+        // Add up all the previous lower prices and create span
+        while(!st.isEmpty() && st.peek().getKey() <= price){
+            span += st.peek().getValue();
+            st.pop();
+        }
+
+        // add current price and span
+        st.push(new Pair(price,span));
+        //return the current span
+        return span;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/online-stock-span/description/

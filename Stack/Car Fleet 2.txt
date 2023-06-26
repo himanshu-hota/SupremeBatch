@@ -1,0 +1,41 @@
+   public double[] getCollisionTimes(int[][] cars) {
+        int n = cars.length;
+        double result[] = new double[n];
+        Stack<Integer> stack = new Stack<>();
+        // assume that no collision happens
+        Arrays.fill(result,-1);
+        
+        for(int i=n-1; i>=0; i--){
+            int currPos = cars[i][0]; // position of curr car
+            int currSpeed = cars[i][1]; // speed of curr car
+            
+            //if there is a car that is ahead of current car then do the further calculation
+            while(!stack.isEmpty()){
+                int topIndex = stack.peek(); // index of car at top of stack
+                int topPos = cars[topIndex][0]; // position of car at top of stack
+                int topSpeed = cars[topIndex][1]; // speed of car at top of stack
+ 
+                if(currSpeed <= topSpeed){ // cannot catch catch the ahead car if that is faster than curr
+                    // remove next car because that is too fast to colide
+                    stack.pop();
+                    continue;
+                }
+                
+                // if car ahead of me is slower than me than calculate collision time
+                double collisionTime = (double)(topPos - currPos) / (currSpeed - topSpeed);
+
+                // if collisionTime is less than next cars collisionTime
+                // then only curr car can collide with next car otherwise it cant collide
+                if(collisionTime < result[topIndex] || result[topIndex] == -1){ //found a collision with a car
+                    result[i] = collisionTime;
+                    break;
+                }
+                // remove the car because that has been collided
+                stack.pop(); // pop from stack
+            }
+            stack.push(i); //push the stack index of car
+        }
+        return result;
+    }
+
+    LeetCode :- https://leetcode.com/problems/car-fleet-ii/description/

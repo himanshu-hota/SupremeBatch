@@ -1,0 +1,83 @@
+import java.util.* ;
+import java.io.*; 
+public class NStack {
+    // Initialize your data structure.
+
+    int arr[];
+    int top[];
+    int next[];
+    int freeSpot;
+    int index;
+
+    public NStack(int N, int S) {
+        // Write your code here.
+        arr = new int[S];
+        top = new int[N];
+        next = new int[S];
+        freeSpot = 0;
+
+        //top initialisation
+        for(int i= 0; i< N;i++){
+            top[i] = -1;
+        }
+
+        // next initialisation
+        for(int i = 0 ; i<S;i++){
+            next[i] = i+1;
+        }
+        
+        // there is no free space any more after array ends
+        next[S-1] = -1;
+
+
+    }
+
+    // Pushes 'X' into the Mth stack. Returns true if it gets pushed into the stack, and false otherwise.
+    // trick => F Uf I Un Ut
+    public boolean push(int x, int m) {
+        // uf stack is full then cant push any element
+        if(freeSpot  == -1){
+            return false;
+        }
+
+        // find index to store element
+        int index = freeSpot;
+        // update freeSpot
+        freeSpot = next[index];
+        // insert element
+        arr[index] = x;
+        // update next free space
+        next[index] = top[m-1];
+        // update stack top element
+        top[m-1] = index;
+
+        return true;
+    }
+
+    // Pops top element from Mth Stack. Returns -1 if the stack is empty, otherwise returns the popped element.
+    // trick => F Ut D Un Uf
+    public int pop(int m) {
+        // Write your code here.
+        // if stack is empty then cant remove any element
+        if(top[m-1] == -1) return -1;
+
+        // find index to delete element at
+        index = top[m-1];
+        // update top of stack 
+        top[m-1] = next[index]; 
+        // get deleted element
+        int poppedElement = arr[index];
+        // update next element of stack 
+        next[index] = freeSpot;
+        // update free space
+        freeSpot = index;
+        
+        return poppedElement;
+        
+        
+
+    }
+}
+
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/n-stacks-in-an-array_1164271?leftPanelTab=0

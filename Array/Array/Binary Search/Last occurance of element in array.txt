@@ -5,7 +5,7 @@
 		int index = -1;
 		int mid = start + (end - start )/2;
 				
-		
+				
 		while(start<=end){
 				//if element is found then search for more appearance in left part
 				if(arr[mid] == target) {
