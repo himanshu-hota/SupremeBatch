@@ -1,0 +1,37 @@
+    static void recRev(Queue < Integer > q){
+        // base case
+        if(q.isEmpty()){
+            return;
+        }
+
+        // extract element
+        int temp = q.poll();
+        // recursive call
+        recRev(q);
+        // add the element to queue
+        q.add(temp);
+    }
+
+    -------------------------------------------------
+
+    
+    public static void reverse(Queue < Integer > q) {
+        // Write your code here.
+
+        // stack to store elements
+        Stack<Integer> st = new Stack<>();
+
+        // add all elements to stack
+        while(!q.isEmpty()){
+            st.push(q.poll());
+        }
+
+        // add back all elements to queue
+        while(!st.isEmpty()){
+            q.add(st.pop());
+        }
+
+
+    }
+
+    CodeStudio :- https://www.codingninjas.com/studio/problems/reversing-queue_1170046?leftPanelTab=1

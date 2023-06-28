@@ -1,0 +1,65 @@
+
+     static void solve(Queue<Integer> q, int k){
+       if(k == 0) return;
+       int e = q.poll();
+       solve(q, k - 1);
+       q.add(e);
+   }
+   
+  public static Queue<Integer> reverseElements(Queue<Integer> q, int k) 
+  {
+    // Write your code here.
+       // Write your code here.
+        if(q.isEmpty()) return q;
+
+        // reverse k elements
+        solve(q, k);
+
+       // get n-k elements 
+       int s = q.size() - k;
+       // add n-k elements at thier correct position
+       while( s-- > 0){
+           q.add( q.poll());
+       }
+       
+       return q;
+    
+  }
+
+
+  -----------------------------------------------------
+
+   public static Queue<Integer> reverseElements(Queue<Integer> queue, int k) 
+  {
+    // Write your code here.
+       // Write your code here.
+      if (queue.isEmpty() == true || k > queue.size())
+            return queue;
+        if (k <= 0)
+            return queue;
+ 
+        Stack<Integer> stack = new Stack<Integer>();
+ 
+        // Push the first K elements into a Stack
+        for (int i = 0; i < k; i++) {
+            stack.push(queue.peek());
+            queue.remove();
+        }
+ 
+        // Enqueue the contents of stack
+        // at the back of the queue
+        while (!stack.empty()) {
+            queue.add(stack.peek());
+            stack.pop();
+        }
+ 
+        // Remove the remaining elements and enqueue
+        // them at the end of the Queue
+        for (int i = 0; i < queue.size() - k; i++) {
+            queue.add(queue.peek());
+            queue.remove();
+        }
+       
+       return queue;
+    
+  }

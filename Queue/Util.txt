@@ -1,0 +1,327 @@
+
+class Qu {
+	int front ;
+	int rear ;
+	int arr[];
+	int size;
+	
+	Qu(int size){
+		this.front = 0;
+		this.rear = 0;
+		this.arr = new int[size];
+		this.size = size;
+	}
+	
+	public void add(int data) {
+		if(isFull()) {
+			System.out.println("Can not add data because arr is full");
+			return;
+		}else {
+			this.arr[this.rear++] = data;
+			;
+		}
+	}
+	
+	public boolean isFull() {
+		if(this.rear == this.size) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean isEmpty() {
+		if(this.front == this.rear) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public int poll() {
+		if(isEmpty()) {
+			System.out.println("Queue is empty!!!");
+			return -1;
+		}else {
+			
+			int removedData = this.arr[this.front];
+			this.arr[this.front++] = -1;
+			
+			if(this.front == this.rear ) {
+				this.front = 0;
+				this.rear = 0;
+			}
+			
+		
+		return removedData;
+		}
+	}
+	
+	public int peek() {
+		if(isEmpty()) {
+			return -1;
+		}else {
+			return this.arr[this.front];
+		}
+	}
+	
+	public int getSize() {
+		return this.rear - this.front;
+	}
+}
+
+public class Que {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Qu q = new Qu(5);
+		q.add(10);
+		System.out.println("Size is : " + q.getSize());
+		q.add(30);
+		System.out.println("Size is : " + q.getSize());
+		q.add(50);
+		System.out.println("Size is : " + q.getSize());
+		q.add(70);
+		System.out.println("Size is : " + q.getSize());
+		q.add(80);
+		System.out.println("Size is : " + q.getSize());
+		
+		
+		System.out.println("Removed Data :" + q.poll());
+		System.out.println("Size is : " + q.getSize());
+		System.out.println("Removed Data :" + q.poll());
+		System.out.println("Size is : " + q.getSize());
+		System.out.println("Removed Data :" + q.poll());
+		System.out.println("Size is : " + q.getSize());
+		
+	}
+
+}
+
+
+---------------------------- Circular Queue -------------------------------
+
+
+class CirQu {
+	int front ;
+	int rear ;
+	int arr[];
+	int size;
+	
+	CirQu(int size){
+		this.front = -1;
+		this.rear = -1;
+		this.arr = new int[size];
+		this.size = size;
+	}
+	
+	public void add(int data) {
+		if(isFull()) {
+			System.out.println("Can not add data because arr is full");
+			return;
+		}else if(this.front == -1) {
+			this.front = 0;
+			this.rear = 0;
+			this.arr[this.rear] = data;
+		}else if(this.front != 0 && this.rear == this.size-1) {
+			this.rear = 0;
+			this.arr[this.rear] = data;
+		}else {
+			this.rear++;
+			this.arr[this.rear] = data;
+		}
+	}
+	
+	public boolean isFull() {
+		if((this.front  == 0 && this.rear == this.size-1) || (this.front-1 == this.rear) || (this.front == this.size -1 && this.rear == 0)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+
+	public int poll() {
+		if(this.front == -1 ) {
+			return -1;
+		}else if(this.front == this.rear) {
+			int data = this.arr[this.rear];
+			this.arr[this.rear] = -1;
+			this.front = this.rear = 0;
+			return data;
+		}else if(this.front == this.size -1) {
+			int data = this.arr[this.front];
+			this.front = 0;
+			return data;
+			
+		}else {
+			int data = this.arr[this.front];
+			this.front++;
+			return data;
+		}
+	}
+	
+	public int peek() {
+		if(this.front != -1) {
+			return this.arr[this.front];
+		}else {
+			return -1;
+		}
+		
+	}
+
+	
+	
+}
+
+public class Que {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		CirQu q = new CirQu(5);
+		q.add(10);
+		q.add(20);
+		q.add(30);
+		q.add(40);
+		q.add(50);
+		
+		System.out.println("Deleted Element is: " + q.poll());
+		System.out.println("Deleted Element is: " + q.poll());
+		System.out.println("Deleted Element is: " + q.poll());
+		System.out.println("Deleted Element is: " + q.poll());
+		System.out.println("Deleted Element is: " + q.poll());
+		System.out.println("Deleted Element is: " + q.poll());
+		System.out.println("Deleted Element is: " + q.poll());
+		System.out.println("Deleted Element is: " + q.poll());
+		System.out.println("Deleted Element is: " + q.poll());
+		System.out.println("Deleted Element is: " + q.poll());
+		System.out.println("Deleted Element is: " + q.poll());
+		q.add(20);
+		q.add(30);
+		q.add(40);
+		q.add(50);
+		
+		System.out.println("Front element is : " + q.peek());
+		
+		
+
+		
+	}
+
+}
+
+
+------------------- Doubly Ended Queue -----------------
+
+
+class DoublyEndedQu {
+	int front ;
+	int rear ;
+	int arr[];
+	int size;
+	
+	DoublyEndedQu(int size){
+		this.front = -1;
+		this.rear = -1;
+		this.arr = new int[size];
+		this.size = size;
+	}
+	
+	public void addRear(int data) {
+		if(isFull()) {
+			return;
+		}else if(this.front == -1) {
+			this.front = this.rear = 0;
+			this.arr[this.rear] = data;
+		}else if(this.rear == this.size -1 && this.front != 0) {
+			this.rear = 0;
+			arr[this.rear] = data;
+		}else {
+			this.rear++;
+			this.arr[this.rear] = data;
+		}
+	}	
+	
+	public void addFront(int data) {
+		if(isFull()) {
+			return;
+		}else if(this.front == -1) {
+			this.front = this.rear = 0;
+			this.arr[this.rear] = data;
+		}else if(this.front == 0 && this.rear != this.size-1) {
+			this.front= this.size-1;
+			arr[this.front] = data;
+		}else {
+			this.front--;
+			arr[this.front] = data;
+		}
+	}	
+	
+	public boolean isFull() {
+		if((this.front == 0 && this.rear == this.size -1) || (this.front == this.size-1 && this.rear == 0)) {
+			System.out.println("Queue is full");
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+
+	public int pollFront() {
+		if(this.front == -1) {
+			return -1;
+		}else if(this.front == this.size-1) {
+			int temp = this.arr[this.front];
+			this.front = 0;
+			return temp;
+		}else if(this.front == this.rear) {
+			int temp = this.arr[this.front];
+			this.front = this.rear = -1;
+			return temp;
+		}else {
+			int temp = this.arr[this.front];
+			this.front++;
+			return temp;
+		}
+	}
+	
+	public int pollRear() {
+		if(this.front == -1) {
+			return -1;
+		}else if(this.front == this.rear) {
+			int temp = this.arr[this.rear];
+			this.front = this.rear = -1;
+			return temp;
+		}else if(this.rear == 0) {
+			int temp = this.arr[this.rear];
+			this.rear = this.size - 1;
+			return temp;
+		}else {
+			int temp = this.arr[this.rear];
+			this.rear--;
+			return temp;
+		}
+	}
+
+	
+}
+
+public class Que {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		DoublyEndedQu q = new DoublyEndedQu(5);
+		
+		q.addFront(32);
+		q.addRear(532);
+		q.addRear(645532);
+		q.addFront(32);
+		System.out.println(q.pollFront());
+		System.out.println(q.pollFront());
+		System.out.println(q.pollFront());
+		System.out.println(q.pollFront());
+		
+	}
+
+}
+

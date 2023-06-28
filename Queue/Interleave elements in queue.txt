@@ -1,0 +1,25 @@
+    public static void interLeaveQueue(Queue < Integer > q) {
+     
+        if(q.size() <=1) return ;
+        Queue<Integer> s = new LinkedList<>();
+        int n = q.size();
+        int half = n / 2;
+        // put half elemtns to another queue
+        while(half-- > 0){
+            s.add(q.poll());
+        }
+
+        while(!s.isEmpty()){
+            // pull out one element from first half and put in the original queue
+            q.add(s.poll()); 
+            // pull out one element from second half and put in the original queue
+            q.add(q.poll());
+        }
+
+        if(n%2 != 0){
+            q.add(q.poll());
+        }
+        
+    }
+
+    CodeStudio :- https://www.codingninjas.com/studio/problems/interleave-the-first-half-of-the-queue-with-the-second-half_1169450?leftPanelTab=0

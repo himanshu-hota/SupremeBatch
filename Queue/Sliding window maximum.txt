@@ -1,0 +1,89 @@
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        Deque<Integer> dq = new LinkedList<>();
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        // first window
+
+        for(int i = 0 ;i< k ; i++){
+            while(!dq.isEmpty() && nums[dq.peekLast()] <= nums[i]){
+                dq.removeLast();
+            }
+
+            // add current element
+            dq.addLast(i);
+        }
+
+        // store answer of first window
+        ans.add(nums[dq.peekFirst()]);
+
+        // process remaining window
+        for(int i = k; i< nums.length; i++){
+            // remove out of window elements
+            if(!dq.isEmpty() && i - dq.peekFirst() >= k){
+                dq.removeFirst();
+            }
+
+            // again remove smaller element than current
+            while(!dq.isEmpty() && nums[dq.peekLast()] <= nums[i]){
+                dq.removeLast();
+            }
+
+            // add current element
+            dq.addLast(i);
+
+            // store answer
+            ans.add(nums[dq.peekFirst()]);
+        }
+
+        int finalAns[] = new int[ans.size()];
+        int i = 0;
+        for(Integer x : ans){
+            finalAns[i++] = x;
+        }
+        return finalAns;
+    }
+}
+
+
+---------------------------------------------------------------
+
+  public int[] maxSlidingWindow(int[] nums, int k) {
+        
+        int n = nums.length;
+        // check for invalid k values 
+        //if any of k or n is 0 then no further calculaions
+        if (n * k == 0) {
+            return new int[0];
+        }
+
+        // array to store answer
+        int[] result = new int[n - k + 1];
+        Deque<Integer> dq = new LinkedList<>();
+
+        for (int i = 0; i < n; i++) {
+            // Remove elements outside of the current window
+            while (!dq.isEmpty() && dq.peekFirst() <= i - k) {
+                dq.removeFirst();
+            }
+
+            // Remove smaller elements from the deque
+            while (!dq.isEmpty() && nums[dq.peekLast()] < nums[i]) {
+                dq.removeLast();
+            }
+
+            // add current element index to the queue
+            dq.addLast(i);
+
+            // start storing answer only after the first window is processed
+            // Store the maximum element for the current window
+            if (i >= k - 1) {
+                result[i - k + 1] = nums[dq.peekFirst()];
+            }
+        }
+
+        return result;
+    }
+
+
+    LeetCode :- https://leetcode.com/problems/sliding-window-maximum/description/

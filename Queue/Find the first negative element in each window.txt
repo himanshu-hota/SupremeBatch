@@ -1,0 +1,55 @@
+public class Solution {
+    public static int[] firstNegative(int[] arr, int n, int k) {
+
+        // Queue to store index of first negative element of current window
+        Queue < Integer > q = new LinkedList < > ();
+        // arraylist to store actual answer
+        ArrayList < Integer > ans = new ArrayList < > ();
+
+        // add indices of negative elements of first windwo
+        for (int i = 0; i < k; i++) {
+            if (arr[i] < 0)
+                q.add(i);
+        }
+
+        // loop t0 calculate answer for next windows
+        for (int i = k; i < n; i++) {
+            // if queue is empty then there is no negative element in the current window
+            if (q.isEmpty()) {
+                ans.add(0);
+            } else { // otherwise add the element of arr at index q.peek() to ans
+                ans.add(arr[q.peek()]);
+            }
+
+            // remove the redundant indeices from queue
+            while (!q.isEmpty() && (i - q.peek()) >= k) {
+                q.poll();
+            }
+
+            // add index of current element if that is negative
+            if (arr[i] < 0)
+                q.add(i);
+        }
+
+        // this section is for last window
+        if (q.isEmpty()) {
+            ans.add(0);
+        } else {
+            ans.add(arr[q.peek()]);
+        }
+
+        // we have to return answer in form of array so copy element to this
+        int[] finalAns = new int[ans.size()];
+
+        for (int i = 0; i < ans.size(); i++) {
+            finalAns[i] = ans.get(i);
+        }
+
+        // return final answer
+        return finalAns;
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/first-negative-integer-in-every-window-of-size-k3345/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/first-negative-in-every-window_759333?leftPanelTab=1

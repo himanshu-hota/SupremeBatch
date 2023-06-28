@@ -1,0 +1,40 @@
+
+class Solution
+{
+    public String FirstNonRepeating(String s){
+
+    // array to store frequencies of every character    
+    int[] count = new int[26];
+    // queue to store non repeating characters
+    Queue<Character> q = new LinkedList<>();
+    // string to store answer
+    StringBuilder answer = new StringBuilder();
+
+    // traverse the characters one by one
+    for (char c : s.toCharArray()) {
+        // store frequency of the current character
+        count[c - 'a']++;
+        // add it to the queue
+        q.add(c);
+        
+        // remove all repeating characters
+        while (!q.isEmpty() && count[q.peek() - 'a'] > 1) {
+            q.remove();
+        }
+
+        // if queue is emp then all characters till now are repeating
+        if (q.isEmpty()) {
+            answer.append('#');
+        } else {
+            answer.append(q.peek());
+        }
+    }
+
+    return answer.toString();
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/first-non-repeating-character-in-a-stream1216/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/first-unique-character-in-a-string_893404?leftPanelTab=1
