@@ -1,0 +1,65 @@
+class MyQueue {
+
+    Stack < Integer > s1;
+    Stack < Integer > s2;
+
+    public MyQueue() {
+        s1 = new Stack < > ();
+        s2 = new Stack < > ();
+    }
+
+    public void push(int x) {
+        // add new element to s1
+        s1.push(x);
+    }
+
+    public int pop() {
+        // if s2 has any element then only pop elements
+        if (!s2.isEmpty()) {
+            return s2.pop();
+        } else { // otherwise copy elements from s1
+            while (!s1.isEmpty()) {
+                s2.push(s1.pop());
+            }
+
+
+        }
+        if (!s2.isEmpty()) {
+            return s2.pop();
+        } else {
+            return -1;
+        }
+    }
+
+    public int peek() {
+        // if s2 is not empty then it has any element
+        if (!s2.isEmpty()) {
+            return s2.peek();
+        } else { // otherwise copy all elements from s1 
+            while (!s1.isEmpty()) {
+                s2.push(s1.pop());
+            }
+
+        }
+
+        // is st is not empty then only it has any element
+        if (!s2.isEmpty()) {
+            return s2.peek();
+        } else { // otherwise no elements
+            return -1;
+        }
+    }
+
+    public boolean empty() {
+        // if both stacks are empty then only queue is empty
+        return s1.isEmpty() && s2.isEmpty();
+    }
+}
+
+insertion - O(1)
+deletion  - O(n)
+peek      - O(n)
+
+LeetCode :- https://leetcode.com/problems/implement-queue-using-stacks/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/queue-using-stack_799482?leftPanelTab=0

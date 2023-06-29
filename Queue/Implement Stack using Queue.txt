@@ -1,0 +1,107 @@
+class MyStack {
+
+    Queue<Integer> q1;
+    Queue<Integer> q2;
+
+    public MyStack() {
+        q1 = new LinkedList<Integer>();
+        q2 = new LinkedList<Integer>();
+    }
+    
+    public void push(int x) {
+        
+        q2.add(x);
+        while(!q1.isEmpty())    {
+            q2.add(q1.poll());
+        }
+
+        
+        while(!q2.isEmpty()){
+            q1.add(q2.poll());
+        }
+
+    }
+    
+    public int pop() {
+        if(q1.isEmpty())    {
+            return -1;
+        }else{
+           return q1.poll();
+        }
+    }
+    
+    public int top() {
+        if(q1.isEmpty())    {
+            return -1;
+        }else{
+          return q1.peek();
+        }
+    }
+    
+    public boolean empty() {
+        return q1.isEmpty();
+    }
+}
+
+
+Insertion :- O(n);
+deletion  :- O(1)
+peek      :- O(1)
+
+LeetCode :- https://leetcode.com/problems/implement-stack-using-queues/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/stack-using-queue_795152?leftPanelTab=0
+
+
+
+---------------------------------------- method 2 -----------------------------------------------
+public class Stack {
+
+    // Define t he data members.
+    Queue < Integer > q;
+
+    public Stack() {
+        q = new LinkedList < > ();
+    }
+
+    public int getSize() {
+        return q.size();
+
+    }
+
+    public boolean isEmpty() {
+        return q.isEmpty();
+    }
+
+    public void push(int element) {
+
+        q.add(element);
+        // why size-1 ? , because insertion is done at rear so we want
+        // the rear element to be at the front 
+        // if we remove and push again rear also then 
+        // rear element will not be at front
+        for (int i = 0; i < q.size() - 1; i++) {
+            q.add(q.poll());
+        }
+
+
+    }
+
+    public int pop() {
+        // Implement the pop() function.
+        if (q.isEmpty()) {
+            return -1;
+        } else {
+            return q.poll();
+        }
+    }
+
+    public int top() {
+        // Implement the top() function.
+        if (q.isEmpty()) {
+            return -1;
+        } else {
+            return q.peek();
+        }
+    }
+}

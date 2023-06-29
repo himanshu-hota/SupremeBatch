@@ -1,0 +1,107 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+
+class Solution {
+
+    
+  static void maxSlidingWindow(int[] nums, int k,int result[],int result2[]) {
+        
+        int n = nums.length;
+        // check for invalid k values 
+        //if any of k or n is 0 then no further calculaions
+        if (n * k == 0) {
+            return ;
+        }
+
+        Deque<Integer> dq = new LinkedList<>(); // store max index
+        Deque<Integer> dq2 = new LinkedList<>(); // store min index
+
+        for (int i = 0; i < n; i++) {
+             // Remove elements outside of the current window for max 
+            while (!dq.isEmpty() && dq.peekFirst() <= i - k) {
+                dq.removeFirst();
+            }
+            // Remove elements outside of the current window for min 
+            while (!dq2.isEmpty() && dq2.peekFirst() <= i - k) {
+                dq2.removeFirst();
+            }
+
+            // Remove smaller elements from the deque 
+            // from end becuase smaller elements will be ont right side 
+            // and greater (ans) element will be on left side
+            while (!dq.isEmpty() && nums[dq.peekLast()] < nums[i]) {
+                dq.removeLast();
+            }
+            // Remove greater elements from the deque 
+            // from end becuase greater elements will be ont right side 
+            // and smaller (ans) element will be on left side
+            while (!dq2.isEmpty() && nums[dq2.peekLast()] > nums[i]) {
+                dq2.removeLast();
+            }
+
+            // add current element index to the queue
+            dq.addLast(i);
+            dq2.addLast(i);
+
+
+            // start storing answer only after the first window is processed
+            // Store the maximum and minimum element for the current window
+            if (i >= k - 1) {
+                result[i - k + 1] = nums[dq.peekFirst()];
+                result2[i - k + 1] = nums[dq2.peekFirst()];
+            }
+        }
+
+        
+    }
+
+    public static void main(String[] args) {
+        int nums[] = {1,3,-1,-3,5,3,6,7};
+        int n = nums.length;
+        int k = 3;
+        int[] max = new int[n - k + 1];
+        int[] min = new int[n - k + 1];
+        
+        maxSlidingWindow(nums,k,max,min);
+
+        int sum[] = new int[min.length];
+
+        for(int i = 0; i < sum.length; i++){
+            sum[i]  = max[i] + min[i];
+        }
+
+        System.out.print("Array :- ");
+
+        for(int x : nums){
+            System.out.print(x + ",");
+        }
+
+
+        System.out.println();
+
+
+        System.out.print("Max array :- ");
+
+        for(int x : max){
+            System.out.print(x + ",");
+        }
+
+
+        System.out.println();
+        System.out.print("Min array :- ");
+
+        for(int x : min){
+            System.out.print(x + ",");
+        }
+
+        System.out.println();
+        System.out.print("Sum array :- ");
+
+        for(int x : sum){
+            System.out.print(x + ",");
+        }
+
+        
+    }
+}

@@ -1,0 +1,48 @@
+import java.util.* ;
+import java.io.*; 
+public class Queue {
+	LinkedList<Integer> head;
+	Queue() {
+        
+	head = new LinkedList<>();	  
+
+    }
+
+
+    /*----------------- Public Functions of Queue -----------------*/
+
+    boolean isEmpty() {
+        return head.isEmpty();
+    }
+
+    void enqueue(int data) {
+        // Implement the enqueue() function
+		head.add(data);
+    }
+
+    int dequeue() {
+		if(head.isEmpty()){
+			return -1;
+		}else{
+			return head.removeFirst();	
+		}
+		
+    }
+
+    int front() {
+		if(!head.isEmpty()){
+			return head.get(0);	
+		}else{
+			return -1;
+		}
+		
+     
+    }
+
+}
+
+
+
+
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/queue-using-array-or-singly-linked-list_2099908?leftPanelTab=1
