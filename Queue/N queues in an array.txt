@@ -89,3 +89,74 @@ public class NQueue {
 
 
 CodeStudio :- https://www.codingninjas.com/studio/problems/n-queue-using-array_1170053?leftPanelTab=0
+
+
+---------------------------------------------
+
+
+
+
+public class NQueue {
+	int arr[],next[],rear[],front[];
+	int freeSpot;
+	public NQueue(int n, int s) {
+		// Write your code here.
+		this.arr = new int[s];
+		this.next = new int[s];
+		this.front = new int[n];
+		this.rear = new int[n];
+
+		this.freeSpot = 0;
+		
+			
+		for(int i = 0; i < n ; i++){
+			front[i] = rear[i] = -1;
+		}
+
+		for(int i = 0 ; i<s-1 ; i++){
+			next[i] =i+1;
+		}
+
+		next[s-1] = -1;
+		
+	}
+
+	// Enqueues 'X' into the Mth queue. Returns true if it gets pushed into the queue, and false otherwise.
+	public boolean enqueue(int x, int m) {
+		if(freeSpot == -1) return false;
+
+		int index = freeSpot ; 
+		freeSpot = next[index];
+		
+		if(front[m-1] == -1){
+			front[m-1] = rear[m-1] = index;
+		}else{
+			next[rear[m-1]]  = index;
+			rear[m-1] = index;
+		}
+
+		next[index] = -1;
+		arr[index] = x;
+
+
+		return true;
+	}
+
+	// Dequeues top element from Mth queue. Returns -1 if the queue is empty, otherwise returns the popped element.
+	public int dequeue(int m) {
+		if(front[m-1] == -1){
+			return -1;
+		}
+
+		int index = front[m-1];
+		front[m-1] = next[index];
+		
+		if(front[m-1] == -1){
+			rear[m-1] = -1;
+		}
+		
+		next[index] = freeSpot;
+		freeSpot = index;
+		return arr[index];
+	}
+};
