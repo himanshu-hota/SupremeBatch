@@ -1,0 +1,91 @@
+public class NQueue {
+    private int[] arr;
+    private int[] front;
+    private int[] rear;
+    private int[] next;
+    private int freeSpace;
+    private int totalQueues;
+    private int size;
+
+    public NQueue(int n, int s) {
+        arr = new int[s]; // make array of size s
+		next = new int[s]; // array to track next element of each queue
+        front = new int[totalQueues]; // array to track front element of each queue
+        rear = new int[totalQueues]; // array to track rear element of each queue
+		totalQueues = n; // total number of queues to implement
+        freeSpace = 0; // initial index of free space
+
+		// initially all front and rear are set to -1
+        for (int i = 0; i < totalQueues; i++) {
+            front[i] = -1;
+            rear[i] = -1;
+        }
+        
+		// initially each block points to its next free block
+        for (int i = 0; i < size; i++) {
+            next[i] = i + 1;
+        }
+		// last block doesnt have any further free block
+        next[size - 1] = -1;
+
+
+    }
+
+    public boolean enqueue(int x, int m) {
+		// check if there is free space or not
+        if (freeSpace == -1)
+            return false;
+
+		// get the index to store element at
+        int index = freeSpace;
+		// update freeSpace
+        freeSpace = next[index];
+
+		// if it is the first element to store
+        if (front[m - 1] == -1) {
+            front[m - 1] = index;
+            rear[m - 1] = index;
+        } else { // Link the new element index to rear of current
+            next[rear[m - 1]] = index;
+            rear[m - 1] = index;
+        }
+
+		// update next element index
+        next[index] = -1;
+		// finally insert element at index
+        arr[index] = x;
+
+        return true;
+    }
+
+    public int dequeue(int m) {
+		// check if there is any element to delete
+        if (front[m - 1] == -1)
+            return -1;
+
+		// get the index from where element is to be deleted
+        int index = front[m - 1];
+		// move the front element to next element (delete)
+        front[m - 1] = next[index];
+
+		// if after moving front element the queue
+		// becomes empty then also update the rear to point to -1
+        if (front[m - 1] == -1)
+            rear[m - 1] = -1;
+
+		// free the current index space in next array 
+		// because index element has been deleted
+        next[index] = freeSpace;
+		// update free space as element has been 
+		// deleted from the index
+        freeSpace = index;
+
+		// return deleted element;
+        return arr[index];
+    }
+
+
+}
+
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/n-queue-using-array_1170053?leftPanelTab=0
