@@ -1,0 +1,23 @@
+// follow L R N in this method
+    static void helper(TreeNode root , List<Integer> ans){
+        if(root == null) return;
+        
+        helper(root.left,ans); // L
+        helper(root.right,ans); // R
+        ans.add(root.val); // N
+
+    }
+
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+
+        if(root == null) return ans;
+        helper(root,ans);
+        return ans;
+    }
+
+LeetCode :- https://leetcode.com/problems/binary-tree-postorder-traversal/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/postorder-traversal/1
+
+CodeStudio :-https://www.codingninjas.com/studio/problems/postorder-traversal_3839614?leftPanelTab=1

@@ -1,0 +1,24 @@
+    // follow N L R in this method
+    static void helper(TreeNode root , List<Integer> ans){
+        if(root == null) return;
+        
+
+        ans.add(root.val); // N
+        helper(root.left,ans); // L
+        helper(root.right,ans); // R
+
+    }
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+
+        if(root == null) return ans;
+        helper(root,ans);
+        return ans;
+    }
+
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/preorder-traversal_2035934?leftPanelTab=1
+
+GFG :- https://practice.geeksforgeeks.org/problems/preorder-traversal/1
+
+LeetCode :- https://leetcode.com/problems/binary-tree-preorder-traversal/description/

@@ -1,0 +1,24 @@
+class Solution {
+    // follow L N R in this method
+    static void helper(TreeNode root , List<Integer> ans){
+        if(root == null) return;
+        
+        helper(root.left,ans); // L
+        ans.add(root.val); // N
+        helper(root.right,ans); // R
+
+    }
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+
+        if(root == null) return ans;
+        helper(root,ans);
+        return ans;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/binary-tree-inorder-traversal/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/inorder-traversal_3839605?leftPanelTab=1
+
+GFG :- https://practice.geeksforgeeks.org/problems/inorder-traversal/1

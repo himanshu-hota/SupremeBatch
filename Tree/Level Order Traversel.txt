@@ -1,0 +1,77 @@
+  static ArrayList <Integer> levelOrder(Node node) 
+    {
+        // Your code here
+        if(node == null) return new ArrayList<Integer>();
+        
+        Queue<Node> q = new LinkedList<>();
+        ArrayList<Integer> ans = new ArrayList<>();
+        q.add(node);
+        
+        while(!q.isEmpty()){
+            Node temp = q.poll();
+            ans.add(temp.data);
+            
+            if(temp.left != null) q.add(temp.left);
+            
+            if(temp.right != null) q.add(temp.right);
+            
+        }
+        
+        return ans;
+    }
+CodeStudio :- https://www.codingninjas.com/studio/problems/level-order-traversal_796002?leftPanelTab=1
+
+GFG :- https://practice.geeksforgeeks.org/problems/level-order-traversal/1.
+
+
+  public List<List<Integer>> levelOrder(TreeNode root) {
+        // list to store ans
+        List<List<Integer>> ans = new ArrayList<>();
+        // if root is null then there is no solution possible
+        if(root == null) return ans;
+
+        // queue to store each level elements
+        Queue<TreeNode> q = new LinkedList<>();
+        // initiallly add root to the queue and
+        q.add(root);
+        // a null to mark the level completion
+        q.add(null);
+        // list to store curr level elements
+        List<Integer> curr = new ArrayList<>();
+
+        // loop till the queue has elements
+        while(!q.isEmpty()){
+            
+            // pull out the parent node
+            TreeNode temp = q.poll();
+            
+            // if it is null then it means that
+            // one level has completed
+            if(temp == null){
+                // add one level answer to ans
+                ans.add(curr);
+                // reset curr level elements
+                curr = new ArrayList<>();
+                // if still there are elements in the tree
+                // then only push null to mark level completion
+                if(!q.isEmpty()){
+                    q.add(null);
+                }
+            }else{ 
+                // if parent isn't null then add the element
+                // to curr list     
+                curr.add(temp.val);
+                // if the parent has any left subtree then add it to the queue
+                if(temp.left != null) q.add(temp.left);
+                // if the parent has any right subtree then add it to the queue
+                if(temp.right != null) q.add(temp.right);
+            }
+
+            
+        }
+
+        // at the end return ans
+        return ans;
+    }
+
+    LeetCode :- https://leetcode.com/problems/binary-tree-level-order-traversal/description/

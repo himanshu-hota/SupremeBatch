@@ -1,0 +1,68 @@
+import java.util.*;
+import java.util.LinkedList;
+
+class Node{
+	int data;
+	Node left;
+	Node right;
+	
+	Node(int data){
+			this.data = data;
+			this.left = null;
+			this.right = null;
+	}
+	
+
+}
+
+public class Tre {
+	
+	static void levelOrderTraversel(Node root) {
+		Queue<Node> q = new LinkedList<>();
+		
+		q.add(root);
+		
+		while(!q.isEmpty()) {
+			
+			Node temp = q.poll();
+			
+			System.out.print(temp.data + ", ");
+			if(temp.left != null)
+			q.add(temp.left);
+			if(temp.right != null)
+			q.add(temp.right);
+			
+		}
+		
+		
+	}
+
+	static Node buildTree() {
+		System.out.print("Enter data : ");
+		Scanner sc = new Scanner(System.in);
+		int data = sc.nextInt();
+		System.out.println();
+		
+		
+		if(data == -1) return null;
+		
+		Node root = new Node(data);
+		System.out.println("Enter data for left of " + data);
+		root.left = buildTree();
+		System.out.println("Enter data for right of " + data);
+		root.right = buildTree();
+		
+		return root;
+		
+	}
+		
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		Node root = buildTree();
+		
+		
+		levelOrderTraversel(root);
+	}
+
+}
