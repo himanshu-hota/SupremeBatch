@@ -1,3 +1,5 @@
+------------------------------- Recursive ----------------------------------
+
 // follow L R N in this method
     static void helper(TreeNode root , List<Integer> ans){
         if(root == null) return;
@@ -15,6 +17,37 @@
         helper(root,ans);
         return ans;
     }
+
+------------------------------- Iterative ----------------------------------
+
+   ArrayList<Integer> postOrder(Node node) {
+    ArrayList<Integer> ans = new ArrayList<>();
+    Stack<Node> st = new Stack<>();
+    Node curr = node;
+    Node prev = null;
+    
+    while (curr != null || !st.isEmpty()) {
+        // if current node is not null then
+        // move toward left until we reach the most lower left node
+        if (curr != null) {
+            st.push(curr);
+            curr = curr.left;
+        } else {
+            Node temp = st.peek().right;
+            // temp == prev is to track whether the subtree of current node 
+            // has been added to ans or not (VVIMP)
+            if (temp == null || temp == prev) {
+                temp = st.pop();
+                ans.add(temp.data);
+                prev = temp;
+            } else {
+                curr = temp;
+            }
+        }
+    }
+    
+    return ans;
+}
 
 LeetCode :- https://leetcode.com/problems/binary-tree-postorder-traversal/description/
 

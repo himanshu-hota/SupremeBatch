@@ -1,3 +1,5 @@
+------------------------ Recursive --------------------------
+
 class Solution {
     // follow L N R in this method
     static void helper(TreeNode root , List<Integer> ans){
@@ -16,6 +18,31 @@ class Solution {
         return ans;
     }
 }
+
+----------------------- Iterative ----------------------------
+
+
+ public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+
+        if(root == null) return ans;
+        Stack<TreeNode> st = new Stack<>();
+        TreeNode curr = root;
+        while(curr != null || !st.isEmpty()){
+            while(curr != null){
+                st.push(curr);
+                curr = curr.left;
+            }
+        
+            curr = st.pop();
+
+            ans.add(curr.val);
+            curr = curr.right;
+
+        }
+        
+        return ans;
+    }
 
 LeetCode :- https://leetcode.com/problems/binary-tree-inorder-traversal/description/
 

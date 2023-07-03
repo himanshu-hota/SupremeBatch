@@ -1,0 +1,59 @@
+public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        
+        List<List<Integer>> finalAns = new ArrayList<>();
+
+        // if root is null then there is no possible answer
+        if(root == null) return finalAns;
+        
+        // stack to store answer in reverse order.
+        Stack<List<Integer>> st = new Stack<>();
+        
+        // queue to store level wise answer
+        Queue<TreeNode> q = new LinkedList<>();
+        
+        // initiallly add root to queue
+        q.add(root);
+
+        // add null to mark level completion
+        q.add(null);
+
+        // list to track current level elements
+        List<Integer> curr = new ArrayList<>();
+
+        // traverse the tree
+        while(!q.isEmpty()){
+            // get current node
+            TreeNode temp = q.poll();
+            
+            // current node is null then it means
+            // one level has completed
+            if(temp == null){
+                // add current level to answer
+                st.push(curr);
+                // reset curr list
+                curr = new ArrayList<>();
+                // only add element if tree has further level
+                // which can be detected by a non emp queue
+                if(!q.isEmpty()){
+                    q.add(null);
+                }
+            }else{
+                // add curr element to curr list
+                curr.add(temp.val);
+
+                // add left of curr node if exists
+                if(temp.left != null) q.add(temp.left);
+                // add right of curr node if exists
+                if(temp.right != null) q.add(temp.right);
+            }
+        }
+        
+        // add the final answer in correct order.
+        while(!st.isEmpty()){
+            finalAns.add(st.pop());
+        }
+
+        return finalAns;
+    }
+
+    LeetCode :- https://leetcode.com/problems/binary-tree-level-order-traversal-ii/description/
