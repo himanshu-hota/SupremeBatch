@@ -1,0 +1,69 @@
+
+public class Solution {      
+
+    static int k;
+    static boolean helper(BinaryTreeNode<Integer> root,int target, int arr[]){
+        if(root == null) return false;
+
+        // if found the target then start decreasing the counter (k)
+        if(root.data == target){    
+            k -=1;
+            // return true because yes we found the match
+            return true;
+        }else{
+            // search for target in left subtree
+            boolean leftAns = helper(root.left,target,arr);
+
+            // if we found the target in left subtree
+            if(leftAns == true){
+                // and counter is zero then it is the kth ancestor
+                if(k == 0){
+                    arr[0] = root.data;
+                }
+
+                // if we have not reached kth ancestor
+                // then keep decreasing the counter
+                k -=1;
+                // return true because yes we have found the match
+                return true;
+
+            }
+            // search for target in right subtree
+            boolean rightAns = helper(root.right,target,arr);
+            // if we found the target in right subtree
+            if(rightAns == true){
+                // and counter is zero then it is the kth ancestor
+                if(k == 0){
+                    arr[0] = root.data;
+                }
+
+                // if we have not reached kth ancestor
+                // then keep decreasing the counter
+                k -=1;
+                // return true because yes we have found the match
+                return true;
+
+            }
+        }
+
+      return false;
+    }
+  
+    static int findKthAncestor(BinaryTreeNode<Integer> root, int targetNodeVal, int kth) {
+        // array to store the kth ancestor
+        int[] result = {-1};
+
+        // making data static because java is pass by value always for formal args
+        k = kth;
+        
+        // calling helper function to solve this problem
+        helper(root, targetNodeVal, result);
+
+        return result[0];
+    }
+}   
+
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/kth-ancestor-of-a-node-in-binary-tree_842561?leftPanelTab=0
+
+GFG :- https://practice.geeksforgeeks.org/problems/kth-ancestor-in-a-tree/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

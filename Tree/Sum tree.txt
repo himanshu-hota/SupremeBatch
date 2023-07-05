@@ -1,0 +1,33 @@
+
+class Solution{
+    
+    static int helper(Node root){
+        if(root == null) return 0;
+        
+        // get sum of left sub tree
+        int leftSum = helper(root.left);
+        // get sum of right sub tree
+        int rightSum = helper(root.right);
+        
+        // extract the root data
+        int temp = root.data;
+
+        // replace root with sum of its children        
+        root.data = leftSum + rightSum;
+        
+        // return total sum 
+        return root.data + temp;
+    }
+    
+    public void toSumTree(Node root){
+         //add code here.
+         
+         if(root == null) return ;
+         
+         helper(root);
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/transform-to-sum-tree/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/convert-a-binary-tree-to-its-sum-tree_920395?leftPanelTab=1

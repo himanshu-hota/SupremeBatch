@@ -1,0 +1,23 @@
+  public static boolean identicalTrees(BinaryTreeNode<Integer> p, BinaryTreeNode<Integer> q) {
+        // if both trees are null then they are identical
+       if (p == null && q == null) {
+            return true;
+        }
+
+        // if any of tree is null then they can not be identical
+        if (p == null || q == null) {
+            return false;
+        }
+
+        // if data of root of both and left as well as right sub tree are equal
+        // then only they are identical
+        return p.data.equals(q.data) && identicalTrees(p.left, q.left) && identicalTrees(p.right, q.right);
+    }
+
+
+
+    LeetCode :- https://leetcode.com/problems/same-tree/description/
+
+    CodeStudio :- https://www.codingninjas.com/studio/problems/identical-trees_799364?leftPanelTab=1
+
+

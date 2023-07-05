@@ -1,0 +1,36 @@
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // base case
+        if(root == null) return null;
+
+        // if found the p then return p
+        if(root.val == p.val) return root;
+        // if found the q return q
+        if(root.val == q.val) return root;
+
+        // find p or q in left sub tree
+        TreeNode left = lowestCommonAncestor(root.left,p,q);
+        // find p or q in right sub tree
+        TreeNode right = lowestCommonAncestor(root.right,p,q);
+
+        // if found both p and q then root is the lowest common ancestor
+        if(left != null && right != null){
+            return root;
+        }else if(left != null && right == null){ 
+            // if found p and q in left part then return left
+            return left;
+        }else if(left == null && right != null){
+            // if found p and q in right part then return right
+            return right;
+        }else{
+            // if we are here then it means
+            // we didn't found any of p or q
+            // simply return null
+            return null;
+        }
+    }
+
+    LeetCode :- https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/
+
+    CodeStudio :- https://www.codingninjas.com/studio/problems/lca-of-binary-tree_920541?leftPanelTab=1
+
+    GFG :- https://practice.geeksforgeeks.org/problems/lowest-common-ancestor-in-a-binary-tree/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

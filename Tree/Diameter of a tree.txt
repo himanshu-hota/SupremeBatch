@@ -1,0 +1,29 @@
+class Solution {
+    static int height(TreeNode root){
+        if(root == null) return 0;
+
+        int left = height(root.left);
+        int right = height(root.right);
+        int ans = Math.max(left,right)+1;
+
+        return ans;
+    }
+    public int diameterOfBinaryTree(TreeNode root) {
+        if(root ==null) return 0;
+
+        int leftD = diameterOfBinaryTree(root.left);
+        int rightD = diameterOfBinaryTree(root.right);
+
+        int includingRoot = height(root.left) + height(root.right);
+
+        int ans = Math.max(leftD,Math.max(rightD,includingRoot));
+
+
+
+        return ans;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/diameter-of-binary-tree/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/diameter-of-the-binary-tree_920552?leftPanelTab=1
