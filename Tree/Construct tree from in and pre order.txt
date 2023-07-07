@@ -1,0 +1,101 @@
+class Solution {
+
+ static int preIndex;
+    
+    static int findIndex(int arr[],int element,int n){
+        if(n < 1){
+            return -1;
+        }
+        
+        for(int i = 0 ;i < n ; i++){
+            if(arr[i] == element) return i;
+        }
+        
+        return -1;
+    }
+    
+    static TreeNode buildTree(int inorder[],int preorder[],int size,int inStart,int inEnd){
+        
+        if(preIndex >=size || inStart > inEnd){
+            return null;
+        }
+        
+        // get root element
+        int element = preorder[preIndex++];
+        // find root in inorder
+        TreeNode root = new TreeNode(element);
+        // find index of root in inorder
+        int pos = findIndex(inorder,element,size);
+        
+        // call for left subtree
+        root.left = buildTree(inorder,preorder,size,inStart,pos-1);
+        // call for right subtree
+        root.right = buildTree(inorder,preorder,size,pos+1,inEnd);
+        
+        // return root
+        return root;
+    }
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int n = preorder.length;
+         if(n<1) return null;
+        preIndex = 0;
+        TreeNode ans = buildTree(inorder,preorder,n,0,n);
+        
+        return ans;
+    }
+}
+
+------------------------------ Optimized approach -----------------------------------
+
+class Solution {
+
+    static int preIndex;
+
+
+    static TreeNode buildTree(int inorder[], int preorder[], int size, int inStart, int inEnd, Map < Integer, Integer > elementIndexMap) {
+        // if at any point pre index is out of bound or
+        // there is no element left to put then return null
+        if (preIndex >= size || inStart > inEnd) {
+            return null;
+        }
+
+        // get root element
+        int element = preorder[preIndex++];
+        // find root in inorder
+        TreeNode root = new TreeNode(element);
+        // find index of root in inorder
+        int pos = elementIndexMap.get(element);
+
+        // call for left subtree
+        root.left = buildTree(inorder, preorder, size, inStart, pos - 1, elementIndexMap);
+        // call for right subtree
+        root.right = buildTree(inorder, preorder, size, pos + 1, inEnd, elementIndexMap);
+
+        // return root
+        return root;
+    }
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int n = preorder.length;
+        if (n < 1) return null;
+        preIndex = 0;
+
+        // map the element with its index to avoid linear search
+        // and improove time complexity
+        Map < Integer, Integer > elementIndexMap = new HashMap < > ();
+        for (int i = 0; i < n; i++) {
+            elementIndexMap.put(inorder[i], i);
+        }
+
+        TreeNode ans = buildTree(inorder, preorder, n, 0, n, elementIndexMap);
+
+        return ans;
+    }
+}
+
+
+
+LeetCode :- https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/construct-a-binary-tree-from-preorder-and-inorder-traversal_920539?leftPanelTab=0

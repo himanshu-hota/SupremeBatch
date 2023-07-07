@@ -1,0 +1,47 @@
+
+class Solution {
+
+    static boolean helper(TreeNode root, int target, int currSum){
+        if(root  == null) return false;
+
+        // include current node element 
+        currSum += root.val;
+        
+        // check on leaf node
+        if(root.left == null && root.right == null){
+            // if found ans then return true
+            if(currSum == target) {
+                return true;
+            }
+
+        }
+        
+        // search ans in left subtree
+        boolean left = helper(root.left,target,currSum);
+        // search ans in right subtree
+        boolean right = helper(root.right,target,currSum);
+
+        // found ans then return 
+        if(left || right){
+            return true;
+        }
+
+        // backtrack if we didn't found any possible ans
+        // backTrack -- remove current node element from the currSum
+         currSum -= root.val;
+
+        return false;
+    }
+
+
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if(root == null)    return false;
+        int currSum = 0;
+        boolean ans = helper(root,targetSum,currSum);
+        return ans;
+
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/path-sum/description/

@@ -1,0 +1,36 @@
+public class Solution 
+{
+
+    static boolean res = true;
+
+    static int helper(TreeNode<Integer> root) {
+        if (root == null)
+            return 0;
+
+        // check on leaf node
+        if (root.left == null && root.right == null)
+            return root.val;
+
+        // get answer from left subtree
+        int l = helper(root.left);
+        // get answer from right subtree
+        int r = helper(root.right);
+
+        // if root is sum of left and right subtree then only
+        // it is a sum tree
+        if (root.val != l + r)
+            res = false;
+
+        return l + r + root.val;
+    }
+    public static boolean isSumTree(TreeNode<Integer> root) {
+        res = true;
+        helper(root);
+        return res;
+}
+
+}
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/check-if-binary-tree-is-sum-tree-or-not_1164404?leftPanelTab=1
+
+GFG :- https://practice.geeksforgeeks.org/problems/sum-tree/1

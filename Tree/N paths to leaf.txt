@@ -1,0 +1,44 @@
+
+public class Solution {
+
+        static int count =0;
+       static boolean helper(TreeNode<Integer> root, int target, int currSum){
+        if(root  == null) return false;
+
+        // include current node element 
+        currSum += root.data;
+        
+        // check on leaf node
+        if(root.left == null && root.right == null){
+            // if found ans then return true
+            if(currSum == target) {
+                ++count;
+                return true;
+            }
+
+        }
+        
+        // search ans in left subtree
+        boolean left = helper(root.left,target,currSum);
+        // search ans in right subtree
+        boolean right = helper(root.right,target,currSum);
+
+    
+        // backTrack -- remove current node element from the currSum
+         currSum -= root.data;
+
+        return false;
+    }
+    public static int pathSum(TreeNode<Integer> root, int target)  {
+        
+        if(root == null)    return 0;
+        int currSum = 0;
+        count = 0;
+        boolean ans = helper(root,target,currSum);
+        return count;
+
+    }
+}
+
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/path-sum_3170353

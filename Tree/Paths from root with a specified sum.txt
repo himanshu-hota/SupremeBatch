@@ -1,0 +1,47 @@
+
+class Solution
+{
+    
+        static void helper(Node root, int target, ArrayList < Integer > temp, ArrayList < ArrayList < Integer >> ans, int currSum) {
+        if (root == null) return;
+
+    
+            // add current node element
+            temp.add(root.data);
+            currSum += root.data;
+
+            // if currSum is equal to target then it means
+            // we have found one answer
+            if (currSum == target) {
+                ans.add(new ArrayList < > (temp));
+            //backtrack -- remove the currently added element
+            temp.remove(temp.size() - 1);
+            currSum -= root.data;
+            return;
+            }
+
+ 
+        // find sum in left subtree
+        helper(root.left, target, temp, ans, currSum);
+        // find sum in right subtree
+        helper(root.right, target, temp, ans, currSum);
+
+
+        //backtrack -- remove the currently added node element
+        temp.remove(temp.size() - 1);
+        currSum -= root.data;
+    }
+    
+    public static ArrayList<ArrayList<Integer>> printPaths(Node root, int sum)
+    {
+          ArrayList < ArrayList < Integer >> ans = new ArrayList < > ();
+
+        if (root == null) return ans;
+        ArrayList < Integer > temp = new ArrayList < > ();
+        int currSum = 0;
+        helper(root, sum, temp, ans, currSum);
+        return ans;
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/paths-from-root-with-a-specified-sum/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

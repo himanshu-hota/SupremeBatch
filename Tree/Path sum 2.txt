@@ -1,0 +1,51 @@
+class Solution {
+
+    static void helper(TreeNode root, int target, List < Integer > temp, List < List < Integer >> ans, int currSum) {
+        if (root == null) return;
+
+        if (root.left == null && root.right == null) {
+            // add current node element
+            temp.add(root.val);
+            currSum += root.val;
+
+            // if currSum is equal to target then it means
+            // we have found one answer
+            if (currSum == target) {
+                ans.add(new ArrayList < > (temp));
+            }
+
+            //backtrack -- remove the currently added element
+            temp.remove(temp.size() - 1);
+            currSum -= root.val;
+            return;
+        }
+
+        // add current element
+        temp.add(root.val);
+        currSum += root.val;
+
+        // find sum in left subtree
+        helper(root.left, target, temp, ans, currSum);
+        // find sum in right subtree
+        helper(root.right, target, temp, ans, currSum);
+
+
+        //backtrack -- remove the currently added node element
+        temp.remove(temp.size() - 1);
+        currSum -= root.val;
+    }
+
+    public List < List < Integer >> pathSum(TreeNode root, int targetSum) {
+        List < List < Integer >> ans = new ArrayList < > ();
+
+        if (root == null) return ans;
+        List < Integer > temp = new ArrayList < > ();
+        int currSum = 0;
+        helper(root, targetSum, temp, ans, currSum);
+        return ans;
+    }
+} 
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/finding-paths_1281314?leftPanelTab=1
+
+LeetCode :- https://leetcode.com/problems/path-sum-ii/
