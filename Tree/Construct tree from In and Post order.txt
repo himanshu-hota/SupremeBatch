@@ -1,0 +1,53 @@
+class Solution {
+    static int postIndex ;
+
+    static TreeNode build(int inorder[],int postorder[],int size,int inStart,int inEnd,Map<Integer,Integer> findIndex){
+
+        if(postIndex < 0 || inStart > inEnd){
+            return null;
+        }
+
+        int element = postorder[postIndex--];
+        TreeNode root  = new TreeNode(element);
+        int pos = findIndex.get(element);
+
+        // Call for the right subtree first
+        // because in post order  L R N
+        // Right subtree is just before N(Root)
+        root.right = build(inorder, postorder, size, pos + 1, inEnd, findIndex);
+        // Call for the left subtree
+        root.left = build(inorder, postorder, size, inStart, pos - 1, findIndex);
+
+        return root;
+
+    }
+
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+
+        int n = inorder.length;
+
+        if (n <= 0) return null;
+
+        // start the pointer from end because 
+        // it is post order
+        postIndex = n - 1;
+        
+        // map elements to its index
+        Map<Integer, Integer> findIndex = new HashMap<>();
+        
+        for (int i = 0; i < n; i++) {
+            findIndex.put(inorder[i], i);
+        }
+
+        TreeNode ans = build(inorder, postorder, n, 0, n - 1, findIndex);
+
+        return ans;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/tree-from-postorder-and-inorder/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/construct-binary-tree-from-inorder-and-postorder-traversal_1266106?leftPanelTab=0

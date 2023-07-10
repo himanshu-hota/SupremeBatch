@@ -1,0 +1,64 @@
+
+class Pairs{
+    Node value ;
+    int key;
+    
+    Pairs(int key,Node val){
+        this.value = val;
+        this.key = key;
+    }
+}
+
+
+class Solution
+{
+    //Function to return a list containing the bottom view of the given tree.
+    public ArrayList <Integer> bottomView(Node root)
+    {
+        if(root==null) return new ArrayList<>();
+        
+        // map to store the final answer
+        Map<Integer,Integer> map = new TreeMap<>();
+        
+        // queue to store the the Pair
+        // a pair is element and its horizontal distance from root
+        Queue<Pairs> q = new LinkedList<>();
+        // initially root to queue
+        q.add(new Pairs(0,root));
+        
+        // traverse the tree in level order
+        while(!q.isEmpty()){
+            Pairs curr = q.poll();
+            
+            int hd = curr.key;
+            Node node = curr.value;
+            
+            // we are replacing element in the map in specified index
+            // because we want to store the bottom view elements
+            map.put(hd,node.data);
+            
+            // add left to queue if it exists 
+            if(node.left != null){
+                q.add(new Pairs(hd-1,node.left));
+            }
+            
+            // add right to queue if it exists 
+            if(node.right != null){
+                q.add(new Pairs(hd+1,node.right));
+            }
+        }
+
+        // ArrayList to store the final answer
+        ArrayList<Integer> ans = new ArrayList<>();
+        // store the final answer
+        for(Integer x : map.values()){
+            ans.add(x);
+        }
+        
+        return ans;
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/bottom-view-of-binary-tree/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/bottom-view-of-binary-tree_893110?leftPanelTab=1

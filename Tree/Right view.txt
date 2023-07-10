@@ -1,0 +1,30 @@
+class Solution{
+    
+    static void right(Node root, int level , ArrayList<Integer> ans){
+        if(root == null) return ;
+        
+        if(level == ans.size()){
+            ans.add(root.data);
+        }
+        
+        if(root.right != null) right(root.right,level+1,ans);
+        if(root.left != null) right(root.left,level+1,ans);
+    }
+    //Function to return list containing elements of right view of binary tree.
+    ArrayList<Integer> rightView(Node node) {
+        
+        if(node == null) return new ArrayList<>();
+        
+        ArrayList<Integer> ans = new ArrayList<>();
+        
+        right(node, 0 , ans);
+        
+        return ans;
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/right-view-of-binary-tree/1
+
+LeetCode :- https://leetcode.com/problems/binary-tree-right-side-view/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/right-view_764605?leftPanelTab=1

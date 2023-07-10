@@ -1,0 +1,89 @@
+
+class Solution{
+    
+    static void leftBoundary(Node root,ArrayList<Integer> ans){
+        
+        if(root == null) return ;
+        
+        // dont add leaf nodes
+        if(root.left == null && root.right == null) return;
+        
+        // add the element
+        ans.add(root.data);
+        
+        // go left left left
+        if(root.left != null){
+            leftBoundary(root.left,ans);
+        }else{
+             // go right only when left is null
+            leftBoundary(root.right,ans);
+        }
+        
+    }
+    
+    static void leaf(Node root, ArrayList<Integer> ans){
+        if(root == null) return ;
+        
+        if(root.left == null && root.right == null){
+            ans.add(root.data);
+        }
+        
+        leaf(root.left,ans);
+        leaf(root.right,ans);
+    }
+    
+    static void rightBoundary(Node root,ArrayList<Integer> ans){
+        
+        if(root == null) return ;
+        
+        // dont add leaf nodes 
+        if(root.left == null && root.right == null) return;
+        
+        // go right right right
+        if(root.right != null){
+            rightBoundary(root.right,ans);
+        }else{
+            // go left only when right is null
+            rightBoundary(root.left,ans);
+            
+        }
+        
+        // adding element at end because
+        // we want to add right elements 
+        // from bottom to top
+        ans.add(root.data);
+        
+    }
+    
+	ArrayList <Integer> boundary(Node node){
+	    
+	    ArrayList<Integer> ans = new ArrayList<>();
+	    
+	    if(node == null) return ans;
+	    
+        // this condition if for when tree has only one element
+	    if(node.left == null && node.right == null){
+	        ans.add(node.data);
+	        return ans;
+	    }
+
+        // add root data
+	    ans.add(node.data);
+
+        // get left elements
+	    leftBoundary(node.left,ans);
+        // get leaf nodes
+	    leaf(node,ans);
+        // get right nodes
+	    rightBoundary(node.right,ans);
+	    
+        // final ans
+	    return ans;
+	    
+	}
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/boundary-traversal-of-binary-tree/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/boundary-traversal_790725?leftPanelTab=1

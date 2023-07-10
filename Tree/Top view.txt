@@ -1,0 +1,68 @@
+
+class Pair {
+
+    BinaryTreeNode node;
+
+    int hd;
+    public Pair(BinaryTreeNode val, int level) {
+
+        this.node = val;
+
+        this.hd = level;
+
+    }
+
+}
+
+public class Solution {
+
+    public static ArrayList < Integer > getTopView(BinaryTreeNode root) {
+
+        // Write your code here.
+
+        ArrayList < Integer > res = new ArrayList < > ();
+        if (root == null) return res;
+
+        // TreeMap instead of HashMap because 
+        // TreeMap store values in sorted order
+        Map < Integer, Integer > map = new TreeMap < > ();
+        Queue < Pair > q = new LinkedList < > ();
+
+        // add root to queue
+        q.add(new Pair(root, 0));
+
+        // level order traversal
+        while (!q.isEmpty()) {
+            
+            // extract current node
+            Pair p = q.poll();
+            int level = p.hd;
+            BinaryTreeNode temp = p.node;
+
+            // check if map already contains the value
+            if (map.get(level) == null) {
+                map.put(level, temp.val);
+            }
+
+            // go for left subtree
+            if (temp.left != null) {
+                q.add(new Pair(temp.left, level - 1));
+            }
+
+            // go for right subtree
+            if (temp.right != null) {
+                q.add(new Pair(temp.right, level + 1));
+            }
+
+        }
+
+        // put all values to ArrayList
+        for (Map.Entry < Integer, Integer > entry: map.entrySet()) {
+            res.add(entry.getValue());
+        }
+
+        return res;
+
+    }
+
+}
