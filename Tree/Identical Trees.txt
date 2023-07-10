@@ -1,18 +1,24 @@
-  public static boolean identicalTrees(BinaryTreeNode<Integer> p, BinaryTreeNode<Integer> q) {
-        // if both trees are null then they are identical
-       if (p == null && q == null) {
-            return true;
-        }
+  public static boolean identicalTrees(BinaryTreeNode < Integer > p, BinaryTreeNode < Integer > q) {
+      // if both trees are null then they are identical
+      if (p == null && q == null) {
+          return true;
+      }
 
-        // if any of tree is null then they can not be identical
-        if (p == null || q == null) {
-            return false;
-        }
+      // if any of tree is null then they can not be identical
+      if (p == null || q == null) {
+          return false;
+      }
 
-        // if data of root of both and left as well as right sub tree are equal
-        // then only they are identical
-        return p.data.equals(q.data) && identicalTrees(p.left, q.left) && identicalTrees(p.right, q.right);
-    }
+
+      // are root same?
+      boolean isRootSame = (p.val == q.val);
+      // are left subtree of both same?
+      boolean isLeftSame = isSameTree(p.left, q.left);
+      // are right subtree of both same?
+      boolean isRightSame = isSameTree(p.right, q.right);
+
+      return (isRootSame && isLeftSame && isRightSame);
+  }
 
 
 

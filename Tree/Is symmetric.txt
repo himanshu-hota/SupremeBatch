@@ -1,0 +1,30 @@
+class Solution {
+
+    static boolean helper(TreeNode leftRoot, TreeNode rightRoot){
+        // if both are null then they are identical in this case
+        if(rightRoot == null && leftRoot == null) return true;
+
+        // if only one of two are null then they are not identical
+        if(rightRoot == null || leftRoot == null) return false;
+
+        // they are identical only when
+        // root of both are same
+        boolean isRootSame = left.val == right.val;;
+
+        // left child of leftRoot and right child of rightRoot are same
+        boolean leftChildSame = helper(left.left, right.right);
+
+        // right child of leftRoot and left child of rightRoot are same
+        boolean rightChildSame = helper(left.right, right.left);
+        
+        // return true if all condition are satisfied
+        return isRootSame && leftChildSame && rightChildSame;
+    }
+
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null) return false;
+
+        return helper(root.left , root.right);
+        
+    }
+}

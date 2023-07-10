@@ -62,3 +62,12 @@ class Solution
 GFG :- https://practice.geeksforgeeks.org/problems/bottom-view-of-binary-tree/1
 
 CodeStudio :- https://www.codingninjas.com/studio/problems/bottom-view-of-binary-tree_893110?leftPanelTab=1
+
+
+Note :- in top and bottom view there is very small difference of a condition only
+        which is when we check for the hd in the map 
+        
+        in top we dont replace 
+        in bottom we replace 
+
+        thats it!!!

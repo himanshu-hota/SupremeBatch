@@ -24,6 +24,43 @@ class Solution {
     }
 }
 
+
+----------------------------------- Optimized -------------------------------------
+
+class Solution {
+    // global variable to track diameter
+    static int d;
+
+    static int height(TreeNode root){
+        if(root == null) return 0;
+
+        // max height of left subtree
+        int left = height(root.left);
+        // max height of right subtree
+        int right = height(root.right);
+        // current diameter
+        int currD = left + right;
+        // current height
+        int currH = Math.max(left,right)+1;
+
+        // update diameter
+        d = Math.max(currD,d);
+
+        return currH;
+    }
+    public int diameterOfBinaryTree(TreeNode root) {
+        if(root ==null) return 0;
+        // initially diameter is 0
+        d = 0; 
+        // calculate diameter by finding height of each node
+        height(root);
+
+        // return diameter of tree
+        return d;
+    }
+}
+
+
 LeetCode :- https://leetcode.com/problems/diameter-of-binary-tree/description/
 
 CodeStudio :- https://www.codingninjas.com/studio/problems/diameter-of-the-binary-tree_920552?leftPanelTab=1
