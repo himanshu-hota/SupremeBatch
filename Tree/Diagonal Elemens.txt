@@ -1,0 +1,91 @@
+class Tree {
+
+    public ArrayList < Integer > diagonal(Node root) {
+
+        ArrayList < Integer > ans = new ArrayList < > ();
+
+        if (root == null) return ans;
+        // queue to traverse tree
+        Queue < Node > q = new LinkedList < > ();
+        // initially add root to queue
+        q.add(root);
+
+        // traverse the tree
+        while (!q.isEmpty()) {
+            
+            // poll front element from queue
+            Node front = q.poll();
+
+            // go to right till null is found
+            while (front != null) {
+                // add curent element
+                ans.add(front.data);
+
+                // if the current root contains left element then
+                // add it to the queue
+                if (front.left != null) {
+                    q.add(front.left);
+                }
+
+                // move the pointer toward right
+                front = front.right;
+            }
+        }
+
+        return ans;
+    }
+}
+
+
+----------------------- Map -----------------------------
+
+
+class Tree{
+    
+    // static int d;
+    
+    static void helper(Node root,int d, Map<Integer,ArrayList<Integer>> map){
+        
+        if(root == null) return ;
+        // if map doesn't contains the d then create a list and 
+        // add the d and list as well as the element to list
+        if(map.get(d) == null){
+             ArrayList<Integer> currList = new ArrayList<>();
+             currList.add(root.data);
+             map.put(d,currList);
+        }else{
+            // if map already contains the d then update the list
+            map.get(d).add(root.data);
+        }
+        
+        // when going left add 1 to d
+        helper(root.left,d+1,map);
+        / when going right do nothing
+        helper(root.right,d,map);
+        
+    }
+    
+     public ArrayList<Integer> diagonal(Node root)
+      {
+           
+           ArrayList<Integer> ans = new ArrayList<>();
+           
+           if(root == null) return ans;
+           
+           Map<Integer,ArrayList<Integer>> map = new TreeMap<>();
+           int d = 0;
+           helper(root,d,map);
+           
+           for(ArrayList<Integer> x : map.values()){
+               for(Integer y : x){
+                   ans.add(y);
+               }
+           }
+           
+           return ans;
+      }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/diagonal-traversal-of-binary-tree/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/diagonal-traversal-of-a-binary-tree_920477?leftPanelTab=1

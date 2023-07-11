@@ -1,0 +1,71 @@
+class Solution {
+    static int ans = 0;
+
+    // Helper function to recursively traverse the binary tree and find paths
+    public void helper(TreeNode root, long target) {
+        // Base case: if the current node is null, return
+        if (root == null) return;
+
+        // Check if the target sum is equal to the value of the current node
+        if (target == root.val) {
+            ans++; // Increment the count of valid paths
+        }
+
+        // Recursively call the helper function for the left and right subtrees
+        // by subtracting the value of the current node from the target sum
+        helper(root.left, target - root.val);
+        helper(root.right, target - root.val);
+    }
+
+    // Helper function to recursively call the main helper function for all nodes in the tree
+    public void helper2(TreeNode root, long target) {
+        // Base case: if the current node is null, return
+        if (root != null) {
+            // Call the main helper function to find paths from the current node
+            helper(root, target);
+            
+            // Recursively call the helper2 function for the left and right subtrees
+            helper2(root.left, target);
+            helper2(root.right, target);
+        }
+    }
+
+    // Main function to find the number of paths in the binary tree that sum up to the target
+    public int pathSum(TreeNode root, long target) {
+        ans = 0; // Reset the answer count
+        helper2(root, target); // Call the helper function to find paths for all nodes
+        return ans; // Return the total count of valid paths
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/path-sum-iii/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/number-of-ways-for-the-sum-k_1164407?leftPanelTab=0
+
+
+
+Explanation:
+
+The pathSum function takes a binary tree (root) and a target sum (target) as input and returns the count of paths in the tree that sum up to the target.
+
+The main idea is to recursively traverse the tree and at each node, check if the current node's value contributes to any valid path summing up to the target.
+
+The helper function is the main recursive function that performs the following steps:
+Checks if the current node's value is equal to the remaining target sum.
+
+If so, increments the ans (count of valid paths) variable.
+Calls the helper function recursively for the left and right subtrees, with the updated target sum (subtracting the current node's value).
+
+The helper2 function is a helper function that calls the helper function for all nodes in the tree.
+
+It starts with the root node and recursively calls the helper function for the left and right subtrees.
+
+Finally, the pathSum function initializes the ans variable, calls the helper2 function to find paths for all nodes in the tree, and returns the total count of valid paths.
+
+The time complexity of this approach is O(n^2), where n is the number of nodes in the binary tree.
+
+
+
+
+

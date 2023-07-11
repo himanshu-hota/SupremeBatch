@@ -1,0 +1,51 @@
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+
+        if (root == null) return ans;
+        // queue to traverse tree
+        Queue<TreeNode> q = new LinkedList<>();
+        // initiallly add root queue
+        q.add(root);
+        // initiallly go from left to right
+        boolean LTR = true;
+
+        while (!q.isEmpty()) {
+            int width = q.size();
+            List<Integer> currLevel = new ArrayList<>();
+
+            // traverse current level elements
+            for (int i = 0; i < width; i++) {
+                TreeNode front = q.poll();
+                // going LTR then add from 0 -> width
+                if (LTR) {
+                    currLevel.add(front.val);
+                } else {
+                    // going LTR then add from width-1 -> 0
+                    currLevel.add(0, front.val);
+                }
+
+                // go to left subtree
+                if (front.left != null) q.add(front.left);
+                // go to right subtree
+                if (front.right != null) q.add(front.right);
+            }
+
+            // add current level to final ans
+            ans.add(currLevel);
+            // revert redirection
+            LTR = !LTR;
+            // reset currLevel
+            currLevel = null;
+        }
+
+        return ans;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/zigzag-tree-traversal/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/zigzag-binary-tree-traversal_920532?leftPanelTab=0

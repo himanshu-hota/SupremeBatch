@@ -1,6 +1,7 @@
 
 class Solution{
     
+    // method 1
     static int helper(Node root){
         if(root == null) return 0;
         
@@ -19,6 +20,30 @@ class Solution{
         return root.data + temp;
     }
     
+    //method 2
+        static int helper(Node root){
+        if(root == null) return 0;
+        
+        // on leaf node return the root data and set root to 0
+        if(root.left == null && root.right == null){
+            int temp = root.data;
+            root.data = 0;
+            return temp;
+        }
+        
+        // sum of left subtree
+        int leftSum = helper(root.left);
+        // sum of right subtree
+        int rightSum = helper(root.right);
+        
+        // grab root data
+        int temp = root.data;
+        // set root to sum of left subtree and right subtree
+        root.data = leftSum + rightSum;
+        // return root data + sum of both subtree
+        return root.data + temp;
+    }
+
     public void toSumTree(Node root){
          //add code here.
          
