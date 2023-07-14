@@ -1,0 +1,39 @@
+ public static void flatten(Node root){
+        
+        if(root== null) return;
+        
+        Node curr = root;
+        // it is similar to morris traversal
+        while(curr != null){
+            
+            // if left node exists then
+            if(curr.left != null){
+                //find predecessor
+                Node pred = curr.left;
+                // by going to most right part till null
+                while(pred.right != null) {
+                    pred = pred.right;
+                }
+                
+                // link pred's right to curr's right
+                // so that we don't loose the access to curr.right
+                pred.right = curr.right;
+                // link curr.right to its left node
+                curr.right = curr.left;
+                // make left node null
+                curr.left = null;
+            }
+            
+            // in normal case move toward right
+            curr = curr.right;
+        }
+        
+    }
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/flatten-binary-tree-to-linked-list/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+LeetCode :- https://leetcode.com/problems/flatten-binary-tree-to-linked-list/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/flatten-binary-tree-to-linked-list_1112615?leftPanelTab=1
+

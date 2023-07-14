@@ -1,0 +1,53 @@
+
+public class Solution {
+
+    public static List < Integer > getInOrderTraversal(TreeNode root) {
+    	List<Integer> ans = new ArrayList<>();
+
+        if(root == null) return ans;
+        
+        // temp pointer to root 
+        TreeNode curr = root;
+
+        while(curr != null){
+            // if left node is null then we are standing at left node
+            // add this node to ans and now need to put right child of parent
+            if(curr.left == null){
+                ans.add(curr.data);
+                curr = curr.right;
+            }else{
+                TreeNode pred = curr.left;
+                
+                // get the inorder predecessor of current node
+                // inorder predecessor is the node whose 
+                // right child is null 
+                while(pred.right != null && pred.right != curr){
+                    pred = pred.right;
+                }
+
+                // establish link to get feel like recursion
+                if(pred.right == null){
+                    // establish link to the most right node to current node
+                    pred.right = curr;
+                    // now safelsy move toward left subtree
+                    curr = curr.left;
+                }else{
+                    // add curr to ans
+                    ans.add(curr.data);
+                    // unlink the previoous link
+                    pred.right = null;
+                    // move toward right part of the tree
+                    curr = curr.right;
+                }
+            }
+        }
+
+        return ans;
+    }
+}
+
+
+
+CodeStudio :- https://codingninjas.com/studio/problems/inorder-traversal_3839605?leftPanelTab=3
+
+LeetCode :-https://leetcode.com/problems/binary-tree-inorder-traversal/submissions/993322737/

@@ -1,0 +1,69 @@
+class Pair{
+    int hd;
+    Node node;
+    
+    Pair(int hd,Node node){
+        this.hd = hd;
+        this.node = node;
+    }
+}
+
+class Solution
+{
+    //Function to find the vertical order traversal of Binary Tree.
+    static ArrayList <Integer> verticalOrder(Node root){
+        
+        if(root == null) return new ArrayList<Integer>();
+        
+        // list to store ans
+        ArrayList<Integer> ans = new ArrayList<Integer>();
+
+        // map to store element at each column as <hd,[elements in same column]>
+        Map<Integer,ArrayList<Integer>> map = new TreeMap<>();
+
+        // queue to traverse tree
+        Queue<Pair> q = new LinkedList<>();
+        // initially add root
+        q.add(new Pair(0,root));
+        
+        // traverse the queue
+        while(!q.isEmpty()){
+            // poll front element
+            Pair curr = q.poll();
+            
+            // if the map doesn't contains the horizontal distance 
+            // then create a list and add curr element 
+            // then add it to the map
+            if(map.get(curr.hd) == null){
+                ArrayList<Integer> temp = new ArrayList<>();
+                temp.add(curr.node.data);
+                map.put(curr.hd,temp);
+            }else{
+                // else update the map
+                map.get(curr.hd).add(curr.node.data);
+            }
+
+            // add left element to the queue
+            if(curr.node.left != null){
+                q.add(new Pair(curr.hd-1,curr.node.left));
+            }
+
+            // add right element to the queue
+            if(curr.node.right != null){
+                q.add(new Pair(curr.hd+1,curr.node.right));
+            }
+        }
+        
+        // add all elements to the final ans list
+        for(Map.Entry<Integer,ArrayList<Integer>> entry : map.entrySet()){
+            ans.addAll(entry.getValue());
+        }
+        
+        // final ans
+        return ans;
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/print-a-binary-tree-in-vertical-order/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/vertical-order-traversal_920533?leftPanelTab=1

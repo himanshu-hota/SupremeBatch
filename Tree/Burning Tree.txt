@@ -1,0 +1,120 @@
+class Solution {
+
+    static TreeNode MapParentAndFindTarget(TreeNode root, Map<TreeNode,TreeNode> parentMap,int target){
+
+        // queue to perform level order traversal
+        Queue<TreeNode> q = new LinkedList<>();
+        // initially add the root 
+        q.add(root);
+        // node to store target node
+        TreeNode targetNode = null;
+        // root has no parent so point to null
+        parentMap.put(root,null);
+
+        // traverse the tree in level order
+        while(!q.isEmpty()){
+
+            // extract one node from queue
+            TreeNode front = q.poll();  
+
+            // if found the target element then store it
+            if(front.val == target){
+                targetNode = front;
+            }
+
+            // if left node exists then map it with its parent
+            if(front.left !=null){
+                parentMap.put(front.left,front);
+                q.add(front.left);
+            }
+
+            // if right node exists then map it with its parent
+            if(front.right !=null){
+                parentMap.put(front.right,front);
+                q.add(front.right);
+            }
+
+        }
+
+        return targetNode;
+
+    }
+
+    static int burnTree(Map<TreeNode,TreeNode> parentMap,TreeNode targetNode){
+        
+        // map to track whether the node has been burnt or not.
+        Map<TreeNode,Boolean> isBurnt = new HashMap<>();
+        // start by burning the target node
+        isBurnt.put(targetNode,true);
+        // this queue will hold the nodes which has to be burnt
+        Queue<TreeNode> q = new LinkedList<>();
+        // start fromt he target node
+        q.add(targetNode);
+        // time to burn the tree
+        int T = 0;
+
+        while(!q.isEmpty()){
+            // get the number of infected nodes 
+            int size = q.size();
+            // track whether any node is being infected now
+            boolean isInfected = false;
+
+            // burn the infected nodes
+            for(int i = 0 ; i<size; i++){
+                // get the infected node
+                TreeNode front = q.poll();
+
+                // infect the left node if it is not infected yet
+                if(front.left != null && !isBurnt.getOrDefault(front.left,false)){
+                    isBurnt.put(front.left,true);
+                    isInfected = true;
+                    q.add(front.left);
+                }
+
+                // infect the right node if it is not infected yet
+                if(front.right != null && !isBurnt.getOrDefault(front.right,false)){
+                    isBurnt.put(front.right,true);
+                    isInfected = true;
+                    q.add(front.right);
+                }
+
+                // infect the parent node if it is not infected yet
+                if(parentMap.get(front) != null && !isBurnt.getOrDefault(parentMap.get(front),false)){
+                    isBurnt.put(parentMap.get(front),true);
+                    isInfected = true;
+                    q.add(parentMap.get(front));
+                }
+            }
+
+            // if any of left right or parent is infected the increase the time
+            if(isInfected) ++T;
+        }
+
+        // final amount of time required to infect the whole tree
+        return T;
+
+    }
+
+    public int amountOfTime(TreeNode root, int start) {
+        if(root == null) return 0;
+
+        // map each node with its parent with this map
+        Map<TreeNode,TreeNode> parentMap = new HashMap<>();
+
+        // map parent and find the target node in the tree
+        TreeNode targetNode = MapParentAndFindTarget(root,parentMap,start);
+
+        // min time to burn the tree
+        int time = burnTree(parentMap,targetNode);
+
+        return time;
+
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/burning-tree/1
+
+LeetCode :- https://leetcode.com/problems/amount-of-time-for-binary-tree-to-be-infected/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/time-to-burn-tree_630563?leftPanelTab=1

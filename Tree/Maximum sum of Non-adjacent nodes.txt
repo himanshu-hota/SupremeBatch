@@ -1,0 +1,45 @@
+
+class Pair{
+    int first; // for include case
+    int second; // for exclude case
+    
+    Pair(int x , int y){
+        this.first = x;
+        this.second = y;
+    }
+}
+
+class Solution{
+    
+    static Pair helper(Node root){
+        if(root == null) return new Pair(0,0);
+        
+        // call for left subtree
+        Pair left = helper(root.left);
+        // call for right subtree
+        Pair right = helper(root.right);
+        
+        // include root
+        int in = root.data + left.second + right.second;
+        
+        // exclude root
+        int ex = Math.max(left.first,left.second) + Math.max(right.first,right.second);
+        
+        return new Pair(in,ex);
+    }
+    
+    static int getMaxSum(Node root){
+        if(root == null) return 0;
+        
+        // ans
+        Pair ans = helper(root);
+        
+        // max of the both case when include root or exclude root
+        return Math.max(ans.first,ans.second);
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/maximum-sum-of-non-adjacent-nodes/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/maximum-sum-of-nodes-in-a-binary-tree-such-that-no-two-nodes-are-adjacent_1118112?leftPanelTab=1

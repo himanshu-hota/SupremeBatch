@@ -1,0 +1,28 @@
+class Solution {
+    int max = Integer.MIN_VALUE;
+    
+    public int maxPathSum(TreeNode root) {
+        maxSum(root);
+        return max;
+    }
+    
+    public int maxSum(TreeNode root) {
+        if (root == null) return 0;
+        
+        // get left subtree max maxSum
+        // if found negative then replace it with 0
+        int leftSum = Math.max(0, maxSum(root.left));
+        // get right subtree max maxSum
+        // if found negative then replace it with 0
+        int rightSum = Math.max(0, maxSum(root.right));
+        
+        //update max
+        max = Math.max(max, leftSum + rightSum + root.val);
+        
+        // current sum
+        return Math.max(leftSum, rightSum) + root.val;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/binary-tree-maximum-path-sum/description/

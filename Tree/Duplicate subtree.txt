@@ -1,0 +1,59 @@
+
+class Solution {
+
+    static Map<String,Integer> subTreeMap = new HashMap<>();
+    static List<TreeNode> ans = new ArrayList<>();
+
+
+    static String preOrder(TreeNode root){
+
+        if(root == null) {
+            return  "N";
+        }
+
+        // create encoding string for current element
+        String curr = Integer.toString(root.val);
+
+        // encoded string from left subtree
+        String left = preOrder(root.left);
+        // encoded string from right subtree
+        String right = preOrder(root.right);
+
+        // generate encoded string
+        String s =  curr + "," + left + "," + right;
+
+        // if map doesn't has the encoded string then add it
+        if(subTreeMap.get(s) == null){
+            subTreeMap.put(s,1);
+        }else{
+            // if it was the second time the encoded start in found then
+            // add it to the ans
+            if(subTreeMap.get(s) == 1){
+                ans.add(root);
+            }
+
+            // if map already has the encoded string then
+            // increase its counter
+            subTreeMap.put(s,subTreeMap.get(s)+1);
+        }
+        
+        // return encoded string for current element
+        return s;
+
+    }   
+
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        if(root == null) return new ArrayList<>();
+        
+        subTreeMap = new HashMap<>();
+        ans = new ArrayList<>();
+
+        preOrder(root);
+        // final ans
+        return ans;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/find-duplicate-subtrees/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/duplicate-subtrees_920530
