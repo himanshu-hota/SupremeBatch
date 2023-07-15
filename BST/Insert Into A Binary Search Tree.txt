@@ -1,0 +1,41 @@
+
+
+class Solution {
+    
+
+    // Function to insert a node in a BST.
+    Node insert(Node root, int key) {
+    if (root == null) {
+        return new Node(key);
+    }
+
+    Node current = root;
+    Node parent = null;
+
+    while (current != null) {
+        parent = current;
+        if (key < current.data) {
+            current = current.left;
+        } else if (key > current.data) {
+            current = current.right;
+        } else {
+            // Key already exists in the BST, handle it based on your requirements
+            return root;
+        }
+    }
+
+    if (key < parent.data) {
+        parent.left = new Node(key);
+    } else {
+        parent.right = new Node(key);
+    }
+    
+    return root;
+    }
+}
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/insert-into-a-binary-search-tree_1279913?leftPanelTab=0
+
+GFG :- https://practice.geeksforgeeks.org/problems/insert-a-node-in-a-bst/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+LeetCode :- https://leetcode.com/problems/insert-into-a-binary-search-tree/description/

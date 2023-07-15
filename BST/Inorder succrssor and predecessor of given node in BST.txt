@@ -1,0 +1,46 @@
+
+public class Solution {
+
+
+	public static ArrayList<Integer> findPreSuc(binaryTreeNode root, int key) {
+	 ArrayList<Integer> result = new ArrayList<>();
+        if (root == null) {
+            result.add(-1);
+            result.add(-1);
+            return result;
+        }
+
+        int pre = -1, suc = -1;
+        binaryTreeNode temp = root;
+        // predecessor
+		while(temp != null){
+			if(temp.data < key){
+				pre = temp.data;
+				temp = temp.right;
+			}else{
+				temp = temp.left;
+			}
+		}
+
+		temp = root;
+        // successor
+		while(temp != null){
+			if(temp.data > key){
+				suc = temp.data;
+				temp = temp.left;
+			}else{
+				temp = temp.right;
+			}
+		}
+
+        result.add(pre);
+        result.add(suc);
+        return result;
+
+	}
+}
+
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/predecessor-and-successor_920476?leftPanelTab=1
+
+GFG :- https://practice.geeksforgeeks.org/problems/predecessor-and-successor/1

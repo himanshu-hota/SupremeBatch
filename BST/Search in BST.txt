@@ -1,0 +1,44 @@
+------------------------------ Recursive ----------------------------------
+    
+    public TreeNode searchBST(TreeNode root, int target) {
+        // if reached the null then target doesn't exists in the tree
+        if(root == null) return root;
+
+        // if found the target the return the node
+        if(root.val == target) return root;
+
+        // if target is greater then find in right subtree
+        if(target > root.val){
+            return searchBST(root.right,target);
+        }else{
+            // otherwise find in left subtree
+            return searchBST(root.left,target);
+        }
+    }
+
+------------------------------ Iterative ----------------------------------
+
+    public TreeNode searchBST(TreeNode root, int target) {
+        if(root == null) return root;
+
+        TreeNode curr = root;
+        
+        while(curr != null){
+            if(curr.val == target) return curr;
+
+            if(target > curr.val){
+                curr = curr.right;
+            }else{
+                curr = curr.left;
+            }
+        }
+
+        return null;
+    }
+
+
+    LeetCode :- https://leetcode.com/problems/search-in-a-binary-search-tree/description/
+
+    GFG :- https://practice.geeksforgeeks.org/problems/search-a-node-in-bst/1
+
+    CodeStudio :- https://www.codingninjas.com/studio/problems/search-in-bst_1402878

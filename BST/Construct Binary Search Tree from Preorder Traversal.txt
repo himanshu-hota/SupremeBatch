@@ -1,0 +1,42 @@
+
+class Solution {
+
+    static TreeNode insertNode(TreeNode root, int data){
+
+        // if root was null or we reached the correct position
+        // then insert it
+        if(root == null) {
+            TreeNode node = new TreeNode(data);
+            return node;
+        }
+
+        // if root is greater than given data then
+        // it must be placed in left subtree
+        if(root.val > data){
+            root.left = insertNode(root.left,data);
+        }else{ 
+            // otherwise must be placed in right subtree
+            root.right = insertNode(root.right,data);
+        }
+
+        return root;
+    }
+
+    public TreeNode bstFromPreorder(int[] preorder) {
+        
+        if(preorder.length == 0) return new TreeNode();
+
+        TreeNode root = null;
+
+        // call for each element
+        for(int x : preorder){
+            root = insertNode(root,x);
+        }
+
+        return root;
+    }
+}
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/bst-from-preorder_2689307?leftPanelTab=1
+
+LeetCode :- https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/description/

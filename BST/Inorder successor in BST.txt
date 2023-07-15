@@ -1,0 +1,40 @@
+class Solution {
+    // store inorder traversal of given tree here
+    List < Integer > in = new ArrayList < > ();
+
+    // traverse the tree in Inorder way and store it.
+    public void InOrder(Node root) {
+        if (root == null) return;
+
+        InOrder(root.left); in .add(root.data);
+        InOrder(root.right);
+    }
+
+    // returns the inorder successor of the Node x in BST (rooted at 'root')
+    public Node inorderSuccessor(Node root, Node x) {
+        //add code here.
+
+        if (root == null) return root;
+
+        in = new ArrayList < > ();
+
+        // perform inorder traversal
+        InOrder(root);
+
+        // find the target node in the list
+        int targetIndex = in .indexOf(x.data);
+
+        // if found index is not within the range then return null
+        if (targetIndex >= in .size() - 1 || targetIndex == -1) {
+            return null;
+        }
+
+        //otherwise return the element at next index of targetIndex
+        return new Node( in .get(targetIndex + 1));
+
+
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/inorder-successor-in-bst/1

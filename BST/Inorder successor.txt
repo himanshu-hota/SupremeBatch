@@ -1,0 +1,51 @@
+
+------- This method works only when there is right subtree of the target node ------
+
+class Solution
+{
+    
+    static Node helper(Node root, Node x){
+        if(root == null) return root;
+        
+        Node curr = root;
+        while(curr.left != null){
+            curr = curr.left;
+        }
+        
+        return curr;
+    }
+    
+    static Node findNode(Node root, Node x){
+        if(root == null) return null;
+        
+        if(root.data == x.data) return root;
+        
+        Node left = findNode(root.left,x);
+        Node right = findNode(root.right,x);
+        
+        if(left != null) return left;
+        
+        if(right != null) return right;
+        
+        return null;
+    }
+    
+    // returns the inorder successor of the Node x in BST (rooted at 'root')
+	public Node inorderSuccessor(Node root,Node x){
+          //add code here.
+          
+          if(root == null) return root;
+            
+          Node targetNode = findNode(root,x);
+          Node ans = null;
+            
+          if(targetNode != null){
+              ans = helper(targetNode.right,x);
+          }
+          
+          
+          return ans != null ? ans : null;
+         }
+}
+
+---------------------------- Inorder method ------------------------------

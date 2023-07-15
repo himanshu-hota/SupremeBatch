@@ -1,0 +1,29 @@
+class Solution{
+    public static int findMax(Node node){
+        //code here
+            if(node == null) return -1;
+        
+        Node curr = node;
+        
+        while(curr.right != null ){
+            curr = curr.right;
+        }
+        
+        return curr.data;
+    }
+    public static int findMin(Node node){
+        //code here
+            if(node == null) return -1;
+        
+        Node curr = node;
+        
+        while(curr.left != null ){
+            curr = curr.left;
+        }
+        
+        return curr.data;
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/max-and-min-element-in-binary-tree/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
