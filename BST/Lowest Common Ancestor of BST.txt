@@ -1,0 +1,22 @@
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+          if(root == null) return null;
+
+          if(p.val < root.val && q.val < root.val){
+            return lowestCommonAncestor(root.left,p,q);
+          }
+
+          if(p.val > root.val && q.val > root.val){
+            return lowestCommonAncestor(root.right,p,q);
+          }
+
+          return root;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/lca-in-a-bst_981280?leftPanelTab=0
+
+GFG :- https://practice.geeksforgeeks.org/problems/lowest-common-ancestor-in-a-bst/1

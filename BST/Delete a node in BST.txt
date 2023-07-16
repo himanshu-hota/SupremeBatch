@@ -1,0 +1,58 @@
+
+class Tree {
+    
+    // find Predecessor of given node
+    static Node findPred(Node root){
+        
+        while(root.right != null) root = root.right;
+        
+        return root;
+    }
+    
+    public static Node deleteNode(Node root, int X) {
+
+        if(root == null) return root;
+        
+        // if node to delete is smaller than the root
+        // then it will be on the left subtree 
+        if(root.data > X){
+            root.left = deleteNode(root.left,X);
+        }
+        // otherwise it will be on the right subtree
+        else if(root.data < X){
+            root.right = deleteNode(root.right,X);
+        } if we found the node to delete then
+        else{
+            // it it is a leaf node then delete it
+            if(root.left == null && root.right == null){
+                return null;
+            } // if the left child of node to delete is null then
+              // then simply return the root.right as we want to delete root 
+            else if(root.left == null){
+                return root.right;
+            }// if the right child of node to delete is null then
+              // then simply return the root.left as we want to delete root 
+            else if(root.right == null){
+                return root.left;
+            }else{
+                // it both child exists then 
+                // find the predecessor of node to delete
+                // and replace it with its predecessor
+                // and now delete the predecessor as if we dont delete it it will have duplicate element
+                Node pred = findPred(root.left);
+                root.data = pred.data;
+                root.left = deleteNode(root.left,pred.data);
+            }
+            
+        }
+        
+        // final root
+        return root;
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/delete-a-node-from-bst/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/delete-node-in-bst_920381?leftPanelTab=1
+
+LeetCode :- https://leetcode.com/problems/delete-node-in-a-bst/solutions/

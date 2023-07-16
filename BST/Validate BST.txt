@@ -1,0 +1,35 @@
+
+class Solution {
+
+    static boolean helper(TreeNode root, long min , long max){
+
+        if(root == null) return true;
+        // current node value
+        long rootVal = (long)(root.val);
+
+        // if current node is within the range then check for further trees
+        if(root.val < max && root.val > min){
+            boolean left = helper(root.left,min,rootVal );
+            boolean right = helper(root.right,rootVal,max);
+
+            return left && right;
+        }else{
+            // if it is not in the range then return false;
+            return false;
+        }
+    }
+    
+    public boolean isValidBST(TreeNode root) {
+        if(root == null) return true;
+        // pass root and min and max possible value for current node
+        boolean ans = helper(root,Long.MIN_VALUE,Long.MAX_VALUE);
+
+        return ans;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/validate-binary-search-tree/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/check-for-bst/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/validate-bst_981275
