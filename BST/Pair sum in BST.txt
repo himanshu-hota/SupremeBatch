@@ -1,0 +1,57 @@
+
+class Solution {
+
+    // list to store inorder of given tree
+    static ArrayList<Integer> in ;
+
+    // store the inorder
+    static void inorder(TreeNode root){
+        if(root == null) return;
+
+        inorder(root.left);
+        in.add(root.val);
+        inorder(root.right);
+    }
+
+    public boolean findTarget(TreeNode root, int k) {
+        
+        if(root == null) return false;
+        // if tree has only one element then pair is not possible
+        if(root.left == null && root.right == null) return false;
+        
+        // initialize the list
+        in =new ArrayList<>();
+        // store the inorder of the given tree
+        inorder(root);
+
+        // two pointer approach
+        int start = 0; 
+        int end = in.size()-1;
+        int currSum = 0;
+
+        // traverse the list
+        while(start < end){
+            // calculate current sum
+            currSum = in.get(start) + in.get(end) ;
+            // if we found a pair then return true
+            if(currSum == k) return true;
+            if current sum is greter then we need to reduce it
+            else if(currSum > k) end = end-1;
+            // if it is smaller then we need to increase it
+            else start = start+1;
+        }
+
+        // if we anyhow reached till here then there is no such pair
+        // that sum upto given target
+        return false;
+
+        
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/two-sum-iv-input-is-a-bst/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/pair-sum-in-bst_920493?leftPanelTab=1
+
+GFG :- https://practice.geeksforgeeks.org/problems/find-a-pair-with-given-target-in-bst/1

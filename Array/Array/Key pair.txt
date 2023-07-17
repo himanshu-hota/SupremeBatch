@@ -1,0 +1,28 @@
+class Solution {
+    boolean hasArrayTwoCandidates(int arr[], int n, int k) {
+        // code here
+        Arrays.sort(arr);
+        int start = 0; 
+        int end = arr.length-1;
+        int currSum = 0;
+
+        // traverse the array
+        while(start < end){
+            // calculate current sum
+            currSum = arr[start] + arr[end] ;
+            // if current sum is = targetSum then it is the pair we are searching for
+            if(currSum == k) return true;
+            // if the sum is greater then we need to reduce it by moving end one step back
+            else if(currSum > k) end = end-1;
+            // otherwise move start one step forward
+            else start = start+1;
+        }
+
+        // if we reach here then there is no pair that sum up to given target
+        return false;
+
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/key-pair5616/1?utm_source=geeksforgeeks&utm_medium=article_practice_tab&utm_campaign=article_practice_tab

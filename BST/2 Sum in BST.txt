@@ -1,0 +1,35 @@
+
+class Solution {
+
+    static ArrayList<Integer> in ;
+
+    static void inorder(TreeNode root){
+        if(root == null) return;
+
+        inorder(root.left);
+        in.add(root.val);
+        inorder(root.right);
+    }
+
+    public boolean findTarget(TreeNode root, int k) {
+        if(root == null) return false;
+        if(root.left == null && root.right == null) return false;
+        
+        in =new ArrayList<>();
+        inorder(root);
+
+        int start = 0; 
+        int end = in.size()-1;
+        int currSum = 0;
+        while(start < end){
+            currSum = in.get(start) + in.get(end) ;
+            if(currSum == k) return true;
+            else if(currSum > k) end = end-1;
+            else start = start+1;
+        }
+
+        return false;
+
+        
+    }
+}

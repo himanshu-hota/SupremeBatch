@@ -1,0 +1,70 @@
+
+class Solution {
+    
+    static void inorder(Node root,int result[]){
+        if(root == null) return;
+        
+        // go to the most left
+        inorder(root.left,result);
+        // decrease the counter
+        result[1]--;
+        // if at any moment the counter becomes zero then 
+        // it is our answer
+        if(result[1] == 0) result[0] = root.data;
+        // Search in right subtree if at any moment left found to be null
+        inorder(root.right,result);
+        
+    }
+    
+    public int KthSmallestElement(Node root, int K) {
+        // if root is null then it is the answer
+        if(root == null) return -1;
+        // two variables ( 0th --> for actual node value , 1th --> for Kth count)
+        int result[] = {-1,-1};
+        
+        //assignthe kth value to the 1th element
+        result[1] = K;
+        // traverse the tree in inorder
+        inorder(root,result);
+        
+        // the -th element will be out final answer
+        return result[0];
+            
+                
+    }
+}
+
+
+-------------------------------------- Global variable -------------------------
+
+class Solution {
+    
+    static int node;
+    static int count;
+
+    static void inorder(TreeNode root){
+        if(root == null) return;
+        // dont perform unnecessary operation if we have found our answer
+        if(count < 0) return;
+
+        inorder(root.left);
+        count--;
+        if(count == 0) node = root.val;
+        inorder(root.right);
+
+    }
+
+    public int kthSmallest(TreeNode root, int k) {
+        if(root == null) return -1;
+      
+        node = -1;
+        count = k;
+        inorder(root);
+        return node;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/kth-smallest-element-in-a-bst/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/find-k-th-smallest-element-in-bst/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

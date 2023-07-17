@@ -1,0 +1,82 @@
+
+class Solution {
+
+    static TreeNode helper(int arr[],int s ,int e){
+        // if array is out of bound then return
+        if(s>e) return null;
+
+        // get the middle index and get the root element
+        int mid = (e+s) / 2;
+        int element = arr[mid];
+
+        // create the root element
+        TreeNode root = new TreeNode(element);
+
+        // create left subtree
+        root.left = helper(arr,s,mid-1);
+        // create right subtree
+        root.right = helper(arr,mid+1,e);
+
+        return root;
+    }
+
+    public TreeNode sortedArrayToBST(int[] nums) {
+        
+        if(nums.length <= 0) return null;
+        if(nums.length == 1) return new TreeNode(nums[0]);
+
+        TreeNode root = helper(nums,0,nums.length-1);
+
+        return root;
+        
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/convert-sorted-array-to-bst_1264995?leftPanelTab=1
+
+ ----------------------------------- GFG version ---------------------------
+
+
+class Solution
+{   
+    static int ans[] = new int[0];
+    static int index = 0;
+    
+    
+    static void helper(int arr[],int s ,int e){
+        
+        // if the array is out of bound then return
+        if(s>e) return;
+
+        // get the middle index and get the root
+        int mid = (e+s) / 2;
+        int element = arr[mid];
+
+        // store the current root
+        ans[index++] = (element);
+
+        // create left subtree
+        helper(arr,s,mid-1);
+        // create right subtree
+        helper(arr,mid+1,e);
+    
+    }
+    
+    public int[] sortedArrayToBST(int[] nums){
+        // Code here 
+        
+        // array to store ans
+        ans = new int[nums.length];
+        // index to store current node
+        index = 0;
+        
+        helper(nums,0,nums.length-1);
+        
+        return ans;
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/array-to-bst4443/1
+

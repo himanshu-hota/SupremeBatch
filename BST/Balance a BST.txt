@@ -1,0 +1,54 @@
+
+class Solution {
+    // list to store inorder of given tree
+    static ArrayList<Integer> in = new ArrayList<>();
+
+    // creaet inorder of giver tree
+    static void inorder(TreeNode root){
+        if(root == null) return ;
+
+        inorder(root.left);
+        in.add(root.val);
+        inorder(root.right);
+    }
+
+    // construct tree
+    static TreeNode constructBST(int s , int e){
+        // if there is no left element to create node then return
+        if(s>e) return null;
+
+        // get middle of the list
+        int mid = (s+e)/2;
+        // get the root element to create node
+        int element = in.get(mid);
+        
+        // create root and recursively create left and right subtree
+        return new TreeNode(element,constructBST(s,mid-1),constructBST(mid+1,e));
+
+    
+
+    }
+    public TreeNode balanceBST(TreeNode root) {
+        // if given tree is null then there is no possible solution
+        if(root == null) return null;
+        // if it has only one element then return itself
+        if(root.left == null && root.right == null) return root;
+
+        // reset the previous inorder if it had
+        in = new ArrayList<>();
+
+        // create inorder of given tree
+        inorder(root);
+
+        // the final tree
+        TreeNode ans = constructBST(0,in.size()-1);
+
+        return ans;
+    }   
+}
+
+LeetCode :- https://leetcode.com/problems/balance-a-binary-search-tree/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/normal-bst-to-balanced-bst/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/normal-bst-to-balanced-bst_920472?leftPanelTab=0

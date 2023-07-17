@@ -1,0 +1,42 @@
+class Solution {
+    public TreeNode sortedListToBST(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        // if LL has only one element then create the tree node and return
+        if (head.next == null) {
+            return new TreeNode(head.val);
+        }
+
+        // find middle of the LL
+        ListNode slow = head;
+        ListNode fast = head.next.next;
+        // This loop will give us the node whose next node will be the middle
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // get the middle value
+        int data = slow.next.val;
+
+        // divide the LL into 2 half 
+        // one will be from head till middle
+        // second will be from middle.next to end of LL
+
+        // get the second half of the LL for right subtree 
+        ListNode right = slow.next.next;
+        
+        // point the end of first half to null
+        slow.next = null;
+
+        // recursive call
+        return new TreeNode(data, sortedListToBST(head), sortedListToBST(right));
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/sorted-list-to-bst/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/sorted-linked-list-to-balanced-bst_842564?leftPanelTab=0
