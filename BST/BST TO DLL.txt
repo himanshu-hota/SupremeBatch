@@ -1,0 +1,41 @@
+class Solution {
+
+    static Node helper(Node root, Node head) {
+        // return the previous head if found null
+        if (root == null) {
+            return head;
+        }
+
+        // get the LL from right subtree by constructing right LL first
+        head = helper(root.right, head);
+
+        // connect the root to head
+        root.right = head;
+        
+        // if head is not null then 
+        // connect head to root
+        if (head != null) {
+            head.left = root;
+        }
+
+        // make the root new head as we want the starting point
+        head = root;
+
+        // construct the left LL
+        return helper(root.left, head);
+    }
+
+    Node bToDLL(Node root) {
+
+        if (root == null) return null;
+        Node head = null;
+        head = helper(root, head);
+
+        return head;
+
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/binary-tree-to-dll/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/convert-a-given-binary-tree-to-doubly-linked-list_893106?leftPanelTab=1

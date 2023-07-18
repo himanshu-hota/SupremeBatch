@@ -1,0 +1,82 @@
+
+class NodeData{
+    int size;
+    int min;
+    int max;
+    boolean isBST;
+    
+     
+    NodeData(){
+        // just default constructor
+    }
+    
+    NodeData(int s, int min , int max , boolean bst){
+        this.size = s;
+        this.max = max;
+        this.min = min;
+        this.isBST = bst;
+    }
+}
+
+class Solution {
+    
+    // it will store the number of nodes in largest BST
+    static int max;
+
+    
+    static NodeData helper(Node root) {
+        // when found null lets assume it is a valid BST
+        // whose min is MAX_VALUE
+        // and max is MIN_VALUE
+        if (root == null){
+            NodeData temp = new NodeData(0,Integer.MAX_VALUE,Integer.MIN_VALUE,true);
+            return temp;
+        }
+        
+        // get ans from left subtree
+        NodeData left = helper(root.left);
+        // get ans from right subtree
+        NodeData right = helper(root.right);
+        
+        // calculate for curent node
+        NodeData curr = new NodeData();
+        
+        // curr's size will be sum of (left , right , include current)
+        curr.size = left.size + right.size + 1;
+
+        // max will be most largest element in current tree
+        curr.max = Math.max(root.data,right.max);
+        // min will be most smallest element in current tree
+        curr.min = Math.min(root.data,left.min);
+        
+        // check if current tree is a BST
+        if((left.isBST && right.isBST) && (root.data > left.max && root.data< right.min)){
+            curr.isBST = true;
+        }else{
+            curr.isBST = false;
+        }
+        
+        // if it is a BST then store the number of nodes of current BST
+        if(curr.isBST){
+            max = Math.max(curr.size,max);
+        }
+        
+        // return the node with required info 
+        return curr;
+
+    }
+
+    static int largestBst(Node root) {
+        if (root == null) return 0;
+
+        max = 1;
+        helper(root);
+
+        return max;
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/largest-bst/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/largest-bst-subtree_893103?leftPanelTab=1
