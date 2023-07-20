@@ -37,6 +37,49 @@ class Solution {
     }
 }
 
+
+--------------------------------- Optimized Way -----------------------------------
+
+
+class Solution {
+    
+    static int index ;
+
+    static TreeNode build(int preorder[],int min, int max){
+        // if array has exhausted then return null
+        if(index >= preorder.length) return null;
+
+        TreeNode root  = new TreeNode();
+
+        // if the curent element falls under the defined range
+        // then create node and call for its left and right subtree
+        if(preorder[index] > min && preorder[index] < max){
+            root = new TreeNode(preorder[index++]);
+            root.left = build(preorder,min, root.val);
+            root.right = build(preorder,root.val,max);
+        }else{ // if it doesn't fall in the range then put null 
+            return null;
+        }
+
+        return root;
+    }
+
+    public TreeNode bstFromPreorder(int[] preorder) {
+        
+        if(preorder.length == 0) return new TreeNode();
+
+        // set a min and max range
+        // initially it will be (- infinite , + infinite)
+        int min = Integer.MIN_VALUE;
+        int max = Integer.MAX_VALUE;
+        // initially index will be 0
+        index = 0;
+
+        
+        return build(preorder,min,max);
+    }
+}
+
 CodeStudio :- https://www.codingninjas.com/studio/problems/bst-from-preorder_2689307?leftPanelTab=1
 
 LeetCode :- https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/description/

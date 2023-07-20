@@ -1,0 +1,79 @@
+
+class Solution
+{
+    static void morris(Node root,List<Integer> list){
+        if(root == null ) return;
+        
+        Node curr = root;
+        
+        while(curr != null){
+            if(curr.left == null){
+                list.add(curr.data);
+                curr = curr.right;
+            }else{
+                Node pred = curr.left;
+                
+                while(pred.right != null && pred.right != curr){
+                    pred = pred.right;
+                }
+                
+                if(pred.right == null){
+                    pred.right = curr;
+                    curr = curr.left;
+                }else{
+                    list.add(curr.data);
+                    pred.right = null;
+                    curr = curr.right;
+                }
+            }
+        }
+    }
+    
+   static void merge(List<Integer> x,List<Integer> y,List<Integer> ans){
+        
+        
+        int i = 0;
+        int j = 0;
+        
+        while(i < x.size() && j < y.size()){
+            if(x.get(i) < y.get(j)){
+                ans.add(x.get(i));
+                i++;
+            }else{
+                ans.add(y.get(j));
+                j++;
+            }
+        }
+        
+        while(i<x.size()){
+            ans.add(x.get(i));
+            i++;
+        }
+        
+        while(j<y.size()){
+            ans.add(y.get(j));
+            j++;
+        }
+        
+    }
+    
+    public List<Integer> merge(Node root1,Node root2)
+    {
+        List<Integer>ans = new ArrayList<>();
+        
+        if(root1 == null && root2 == null) return ans;
+        
+        List<Integer> x = new ArrayList<>();
+        List<Integer> y = new ArrayList<>();
+        // get inorder of first tree
+        morris(root1,x);
+        // get inorder of second tree
+        morris(root2,y);
+        // merge them
+        merge(x,y,ans);
+        
+        return ans;
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/merge-two-bst-s/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

@@ -13,6 +13,10 @@ public class Solution {
         int pre = -1, suc = -1;
         binaryTreeNode temp = root;
         // predecessor
+		// if found a greater element the move left 
+		// otherwise store the curent ans and move right
+		// because we want the just smaller element
+		// when this loop terminates , we will have our correct ans stored
 		while(temp != null){
 			if(temp.data < key){
 				pre = temp.data;
@@ -24,6 +28,7 @@ public class Solution {
 
 		temp = root;
         // successor
+		// opposite of the predecessor
 		while(temp != null){
 			if(temp.data > key){
 				suc = temp.data;
@@ -43,4 +48,4 @@ public class Solution {
 
 CodeStudio :- https://www.codingninjas.com/studio/problems/predecessor-and-successor_920476?leftPanelTab=1
 
-GFG :- https://practice.geeksforgeeks.org/problems/predecessor-and-successor/1
+GFG :- https://practice.g eeksforgeeks.org/problems/predecessor-and-successor/1

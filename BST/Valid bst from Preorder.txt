@@ -1,0 +1,68 @@
+public class Solution {
+    
+    static int index;
+
+    static void inorder(int pre[] , int min , int max){
+        if(index >= pre.length) return ;
+
+        // if the curent node falls in the given range then move forward
+        if(pre[index] > min && pre[index] < max){
+            int curr = pre[index];
+            index++;
+            inorder(pre,min,curr);
+            inorder(pre,curr,max);
+        }
+
+    }
+
+    
+    public int solve(int[] pre) {
+        if(pre.length == 0) return 0;
+        // set range for the curent node
+        int min = Integer.MIN_VALUE;
+        int max = Integer.MAX_VALUE;
+        // initially index set to 0
+        index = 0;
+        inorder(pre,min,max);
+        // if the array has exhausted then only it is a Valid BST
+        if(index == pre.length) return 1;
+        else return 0;
+    }
+}
+
+
+----------------------------------- Other way -------------------------------------
+
+Note :- in following approach we can remove = when checking for range
+
+
+public class Solution
+{   
+
+    static void inorder(int pre[] , int min , int max,int i[]){
+        if(i[0] >= pre.length) return ;
+        // here ^
+        if(pre[i[0]] >= min && pre[i[0]] <= max){
+            int curr = pre[i[0]];
+            i[0]++;
+            inorder(pre,min,curr,i);
+            inorder(pre,curr,max,i);
+        }
+
+    }
+
+    public static int isPreorderValid(int[] pre)
+    {
+        if(pre.length == 0) return 0;
+
+        int min = Integer.MIN_VALUE;
+        int max = Integer.MAX_VALUE;
+        int i[] ={0};
+        inorder(pre,min,max,i);
+
+       return i[0] >= pre.length ? 1 : 0;
+    }
+}
+
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/check-if-preorder-traversal-is-valid_1164410?leftPanelTab=0

@@ -1,0 +1,100 @@
+public class Solution{
+    static TreeNode<Integer> prev = null;
+    static TreeNode<Integer> dummy = null;
+    static void inorder(TreeNode<Integer> root){
+        if(root == null) return;
+        
+        inorder(root.left);
+        dummy.right = new TreeNode<Integer>(root.data);
+        dummy = dummy.right;
+        inorder(root.right);
+        
+    }
+    public static TreeNode<Integer> flatten(TreeNode<Integer> root)
+    {
+        
+        if(root == null) return null;
+        
+        // create a prev node
+        prev = new TreeNode<>(-1);
+        // create a node for traversing
+        dummy = prev;
+
+        // traverse and create linked list
+        inorder(root);
+
+        return prev.right;
+        
+
+    }
+}
+
+
+
+----------------------- Morris Traversal ----------------------------
+
+
+public class Solution{
+    
+     public static TreeNode<Integer> morris(TreeNode<Integer> root) {
+    	
+        if(root == null) return null;
+        
+        // temp pointer to root 
+        TreeNode<Integer> curr = root;
+        TreeNode<Integer> head = new TreeNode<>(-1);
+        TreeNode<Integer> dummy = head;
+
+        while(curr != null){
+            // if left node is null then we are standing at left node
+            // add this node to ans and now need to put right child of parent
+            if(curr.left == null){
+                dummy.right = new TreeNode<>(curr.data);
+                dummy = dummy.right;
+                curr = curr.right;
+            }else{
+                TreeNode pred = curr.left;
+                
+                // get the inorder predecessor of current node
+                // inorder predecessor is the node whose 
+                // right child is null 
+                while(pred.right != null && pred.right != curr){
+                    pred = pred.right;
+                }
+
+                // establish link to get feel like recursion
+                if(pred.right == null){
+                    // establish link to the most right node to current node
+                    pred.right = curr;
+                    // now safelsy move toward left subtree
+                    curr = curr.left;
+                }else{
+                    // add curr to ans
+                    dummy.right = new TreeNode<>(curr.data);
+                    dummy = dummy.right;
+                    // unlink the previoous link
+                    pred.right = null;
+                    // move toward right part of the tree
+                    curr = curr.right;
+                }
+            }
+        }
+
+        return head.right;
+    }
+
+    public static TreeNode<Integer> flatten(TreeNode<Integer> root)
+    {
+        
+        if(root == null) return null;
+
+        TreeNode<Integer> ans = morris(root);
+                
+
+        return ans;
+        
+
+    }
+}
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/flatten-bst-to-a-sorted-list_1169459?leftPanelTab=1
