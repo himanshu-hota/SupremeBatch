@@ -1,0 +1,40 @@
+class GFG
+{
+    
+    static void helper(Node root,Map<Integer,Boolean> map, boolean ans[]){
+        if(root == null) return;
+
+        // visit the current node 
+        map.put(root.data,true);
+        
+        // if we are at leaf node 
+        if(root.left == null && root.right == null)    {
+            
+            int xp1 = root.data + 1;
+            int xm1 = root.data - 1 == 0 ? root.data : root.data - 1;
+            
+            // and we have already visited the (node + 1) and (node - 1)
+            // element then we are at dead end
+            if(map.containsKey(xp1) && map.containsKey(xm1)){
+                ans[0] = true;
+                return;
+            }
+        }
+            
+        helper(root.left,map,ans);
+        helper(root.right,map,ans);
+    }
+    
+    public static boolean isDeadEnd(Node root)
+    {   
+        // this will store final ans
+        boolean ans[] = {false};
+        // map to keep track of visited values
+        Map<Integer,Boolean> map  = new HashMap<>();
+        helper(root,map,ans);
+        
+        return ans[0];
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/check-whether-bst-contains-dead-end/1

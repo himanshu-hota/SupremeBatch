@@ -76,4 +76,58 @@ class Solution
     }
 }
 
+------------------------------------ Optimized-------------------------------------
+
+
+class Solution {
+    public List<Integer> merge(Node root1, Node root2) {
+        List<Integer> ans = new ArrayList<>();
+
+        if (root1 == null && root2 == null)
+            return ans;
+
+        Stack<Node> s1 = new Stack<>();
+        Stack<Node> s2 = new Stack<>();
+
+        Node a = root1;
+        Node b = root2;
+
+        // below is an inorder traversal
+
+        // loop till any of these conditions is true
+        while (a != null || b != null || !s1.isEmpty() || !s2.isEmpty()) {
+            
+            while (a != null) {
+                s1.push(a);
+                a = a.left;
+            }
+
+            while (b != null) {
+                s2.push(b);
+                b = b.left;
+            }
+
+            // s2.isEmpty() -> put all elements of s1 if s2 is empty
+            // (!s1.isEmpty() && s1.peek().data <= s2.peek().data) -> if s1 has smaller element then put s1's element int the ans
+            if (s2.isEmpty() || (!s1.isEmpty() && s1.peek().data <= s2.peek().data)) {
+                Node aTop = s1.peek();
+                ans.add(aTop.data);
+                s1.pop();
+                a = aTop.right;
+
+            } else { // otherwise s2's element
+                Node bTop = s2.peek();
+                ans.add(bTop.data); 
+                s2.pop();
+                b = bTop.right;
+
+            }
+
+        }
+
+        return ans;
+    }
+}
+
+
 GFG :- https://practice.geeksforgeeks.org/problems/merge-two-bst-s/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

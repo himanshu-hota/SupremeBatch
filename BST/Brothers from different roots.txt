@@ -1,0 +1,117 @@
+
+class Solution{
+    
+    static void inorder(Node root, ArrayList<Integer> ans){
+        if(root == null) return;
+        
+        inorder(root.left,ans);
+        ans.add(root.data);
+        inorder(root.right,ans);
+    }
+    
+    public static int countPairs(Node root1, Node root2, int x){
+		
+        // inorder of root 1
+		ArrayList<Integer> in1 = new ArrayList<>();
+		inorder(root1,in1);
+        // inorder of root 2
+		ArrayList<Integer> in2 = new ArrayList<>();
+		inorder(root2,in2);
+
+        // count of pairs
+		int count = 0;
+        // pointers to traverse inorder
+		int i = 0; 
+		int j = in2.size()-1;
+		
+        // traverse both list and find pair
+	    while( i< in1.size() && j>=0){
+		  // calculate current sum 
+	      int sum = in1.get(i) + in2.get(j);
+
+          // check if found a pair  
+	      if(sum == x) {
+	            count++;
+	            i++ ;
+	            j--;
+	      }else if(sum < x){ // if sum is less then we need greater sum
+	            i++;
+	      }else{ // else we need lesser sum
+	            j--;
+	      }
+		    
+		}
+		
+		// final ans
+		return count;
+	}
+}
+
+
+------------------------------------- Optimized -----------------------------------
+
+
+class Solution
+{
+	public static int countPairs(Node root1, Node root2, int x){
+		
+        // iterator
+		Node a = root1;
+		Node b = root2;
+		int count = 0;
+		
+        // statck to traverse the tree
+		Stack<Node> s1 = new Stack<>();
+		Stack<Node> s2 = new Stack<>();
+
+        // unconditional love    
+		while(true ){
+		    
+            // add all left nodes of current node of tree 1
+		    while(a != null){
+		        s1.push(a);
+		        a = a.left;
+		    }
+		    
+            // add all left nodes of current node of tree 1
+		    while(b != null){
+		        s2.push(b);
+		        b = b.right;
+		    }
+		    
+            // if at any moment the stack is empty then we have travered each node 
+            // of the tree whose stack is empty so break from the loop
+		    if(s1.isEmpty() || s2.isEmpty()){
+		        break;
+		    }
+		    
+            // get the top element of the stack 1
+		    Node aTop = s1.peek();
+            // get the top element of the stack 2
+		    Node bTop = s2.peek();
+
+            // calculate current sum
+		    int sum = aTop.data + bTop.data;
+		    
+            // if sum matches with x then we have found a pair
+		    if(sum == x){
+		        count++;
+		        s1.pop();
+		        s2.pop();
+		        a = aTop.right;
+		        b = bTop.left;
+		    }else if(sum < x){ // if sum is lesser then we need greater sum
+		        s1.pop();
+		        a = aTop.right;
+		    }else{ // otherwise lesser sum
+		        s2.pop();
+		        b = bTop.left;
+		    }
+		}
+		
+		return count;
+	}
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/brothers-from-different-root/1
+

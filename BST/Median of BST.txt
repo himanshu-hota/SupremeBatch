@@ -1,0 +1,123 @@
+
+class Tree
+{
+    
+   public static float findLength(Node root) {
+    	
+
+        if(root == null) return -1;
+	
+		float size = 0;
+
+        // temp pointer to root 
+        Node curr = root;
+
+        while(curr != null){
+            // if left node is null then we are standing at left node
+            // add this node to ans and now need to put right child of parent
+            if(curr.left == null){
+               size++;
+                curr = curr.right;
+            }else{
+                Node pred = curr.left;
+                
+                // get the inorder predecessor of current node
+                // inorder predecessor is the node whose 
+                // right child is null 
+                while(pred.right != null && pred.right != curr){
+                    pred = pred.right;
+                }
+
+                // establish link to get feel like recursion
+                if(pred.right == null){
+                    // establish link to the most right node to current node
+                    pred.right = curr;
+                    // now safelsy move toward left subtree
+                    curr = curr.left;
+                }else{
+                    // add curr to ans
+                	size++;
+                    // unlink the previoous link
+                    pred.right = null;
+                    // move toward right part of the tree
+                    curr = curr.right;
+                }
+            }
+        }
+
+        return size;
+    }
+    
+    static float actualMedian(Node root,float n){
+        
+        float i = 0;
+        float even1 = n/2;
+        float even1Val = -1;
+        float even2 = n/2 + 1;
+        float  even2Val = -1;
+        float odd = (n + 1)/2;
+        float  oddVal = -1;
+        
+        
+             // temp pointer to root 
+        Node curr = root;
+
+        while(curr != null){
+            // if left node is null then we are standing at left node
+            // add this node to ans and now need to put right child of parent
+            if(curr.left == null){
+              		i++;
+				if(i == even1) even1Val = curr.data;
+				if(i == even2) even2Val = curr.data;
+				if(i == odd) oddVal = curr.data;
+                curr = curr.right;
+            }else{
+                Node pred = curr.left;
+                
+                // get the inorder predecessor of current node
+                // inorder predecessor is the node whose 
+                // right child is null 
+                while(pred.right != null && pred.right != curr){
+                    pred = pred.right;
+                }
+
+                // establish link to get feel like recursion
+                if(pred.right == null){
+                    // establish link to the most right node to current node
+                    pred.right = curr;
+                    // now safelsy move toward left subtree
+                    curr = curr.left;
+                }else{
+                    // add curr to ans
+                		i++;
+				if(i == even1) even1Val = curr.data;
+				if(i == even2) even2Val = curr.data;
+				if(i == odd) oddVal = curr.data;
+                    // unlink the previoous link
+                    pred.right = null;
+                    // move toward right part of the tree
+                    curr = curr.right;
+                }
+            }
+        }
+        
+        
+        
+		if(( (int)(n)&1) == 0){
+			return (even1Val + even2Val) / 2;
+		}else{
+			
+			return oddVal;
+			
+		}
+        
+    }
+    
+    public static float findMedian(Node root){
+        
+        float len = findLength(root);
+        return actualMedian(root,len);
+    }   
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/median-of-bst/1

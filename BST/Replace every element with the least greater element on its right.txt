@@ -1,0 +1,68 @@
+class Node {
+    int data;
+    Node left, right;
+
+    Node(int data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+class Solution {
+
+    // Method to insert a node into the binary search tree
+    static Node insertNode(Node root, int element, int succ[]) {
+        // If the current node is null, create a new node and return it
+        if (root == null) return new Node(element);
+
+        // If the element is greater or equal to the current node's data, traverse the right subtree
+        if (element >= root.data) {
+            root.right = insertNode(root.right, element, succ);
+        } else {
+            // If the element is smaller than the current node's data, traverse the left subtree
+            // Since this is the left subtree, update succ[0] to the current node's data,
+            // which represents the least greater value for the element
+            succ[0] = root.data;
+            root.left = insertNode(root.left, element, succ);
+        }
+
+        // Return the modified root of the binary search tree
+        return root;
+    }
+
+    // Method to find the least greater element for each element in the input array
+    public static ArrayList<Integer> findLeastGreater(int n, int[] arr) {
+        // Initialize an ArrayList to store the least greater elements for each value in the array
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        // If the input array is empty, return the empty ArrayList
+        if (arr.length == 0) return ans;
+
+        // Create the root of the binary search tree with an initial value of 0
+        Node root = new Node(0);
+
+        // Traverse the input array in reverse order and construct the binary search tree
+        for (int i = arr.length - 1; i >= 0; i--) {
+            // Initialize an array to store the least greater value for the current element
+            int succ[] = {-1};
+            
+            // Insert the current element into the binary search tree and update the least greater value
+            root = insertNode(root, arr[i], succ);
+            
+            // Add the least greater value for the current element to the result ArrayList
+            ans.add(succ[0]);
+        }
+
+        // Reverse the ArrayList to obtain the correct order of least greater elements
+        Collections.reverse(ans);
+
+        // Return the ArrayList containing the least greater elements for each value in the input array
+        return ans;
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/replace-every-element-with-the-least-greater-element-on-its-right/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/least-greater-element_1164266?leftPanelTab=0
