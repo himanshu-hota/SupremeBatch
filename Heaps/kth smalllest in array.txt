@@ -1,0 +1,52 @@
+
+class Solution{
+    public static int kthSmallest(int[] arr, int l, int r, int k) { 
+        // create MIN_HEAP to store elements
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        // length of elements
+        int n = arr.length;
+        // add all elements to heap
+        for(int i = 0; i<n  ; i++){
+            pq.add(arr[i]);
+        }
+        
+        // start removing the first k - 1 elements and then return the kth element
+        for(int i = 1; i<=k;i++){
+            if(i == k){
+                return pq.poll();
+            }else{
+                pq.poll();
+            }
+        }
+        
+        return -1;
+    } 
+}
+
+
+------------------------------- Optimized ----------------------------------
+class Solution{
+    public static int kthSmallest(int[] arr, int l, int r, int k){ 
+        // create MAX_HEAP to store elements.
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        int n = arr.length;
+        // store first k elements
+        for(int i = 0; i<k ; i++){
+            pq.add(arr[i]);
+        }
+        
+        // now add only those elements who are smaller than the head.
+        for(int i = k; i<n;i++){
+            if(arr[i] < pq.peek()){
+                pq.poll();
+                pq.add(arr[i]);
+            }
+        }
+        
+        // head is the kth smallest element
+        return  pq.poll();
+    } 
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/kth-smallest-element5635/1

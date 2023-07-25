@@ -12,7 +12,7 @@ public class Solution {
                 q.add(i);
         }
 
-        // loop t0 calculate answer for next windows
+        // loop to calculate answer for next windows
         for (int i = k; i < n; i++) {
             // if queue is empty then there is no negative element in the current window
             if (q.isEmpty()) {

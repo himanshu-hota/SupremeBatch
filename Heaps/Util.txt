@@ -1,0 +1,196 @@
+
+
+
+class Heaps {
+	int arr[];
+	int size;
+	
+	Heaps(int size){
+		this.size = 0;
+		this.arr = new int[size];
+	}
+	
+	public void insert(int data) {
+		
+		if(size == arr.length) {
+			System.out.println("Can not insert more elements!!!");
+			return;
+		}
+		
+		size += 1;
+		int index = size;
+		arr[index] = data;
+		
+		while( index > 1) {
+			int parentIndex = index/2;
+			if(arr[parentIndex] < arr[index]) {
+				int temp = arr[index];
+				arr[index] = arr[parentIndex];
+				arr[parentIndex] = temp;
+				index = parentIndex;
+			}else {
+				break;
+			}
+		}
+		
+		
+	
+	}
+	
+	
+	
+	public void remove() {
+			
+		if(size <= 0) {
+			System.out.println("Heap is empty!!!");
+			return;
+		}
+		
+		int index = size;	
+		size--;
+		
+		// replace with last node
+		arr[1] = arr[index];
+		
+		index = 1;
+		
+		// place at correct position
+		while(index < size) {
+			
+		int left = 2*index;
+		int right = 2*index +1;
+		
+		int largest = index;
+		
+		// check if left is greater than the node
+		if(left < size && (arr[largest] < arr[left])) largest = left;
+		// check if right is greater than the node
+		if(right< size && (arr[largest] < arr[right])) largest = right;
+		
+		// it means it is at its correct position
+		if(largest == index) return;
+		
+		// it it is not at its correct position then only swap
+		int temp = arr[largest];
+		arr[largest] = arr[index];
+		arr[index] = temp;
+		index = largest;
+		
+		
+		
+		}
+	}
+
+	public void printHeap() {
+		int currSize = size;
+		
+		if(size == arr.length) currSize = size - 1;
+		
+		for(int i= 1 ; i<= currSize ; i++) {
+				System.out.print(arr[i] + ",");
+		}
+		
+		System.out.println();
+	}
+	
+	}
+
+public class BST {
+
+	public static void buildHeap(int arr[],int n) {
+				
+		for(int i = n/2 ; i > 0 ; i--) {
+			heapify(arr,n,i);
+		}
+	}
+
+	public static void heapify(int arr[],int n , int index) {
+		
+		int largest = index;
+		int left = 2*index;
+		int right = 2*index+1;
+		
+		// check if left child is greater
+		if(left <= n  && (arr[largest] < arr[left])) largest = left;
+		// check if right child is greater
+		if(right <= n  && (arr[largest] < arr[right])) largest = right;
+		
+		// it means any of left or right child is greater than node 
+		if( index != largest) {
+			// swap the current indexed node with its greater node
+			int temp = arr[largest];
+			arr[largest] = arr[index];
+			arr[index] = temp;
+			// update index 
+			index = largest;
+			// heapify rest of the array
+			heapify(arr,n,index);
+		}
+	}
+	
+	static void printArr(int arr[]) {
+		
+		for(int i : arr) System.out.print( i + ",");
+		
+		System.out.println();
+	}
+	
+	public static void heapSort(int arr[],int n) {
+		
+		while(n != 1) {
+			int temp = arr[1];
+			arr[1] = arr[n];
+			arr[n--] = temp;
+			
+	    	heapify(arr,n,1);
+		}	
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+//		Heaps h = new Heaps(10);
+//		h.insert(10);
+//		h.printHeap();
+//		h.insert(200);
+//		h.printHeap();
+//		h.insert(30);
+//		h.printHeap();
+//		h.insert(150);
+//		h.printHeap();
+//		h.insert(650);
+//		h.printHeap();
+//		h.insert(500);
+//		h.printHeap();
+//		h.insert(479);
+//		h.printHeap();
+//		h.insert(900);
+//		h.printHeap();
+//		
+//		
+//		h.remove();
+//		h.printHeap();
+//		h.remove();
+//		h.printHeap();
+//		h.remove();
+//		h.printHeap();
+//		h.remove();
+//		h.printHeap();
+//		h.remove();
+//		h.printHeap();
+//		h.remove();
+//		h.printHeap();
+//		
+//		System.out.println("-------");
+//		h.printHeap();
+		
+		int arr[] = {-1,11,12,13,14,15,31};
+		printArr(arr);
+		buildHeap(arr,arr.length-1);
+		printArr(arr);
+		heapSort(arr,arr.length-1);
+		printArr(arr);
+		
+	}
+
+}

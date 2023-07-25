@@ -1,0 +1,76 @@
+
+class Solution {
+
+    static int kthSmallest(int arr[],int k){
+ 
+     // create MAX_HEAP to store elements.
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        int n = arr.length;
+        // store first k elements
+        for(int i = 0; i<k ; i++){
+            pq.add(arr[i]);
+        }
+        
+        // now add only those elements who are smaller than the head.
+        for(int i = k; i<n;i++){
+            if(arr[i] < pq.peek()){
+                pq.poll();
+                pq.add(arr[i]);
+            }
+        }
+        
+        // head is the kth smallest element
+        return  pq.poll();
+    }
+
+    public int findKthLargest(int[] arr, int k) {
+       int n = arr.length;
+       int ans = kthSmallest(arr,n-k+1);
+       return ans;
+    }
+}
+
+
+// why n-k+1 ?
+// beacause it is the same thing if you say kth largest or (n-k+1) smallest number.
+// both will give same result.
+
+
+---------------------------------- Using MIN_HEAP ----------------------------------
+
+
+class Solution {
+
+    static int helper(int arr[],int k){
+ 
+     // create MIN_HEAP to store elements.
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        int n = arr.length;
+        // store first k elements
+        for(int i = 0; i<k ; i++){
+            pq.add(arr[i]);
+        }
+        
+        // now add only those elements who are greater than the head.
+        for(int i = k; i<n;i++){
+            if(arr[i] > pq.peek()){
+                pq.poll();
+                pq.add(arr[i]);
+            }
+        }
+        
+        // head is the kth greatest element
+        return  pq.poll();
+    }
+
+    public int findKthLargest(int[] arr, int k) {
+       int n = arr.length;
+       int ans = helper(arr,k);
+       return ans;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/kth-largest-element-in-an-array/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/kth-largest-element-in-the-unsorted-array_893030?leftPanelTab=0

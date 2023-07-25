@@ -1,0 +1,37 @@
+
+public class Solution {
+
+    // Get inorder of the given tree
+	static void inorder(BinaryTreeNode root,Queue<Integer> q){
+		if(root == null) return;
+
+		inorder(root.left,q);
+		q.add(root.data);
+		inorder(root.right,q);
+	}
+
+    // to create Min Heap fill data in PreOrder
+    static void fillData(BinaryTreeNode root,Queue<Integer> q){
+		if(root == null) return;
+
+		root.data =	q.poll();
+		fillData(root.left,q);
+		fillData(root.right,q);
+
+	}
+
+	public static BinaryTreeNode convertBST(BinaryTreeNode root) {
+		// Queue to store tree node's values 
+		Queue<Integer> q = new LinkedList<>();
+        // store inorder of given tree
+		inorder(root,q);
+        // fill data in PreOrder format to create MIN Heap
+		fillData(root, q);
+
+		return root;
+
+	}
+}
+
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/convert-bst-to-min-heap_920498?leftPanelTab=0

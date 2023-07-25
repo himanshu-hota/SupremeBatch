@@ -1,0 +1,29 @@
+public class Solution {
+
+    static boolean check(TreeNode<Integer> root,int index , int nodes){
+        if(root == null) return true;
+
+        if(index >= nodes) return false;
+
+        boolean left = check(root.left,2*index+1,nodes);
+        boolean right = check(root.right,2*index+2,nodes);
+
+        return left && right;
+    }
+
+    static int countNodes(TreeNode<Integer> root){
+        if(root == null) return 0;
+
+        return 1 + countNodes(root.left) + countNodes(root.right);
+    }
+    public static int isCompleteBinaryTree(TreeNode<Integer> root) {
+        int nodes = countNodes(root);
+        boolean ans = check(root,0,nodes);
+        return ans ? 1 : 0;
+    }
+}
+
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/check-whether-binary-tree-is-complete_1280147?leftPanelTab=1
+
+LeetCode :- https://leetcode.com/problems/check-completeness-of-a-binary-tree/

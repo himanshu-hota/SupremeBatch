@@ -1,0 +1,67 @@
+
+class Info{
+    // store the value
+    int data;
+    // store on which row this elemenet was at.
+    int row;
+    // store on which col this elemenet was at.
+    int col;
+    
+    Info(int d , int r , int c){
+        this.row = r;
+        this.col = c;
+        this.data = d;
+    }
+}
+
+// custom Comparator
+class Comp implements Comparator<Info>{
+    @Override  
+    public int compare(Info a , Info b){
+        return a.data - b.data;   
+    }
+}
+
+class Solution{
+
+    //Function to merge k sorted arrays.
+    public static ArrayList<Integer> mergeKArrays(int[][] arr,int k) {
+        
+        // it will hold our final answer
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        // create min heap
+        PriorityQueue<Info> pq = new PriorityQueue<>(new Comp());
+        
+        // add 0th value of each array to the min heap
+        for(int i = 0 ;i < k; i++){
+            pq.add(new Info(arr[i][0],i,0));
+        }
+        
+        // size of each array
+        int n = arr[0].length;
+        
+        // processing of rest elemenets
+        while(!pq.isEmpty()){
+
+            // elemenet nikalo
+            Info temp = pq.poll();
+            int data = temp.data;
+            int topRow = temp.row;
+            int topCol = temp.col;
+            
+            // ans me dalo
+            ans.add(data);
+            
+            // naya node banalo
+            if(topCol + 1 < n){
+                Info node = new Info(arr[topRow][topCol+1],topRow,topCol+1);
+                pq.add(node);
+            }
+        }
+        
+        return ans;
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/merge-k-sorted-arrays/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
