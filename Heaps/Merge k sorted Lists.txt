@@ -1,0 +1,52 @@
+
+
+// custom Comparator
+class Comp implements Comparator<ListNode>{
+    @Override  
+    public int compare(ListNode a , ListNode b){
+        return a.val - b.val;   
+    }
+}
+
+class Solution {
+    public ListNode mergeKLists(ListNode[] arr) {
+
+        // it will hold our final answer
+        ListNode ans = new ListNode(-1);
+        ListNode curr = ans;
+
+        // create min heap
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(new Comp());
+        
+        // add head of each list to the min heap
+        int k = arr.length;
+        for(int i = 0 ;i < k; i++){
+            if(arr[i] != null)
+            pq.add(arr[i]);
+        }
+        
+        // processing of rest elemenets
+        while(!pq.isEmpty()){
+
+            // elemenet nikalo
+            ListNode temp = pq.poll();
+            
+            // ans me dalo
+            curr.next = temp;
+            curr = curr.next;
+            
+            // naya node banalo
+            if(temp.next != null){
+                pq.add(temp.next);
+            }
+        }
+        
+        return ans.next;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/merge-k-sorted-lists/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/merge-k-sorted-lists_992772?leftPanelTab=0
+
+GFG :- https://practice.geeksforgeeks.org/problems/merge-k-sorted-linked-lists/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

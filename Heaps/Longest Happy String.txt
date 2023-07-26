@@ -1,0 +1,91 @@
+class Node {
+    char ch; // store the character
+    int freq; // store its frequency
+    Node(char ch , int f){
+        this.ch = ch;
+        this.freq = f;
+    }
+}
+
+class Comp implements Comparator<Node>{
+    @Override
+    public int compare(Node a , Node b){
+        return b.freq - a.freq;
+    }
+}
+
+class Solution {
+    public String longestDiverseString(int a, int b, int c) {
+        // create max heap
+        PriorityQueue<Node> pq = new PriorityQueue<>(new Comp());
+
+        // add 'a' and its frequency
+        if(a > 0) pq.add(new Node('a',a));
+        // add 'b' and its frequency
+        if(b > 0) pq.add(new Node('b',b));
+        // add 'c' and its frequency
+        if(c > 0) pq.add(new Node('c',c));
+
+        // this will hold our final answer
+        StringBuilder ans = new StringBuilder();
+
+        // loop till the heap has one element left
+        // why one left ? ->
+        // because we are ensuring that we can pull 2 elements out in a single pass
+        while(pq.size() > 1){
+            // pull out first element
+            Node first = pq.poll();
+            // pull out second element
+            Node second = pq.poll();
+
+            // if it has more than 2 elements then add 2 same characters
+            if(first.freq >= 2){
+                ans.append(first.ch);
+                ans.append(first.ch);
+                first.freq -= 2;
+            }else{ // otherwise add one character
+                ans.append(first.ch);
+                first.freq -= 1;
+            }
+
+            // we add 2 chars of second char only when freq of second is higher than first 
+            // why ? -> because if second is to less than first then our final string will be shorter than it should be in final ans
+            if(second.freq >= first.freq && second.freq >= 2){
+                ans.append(second.ch);
+                ans.append(second.ch);
+                second.freq -= 2;
+            }else{
+                ans.append(second.ch);
+                second.freq -= 1;
+            }
+
+            // if still there are chars to append then push back the first char
+            if(first.freq > 0) pq.add(first);
+            // if still there are chars to append then push back the second char
+            if(second.freq > 0) pq.add(second);
+        }
+
+        // process the last node in pq
+        if(pq.size() == 1){
+            Node last = pq.poll();
+            // if last node has more than 2 freq. then consume only two 
+            if(last.freq >= 2){
+                ans.append(last.ch);
+                ans.append(last.ch);
+                last.freq -= 2;
+            }else{ // otherwise consume 1
+                ans.append(last.ch);
+                last.freq -= 1;
+            }
+        }
+
+        // return final ans
+        return ans.toString();
+
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/longest-happy-string/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/longest-happy-string_1404430?leftPanelTab=1

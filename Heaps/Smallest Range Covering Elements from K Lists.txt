@@ -1,0 +1,108 @@
+
+class Info {
+    // store element
+    int data;
+    // store the row indentity of this element
+    int row; 
+    // store the col indentity of this element
+    int col;
+
+    Info(int d , int r ,int c){
+        this.row = r;
+        this.col = c;
+        this.data = d;
+    }
+}
+
+// custom comparator
+class Comp implements Comparator<Info>{
+    @Override 
+    public int compare(Info a, Info b){
+        return a.data - b.data;
+    }
+}
+
+class Solution {
+    public int[] smallestRange(List<List<Integer>> arr) {
+        
+        // final answer
+        int ans[] = {-1,-1};
+        
+        if(arr.size() == 0) return ans; 
+        
+        // calculate current range min
+        int min = Integer.MAX_VALUE;
+        // calculate current range max
+        int max = Integer.MIN_VALUE;
+
+        // Create min heap
+        PriorityQueue<Info> pq = new PriorityQueue<>(new Comp());
+        // number of lists 
+        int k = arr.size();
+        // store first value of each list
+        for(int i = 0; i< k ; i++){
+            int element = arr.get(i).get(0);
+            pq.add(new Info(element,i,0));
+            // calculate min till now
+            min = Math.min(min,element);                                                 
+            // calculate max till now
+            max = Math.max(max,element);
+        }
+
+        // overall min of current range 
+        int ansMin = min;
+        // overall max of current range
+        int ansMax = max;
+
+        // traverse list
+        while(!pq.isEmpty()){
+            // pull out one element
+            Info temp = pq.poll();  
+            // data of current element
+            int data = temp.data;
+            // in which row it was
+            int topRow = temp.row;
+            // in which col it was
+            int topCol = temp.col;
+
+            // update min
+            min = data;
+
+            int currRange = max - min;
+            int ansRange = ansMax - ansMin;
+            
+            // if current range is smaller then only update the ans range
+            if(currRange < ansRange){
+                ansMin = min;
+                ansMax = max;
+            }
+
+            // size of the list in which current element is present
+            int n = arr.get(topRow).size();
+
+            // check if next element exists
+            if(topCol + 1 < n){
+                // update max
+                max = Math.max(max,arr.get(topRow).get(topCol+1));
+                // add next element of current element
+                pq.add(new Info(arr.get(topRow).get(topCol+1),topRow,topCol +1));
+            }else{
+                // if any of the list is exhausted then we have found our answer
+                break;
+            }
+        }
+
+        // update final answer
+        ans[0] = ansMin;
+        ans[1] = ansMax;
+        
+        return ans;
+
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/smallest-range-from-k-sorted-list_1069356?leftPanelTab=0
+
+GFG :- https://practice.geeksforgeeks.org/problems/find-smallest-range-containing-elements-from-k-lists/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

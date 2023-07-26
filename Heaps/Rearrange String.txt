@@ -1,0 +1,87 @@
+class Node{
+    char ch; 
+    int freq; // store frequency of this character.
+
+    Node(char x , int y){
+        this.ch = x;
+        this.freq = y;
+    }
+}
+
+class Comp implements Comparator<Node>{
+    @Override
+    public int compare(Node a , Node b){
+        return b.freq - a.freq;
+    }
+}
+
+class Solution {
+    public String reorganizeString(String s) {
+        // hash each character
+        int hash[] = new int[26];
+        // initially make all frequencies 0.
+        Arrays.fill(hash,0);
+
+        PriorityQueue<Node> pq = new PriorityQueue<>(new Comp());
+
+        // hash the frequencies
+        for(int i = 0; i < s.length(); i++){
+            char ch = s.charAt(i);
+            hash[ch - 'a']++;
+        }
+
+        // add all character with frequencies higher than 0 to heap
+        for(int i = 0; i< hash.length ; i++){
+            if(hash[i] > 0){
+                char ch = (char)('a' + i);
+                pq.add(new Node(ch,hash[i]));
+            }
+        }   
+
+        // final ans
+        StringBuilder ans = new StringBuilder();
+        
+        // loop till we have greater than 1 element 
+        // why >1 ? -> because we are pulling out 2 elements in one pass
+        while(pq.size() > 1){
+            
+            // pull out elements
+            Node first = pq.poll();
+            Node second = pq.poll();
+
+            // add it to ans
+            ans.append(first.ch);
+            ans.append(second.ch);
+
+            // decrease frequencies
+            first.freq--;
+            second.freq--;
+
+            // add if it has remaining characters
+            if(first.freq > 0){     
+                pq.add(first);
+            }
+            // add if it has remaining characters
+            if(second.freq > 0){
+                pq.add(second);
+            }
+
+        }
+
+        // if still there are elements in heap then
+        if(pq.size() == 1){
+            Node last = pq.poll();
+            // check if it has only one element
+            if(last.freq == 1){
+                ans.append(last.ch);
+            }else { // if it has more than 1 element then it is invalid string
+                return "";
+            }
+        }
+
+        // return final answer
+        return ans.toString();
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/reorganize-string/submissions/

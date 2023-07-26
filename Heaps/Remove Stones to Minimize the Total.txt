@@ -1,0 +1,30 @@
+class Solution {
+    public int minStoneSum(int[] piles, int k) {
+        if(piles.length <= 0) return -1;
+        // create max heap
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+
+        // add all piles to max heap
+        for(int x : piles) pq.add(x);
+
+        // perform operation k times
+        while(k-- > 0){
+            // pick the pile that has most number of stones
+            int pile = pq.poll();
+            // perform operation
+            int element = pile - (pile/2);
+            // add it back to the heap 
+            pq.add(element);
+        }
+        // initial sum 
+        int sum = 0;
+        // add all stones together
+        while(!pq.isEmpty()) sum += pq.poll();
+
+        return sum;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/remove-stones-to-minimize-the-total/description/
+
+Time Complexity :- O(n) + (O)(klogn)
