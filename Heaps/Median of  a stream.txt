@@ -1,0 +1,45 @@
+class MedianFinder {
+    private PriorityQueue<Integer> maxHeap = null;
+    private PriorityQueue<Integer> minHeap = null;
+
+    public MedianFinder() {
+        maxHeap = new PriorityQueue<>((a, b)-> (b - a));
+        minHeap = new PriorityQueue<>((a, b)-> (a - b));
+    }
+    
+    public void addNum(int num) {
+        // initially both heaps will be empty so lets put the first element on the max for ease.
+        // and now if any new element comes then check
+        // if max's top is >= than num then put in the max
+        // otherwise in the min
+        if(maxHeap.size() == 0 || maxHeap.peek() >= num) maxHeap.offer(num);
+        else minHeap.offer(num);
+        balancingHeaps();
+        
+    }
+    
+    
+    public double findMedian() {
+        // if max has extra element then it is the odd case return from max.
+        if(maxHeap.size() > minHeap.size()) return maxHeap.peek();
+        // if min has extra element then it is the odd case return from min.
+        else if(minHeap.size() > maxHeap.size()) return minHeap.peek();
+        // otherwise it is the even case then return average of both's top element
+        else return (maxHeap.peek() + minHeap.peek()) / 2.0;
+        
+    }
+    private void balancingHeaps(){
+        // if max has more than 1 extra element then pull from max put in min
+        if(maxHeap.size() - minHeap.size() > 1) minHeap.offer(maxHeap.poll());
+        // if min has more than 1 extra element then pull from min put in max
+        if(minHeap.size() - maxHeap.size() > 1) maxHeap.offer(minHeap.poll());
+
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/find-median-from-data-stream/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/find-median-in-a-stream-1587115620/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/median-in-a-stream_975268?leftPanelTab=0

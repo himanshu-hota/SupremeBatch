@@ -1,0 +1,63 @@
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+// custom data structure 
+class Node {
+    int distance;
+    int[] point;
+
+    Node(int d, int[] p) {
+        this.distance = d;
+        this.point = p;
+    }
+}
+
+// custom comparator
+class Comp implements Comparator<Node> {
+    @Override
+    public int compare(Node a, Node b) {
+        return a.distance - b.distance; // Compare based on distance in ascending order
+    }
+}
+
+class Solution {
+    public int[][] kClosest(int[][] points, int k) {
+        // this will be holding our final answer
+        int ans[][] = new int[k][2];
+
+        // get row count
+        int row = points.length;
+        // get cols count
+        int col = points[0].length;
+
+        // Create a priority queue with a custom comparator
+        PriorityQueue<Node> pq = new PriorityQueue<>(new Comp());
+
+        // Calculate distance and add nodes to the priority queue
+        for (int i = 0; i < row; i++) {
+            // distance nikalo
+            int distance = points[i][0] * points[i][0] + points[i][1] * points[i][1];
+            // node banalo
+            Node temp = new Node(distance, points[i]);
+            // heap me dalo
+            pq.add(temp);
+            
+        }
+
+    // Fetch the k closest points from the priority queue
+        int i = 0;
+        while (k-- > 0) {
+            ans[i++] = pq.poll().point;
+        }
+
+        // optional
+        pq = null;
+        System.gc();
+        return ans;
+    }
+}
+
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/k-closest-points-to-origin_1094908?leftPanelTab=0
+
+LeetCode :- https://leetcode.com/problems/k-closest-points-to-origin/

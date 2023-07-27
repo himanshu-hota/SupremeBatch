@@ -1,0 +1,69 @@
+class Solution{
+    public int[] mergeHeaps(int[] a, int[] b, int n, int m) {
+        // create heap
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        
+        // add all elements of array a to heap
+        for(int x : a) pq.add(x);
+        // add all elements of array b to heap
+        for(int x : b) pq.add(x);
+        // array to store final ans;
+        int ans[] = new int[m+n];
+        // store max heap values in the final ans array 
+        for(int i = 0 ; i<m+n ;i++){
+             ans[i] = pq.poll();
+         }
+         
+         return ans;
+    }
+}
+
+
+------------------------------------ Optimized ---------------------------------
+
+class Solution{
+    
+    
+    static void heapify(int ans[],int i,int n){
+        while(true){
+            
+            int left = 2*i+1;
+            int right = 2*i+2;
+            int swapIdx = i;
+            
+            if (left < n && ans[left] > ans[i]) swapIdx = left;
+            if (right < n && ans[right] > ans[swapIdx]) swapIdx = right;
+
+            
+            if(i == swapIdx) break;
+            
+            int temp = ans[i];
+            ans[i] = ans[swapIdx];
+            ans[swapIdx] = temp;
+            
+            i = swapIdx;
+        }
+    }
+    
+    public int[] mergeHeaps(int[] a, int[] b, int n, int m) {
+        
+        int ans[] = new int[m+n];
+        int idx = 0;
+        int size = m+n;
+        for(int x : a) ans[idx++] = x; 
+        for(int x : b) ans[idx++] = x; 
+        
+        for(int i = (size/2) -1 ; i>=0; i--){
+            heapify(ans,i,size);
+        }
+         
+        return ans;
+    }
+}
+
+Time complexity :- O((n + m) log (n + m)).
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/merge-two-binary-max-heap0144/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/merge-two-binary-max-heaps_1170049
