@@ -1,0 +1,40 @@
+import java.util.*;
+
+class Solution {
+    public int minRefuelStops(int target, int startFuel, int[][] stations) {
+        // if we have enough fuel to reach the target from starting then return 0;
+        if (startFuel >= target) return 0;
+        
+        // create max heap
+        Queue<Integer> queue = new PriorityQueue<>((a,b) -> b-a);
+        // helping variables
+        int i = 0;
+        int  n = stations.length;
+        int stops = 0;
+        int maxDistance = startFuel; // start travelling with given fuel
+
+
+        // loop till we have fuel
+        while (maxDistance < target) {
+            // add all the fuel in the path to heap till we reach the target
+            while (i < n && stations[i][0] <= maxDistance) {
+                queue.offer(stations[i++][1]);
+            }
+            
+            // check if we found no station to refuel
+            if (queue.isEmpty()) return -1;
+            // update the travelled distance
+            maxDistance += queue.poll();
+            // update the number of stations where we stopped
+            stops++;
+        }
+
+        // final return ans
+        return stops;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/minimum-number-of-refueling-stops/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/ninja-and-stops_1262353?leftPanelTab=0

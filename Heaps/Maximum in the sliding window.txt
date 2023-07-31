@@ -1,0 +1,61 @@
+import java.util.*;
+
+// custom data structure
+class Pair {
+    int val;
+    int idx;
+
+    Pair(int v, int i){
+        this.val = v;
+        this.idx = i;
+    }
+}
+
+// custom comparator
+class Comp implements Comparator<Pair> {
+    @Override
+    public int compare(Pair a , Pair b){
+        return b.val - a.val;
+    }
+}
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        // create max heap
+        PriorityQueue<Pair> pq = new PriorityQueue<>(new Comp());
+        int n = nums.length;
+        
+        // add first k elements
+        for(int i = 0 ; i < k ; i++){
+            pq.add(new Pair(nums[i],i));
+        }
+
+        // final answer array
+        int ans[] = new int[n-k+1];
+        int idx = 0;
+
+        // add the max of first windwo to the ans 
+        ans[idx++] = pq.peek().val;
+
+        // process for the rest windows
+        for(int i = k ; i< n ; i++){
+            // current element dalo
+            pq.add(new Pair(nums[i],i));
+            
+            // out of window nikalo
+            while(pq.peek().idx <= i-k){
+                pq.poll();
+            }
+
+            // max of current window ans me dalo
+            ans[idx++] = pq.peek().val;
+        }
+
+        // return ans
+        return ans;
+
+    }
+}
+
+// Time complexity :- O(nlogn)
+// space complexity :- O(n)

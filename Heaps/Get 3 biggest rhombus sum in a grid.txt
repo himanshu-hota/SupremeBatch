@@ -1,0 +1,132 @@
+import java.util.*;
+
+// store cordinates of each element
+class Pair {
+    int x;
+    int y;
+
+    Pair(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class Solution {
+
+    // check if a rhombus is in bound
+    static boolean inBound(int[][] grid, Pair v[]) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+
+        // if it exceeds the row or column then it is out of bound
+        for (int i = 0; i < v.length; i++) {
+            if (v[i].x < 0 || v[i].x >= rows || v[i].y < 0 || v[i].y >= cols) {
+                return false;
+            }
+        }
+
+        // otherwise it is in bound
+        return true;
+    }
+
+    static boolean getAllVertices(int[][] grid, Pair v[], Pair c, int delta) {
+        // 4 cordinates of the rhombus.
+        Pair A = new Pair(c.x - delta, c.y);
+        Pair B = new Pair(c.x, c.y + delta);
+        Pair C = new Pair(c.x + delta, c.y);
+        Pair D = new Pair(c.x, c.y - delta);
+
+        // create a rhombus by putting all cordinates together.
+        v[0] = A;
+        v[1] = B;
+        v[2] = C;
+        v[3] = D;   
+
+        // check this rhombus is valid or not.
+        if (inBound(grid, v)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // get sum of rhombus that can be created from the current cell
+    static void getAllSum(int[][] grid, Queue<Integer> pq, int i, int j) {
+        // every cell is a rhombus so add its value.
+        pq.offer(grid[i][j]);
+        int delta = 1;
+        Pair v[] = new Pair[4];
+
+        // get all the rhombus that can be created from current cell
+        while (getAllVertices(grid, v, new Pair(i, j), delta)) {
+            // get the cordinates
+            Pair A = v[0];
+            Pair B = v[1];
+            Pair C = v[2];
+            Pair D = v[3];
+            // calculate the sum of this rhombus
+            int cSum = grid[A.x][A.y] + grid[B.x][B.y] + grid[C.x][C.y] + grid[D.x][D.y];
+
+            // cells between A -> B
+            for (int z = 1; z < (B.x - A.x); z++) {
+                cSum += grid[A.x + z][A.y + z];
+            }
+            // cells between B -> C
+            for (int z = 1; z < (C.x - B.x); z++) {
+                cSum += grid[B.x + z][B.y - z];
+            }
+            // cells between C -> D
+            for (int z = 1; z < (C.x - D.x); z++) {
+                cSum += grid[C.x - z][C.y - z];
+            }
+            // cells between D -> A
+            for (int z = 1; z < (D.x - A.x); z++) {
+                cSum += grid[D.x - z][D.y + z];
+            }
+
+            // add the sum of all rhombus that can be made from current cell
+            pq.offer(cSum);
+            // increase the rhombus size
+            ++delta;
+        }
+    }
+
+    public int[] getBiggestThree(int[][] grid) {
+        // max heap to store rhombus sum 
+        Queue<Integer> pq = new PriorityQueue<>((a, b) -> (b - a));
+        int m = grid.length;
+        int n = grid[0].length;
+
+        // traverse each cell and get all the sum of rhombus that can
+        // be made from the current cell.
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                getAllSum(grid, pq, i, j);
+            }
+        }
+
+        // list to store 3 biggest rhombus sum 
+        List<Integer> list = new ArrayList<>();
+        
+        // store rhomubses
+        while (!pq.isEmpty() && list.size() < 3) {
+            if (!list.contains(pq.peek())) {
+                list.add(pq.poll());
+            } else {
+                pq.poll();
+            }
+        }
+
+        // final ans
+        int ans[] = new int[list.size()];
+        
+        // convert into array
+        for(int i = 0; i< list.size(); i++) ans[i] = list.get(i); 
+        pq = null;
+        System.gc();
+        return ans;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/get-biggest-three-rhombus-sums-in-a-grid/

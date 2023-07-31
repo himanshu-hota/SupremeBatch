@@ -1,0 +1,60 @@
+class Solution {
+    public long minimumDifference(int[] nums) {
+        
+        
+        int m = nums.length;
+        int n = m/3;
+
+        // store the n smallest element from left in each window
+        Queue<Integer> prefix = new PriorityQueue<>((a,b) -> (b-a));
+        // store the n largest element from left in each window
+        Queue<Integer> suffix = new PriorityQueue<>();
+
+        
+        long minLeft[] = new long[n*3];
+        // sum of n small elements from left
+        long minSum = 0;
+        // sum of n large elements from right
+        long maxSum = 0;
+
+        // 0 -> n
+        for(int i = 0; i< n ;i++){
+            minSum += nums[i];
+            prefix.add(nums[i]);
+        }
+
+        // first sum of first n small elements
+        minLeft[n-1] = minSum;
+
+        // n -> 2n , calculate min Sum in each window from n to end
+        for(int i = n ; i< 2*n; i++){
+            minSum += nums[i];
+            prefix.add(nums[i]);
+            minSum -= prefix.poll();
+            minLeft[i] = minSum;
+        }
+
+        // 2n -> 3n , calculate max sum of n large elements from right
+        for(int i = 3*n-1 ; i >= 2*n ; --i){
+            maxSum += nums[i];
+            suffix.add(nums[i]);
+        }
+
+        // store the the first difference
+        long res = minLeft[2*n-1] - maxSum;
+
+        // calculate min difference and store it
+        for(int i = 2*n-1 ; i >= n ; i--){
+            maxSum += nums[i];
+            suffix.add(nums[i]);
+            maxSum -= suffix.poll();
+
+            res = Math.min(res, ((minLeft[i-1]) - maxSum));
+        }
+
+        return res;
+
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/minimum-difference-in-sums-after-removal-of-elements/description/
