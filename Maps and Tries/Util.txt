@@ -1,0 +1,116 @@
+
+
+class TrieNode{
+	char data;
+	boolean isTerminal;
+	TrieNode children[];
+	
+	TrieNode(char ch){
+		this.data = ch;
+		this.isTerminal = false;
+		children = new TrieNode[26];
+	}
+	
+	
+	public void test() {
+		for(TrieNode x : children) {
+			System.out.println(x);
+		}
+	}
+}
+
+public class Tries {
+	
+	
+	// Time Complexity :- O(n)
+	static boolean search(TrieNode root, StringBuilder str) {
+		if(str.length() == 0) return root.isTerminal;
+		
+		char ch = str.charAt(0);
+		int index = ch - 'A';
+		
+		TrieNode child ;
+		if(root.children[index] != null) {
+			child = root.children[index];
+		}else {
+			return false;
+		}
+			
+		return search(child,new StringBuilder(str.substring(1)));
+		
+	}
+	
+	// Time Complexity :- O(n)
+	static void insert(TrieNode root, StringBuilder str) {
+		if(str.length() == 0) {
+			root.isTerminal = true;
+			return ;
+		}
+		
+		char ch = str.charAt(0);
+		int index = ch - 'A';
+		TrieNode child ;
+		
+		if(root.children[index] != null) {
+			child = root.children[index];
+		}else {
+			child = new TrieNode(ch);
+			root.children[index] = child;
+		}
+		
+		insert(child, new StringBuilder(str.substring(1)));
+		
+	}
+	
+	public static void remove(TrieNode root, StringBuilder str) {
+		
+		if(root == null) return;
+		
+		if(str.length() == 0) {
+			if(root.isTerminal) {
+				root.isTerminal = false;
+				System.out.println("Deletion successful!!!");
+				return;
+			}else {
+				System.out.println("String Not found!!!!");
+				return;
+			}
+			
+		}
+		
+		TrieNode child;
+		char ch = str.charAt(0);
+		int index = ch - 'A';
+		
+		if(root.children[index] != null) {
+			child = root.children[index];
+		}else {
+			child = null;
+		}
+		
+		remove(child, new StringBuilder(str.substring(1)));
+		
+		
+	}
+
+	public static void main(String[] args) {
+		
+		TrieNode root = new TrieNode('-');
+		
+		insert(root,new StringBuilder("HELLOWORLD"));
+		insert(root,new StringBuilder("BRIGHT"));
+		insert(root,new StringBuilder("OLD"));
+		insert(root,new StringBuilder("GREEN"));
+		
+		boolean ans = search(root, new StringBuilder("GREEN"));
+		System.out.println(ans);
+		
+		remove(root, new StringBuilder("GREEN"));
+		
+		ans = search(root, new StringBuilder("GREEN"));
+		System.out.println(ans);
+		
+
+	}
+
+}

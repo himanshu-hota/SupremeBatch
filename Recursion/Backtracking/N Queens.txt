@@ -91,4 +91,4 @@ class Solution {
 }
 
 
-LeetCode :- https://chat.openai.com/c/f8bcf1d0-fc75-41d1-a2db-b9695bb33092
+LeetCode :- https://leetcode.com/problems/n-queens/
