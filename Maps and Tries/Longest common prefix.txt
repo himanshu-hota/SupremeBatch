@@ -1,0 +1,106 @@
+
+
+
+class TrieNode{
+	char data;
+	boolean isTerminal;
+	TrieNode children[];
+	int childCount;
+
+	TrieNode(char ch){
+		this.data = ch;
+		this.isTerminal = false;
+		this.children = new TrieNode[26];
+		this.childCount = 0; 
+	}
+	
+
+	// Time Complexity :- O(n)
+	void insert(TrieNode root, StringBuilder str) {
+		if(str.length() == 0) {
+			root.isTerminal = true;
+			return ;
+		}
+		
+		char ch = str.charAt(0);
+		int index = ch - 'a';
+		TrieNode child ;
+		
+		if(root.children[index] != null) {
+			child = root.children[index];
+		}else {
+			child = new TrieNode(ch);
+			root.childCount++;
+			root.children[index] = child;
+		}
+		
+		insert(child, new StringBuilder(str.substring(1)));
+		
+	}
+	
+
+
+}
+
+
+
+class Solution {
+
+	static void findLCP(TrieNode root,StringBuilder first,StringBuilder ans){
+	
+	// if agar kahi pe emp string aayi hogi 
+	// to insert karte time numne '-' ko hi terminal bana diya hoga
+	// isiliye check karo ki kya trie me kabhi emp string insert hui thi kya
+	// agar han to ans not possible
+	if(root.isTerminal)	return;
+
+	// length nikalo
+	int n = first.length();
+
+	// tranverse kar dalo
+	for(int i = 0 ;i < n ;i++){
+
+		// character pakdo
+		char ch = first.charAt(i);
+
+		// dekho ki kya mera abhi ka jo root hai kya usme sirf ek child hai ?
+		// agar han tab aage ki bat chit possible hai
+		if(root.childCount == 1){
+			int index = ch - 'a';
+			ans.append(ch);
+			root = root.children[index];
+		}else{ // nahi to answer mil chuka hai
+			break;
+		}
+
+		// ab aage badhne ke bad agar kabhi terminal node mil jaye to 
+		// iske pahle tak ka string hi ans hai
+		if(root.isTerminal){
+			break;
+		}
+
+	}
+}
+
+    public String longestCommonPrefix(String[] strs) {
+        
+			StringBuilder ans = new StringBuilder();
+
+			TrieNode root = new TrieNode('-');
+
+			// insert all strings to trie
+			for(int i = 0; i< strs.length; i++){
+				root.insert(root,new StringBuilder(strs[i]));
+			}
+
+			// get one string to traverse
+			StringBuilder first = new StringBuilder(strs[0]);
+			// find LCP
+			findLCP(root,first,ans);
+			return ans.toString();
+    }
+}
+
+// Time and Space :- O(m*n)
+
+LeetCode :- https://leetcode.com/problems/longest-common-prefix/description/

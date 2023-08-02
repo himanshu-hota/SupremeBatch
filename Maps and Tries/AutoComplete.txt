@@ -1,0 +1,148 @@
+import java.util.*;
+
+class TrieNode {
+    char data;
+    boolean isTerminal;
+    TrieNode children[];
+
+    TrieNode(char ch) {
+        this.data = ch;
+        this.isTerminal = false;
+        children = new TrieNode[26];
+    }
+
+    public void test() {
+        for (TrieNode x: children) {
+            System.out.println(x);
+        }
+    }
+}
+
+public class Tries {
+
+    // Time Complexity :- O(n)
+    static void insert(TrieNode root, StringBuilder str) {
+        if (str.length() == 0) {
+            root.isTerminal = true;
+            return;
+        }
+
+        char ch = str.charAt(0);
+        int index = ch - 'A';
+        TrieNode child;
+
+        if (root.children[index] != null) {
+            child = root.children[index];
+        } else {
+            child = new TrieNode(ch);
+            root.children[index] = child;
+        }
+
+        insert(child, new StringBuilder(str.substring(1)));
+
+    }
+
+    static void storeSuggestions(TrieNode curr, List < StringBuilder > temp, StringBuilder prefix) {
+    	// if found any node that is terminal then it is a suggestion string
+        if (curr.isTerminal) temp.add(new StringBuilder(prefix));
+        
+        // check from A to Z if any suggestion is possible to make
+        for (char ch = 'A'; ch <= 'Z'; ch++) {
+        	// generate index for current character
+            int index = ch - 'A';
+            // check if it makes a string or not
+            TrieNode next = curr.children[index];
+            // if it makes a string then 
+            if (next != null) {
+            	// add this character to the suggestion string 
+                prefix.append(ch);
+                // and find more suggestions
+                storeSuggestions(next, temp, prefix);
+                // backtrack
+                prefix.deleteCharAt(prefix.length() - 1);
+            }
+        }
+        
+        
+    }
+
+    static List < List < StringBuilder >> getSuggestions(TrieNode root, StringBuilder input) {
+    	
+    	// list to store the final answer
+        List < List < StringBuilder >> ans = new ArrayList < > ();
+        // length of the given input string
+        int n = input.length();
+        // maintain prefix string which will hold the each character that is being searched
+        StringBuilder prefix = new StringBuilder();
+        
+        // store pointer to the root node
+        TrieNode prev = root;
+        
+        // traverse the input string and find suggestions
+        for (int i = 0; i < n; i++) {
+        	// current character that will be searched
+            char currChar = input.charAt(i);
+            // generate its index 
+            int index = currChar - 'A';
+            // get that node from the trie
+            TrieNode curr = prev.children[index];
+            
+            // if we didn't find the node then there is no possible ans
+            if (curr == null) {
+                break;
+            } else {
+            	// temp array to store suggestions of one character
+                List < StringBuilder > temp = new ArrayList < > ();
+                // store current character
+                prefix.append(currChar);
+                // find its suggestions
+                storeSuggestions(curr, temp, prefix);
+                // add suggestions for current characters
+                ans.add(temp);
+                // move to the next character for futher suggestions
+                prev = curr;
+
+            }
+
+        }
+        
+        // finally return answer
+        return ans;
+    }
+
+    public static void main(String[] args) {
+
+        TrieNode root = new TrieNode('-');
+
+        StringBuilder strs[] = new StringBuilder[7];
+        StringBuilder input = new StringBuilder("CALL");
+
+        strs[0] = new StringBuilder("CODE");
+        strs[1] = new StringBuilder("CALL");
+        strs[2] = new StringBuilder("CODER");
+        strs[3] = new StringBuilder("CODIEL");
+        strs[4] = new StringBuilder("CODET");
+        strs[5] = new StringBuilder("CODEHELP");
+        strs[6] = new StringBuilder("CODESHARP");
+
+        for (StringBuilder x: strs)
+            insert(root, x);
+        
+        
+        // this is the function we need to implement
+        // we supply root and the input string
+        List < List < StringBuilder >> ans = getSuggestions(root, input);
+
+        for (List < StringBuilder > list: ans) {
+            for (StringBuilder str: list) {
+                System.out.print(str + ", ");
+            }
+            System.out.println();
+        }
+
+    }
+}
+
+
+// Time Complexity :- O(m*n*m);
+// Space Complexity :- O(m*n);
