@@ -1,0 +1,26 @@
+
+class Solution{ 
+    
+    public int findPairs(int arr[],int n) { 
+        
+        Map<Integer,Boolean> map = new HashMap<>();
+        
+        // add all the pairs to the map and based on their sum
+        for(int i = 0; i< n ;i++){
+            int x = arr[i];
+            for(int j = i+1 ;j < n ; j++){
+                int y = arr[j];
+                int sum = x + y;
+                // if the map already has the sum
+                // then it means we have found our answer
+                if(map.getOrDefault(sum,false)) return 1;
+                else map.put(sum , true); // else put it into the map 
+            }
+        }
+        
+        return 0;
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/sum-equals-to-sum4006/1

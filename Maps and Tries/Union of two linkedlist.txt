@@ -1,0 +1,37 @@
+
+class Sol
+{
+	public static Node findUnion(Node head1,Node head2){
+	    
+        // treemap to store keys in sorted order
+	    Map<Integer,Integer> map = new TreeMap<>();
+	    
+        // put all elements of 1st LL
+	    while(head1 != null){
+	        map.put(head1.data,0);
+	        head1 = head1.next;
+	    }
+
+        // put all elements of 2nd LL
+	    while(head2 != null){
+	        map.put(head2.data,0);
+	        head2 = head2.next;
+	    }
+	    
+        // create a new linkedlist head
+	    Node head = new Node(-1);
+	    Node curr = head;
+
+        // traverse the map and parallely create nodes 
+	    for(Map.Entry<Integer,Integer> e : map.entrySet()){
+	        Node newNode = new Node(e.getKey());
+	        curr.next = newNode;
+	        curr = curr.next;
+	    }
+	    
+	    return head.next;
+	    
+	}
+}
+
+GFG :- v

@@ -1,0 +1,89 @@
+class Trie {
+    char data;          // Data representing the character stored in the Trie node
+    Trie[] children;    // Array to store references to the child Trie nodes
+    boolean isTerminal; // Boolean flag indicating if this node represents the end of a word
+
+    public Trie() {
+        this(' ');      // Default constructor, sets the root Trie node with data as ' '
+    }
+
+    public Trie(char data) {
+        this.data = data;                // Parameterized constructor, creates a Trie node with the given data
+        this.isTerminal = false;         // Initialize isTerminal to false
+        this.children = new Trie[26];   // Create an array to hold child Trie nodes (one for each lowercase letter)
+    }
+
+    public void insert(String word) {
+        insert(this, word, 0);  // Public method to insert a word into the Trie, starting from the root node
+    }
+
+    private void insert(Trie root, String word, int index) {
+        // Private helper method to recursively insert a word into the Trie
+        // index tracks the current position in the word being inserted
+
+        if (index == word.length()) {
+            root.isTerminal = true; // If we have reached the end of the word, mark the node as a terminal node
+            return;
+        }
+
+        char ch = word.charAt(index);
+        int childIndex = ch - 'a';
+        Trie child = root.children[childIndex]; // Get the child Trie node corresponding to the current character
+
+        if (child == null) {
+            child = new Trie(ch);          // If the child node doesn't exist, create a new Trie node for it
+            root.children[childIndex] = child;
+        }
+
+        insert(child, word, index + 1); // Recursively insert the next character of the word in the child node
+    }
+
+    public boolean search(String word) {
+        return search(this, word, 0); // Public method to search for a word in the Trie, starting from the root node
+    }
+
+    private boolean search(Trie root, String word, int index) {
+        // Private helper method to recursively search for a word in the Trie
+        // index tracks the current position in the word being searched
+
+        if (index == word.length()) {
+            return root.isTerminal; // If we have reached the end of the word, return true if the node is terminal
+        }
+
+        char ch = word.charAt(index);
+        int childIndex = ch - 'a';
+        Trie child = root.children[childIndex]; // Get the child Trie node corresponding to the current character
+
+        if (child == null) {
+            return false; // If the child node doesn't exist, the word is not present in the Trie
+        }
+
+        return search(child, word, index + 1); // Recursively search for the next character in the child node
+    }
+
+    public boolean startsWith(String prefix) {
+        return startsWith(this, prefix, 0); // Public method to check if a prefix exists in the Trie
+    }
+
+    private boolean startsWith(Trie root, String prefix, int index) {
+        // Private helper method to recursively check if a prefix exists in the Trie
+        // index tracks the current position in the prefix being checked
+
+        if (index == prefix.length()) {
+            return true; // If we have reached the end of the prefix, it exists in the Trie
+        }
+
+        char ch = prefix.charAt(index);
+        int childIndex = ch - 'a';
+        Trie child = root.children[childIndex]; // Get the child Trie node corresponding to the current character
+
+        if (child == null) {
+            return false; // If the child node doesn't exist, the prefix is not present in the Trie
+        }
+
+        return startsWith(child, prefix, index + 1); // Recursively check for the next character in the child node
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/implement-trie-prefix-tree/description/

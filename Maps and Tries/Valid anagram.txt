@@ -1,0 +1,27 @@
+class Solution {
+
+    public boolean isAnagram(String a, String b) {
+        // if the length mismatches then they are not anagram
+        if(a.length() != b.length()) return false;
+
+        // convert to char array
+        char[] x = a.toCharArray();
+        char[] y = b.toCharArray();
+
+        // sort both arrays
+        Arrays.sort(x);
+        Arrays.sort(y);
+
+        // Traverse any of the array
+        for(int i = 0 ; i< x.length; i++){
+            // at any point the characters mismatches in both array at same index
+            // then they are not anagrams
+            if(x[i] != y[i]) return false;
+        }
+
+        // if we reach till here then they are anagram
+        return true;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/valid-anagram/description/

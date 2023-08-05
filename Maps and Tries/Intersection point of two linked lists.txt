@@ -1,0 +1,33 @@
+
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        Map<Integer,ListNode> map = new TreeMap<>();
+
+        ListNode x = headA;
+        ListNode y = headB;
+
+        // hash all the nodes of LL 1
+        while(x != null){
+            // put to map only the first occurance of element
+            // if we put the other then tc fails.
+            if(map.getOrDefault(x.val,null) == null)
+                map.put(x.val,x);
+            x = x.next;
+        }
+
+        // traverse the second LL
+        while(y != null){
+            // now check if current node is already present 
+            // if it is present then it is the intersection point.
+            if(map.getOrDefault(y.val,null) == y){
+                return y;
+            }
+            y = y.next;
+        }
+
+        // if we reach till here then no intersection point found
+        return null;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/intersection-of-two-linked-lists/description/

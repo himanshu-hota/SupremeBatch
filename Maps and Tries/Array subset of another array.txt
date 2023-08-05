@@ -1,0 +1,38 @@
+
+class Compute {
+    public String isSubset( long a1[], long a2[], long n, long m) {
+        
+        // Map to store element and its frequency
+        Map<Long,Integer> map = new HashMap<>();
+        
+        // traverse the array 1 and store the element 
+        // as well as its frequency in the array
+        for(long x : a1){
+            // if till now element has not appeared then store it
+            if(!map.containsKey(x)){
+                map.put(x,1);
+            }else{ // else increment its frequency
+                map.put(x,map.get(x)+1);
+            }
+        } 
+        
+        // traverse the second array
+        for (long x : a2) {
+            
+            // if element not found or its frequency is zero then 
+            // the first array ha not exactly the same frequency of the current element 
+            // as it appears on the second array
+            if(map.getOrDefault(x,-1) == -1 || map.get(x) == 0) return "No";
+
+            // if we found the element then decrease its frequency
+            if(map.get(x)>=1) map.put(x,map.get(x)-1);
+            
+        }
+
+        // if we reach till here then second array is the subset of the first array
+        return "Yes";
+        
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/array-subset-of-another-array2317/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

@@ -1,0 +1,65 @@
+
+class Pair{
+    String str ;
+    int count;
+
+    Pair(String s){
+        this.str = s;
+        this.count = 1;
+    }
+
+    void increment() {
+        this.count++;
+    }
+}
+
+// custom comparator based on count and then string
+class SortByFreqAndThenLexico implements Comparator<Pair>{
+    @Override
+    public int compare(Pair a, Pair b){
+        if(a.count == b.count) return a.str.compareTo(b.str);
+        else return b.count - a.count;
+    }
+}
+
+class Solution {
+    public List<String> topKFrequent(String[] words, int k) {
+
+        // Map to store string and its corresponding node
+        Map<String,Pair> map = new HashMap<>();
+        // Max heap to store most frequest strings at top
+        Queue<Pair> pq = new PriorityQueue<>(new SortByFreqAndThenLexico());
+        // this will hold our final answer
+        List<String> ans = new ArrayList<>();
+
+        // put all words with its freq into mapp.
+        for(String word: words) {
+            if(!map.containsKey(word)){
+                map.put(word,new Pair(word));
+            }else{
+                map.get(word).increment();
+            }
+        }
+
+        // add to pq
+        for(Map.Entry<String,Pair> e : map.entrySet()) pq.offer(e.getValue());
+
+        // pull out k elements
+        while(k-- > 0) ans.add(pq.poll().str);
+
+        
+        // free memory
+        map = null;
+        pq = null;
+        System.gc();
+
+        // return answer
+        return ans;
+
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/top-k-frequent-words/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/k-most-frequent-words_696192?leftPanelTab=0

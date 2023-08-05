@@ -1,0 +1,142 @@
+class Trie {
+    char data;
+    Trie[] children;
+    int stringNumber;
+
+    public Trie() {
+        this(' ');
+    }
+
+    public Trie(char data) {
+        this.data = data;
+        this.stringNumber = -1;
+        this.children = new Trie[26];
+    }
+
+    public void insert(String word, int stringIndex) {
+        insert(this, word, 0, stringIndex);
+    }
+
+    private void insert(Trie root, String word, int index, int stringIndex) {
+        if (index == word.length()) {
+            root.stringNumber = stringIndex;
+            return;
+        }
+
+        char ch = word.charAt(index);
+        int childIndex = ch - 'a';
+        Trie child = root.children[childIndex];
+
+        if (child == null) {
+            child = new Trie(ch);
+            root.children[childIndex] = child;
+        }
+
+        insert(child, word, index + 1, stringIndex);
+    }
+
+    public void search(String word, List<Integer> myPalindrome) {
+        search(this, word, myPalindrome);
+    }
+
+    private boolean isPalindrome(StringBuilder word, int low, int high) {
+        while (low < high) {
+            if (word.charAt(low) != word.charAt(high)) return false;
+            low++;
+            high--;
+        }
+        return true;
+    }
+
+    private void search2(Trie root, List<Integer> myPalindrome, StringBuilder s) {
+        // if found a match then it can form a palindrome string so add it to myPalindrome
+        if (root.stringNumber != -1) {
+            if (isPalindrome(s, 0, s.length() - 1)) {
+                myPalindrome.add(root.stringNumber);
+            }
+        }
+
+        // check for all the 26 possible characters for palindromic status
+        for (int i = 0; i < 26; i++) {
+            if (root.children[i] != null) {
+                // create new string
+                StringBuilder newS = new StringBuilder(s);
+                // add current character 
+                newS.append((char) (i + 'a'));
+                // check for further match
+                search2(root.children[i], myPalindrome, newS);
+            }
+        }
+    }
+
+    private void search(Trie root, String word, List<Integer> myPalindrome) {
+        // pointer to the root
+        Trie curr = root;
+
+        // go to each character and find if it is present in the trie
+        for (int i = 0; i < word.length(); i++) {
+            // get index of the current character.
+            int index = word.charAt(i) - 'a';   
+            // if found a match but string has remaining characters to match then
+            // check if remaining characters of the string is palindrome or not
+            if (curr.stringNumber != -1) {
+                if (isPalindrome(new StringBuilder(word), i, word.length() - 1)) {
+                    myPalindrome.add(curr.stringNumber);
+                }
+            }
+
+            // check for character match
+            if (curr.children[index] != null) {
+                curr = curr.children[index];
+            } else {
+                return;
+            }
+        }
+
+        // this is the case when string has exhausted but trie has more characters to match
+        search2(curr, myPalindrome, new StringBuilder());
+    }
+}
+
+
+
+
+
+class Solution {
+    public List<List<Integer>> palindromePairs(String[] words) {
+        // this will hold our final answer.
+        List<List<Integer>> ans = new ArrayList<>();
+        // create a trie.
+        Trie tr = new Trie('-');
+
+        // reverse every string and put it into the trie.
+        for(int i = 0; i < words.length ; i++){
+            StringBuilder str = new StringBuilder(words[i]);
+            tr.insert(str.reverse().toString(),i);
+        }
+
+        // go to each word and find if exists in the trie
+        for(int i = 0 ;i < words.length ; i++){
+            // this will hold all the mathcing strings
+            List<Integer> myPalindrome = new ArrayList<>();
+            // search for the match
+            tr.search(words[i],myPalindrome) ;
+            // make pair and add it into the ans
+            for(Integer x : myPalindrome){
+                // dont take same string twice for ex. -> (i , i).
+                if(x != i){
+                    List<Integer> curr = new ArrayList<>();
+                curr.add(i);
+                curr.add(x);
+                ans.add(curr);
+                }
+            }
+        }
+
+        return ans;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/palindrome-pairs/description/
+

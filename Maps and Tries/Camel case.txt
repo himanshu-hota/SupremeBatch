@@ -1,0 +1,94 @@
+class Trie {
+    char data;          // Data representing the character stored in the Trie node
+    Trie[] children;    // Array to store references to the child Trie nodes
+    boolean isTerminal; // Boolean flag indicating if this node represents the end of a word
+
+    public Trie() {
+        this(' ');      // Default constructor, sets the root Trie node with data as ' '
+    }
+
+    public Trie(char data) {
+        this.data = data;                // Parameterized constructor, creates a Trie node with the given data
+        this.isTerminal = false;         // Initialize isTerminal to false
+        this.children = new Trie[58];   // Create an array to hold child Trie nodes (one for each lowercase letter)
+    }
+
+    public void insert(String word) {
+        insert(this, word, 0);  // Public method to insert a word into the Trie, starting from the root node
+    }
+
+    private void insert(Trie root, String word, int index) {
+        // Private helper method to recursively insert a word into the Trie
+        // index tracks the current position in the word being inserted
+
+        if (index == word.length()) {
+            root.isTerminal = true; // If we have reached the end of the word, mark the node as a terminal node
+            return;
+        }
+
+        char ch = word.charAt(index);
+        int childIndex = ch - 'A';
+        Trie child = root.children[childIndex]; // Get the child Trie node corresponding to the current character
+
+        if (child == null) {
+            child = new Trie(ch);          // If the child node doesn't exist, create a new Trie node for it
+            root.children[childIndex] = child;
+        }
+
+        insert(child, word, index + 1); // Recursively insert the next character of the word in the child node
+    }
+
+    public boolean search(String word) {
+        return search(this, (word), 0); // Public method to search for a word in the Trie, starting from the root node
+    }
+
+    private boolean search(Trie root, String word, int index) {
+        // Private helper method to recursively search for a word in the Trie
+        // index tracks the current position in the word being searched
+
+        if (index == word.length()) {
+            return root.isTerminal; // If we have reached the end of the word, return true if the node is terminal
+        }
+
+        char ch = word.charAt(index);
+        int childIndex = ch - 'A';
+        Trie child = root.children[childIndex]; // Get the child Trie node corresponding to    
+
+        // serach further if the child exists 
+        if (child != null) {
+            return search(child, word, index + 1); 
+        }else if(Character.isLowerCase(ch)){ // if the current char is lowercase then skip it.
+            return search(root,word,index+1);
+        }
+
+        return false;
+    }
+
+
+}
+
+
+
+class Solution {
+    public List<Boolean> camelMatch(String[] queries, String pattern) {
+        
+        Trie tr = new Trie('-');
+        tr.insert(pattern);
+        // boolean ans
+        List<Boolean> ans = new ArrayList<>();
+        // put all strings to trie.
+        for(String word : queries){
+            ans.add(tr.search(word));
+        }
+
+        // final answer
+        return ans;
+
+
+    }
+}
+
+Time Complexity :- O(pattern_length) + O(n*m)
+Space Complexity :- O(pattern_length)
+
+LeetCode :- https://leetcode.com/problems/camelcase-matching/description/

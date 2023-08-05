@@ -1,0 +1,56 @@
+
+class Solution {
+    public static Node findIntersection(Node head1, Node head2) {
+        Map<Integer, Integer> map = new HashMap<>();
+
+        Node y = head2;
+        // traverse the second list first because the answer
+        // want us to store the ans as they appear in first LL.
+        
+        // traverse the LL
+        while (y != null) {
+            // store all the occurance of the elements
+            map.put(y.data, map.getOrDefault(y, 0) + 1);
+            y = y.next;
+        }
+        
+        // this will hold our final answer
+        Node ans = null;
+        Node curr = null;
+        Node x = head1;
+        
+        // traverse the second LL
+        while (x != null) {
+            // perform operation only when 
+            // map contains the current element and its freq is higher than one
+            if (map.containsKey(x.data) && map.get(x.data) > 0) {
+                // initially the ans would be null so 
+                // make it point to first intersecing node
+                if (ans == null) {
+                    ans = x;
+                    curr = ans;
+                } else { // pick all the intersecting nodes
+                    curr.next = x;
+                    curr = curr.next;
+                }
+                
+                // decrease the freq in the map
+                map.put(x.data, map.get(x.data) - 1);
+            }
+            x = x.next;
+        }
+        
+        // we must not forget to point to null of the last node
+        if (curr != null) {
+            curr.next = null;
+        }
+
+        // final return the head of the ans
+        return ans;
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/intersection-of-two-linked-list/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/intersection-of-linked-lists_3210610?leftPanelTab=0

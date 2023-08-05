@@ -1,0 +1,159 @@
+class Trie {
+    char data;          // Data representing the character stored in the Trie node
+    Trie[] children;    // Array to store references to the child Trie nodes
+    boolean isTerminal; // Boolean flag indicating if this node represents the end of a word
+
+    public Trie() {
+        this(' ');      // Default constructor, sets the root Trie node with data as ' '
+    }
+
+    public Trie(char data) {
+        this.data = data;                // Parameterized constructor, creates a Trie node with the given data
+        this.isTerminal = false;         // Initialize isTerminal to false
+        this.children = new Trie[26];   // Create an array to hold child Trie nodes (one for each lowercase letter)
+    }
+
+    public void insert(String word) {
+        insert(this, word, 0);  // Public method to insert a word into the Trie, starting from the root node
+    }
+
+    private void insert(Trie root, String word, int index) {
+        // Private helper method to recursively insert a word into the Trie
+        // index tracks the current position in the word being inserted
+
+        if (index == word.length()) {
+            root.isTerminal = true; // If we have reached the end of the word, mark the node as a terminal node
+            return;
+        }
+
+        char ch = word.charAt(index);
+        int childIndex = ch - 'a';
+        Trie child = root.children[childIndex]; // Get the child Trie node corresponding to the current character
+
+        if (child == null) {
+            child = new Trie(ch);          // If the child node doesn't exist, create a new Trie node for it
+            root.children[childIndex] = child;
+        }
+
+        insert(child, word, index + 1); // Recursively insert the next character of the word in the child node
+    }
+
+    public int search(StringBuilder word) {
+        int i[] = {0};
+        boolean ans = search(this, word, i); // Public method to search for a word in the Trie, starting from the root node
+        // if found any valid word for chopping then return the index otherwise return -1.
+        if(ans) return i[0];
+        else return -1;
+    }
+
+    private boolean search(Trie root, StringBuilder word, int[] index) {
+        // Private helper method to recursively search for a word in the Trie
+        // index tracks the current position in the word being searched
+
+        // if found any terminal node then we need to chop the string till here.
+        if(root.isTerminal) return true;
+
+        if (index[0] == word.length()) {
+            return root.isTerminal; // If we have reached the end of the word, return true if the node is terminal
+        }
+
+        char ch = word.charAt(index[0]++);
+        int childIndex = ch - 'a';
+        Trie child = root.children[childIndex]; // Get the child Trie node corresponding to the current character
+
+        if (child == null) {
+            return false; // If the child node doesn't exist, the word is not present in the Trie
+        }
+
+        return search(child, word, index); // Recursively search for the next character in the child node
+    }
+
+
+}
+
+
+class Solution {
+    public String replaceWords(List<String> dictionary, String sentence) {
+        
+        // create a Trie
+        Trie tr = new Trie('-');
+
+        // Add all strings to trie 
+        for(String str : dictionary){
+            tr.insert(str);
+        }
+
+        // traversing pointers
+        int start = 0;
+        int end = 0;
+        // get the string in StringBuilder form for faster operations
+        StringBuilder str = new StringBuilder(sentence);
+        // this will hold our final answer
+        StringBuilder ans = new StringBuilder();
+
+        while(end < str.length()){
+          StringBuilder word ;
+          // processing for the last word
+          if(end == str.length()-1){
+            // get the word 
+            word = new StringBuilder(str.substring(start,end+1));
+            // update the starting point
+            start = end+1;
+            // find till wherer to chop the string
+            int trieMatchIndex = tr.search(word);
+            // append it to final answer
+            ans.append((trieMatchIndex != -1) ? word.substring(0,trieMatchIndex) : word);
+            // we dont need space after the last word
+          }
+        
+          // processing for the rest words
+          if(str.charAt(end) == ' '){
+            // get the word
+            word = new StringBuilder(str.substring(start,end));
+            // update the starting point
+            start = end+1;
+            // find till wherer to chop the string
+            int trieMatchIndex = tr.search(word);
+            // append it to final answer
+            ans.append((trieMatchIndex != -1) ? word.substring(0,trieMatchIndex) : word);
+            // add a space after each word
+            ans.append(' ');
+          }
+          
+          // go to next character
+          end++;
+        }
+
+        // final answer
+        return ans.toString();
+    }
+}
+
+
+// ------------------------------------------------- optimized version ---------------------------------------------------
+
+
+class Solution {
+    public String replaceWords(List<String> dictionary, String sentence) {
+        Trie tr = new Trie('-');
+
+        for(String str : dictionary){
+            tr.insert(str);
+        }
+
+        
+        StringBuilder ans = new StringBuilder();
+        String[] words = sentence.split(" "); // Split the sentence into individual words
+
+        for (String word : words) {
+            StringBuilder root = new StringBuilder(word);
+            int trieMatchIndex = tr.search(root);
+            ans.append((trieMatchIndex != -1) ? root.substring(0, trieMatchIndex) : word);
+            ans.append(' ');
+        }
+
+        // Remove the trailing space
+        ans.setLength(ans.length() - 1);
+        return ans.toString();
+    }
+}
