@@ -1,0 +1,172 @@
+class Solution {
+
+    static int MOD = 1000000007;
+
+    public int solve(int n,int k , int target){
+        // if we have no dice then solution not possible.
+        if(n<0) return 0;
+        // if no more dice left to throw and reached the target
+        if(n == 0 && target == 0) return 1;
+        // if no more dice left to throw and didn't reach the target
+        if(n == 0 && target != 0) return 0;
+        // if dices are remaining and already reached the target
+        if(n != 0 && target == 0) return 0;
+
+        int ans = 0;
+
+        // see all k faces
+        for(int i = 0; i< k ; i++){
+            ans += solve(n-1, k, target - i);
+        }
+        
+        return ans;
+    }
+
+      public int topDown(int n,int k , int target, int dp[][]){
+        // if we have no dice then solution not possible.
+        if(n<0 || target < 0) return 0;
+        // if no more dice left to throw and reached the target
+        if(n == 0 && target == 0) return 1;
+        // if no more dice left to throw and didn't reach the target
+        if(n == 0 && target != 0) return 0;
+        // if dices are remaining and already reached the target
+        if(n != 0 && target == 0) return 0;
+
+        if(dp[n][target] != -1 ) return dp[n][target];
+
+        int ans = 0;
+
+        // see all k faces || imp :- Math.min(k, target) k badle <=k bhi kar sakte hai but math.min wala optimize karta hai
+      for (int i = 1; i <= Math.min(k, target); i++) {
+        int curr = topDown(n - 1, k, target - i, dp) % MOD;
+        ans = (ans + curr) % MOD;
+        }
+        // System.out.println(ans);
+        dp[n][target] = ans;
+
+        return ans;
+    }
+
+      public int bottomUp(int n,int k , int target){
+        // // if we have no dice then solution not possible.
+        // if(n<0 || target < 0) return 0;
+        // // if no more dice left to throw and reached the target
+        // if(n == 0 && target == 0) return 1;
+        // // if no more dice left to throw and didn't reach the target
+        // if(n == 0 && target != 0) return 0;
+        // // if dices are remaining and already reached the target
+        // if(n != 0 && target == 0) return 0;
+
+        int dp[][] = new int[n+1][target+1];
+        int rows = n+1;
+        int cols = target+1;
+
+        // this means that even 1 dice can calculate sum 0.
+        // this is the most important because bhaiya ne kaha hai.
+        dp[0][0] = 1;
+
+        
+        for(int idx = 1; idx <= n ; idx++){
+            for(int trgt = 0 ; trgt<=target;trgt++){
+                int ans = 0;
+                // see all k faces
+                for (int i = 1; i <= Math.min(k, trgt); i++) {
+                    int curr = dp[idx - 1][trgt - i] % MOD;
+                    ans = (ans + curr) % MOD;
+                }
+                    // System.out.println(ans);
+                    dp[idx][trgt] = ans;
+            }
+        }
+
+      
+        return dp[n][target];
+    }
+
+    public int spaceOptimized(int n,int k , int target){
+       
+       int prev[] = new int[target+1];
+       int curr[] = new int[target+1];
+        
+        prev[0] = 1;
+        curr[0] = 1;
+      
+        for(int idx = 1; idx <= n ; idx++){
+            for(int trgt = 0 ; trgt<=target;trgt++){
+                int ans = 0;
+                // see all k faces
+                for (int i = 1; i <= Math.min(k, trgt); i++) {
+                    int currAns = prev[trgt - i] % MOD;
+                    ans = (ans + currAns) % MOD;
+                }
+                    // System.out.println(ans);
+                    curr[trgt] = ans;
+            }
+            int temp[] = prev;
+            prev = curr;
+            curr = temp;
+        }
+
+      
+        return prev[target];
+    }
+
+    public int spaceOptimized2(int n,int k , int target){
+       
+       int curr[] = new int[target+1];
+        
+        curr[0] = 1;
+      
+        for(int idx = 1; idx <= n ; idx++){
+            for(int trgt = target; trgt>=0;trgt--){
+                int ans = 0;
+                // see all k faces
+                for (int i = 1; i <= Math.min(k, trgt); i++) {
+                    int currAns = curr[trgt - i] % MOD;
+                    ans = (ans + currAns) % MOD;
+                }
+                    // System.out.println(ans);
+                    curr[trgt] = ans;
+            }
+
+        }
+
+      
+        return curr[target];
+    }
+
+    public int numRollsToTarget(int n, int k, int target) {
+        // recursive approach
+        // int ans = solve(n,k,target);
+
+
+        // topDown approach
+        // int dp[][] = new int[n+1][target+1];
+        // int rows = n+1;
+        // int cols = target+1;
+
+        //   for (int i = 0; i < rows; i++) {
+        //     for (int j = 0; j < cols; j++) {
+        //         dp[i][j] = -1;
+        //     }
+        // }
+        // int ans = topDown(n,k,target,dp);
+
+        // bottomUp approach
+        // int ans = bottomUp(n,k,target);
+
+        // space optimized
+        // int ans = spaceOptimized(n,k,target);
+
+        // space optimized
+        int ans = spaceOptimized2(n,k,target);
+        return ans;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/number-of-dice-rolls-with-target-sum/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/dice-throws_799924?leftPanelTab=0
+
+GFG :- https://practice.geeksforgeeks.org/problems/dice-throw5349/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

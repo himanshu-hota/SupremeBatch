@@ -1,0 +1,160 @@
+class Solution {
+
+  // Recursive approach
+  static boolean solve(int arr[], int index, int sum) {
+    if (index == 0) {
+      if (sum == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    // Include current element
+    boolean include = solve(arr, index - 1, sum - arr[index]);
+    // Exclude current element
+    boolean exclude = solve(arr, index - 1, sum);
+
+    return include || exclude;
+  }
+
+  // Top-down approach with memoization
+  static boolean topDown(int arr[], int index, int sum, boolean dp[][]) {
+    if (sum < 0) return false;
+
+    if (index == 0) {
+      if (sum == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    if (dp[index][sum]) return true;
+
+    // Include current element
+    boolean include = topDown(arr, index - 1, sum - arr[index], dp);
+    // Exclude current element
+    boolean exclude = topDown(arr, index - 1, sum, dp);
+
+    dp[index][sum] = include || exclude;
+
+    return dp[index][sum];
+  }
+
+  // Bottom-up dynamic programming approach
+  static boolean bottomUp(int arr[], int index, int sum) {
+    boolean dp[][] = new boolean[index + 1][sum + 1];
+
+    // Initialize the first column (sum = 0) as true, because an empty subset can always make sum 0
+    for (int i = 0; i <= index; i++) {
+      dp[i][0] = true;
+    }
+
+    // Initialize the first row based on the first element of the array
+    for (int i = arr[0]; i <= sum; i++) {
+      dp[0][i] = (arr[0] == i);
+    }
+
+    // Fill the DP table
+    for (int idx = 1; idx <= index; idx++) {
+      for (int val = 1; val <= sum; val++) {
+        boolean include = false;
+        if (val - arr[idx] >= 0) {
+          include = dp[idx - 1][val - arr[idx]];
+        }
+        boolean exclude = dp[idx - 1][val];
+
+        dp[idx][val] = include || exclude;
+      }
+    }
+
+    return dp[index][sum];
+  }
+
+  // Space-optimized dynamic programming approach using two arrays
+  static boolean spaceOptimized(int arr[], int index, int sum) {
+    boolean prev[] = new boolean[sum + 1];
+    boolean curr[] = new boolean[sum + 1];
+
+    // mark it as true, because an empty subset can always make sum 0
+    prev[0] = true;
+    curr[0] = true;
+
+    // Initialize the first row based on the first element of the array
+    for (int i = arr[0]; i <= index; i++) {
+      prev[i] = (arr[0] == i);
+    }
+
+    // Fill the DP table
+    for (int idx = 1; idx <= index; idx++) {
+      for (int val = 1; val <= sum; val++) {
+        boolean include = false;
+        if (val - arr[idx] >= 0) {
+          include = prev[val - arr[idx]];
+        }
+        boolean exclude = prev[val];
+
+        curr[val] = include || exclude;
+      }
+
+      // Swap the arrays
+      boolean temp[] = prev;
+      prev = curr;
+      curr = temp;
+    }
+
+    return prev[sum];
+  }
+
+  // Another space-optimized dynamic programming approach using a single array
+  static boolean spaceOptimized2(int arr[], int index, int sum) {
+    boolean curr[] = new boolean[sum + 1];
+
+    // mark it as true, because an empty subset can always make sum 0
+    curr[0] = true;
+
+    // Initialize the first row based on the first element of the array
+    for (int i = arr[0]; i <= index; i++) {
+      curr[i] = (arr[0] == i);
+    }
+
+    // Fill the DP table
+    for (int idx = 1; idx <= index; idx++) {
+      for (int val = sum; val >= 0; val--) {
+        boolean include = false;
+        if (val - arr[idx] >= 0) {
+          include = curr[val - arr[idx]];
+        }
+        boolean exclude = curr[val];
+
+        curr[val] = include || exclude;
+      }
+    }
+
+    return curr[sum];
+  }
+
+  // Main function to check if a subset with a given sum exists
+  static Boolean isSubsetSum(int N, int arr[], int sum) {
+    // Choose the desired approach below and uncomment it
+
+    // Recursive approach
+    // boolean ans = solve(arr, N - 1, sum);
+
+    // Top-down approach with memoization
+    // boolean dp[][] = new boolean[N + 1][sum + 1];
+    // boolean ans = topDown(arr, N - 1, sum, dp);
+
+    // Bottom-up approach
+    // boolean ans = bottomUp(arr, N - 1, sum);
+
+    // Space-optimized approach using two arrays
+    // boolean ans = spaceOptimized(arr, N - 1, sum);
+
+    // Space-optimized approach using a single array
+    boolean ans = spaceOptimized2(arr, N - 1, sum);
+
+    return ans;
+  }
+}

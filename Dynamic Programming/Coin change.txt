@@ -1,0 +1,94 @@
+class Solution {
+
+  // public int solve(int coins[],int amount){
+  //     if(amount == 0) return 0;
+  //     if(amount < 0) return Integer.MAX_VALUE;
+
+  //     int minCoinsCount = Integer.MAX_VALUE;
+
+  //     for(int i = 0; i < coins.length; i++){
+  //         int currAns = solve(coins,amount-coins[i]);
+  //         if(currAns != Integer.MAX_VALUE){
+  //             minCoinsCount = Math.min(minCoinsCount,currAns+1);
+  //         }
+
+  //     }
+
+  //     return minCoinsCount;
+  // }
+
+  // public int topDown(int coins[],int amount,int dp[]){
+  //     if(amount == 0) return 0;
+  //     if(amount < 0) return Integer.MAX_VALUE;
+
+  //     if(dp[amount] != -1){
+  //         return dp[amount];
+  //     }
+
+  //     int minCoinsCount = Integer.MAX_VALUE;
+  //     for(int i = 0; i < coins.length; i++){
+  //         int currAns = topDown(coins,amount-coins[i],dp);
+  //         if(currAns != Integer.MAX_VALUE){
+  //             minCoinsCount = Math.min(minCoinsCount,currAns+1);
+  //         }
+
+  //     }
+  //     dp[amount] = minCoinsCount;
+  //     return minCoinsCount;
+  // }
+
+  public int bottomUp(int coins[], int amount) {
+    if (amount == 0) return 0;
+
+    //step 1 : array banao
+    int dp[] = new int[amount + 1];
+    // fill karo 
+    //yaha ith element jo hai wo minimum value store karega so init. with Int.Max
+    Arrays.fill(dp, Integer.MAX_VALUE);
+
+    // step 2 : base case dekho (topDown ka)
+    dp[0] = 0;
+
+    // step 3 : check the range and flow of topDown and code accordingly.
+    for (int i = 1; i <= amount; i++) {
+      int minCoinsCount = Integer.MAX_VALUE;
+      for (int j = 0; j < coins.length; j++) {
+        if (i - coins[j] >= 0) {
+          int currAns = dp[i - coins[j]];
+          if (currAns != Integer.MAX_VALUE) {
+            minCoinsCount = Math.min(minCoinsCount, currAns + 1);
+            dp[i] = minCoinsCount;
+          }
+
+        }
+
+      }
+    }
+    return dp[amount];
+  }
+
+  public int coinChange(int[] coins, int amount) {
+
+    // topdown approach
+    // int dp[] = new int[amount + 1];
+    // Arrays.fill(dp,-1);
+    // int coinsCount = topDown(coins,amount,dp);
+
+    // if(coinsCount == Integer.MAX_VALUE) return -1;
+    // else return coinsCount;
+
+    // ---------------------------
+
+    // bottom up approach
+    int coinsCount = bottomUp(coins, amount);
+
+    if (coinsCount == Integer.MAX_VALUE) return -1;
+    else return coinsCount;
+
+  }
+}
+
+// Time complexity :- O(amount+1)
+// Space complexity :- O(amount+1)
+
+LeetCode :- https://leetcode.com/problems/coin-change/description/

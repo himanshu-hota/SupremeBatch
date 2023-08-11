@@ -1,0 +1,184 @@
+class Solution {
+
+  // Recursive approach
+  static int solve(int weight[], int value[], int index, int capacity) {
+    // Base case: If there's only one element
+    if (index == 0) {
+      if (weight[index] <= capacity) {
+        return value[index];
+      } else {
+        return 0;
+      }
+    }
+
+    // Include the current item
+    int include = 0;
+    if (weight[index] <= capacity) {
+      include = value[index] + solve(weight, value, index - 1, capacity - weight[index]);
+    }
+    // Exclude the current item
+    int exclude = 0 + solve(weight, value, index - 1, capacity);
+
+    return Math.max(include, exclude);
+  }
+
+  // Top-down approach with memoization
+  static int topDown(int weight[], int value[], int index, int capacity, int dp[][]) {
+    // Base case: If there's only one element
+    if (index == 0) {
+      if (weight[index] <= capacity) {
+        return value[index];
+      } else {
+        return 0;
+      }
+    }
+
+    // If the result is already calculated, return it
+    if (dp[index][capacity] != 0) return dp[index][capacity];
+
+    // Include the current item
+    int include = 0;
+    if (weight[index] <= capacity) { // yaha fas sakte hain bhaiya ne bola hai.
+      include = value[index] + topDown(weight, value, index - 1, capacity - weight[index], dp);
+    }
+    // Exclude the current item // yaha name change karna bhul sakte hain
+    int exclude = 0 + topDown(weight, value, index - 1, capacity, dp);
+
+    // Store the result for the current state
+    dp[index][capacity] = Math.max(include, exclude);
+
+    return dp[index][capacity];
+  }
+
+  // Bottom-up dynamic programming approach
+  static int bottomUp(int weight[], int value[], int index, int capacity) {
+    // Create the DP table
+    int dp[][] = new int[index + 1][capacity + 1];
+
+    // Initialize the base cases
+    for (int i = weight[0]; i <= capacity; i++) {
+      if (weight[0] <= capacity) {
+        dp[0][i] = value[0];
+      } else {
+        dp[0][i] = 0;
+      }
+    }
+
+    // Fill the DP table
+    for (int idx = 1; idx <= index; idx++) {
+      for (int cap = 0; cap <= capacity; cap++) {
+        // Include the current item
+        int include = 0;
+        if (weight[idx] <= cap) {
+          include = value[idx] + dp[idx - 1][cap - weight[idx]];
+        }
+        // Exclude the current item
+        int exclude = 0 + dp[idx - 1][cap];
+
+        // Store the result for the current state
+        dp[idx][cap] = Math.max(include, exclude);
+      }
+    }
+
+    return dp[index][capacity];
+  }
+
+  // Space-optimized dynamic programming approach using two arrays
+  static int spaceOptimized(int weight[], int value[], int index, int capacity) {
+    int prev[] = new int[capacity + 1];
+    int curr[] = new int[capacity + 1];
+
+    // Initialize the base cases
+    for (int i = weight[0]; i <= capacity; i++) {
+      if (weight[0] <= capacity) {
+        prev[i] = value[0];
+      } else {
+        prev[i] = 0;
+      }
+    }
+
+    // Fill the DP table
+    for (int idx = 1; idx <= index; idx++) {
+      for (int cap = 0; cap <= capacity; cap++) {
+        // Include the current item
+        int include = 0;
+        if (weight[idx] <= cap) {
+          include = value[idx] + prev[cap - weight[idx]];
+        }
+        // Exclude the current item
+        int exclude = 0 + prev[cap];
+
+        // Store the result for the current state
+        curr[cap] = Math.max(include, exclude);
+      }
+
+      // Swap arrays for the next iteration // yaha fas sakte hai.
+      int temp[] = prev;
+      prev = curr;
+      curr = temp;
+    }
+
+    return prev[capacity];
+  }
+
+  // Another space-optimized dynamic programming approach using a single array
+  static int spaceOptimized2(int weight[], int value[], int index, int capacity) {
+    int curr[] = new int[capacity + 1];
+
+    // Initialize the base cases
+    for (int i = weight[0]; i <= capacity; i++) {
+      if (weight[0] <= capacity) {
+        curr[i] = value[0];
+      } else {
+        curr[i] = 0;
+      }
+    }
+
+    // Fill the DP table
+    for (int idx = 1; idx <= index; idx++) {
+      for (int cap = capacity; cap >= 0; cap--) { // yaha direction change karna bhul sakte hain.
+        // Include the current item
+        int include = 0;
+        if (weight[idx] <= cap) {
+          include = value[idx] + curr[cap - weight[idx]];
+        }
+        // Exclude the current item
+        int exclude = 0 + curr[cap];
+
+        // Store the result for the current state
+        curr[cap] = Math.max(include, exclude);
+      }
+    }
+
+    return curr[capacity];
+  }
+
+  // Main function to solve the knapsack problem
+  static int knapSack(int W, int wt[], int val[], int n) {
+    // Choose the desired approach below and uncomment it
+
+
+    // Recursive approach
+    // int ans = solve(wt, val, n - 1, W);
+
+    // Top-down approach with memoization
+    // int dp[][] = new int[n + 1][W + 1]; // yaha bhi fas sakte hain bhaiya ne bola hai.
+    // int ans = topDown(wt, val, n - 1, W, dp);
+
+    // Bottom-up approach
+    // int ans = bottomUp(wt, val, n - 1, W);
+
+    // Space-optimized approach using two arrays
+    // int ans = spaceOptimized(wt, val, n - 1, W);
+
+    // Space-optimized approach using a single array
+    int ans = spaceOptimized2(wt, val, n - 1, W);
+
+    return ans;
+  }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/0-1-knapsack-problem0945/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/0-1-knapsack_920542

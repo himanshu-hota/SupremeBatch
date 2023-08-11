@@ -1,0 +1,63 @@
+class Solution {
+   public int topDown(int n, int[] dp) {
+        if (n <= 1) {
+            return 1;
+        }
+
+        if (dp[n] != 0) {
+            return dp[n];
+        }
+
+        dp[n] = topDown(n - 1, dp) + topDown(n - 2, dp);
+
+        return dp[n];
+    }
+
+    public int bottomUp(int n) {
+        if (n <= 1) {
+            return 1;
+        }
+
+        int dp[] = new int[n+1];
+        dp[0] = 1;
+        dp[1] = 1;
+
+        for(int i = 2;i<=n;i++){
+            dp[i] = dp[i-1] + dp[i-2];
+        }
+
+        return dp[n];
+    }
+
+     public int spaceOptimized(int n){
+          if (n <= 2) {
+            return n;
+        }
+        
+        int prev1 = 1;  // Initial value for 1 step
+        int prev2 = 1;  // Initial value for 1 steps
+        int curr = 0;
+        for (int i = 2; i <= n; i++) {
+            curr = prev1 + prev2;
+            prev1 = prev2;
+            prev2 = curr;
+        }
+        
+        return curr;
+    }
+
+    public int climbStairs(int n) {
+
+        // for top down approach      
+        // int dp[] = new int[n+1];
+        // dp[0] = 1;
+        // dp[1] = 1;
+
+        int ans = spaceOptimized(n);
+        return ans;
+    }
+
+   
+}
+
+LeetCode :- https://leetcode.com/problems/climbing-stairs/description/

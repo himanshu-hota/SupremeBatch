@@ -1,0 +1,112 @@
+class Solution {
+
+    // static int solve(int arr[],int n){
+    //     if(n < 0) return 0;
+    //     if(n == 0) return arr[0];
+
+    //     // include wala case
+    //     int whenIncluded = solve(arr,n-2) + arr[n];
+    //     // exclude wala case
+    //     int whenExcluded = solve(arr,n-1) + 0;
+
+    //     return Math.max(whenIncluded,whenExcluded);
+    // }
+
+    // static int topDown(int arr[],int n,int dp[]){
+    //     if(n < 0) return 0;
+    //     if(n == 0) return arr[0];
+
+    //     // step 3 : check if already calculated
+    //     if(dp[n] != -1) return dp[n];
+
+    //     // include wala case
+    //     int whenIncluded = topDown(arr,n-2,dp) + arr[n];
+    //     // exclude wala case
+    //     int whenExcluded = topDown(arr,n-1,dp) + 0;
+
+    //     // step 2 : store current ans
+    //     dp[n] = Math.max(whenIncluded,whenExcluded);;
+
+    //     return dp[n];
+    // }
+
+    // static int bottomUp(int arr[],int n){
+        
+    //     // step 1 : dp array banao
+    //     int dp[] = new int[n+1];
+
+    //     // step 2 : base case dekho
+    //     dp[0] = arr[0];
+     
+    //     for(int i = 1; i <= n ; i++){
+
+    //         // this is to handle the case when i-2 is out of index.
+    //         int temp;
+    //         if(i-2 < 0) temp = 0;
+    //         else temp = dp[i-2];
+
+    //         // include wala case
+    //         int whenIncluded = temp + arr[i];
+    //         // exclude wala case
+    //         int whenExcluded = dp[i-1]  + 0;
+
+    //         dp[i] = Math.max(whenIncluded,whenExcluded);
+
+    //     }
+         
+    //     return dp[n];
+    // }
+
+      static int spaceOptimized(int arr[],int n){
+        
+        // (i-2)th index value holder for the 'for loop'
+        int prev2 = 0;
+        // (i-1)th index value holder for the 'for loop'
+        int prev1 = arr[0];
+        // current ans holder 
+        int curr = 0;
+        
+        for(int i = 1; i <= n ; i++){
+
+            // why temp ? -> this is to handle the case when i-2 is out of index.
+            int temp;
+            if(i-2 < 0) temp = 0;
+            else temp = prev2;
+
+            // include wala case
+            int whenIncluded = temp + arr[i];
+            // exclude wala case
+            int whenExcluded = prev1  + 0;
+
+            curr = Math.max(whenIncluded,whenExcluded);
+
+            prev2 = prev1;
+            prev1 = curr;
+
+        }
+        
+        // return prev1 not curr.
+        // why ? -> because when array has only one element like this [x] 
+        // then loop wont run so prev1 will be the ans.
+        return prev1;
+    }
+
+
+    public int rob(int[] nums) {
+        
+        // topDown approach
+        // step 1 : dp array banao
+        // int dp[] = new int[nums.length+1];
+        // Arrays.fill(dp,-1);
+        // int ans = topDown(nums,nums.length-1,dp);
+
+        // bottom up approach
+        int ans = spaceOptimized(nums,nums.length-1);
+        return ans;
+    }
+}
+
+Time complexity :- O(n);
+Space complexity :- O(1);
+
+LeetCode :- https://leetcode.com/problems/house-robber/

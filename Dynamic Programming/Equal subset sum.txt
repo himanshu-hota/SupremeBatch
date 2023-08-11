@@ -1,0 +1,198 @@
+class Solution {
+
+    public boolean recursiveApproach(int nums[],int index,int target){
+        
+        if(index == 0){
+            if(nums[index] == target) return true;
+            else return false;
+        }
+        if(target < 0) return false;
+        
+        // include
+        boolean include = recursiveApproach(nums,index-1,target-nums[index]);
+
+        //exclude
+        boolean exclude = recursiveApproach(nums,index-1,target);
+
+        return include || exclude;
+
+    }
+
+
+    public boolean topDown(int nums[],int index,int target,int dp[][]){
+        
+        if(index == 0){
+            if(nums[index] == target) return true;
+            else return false;
+        }
+        if(target < 0) return false;
+
+        if(dp[index][target] != 0) return (dp[index][target] == 1)  ? true : false;
+
+        // include
+        boolean include = topDown(nums,index-1,target-nums[index],dp);
+
+        //exclude
+        boolean exclude = topDown(nums,index-1,target,dp);
+
+        dp[index][target] = ( include || exclude ) ? 1 : -1 ;
+       
+        return (dp[index][target] == 1)  ? true : false;
+    }
+
+    public boolean bottomUp(int nums[],int index,int target){
+        
+       // step 1 : create DP
+       int dp[][] = new int[index+1][target+1];
+
+       // step 2 : handle base case
+       for (int i = 0; i <= target; i++) {
+            if(nums[0] == i){
+                 dp[0][i] = 1 ;
+            }else{
+                dp[0][i] = -1;
+            }
+        }
+
+
+        for(int idx =1; idx <= index ; idx++){
+            for(int val = 0; val <= target ; val++){
+                
+                // include
+                int include =0;
+                if(val-nums[idx] >= 0)
+                    include = dp[idx-1][val-nums[idx]];
+
+                //exclude
+                int exclude = dp[idx-1][val];
+
+                dp[idx][val] = ( (include == 1 ) || (exclude == 1) ) ? 1 : -1 ;
+            }
+        }
+
+      
+       
+        return (dp[index][target] == 1)  ? true : false;
+    }
+
+    public boolean spaceOptimized(int nums[],int index,int target){
+        
+       // step 1 : create DP
+       int prev[] = new int[target+1];
+       int curr[] = new int[target+1];
+
+       // step 2 : handle base case
+       for (int i = 0; i <= target; i++) {
+            if(nums[0] == i){
+                 prev[i] = 1 ;
+            }else{
+                prev[i] = -1;
+            }
+        }
+
+
+        for(int idx =1; idx <= index ; idx++){
+            for(int val = 0; val <= target ; val++){
+                
+                // include
+                int include =0;
+                if(val-nums[idx] >= 0)
+                    include = prev[val-nums[idx]];
+
+                //exclude
+                int exclude = prev[val];
+
+                curr[val] = ( (include == 1 ) || (exclude == 1) ) ? 1 : -1 ;
+            }
+
+            int temp[] = prev;
+            prev = curr;
+            curr = temp;
+        }
+
+      
+       
+        return (prev[target] == 1)  ? true : false;
+    }
+
+
+        public boolean spaceOptimized2(int nums[],int index,int target){
+        
+       // step 1 : create DP
+       int curr[] = new int[target+1];
+
+       // step 2 : handle base case
+       for (int i = 0; i <= target; i++) {
+            if(nums[0] == i){
+                 curr[i] = 1 ;
+            }else{
+                curr[i] = -1;
+            }
+        }
+
+
+        for(int idx =1; idx <= index ; idx++){
+            for(int val = target; val >=0 ; val--){
+                
+                // include
+                int include =0;
+                if(val-nums[idx] >= 0)
+                    include = curr[val-nums[idx]];
+
+                //exclude
+                int exclude = curr[val];
+
+                curr[val] = ( (include == 1 ) || (exclude == 1) ) ? 1 : -1 ;
+            }
+
+        }
+
+      
+       
+        return (curr[target] == 1)  ? true : false;
+    }
+
+    public boolean canPartition(int[] nums) {
+
+        // calculate total sum
+        int totalSum = 0;
+        int n = nums.length;
+        for(int x : nums) totalSum += x;
+        // if total sum is odd then it is not possible to divide it into two equal parts ,
+        // therefore partition is not possible
+        if(totalSum %2 != 0) return false;
+        // calculate the half of total sum,
+        // now we need to check if any of the subset sum up to this half,
+        // if yes then partition is possible otherwise not possible.
+        int target = totalSum / 2;
+
+        // recursion approach
+        // boolean ans = recursiveApproach(nums,n-1,target);
+
+
+        // boolean ans = solveUsingRecursion(nums);
+
+        // topDown approach
+        // int dp[][] = new int[n + 1][target+1];
+        // boolean ans = topDown(nums,n-1,target,dp);
+
+
+        // bottomUp approach
+        // boolean ans = bottomUp(nums,n-1,target);
+
+        // space optimized
+        // boolean ans = spaceOptimized(nums,n-1,target);
+
+        // space optimized
+        boolean ans = spaceOptimized2(nums,n-1,target);
+        
+
+        return ans ;
+    }
+}
+
+Note :- This is exactly the same what we did for knapsack.
+
+LeetCode :- https://leetcode.com/problems/partition-equal-subset-sum/submissions/
+
+GFG :- https://practice.geeksforgeeks.org/problems/subset-sum-problem2014/1

@@ -1,0 +1,87 @@
+
+
+class Solution{   
+    
+     static final int MOD = 1000000007;
+    
+    // static long solve(int n , int k){
+    //     if(n == 1) return k;
+    //     if(n == 2) return (k + k*(k-1));
+        
+    //     long ans = (solve(n-2,k) + solve(n-1,k)) * (k-1);
+        
+    //     return ans;
+    // }
+    
+    // static long topDown(int n , int k,long dp[]){
+    //     if(n == 1) return k;
+    //     if(n == 2) return (k + k*(k-1));
+    //     if(dp[n] != 0) return dp[n];
+        
+    //     dp[n] = (topDown(n-2,k,dp) + topDown(n-1,k,dp)) * (k-1);
+        
+    //     return dp[n];
+    // }
+    
+    // static long bottomUp(int n , int k){
+    //     if(n == 1) return k;
+    //     if(n == 2) return (k + k*(k-1));
+        
+    //     long dp[] = new long[n+1];
+        
+    //     dp[0] = 0;
+    //     dp[1] = k;
+    //     dp[2] = (k + (k*(k-1)));
+        
+    //     for(int i = 3 ; i <= n ; i++){
+    //           dp[i] = (dp[i - 2] + dp[i - 1]) % MOD;
+    //         dp[i] = (dp[i] * (k - 1)) % MOD; 
+    //     }
+        
+    //     return dp[n];
+    // }
+    
+    static long spaceOptimization(int n , int k){
+        if(n == 1) return k;
+        if(n == 2) return (k + k*(k-1));
+        
+        long prev2 = k;
+        long prev1 = (k + (k*(k-1)));
+        long curr = 0;
+        
+        for(int i = 3 ; i <= n ; i++){
+            curr = (prev2 + prev1) % MOD;
+            curr = (curr * (k - 1)) % MOD; 
+            
+            // move pointer :: yaha galti kar sakte hain
+            prev2 = prev1;
+            prev1 = curr;
+        }
+        
+        return curr;
+    }
+    
+    
+    
+    long countWays(int n,int k)
+    {   
+        // topDown approach
+        // long dp[] = new long[n+1];
+        // long ans = topDown(n,k,dp);
+        // return ans;
+        
+        // bottomUp approach
+        // return bottomUp(n,k);
+        
+        // space optimization
+        return spaceOptimization(n,k);
+    }
+}
+
+
+Time Complexity :- O(n)
+Space Complexity :- O(n)
+
+GFG :- https://practice.geeksforgeeks.org/problems/painting-the-fence3727/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/painting-fences_920549?leftPanelTab=0
