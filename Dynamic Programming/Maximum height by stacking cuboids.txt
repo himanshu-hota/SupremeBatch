@@ -1,0 +1,185 @@
+class Solution {
+
+  public boolean check(int arr[][], int curr, int prev) {
+    // length , width , height of curr should alwaway be greater equal than prev
+    if (arr[curr][0] >= arr[prev][0] && arr[curr][1] >= arr[prev][1] && arr[curr][2] >= arr[prev][2]) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public int solve(int arr[][], int curr, int prev) {
+    if (curr == arr.length) return 0;
+
+    int include = 0;
+    // we can only include the curr if check(....)
+    if (prev == -1 || check(arr, curr, prev)) {
+      include = arr[curr][2] + solve(arr, curr + 1, curr);
+    }
+
+    int exclude = 0 + solve(arr, curr + 1, prev);
+
+    return Math.max(include, exclude);
+  }
+
+  public int topDown(int arr[][], int curr, int prev, int dp[][]) {
+    if (curr == arr.length) return 0;
+
+    if (dp[curr][prev + 1] != -1) return dp[curr][prev + 1];
+
+    int include = 0;
+    if (prev == -1 || (check(arr, curr, prev))) {
+      include = arr[curr][2] + topDown(arr, curr + 1, curr, dp);
+    }
+
+    int exclude = 0 + topDown(arr, curr + 1, prev, dp);
+    dp[curr][prev + 1] = Math.max(include, exclude);
+    return dp[curr][prev + 1];
+  }
+
+  public int bottomUp(int arr[][]) {
+
+    int n = arr.length;
+    int dp[][] = new int[n + 1][n + 1];
+
+    for (int curr = n - 1; curr >= 0; curr--) {
+      for (int prev = n - 1; prev >= -1; prev--) {
+        int include = 0;
+        if (prev == -1 || (arr[curr][0] >= arr[prev][0] && arr[curr][1] >= arr[prev][1] && arr[curr][2] >= arr[prev][2])) {
+          include = arr[curr][2] + dp[curr + 1][curr + 1];
+        }
+
+        int exclude = 0 + dp[curr + 1][prev + 1];
+        dp[curr][prev + 1] = Math.max(include, exclude);
+      }
+    }
+
+    return dp[0][-1 + 1];
+  }
+
+  public int spaceOptimized(int arr[][]) {
+
+    int n = arr.length;
+    int dp[][] = new int[n + 1][n + 1];
+    int currA[] = new int[n + 1];
+    int prevA[] = new int[n + 1];
+
+    for (int curr = n - 1; curr >= 0; curr--) {
+      for (int prev = n - 1; prev >= -1; prev--) {
+        int include = 0;
+        if (prev == -1 || (arr[curr][0] >= arr[prev][0] && arr[curr][1] >= arr[prev][1] && arr[curr][2] >= arr[prev][2])) {
+          include = arr[curr][2] + currA[curr + 1];
+        }
+
+        int exclude = 0 + currA[prev + 1];
+        prevA[prev + 1] = Math.max(include, exclude);
+      }
+
+      int temp[] = currA;
+      currA = prevA;
+      prevA = temp;
+    }
+
+    return currA[-1 + 1];
+  }
+
+  public int maxHeight(int[][] cuboids) {
+
+    // sort each row
+    for (int row[]: cuboids) Arrays.sort(row);
+
+    // sort the cuboids
+    // Arrays.sort(cuboids,(a,b) -> a[0] == b[0] ? a[1] - b[1] : a[0]-b[0]);
+    //         Arrays.sort(cuboids, (a, b) -> {
+    //     if (a[0] != b[0]) {
+    //         return a[0] - b[0];
+    //     } else if (a[1] != b[1]) {
+    //         return a[1] - b[1];
+    //     } else {
+    //         return a[2] - b[2];
+    //     }
+    // });
+
+    // shortcut trick to sort based ont all elements of each row of the cuboids
+    Arrays.sort(cuboids, (a, b) -> (a[0] * a[1] * a[2] - b[0] * b[1] * b[2]));
+
+    // recursive
+    // int ans = solve(cuboids,0,-1);
+
+    // topDown
+    // int n = cuboids.length;
+    // int dp[][] = new int[n+1][n+1];
+    // for(int row[] : dp) Arrays.fill(row,-1);
+    // int ans = topDown(cuboids,0,-1,dp);
+
+    // bottomUp 
+    // int ans = bottomUp(cuboids);
+
+    int ans = spaceOptimized(cuboids);
+
+    return ans;
+
+  }
+}
+
+
+LeetCode :- https://leetcode.com/problems/maximum-height-by-stacking-cuboids/submissions/
+
+
+
+
+//User function Template for Java
+
+class Solution{
+    
+    public boolean check(int height[],int width[],int length[],int curr ,int prev){
+        if(height[curr] >= height[prev] && width[curr] >= width[prev] && length[curr]>= length[prev] ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public int spaceOptimized(int height[],int width[],int length[]){
+        
+        int n = height.length;
+        int dp[][] = new int[n+1][n+1];
+        int currA[] = new int[n+1];
+        int prevA[] = new int[n+1];
+
+
+        for(int curr = n-1; curr >=0 ; curr--){
+            for(int prev = n-1 ; prev >= -1 ; prev--){
+                int include = 0;
+                if(prev == -1 || check(height,width,length,curr,prev)){
+                    include = height[curr] + currA[curr+1];
+                }
+
+                int exclude = 0 + currA[prev+1];
+                prevA[prev+1] = Math.max(include,exclude);
+            }
+
+            int temp[] = currA;
+            currA = prevA;
+            prevA = temp;
+        }
+
+       
+        return currA[-1+1];
+    }
+    
+    public static int maxHeight(int[] height, int[] width, int[] length, int n){
+        
+        Arrays.sort(height);
+        Arrays.sort(width);
+        Arrays.sort(length);
+        
+        int ans = spaceOptimized(height,width,length);
+        
+        return ans;
+        
+        
+    }
+}
+

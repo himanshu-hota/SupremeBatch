@@ -1,0 +1,122 @@
+class Solution {
+
+    // Recursive solution
+    // public int solve(StringBuilder str1, StringBuilder str2 , int  i , int j){
+    //     if(i >= str1.length() || j >= str2.length()) return 0;
+    //
+    //     int ans = 0;
+    //
+    //     if(str1.charAt(i) == str2.charAt(j)){
+    //         ans = 1 + solve(str1,str2,i+1,j+1);
+    //     }else{
+    //         ans = 0 + Math.max(solve(str1,str2,i+1,j),solve(str1,str2,i,j+1));
+    //     }
+    //
+    //     return ans;
+    // }
+
+    // Top-down dynamic programming solution
+    public int topDown(StringBuilder str1, StringBuilder str2 , int  i , int j,int dp[][]){
+        if(i >= str1.length() || j >= str2.length()) return 0;
+
+        if(dp[i][j] != -1) return dp[i][j];
+
+        int ans = 0;
+
+        if(str1.charAt(i) == str2.charAt(j)){
+            ans = 1 + topDown(str1,str2,i+1,j+1,dp);
+        }else{
+            ans = 0 + Math.max(topDown(str1,str2,i+1,j,dp),topDown(str1,str2,i,j+1,dp));
+        }
+
+        dp[i][j] = ans;
+        return ans;
+    }
+
+    // Bottom-up dynamic programming solution
+    public int bottomUp(StringBuilder str1, StringBuilder str2){
+        // if(i >= str1.length() || j >= str2.length()) return 0;
+        // if(dp[i][j] != -1) return dp[i][j];
+
+        int n1 = str1.length();
+        int n2 = str2.length();
+        int dp[][] = new int [n1+1][n2+1];
+
+        for(int i = n1-1 ; i>=0 ; i--){
+            for(int j = n2-1 ; j>= 0 ; j--){
+                int ans = 0;
+
+                if(str1.charAt(i) == str2.charAt(j)){
+                    ans = 1 + dp[i+1][j+1];
+                }else{
+                    ans = 0 + Math.max(dp[i+1][j],dp[i][j+1]);
+                }
+
+                dp[i][j] = ans;
+            }
+        }
+
+        return dp[0][0];
+    }
+
+    // Space-optimized bottom-up dynamic programming solution
+    public int spaceOptimized(StringBuilder str1, StringBuilder str2){
+        // if(i >= str1.length() || j >= str2.length()) return 0;
+        // if(dp[i][j] != -1) return dp[i][j];
+
+        int n1 = str1.length();
+        int n2 = str2.length();
+        int curr[] = new int[n2+1];
+        int next[] = new int[n2+1];
+
+        for(int i = n1-1 ; i>=0 ; i--){
+            for(int j = n2-1 ; j>= 0 ; j--){
+                int ans = 0;
+
+                if(str1.charAt(i) == str2.charAt(j)){
+                    ans = 1 + next[j+1];
+                }else{
+                    ans = 0 + Math.max(next[j],curr[j+1]);
+                }
+
+                curr[j] = ans;
+            }
+
+            // Swapping curr and next arrays
+            int temp[] = curr;
+            curr = next;
+            next = temp;
+        }
+
+        return next[0];
+    }
+
+    // Main function to find the longest common subsequence
+    public int longestCommonSubsequence(String text1, String text2) {
+
+        // Recursive solution
+        // int ans = solve(new StringBuilder(text1),new StringBuilder(text2),0,0);
+
+        // Top-down dynamic programming solution
+        // int dp[][] = new int [text1.length()+1][text2.length()+1];
+        // for(int row[] : dp) Arrays.fill(row,-1);
+        // int ans = topDown(new StringBuilder(text1),new StringBuilder(text2),0,0,dp);
+
+        // Bottom-up dynamic programming solution
+        // int ans  = bottomUp(new StringBuilder(text1),new StringBuilder(text2));
+
+        // Space-optimized dynamic programming solution
+        int ans  = spaceOptimized(new StringBuilder(text1),new StringBuilder(text2));
+
+        return ans;
+    }
+}
+
+
+Note :- Ye bhi include exclude pattern hai
+
+LeetCode :- https://leetcode.com/problems/longest-common-subsequence/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/longest-common-subsequence_1063255?leftPanelTab=0
+
+GFG :- https://practice.geeksforgeeks.org/problems/longest-common-subsequence-1587115620/1

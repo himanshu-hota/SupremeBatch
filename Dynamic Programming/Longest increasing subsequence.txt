@@ -1,0 +1,169 @@
+
+class Solution {
+
+    // public int solve(int arr[],int curr,int prev){
+    //     if(curr >= arr.length) return 0;
+
+    //     int include = 0;
+    //     if(prev == -1 || arr[curr] > arr[prev]){
+    //         include = 1 + solve(arr,curr+1,curr);
+    //     }
+
+    //     int exclude = 0 + solve(arr,curr+1,prev);
+
+    //     return Math.max(include,exclude);
+    // }
+
+    // public int topDown(int arr[],int curr,int prev,int dp[][]){
+    //     if(curr >= arr.length) return 0;
+
+    //     if(dp[curr][prev+1] != 0) return dp[curr][prev+1];
+
+    //     int include = 0;
+    //     // prev means the array is initially empty.
+    //     if(prev == -1 || arr[curr] > arr[prev]){
+    //         include = 1 + topDown(arr,curr+1,curr,dp);
+    //     }
+
+    //     int exclude = 0 + topDown(arr,curr+1,prev,dp);
+        
+        
+    //     dp[curr][prev+1] = Math.max(include,exclude);
+
+    //     return dp[curr][prev+1];
+    // }
+
+    // public int bottomUp(int arr[]){
+        
+    //     // dp banao
+    //     int n = arr.length;
+    //     int dp[][] = new int[n+1][n+1];
+
+    //     // base case dekho
+    //     // 0 fill karna tha , already handled
+
+    //     // rest
+    //     for(int curr = n-1 ; curr>=0;curr--){
+    //         for(int prev = curr-1 ; prev >= -1 ; prev--){
+                
+    //             int include = 0;
+    //             // prev means the array is initially empty.
+    //             if(prev == -1 || arr[curr] > arr[prev]){
+    //                 include = 1 + dp[curr+1][curr+1]; // ye bhul sakye hain
+    //             }
+
+    //             int exclude = 0 + dp[curr+1][prev+1];
+                
+                
+    //             dp[curr][prev+1] = Math.max(include,exclude);
+    //         }
+    //     }
+
+    //     return dp[0][-1+1];
+    // }
+
+    // public int spaceOptimized(int arr[]){
+        
+    //     // dp banao
+    //     int n = arr.length;
+    //     int currA[] = new int[n+1];
+    //     int prevA[] = new int[n+1];
+        
+
+    //     // base case dekho
+    //     // 0 fill karna tha , already handled
+
+    //     // rest
+    //     for(int curr = n-1 ; curr>=0;curr--){
+    //         for(int prev = curr-1 ; prev >= -1 ; prev--){
+                
+    //             int include = 0;
+    //             // prev means the array is initially empty.
+    //             if(prev == -1 || arr[curr] > arr[prev]){
+    //                 include = 1 + currA[curr+1]; // ye bhul sakye hain
+    //             }
+
+    //             int exclude = 0 + currA[prev+1];
+                
+                
+    //             prevA[prev+1] = Math.max(include,exclude);
+    //         }
+
+    //         // swapping
+    //         // note :- prev ko curr ya curr ko prev se swap karo ek hi matlab hai
+    //         int temp[] = prevA;
+    //         prevA = currA;
+    //         currA = temp;
+    //     }
+
+    //     return currA[-1+1];
+    // }
+
+    static int binarySearch(List<Integer> list, int target) {
+        int left = 0;
+        int right = list.size();
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            if (list.get(mid) == target) {
+                return mid;
+            } else if (list.get(mid) < target) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+
+        // if element not found then returning the just greater element's index
+        return left;
+    }
+
+    public int DPwithBS(int nums[]){
+
+        int n = nums.length;
+        List<Integer> ans = new ArrayList<>();
+        
+        ans.add(nums[0]);
+        // logic : if current element is greater than the last element of the ans list then add it to the ans list
+        // otherwise find the just greater element's index in the ans list and replace it with curr element
+        for (int i = 1; i < n; i++) {
+            if (nums[i] > ans.get(ans.size() - 1)) {
+                ans.add(nums[i]);
+                
+            } else {
+                int idx = binarySearch(ans, nums[i]);
+                ans.set(idx, nums[i]);
+            }
+        }
+
+        return ans.size();
+
+    }
+
+    public int lengthOfLIS(int[] nums) {
+        int curr = 0;
+        int prev = -1;
+        // recursive
+        // int ans = solve(nums,curr,prev);
+
+        // topdown
+        // int n  = nums.length;
+        // int dp[][] = new int[n+1][n+1];
+        // int ans = topDown(nums,curr,prev,dp);
+
+        // bottomup
+        // int ans = bottomUp(nums);
+
+        // spaceOptimized
+        // int ans = spaceOptimized(nums);
+
+        // DP with Binary Search
+        int ans = DPwithBS(nums);
+        return ans;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/longest-increasing-subsequence/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/longest-increasing-subsequence_630459?leftPanelTab=1

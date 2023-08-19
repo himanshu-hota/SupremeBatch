@@ -1,0 +1,175 @@
+class Solution {
+
+    // public int solve(StringBuilder s1, StringBuilder s2,int i , int j){
+    //     if(i == s1.length() ){
+    //         return s2.length()-j;
+    //     }
+
+    //     if(j == s2.length() ){
+    //         return s1.length()-i;
+    //     }
+
+    //     int ans = 0;
+
+    //     if(s1.charAt(i) == s2.charAt(j)) {
+    //         ans = solve(s1,s2,i+1,j+1);
+    //     }else{
+    //         int replace = 1 + solve(s1,s2,i+1,j+1) ;
+    //         int delete = 1 + solve(s1,s2,i+1,j);
+    //         int insert = 1 + solve(s1,s2,i,j+1); 
+
+    //         ans = Math.min(replace,Math.min(delete,insert));
+    //     }
+
+
+    //     return ans;
+
+    // }
+
+    public int topDown(StringBuilder s1, StringBuilder s2,int i , int j,int dp[][]){
+        if(i == s1.length() ){
+            return s2.length()-j;
+        }
+
+        if(j == s2.length() ){
+            return s1.length()-i;
+        }
+
+        if(dp[i][j]  != -1) return dp[i][j];
+
+        int ans = 0;
+
+        if(s1.charAt(i) == s2.charAt(j)) {
+            ans = topDown(s1,s2,i+1,j+1,dp);
+        }else{
+            int replace = 1 + topDown(s1,s2,i+1,j+1,dp) ;
+            int delete = 1 + topDown(s1,s2,i+1,j,dp);
+            int insert = 1 + topDown(s1,s2,i,j+1,dp); 
+
+            ans = Math.min(replace,Math.min(delete,insert));
+        }
+
+        dp[i][j] = ans;
+        return ans;
+
+    }    
+
+    public int bottomUp(StringBuilder s1, StringBuilder s2){
+
+        int n1 = s1.length();
+        int n2 = s2.length();
+        int dp[][] = new int[n1+2][n2+2];
+
+        // base case handling here
+        for(int i = 0; i<= s1.length(); i++){
+            dp[i][s2.length()] = s1.length()-i;
+        }
+        // base case handling here
+        for(int j = 0; j<= s2.length(); j++){
+            dp[s1.length()][j] = s2.length()-j;
+        }
+
+        for(int i = n1-1; i >= 0; i--){
+            for(int j = n2-1; j>=0; j--){
+                int ans = 0;
+
+                if(s1.charAt(i) == s2.charAt(j)) {
+                    ans = dp[i+1][j+1];
+                }else{
+                    int replace = 1 + dp[i+1][j+1];
+                    int delete = 1 + dp[i+1][j];
+                    int insert = 1 + dp[i][j+1]; 
+
+                    ans = Math.min(replace,Math.min(delete,insert));
+                }
+
+                dp[i][j] = ans;
+            }
+        }
+
+        
+
+        
+        return dp[0][0];
+
+    }   
+
+    public int spaceOptimized(StringBuilder s1, StringBuilder s2){
+
+        int n1 = s1.length();
+        int n2 = s2.length();
+        
+        int curr[] = new int[n2+1];
+        int next[] = new int[n2+1];
+
+        // dp ke andar last row k har ek column me ye insert kar do
+        for(int j = 0; j<= s2.length(); j++){
+            next[j] = s2.length()-j;
+        }
+
+        for(int i = n1-1; i >= 0; i--){
+            // yaha galti karoge
+            // kya kiya ?
+            // dp ke andar har ek row ke last column me ye insert kar do
+            // yaha kyun upar kyun nahi ? - kyuki agar is line ko upar likh deta to 
+            // kisi na kisi call me ye overwrite ho jata and we dont want that.
+            curr[s2.length()] =  s1.length()-i;
+            for(int j = n2-1; j>=0; j--){
+                int ans = 0;
+
+                if(s1.charAt(i) == s2.charAt(j)) {
+                    ans = next[j+1];
+                }else{
+                    int replace = 1 + next[j+1];
+                    int delete = 1 + next[j];
+                    int insert = 1 + curr[j+1]; 
+
+                    ans = Math.min(replace,Math.min(delete,insert));
+                }
+
+                curr[j] = ans;
+            }
+
+            // swapping
+            int temp[] = curr;
+            curr = next;
+            next = temp;
+        }
+
+        
+
+        
+        return next[0];
+
+    }  
+
+    public int minDistance(String word1, String word2) {
+        if(word1.length() == 0) return word2.length();
+        if(word2.length() == 0) return word1.length();
+
+        // recursive
+        // int ans = solve(new StringBuilder(word1),new StringBuilder(word2),0,0);
+
+        // topDown
+        // int n1 = word1.length();
+        // int n2 = word2.length();
+        // int dp[][] = new int[n1][n2];
+        // for(int row[] : dp) Arrays.fill(row,-1);
+        // int ans = topDown(new StringBuilder(word1),new StringBuilder(word2),0,0,dp);
+
+        // bottomUp
+        // int ans = bottomUp(new StringBuilder(word1),new StringBuilder(word2));
+
+        // space optimized
+        int ans = spaceOptimized(new StringBuilder(word1),new StringBuilder(word2));
+        
+        return ans;
+    }
+
+}
+
+LeetCode :- https://leetcode.com/problems/edit-distance/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/edit-distance3702/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/edit-distance_630420?leftPanelTab=0

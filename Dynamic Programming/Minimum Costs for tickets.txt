@@ -1,0 +1,108 @@
+class Solution {
+
+    // public int solve(int days[],int costs[],int i ){
+        
+    //     if(i >= days.length) return 0;
+
+    //     // 1 Day cost
+    //     int cost1 = costs[0] + solve(days,costs,i+1);
+        
+    //     // 7 Day cost
+    //     int lastDay = days[i] + 7 - 1;
+    //     int j = i;
+    //     while(j<days.length && days[j] <= lastDay) j++;
+    //     int cost2 = costs[1] + solve(days,costs,j);
+
+
+    //     // 30 Day cost
+    //     lastDay = days[i] + 30 - 1;
+    //     j = i;
+    //     while(j<days.length && days[j] <= lastDay) j++;
+    //     int cost3 = costs[2] + solve(days,costs,j);
+
+    //     int ans = Math.min(cost1,Math.min(cost2,cost3));
+
+    //     return ans;
+    // }
+
+    // public int topDown(int days[],int costs[],int i,int dp[]){
+        
+    //     if(i >= days.length) return 0;
+
+    //     if(dp[i] != -1) return dp[i];
+
+    //     // 1 Day cost
+    //     int cost1 = costs[0] + topDown(days,costs,i+1,dp);
+        
+    //     // 7 Day cost
+    //     int lastDay = days[i] + 7 - 1;
+    //     int j = i;
+    //     while(j<days.length && days[j] <= lastDay) j++;
+    //     int cost2 = costs[1] + topDown(days,costs,j,dp);
+
+
+    //     // 30 Day cost
+    //     lastDay = days[i] + 30 - 1;
+    //     j = i;
+    //     while(j<days.length && days[j] <= lastDay) j++;
+    //     int cost3 = costs[2] + topDown(days,costs,j,dp);
+
+    //     int ans = Math.min(cost1,Math.min(cost2,cost3));
+
+    //     dp[i] = ans;
+
+    //     return ans;
+    // }   
+
+    public int bottomUp(int days[],int costs[]){
+        
+        int n = days.length;
+        int dp[] = new int[n+3];
+
+        for(int i = n-1; i>=0 ; i--){
+            // 1 Day cost
+            int cost1 = costs[0] + dp[i+1];
+            
+            // 7 Day cost
+            int lastDay = days[i] + 7 - 1;
+            int j = i;
+            while(j<days.length && days[j] <= lastDay) j++;
+            int cost2 = costs[1] + dp[j];
+
+
+            // 30 Day cost
+            lastDay = days[i] + 30 - 1;
+            j = i;
+            while(j<days.length && days[j] <= lastDay) j++;
+            int cost3 = costs[2] + dp[j];
+
+            int ans = Math.min(cost1,Math.min(cost2,cost3));
+
+            dp[i] = ans;
+        }
+
+        return dp[0];
+    }   
+
+
+
+    public int mincostTickets(int[] days, int[] costs) {
+        // recursive
+        // int ans = solve(days,costs,0);
+
+        // topDown
+        // int n = days.length;
+        // int dp[] = new int[n+1];
+        // Arrays.fill(dp,-1);
+        // int ans = topDown(days,costs,0,dp);
+
+        // bottomUp
+        int ans = bottomUp(days,costs);
+        return ans;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/minimum-cost-for-tickets/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/minimum-coins_2180776?leftPanelTab=0

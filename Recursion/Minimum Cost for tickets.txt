@@ -14,7 +14,7 @@ class Solution {
         while( j< days.length && days[j] <= passEndDay) j++; 
         int cost2 = costs[1] + mincostTicketsHelper(days,costs,j);
 
-        // 7 Days cost
+        // 30 Days cost
         passEndDay = days[i] + 30 - 1;
         j = i;
         while(j< days.length && days[j] <= passEndDay) j++; 

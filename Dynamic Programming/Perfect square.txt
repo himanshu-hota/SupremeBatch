@@ -1,0 +1,92 @@
+class Solution {
+
+    // public int solve(int n){
+    //     if(n == 0) return 1;
+    //     if(n < 0) return 0;
+
+    // set the starting point as 1 because we want to check from 1 if it can make ans .
+    //     int i = 1;
+    // get the range by calculating sqrt post this number ans can not be calculated.
+    //     int end = (int)(Math.sqrt(n));
+    // we want min value so initalize ans as max
+    //     int ans = Integer.MAX_VALUE;
+
+    // now check from 1 to range if any ans is possible.
+    //     while(i <= end){
+    // current perfect square
+    //         int perfectSquare = i*i;
+    // get the count of number needed to make target sum.
+    //         int numOfPerfSquare = 1 + solve(n-perfectSquare);
+    // store the min of previous ans and current ans
+    //         ans = Math.min(ans,numOfPerfSquare);
+    //         i++;
+    //     }
+
+    //     return ans;
+    // }
+
+    // public int topDown(int n,int dp[]){
+    //     if(n == 0) return 1;
+    //     if(n < 0) return 0;
+
+    //     if(dp[n] != -1) return dp[n];
+
+    //     int i = 1;
+    //     int end = (int)(Math.sqrt(n));
+    //     int ans = Integer.MAX_VALUE;
+
+    //     while(i <= end){
+    //         int perfectSquare = i*i;
+    //         int numOfPerfSquare = 1 + topDown(n-perfectSquare,dp);
+    //         ans = Math.min(ans,numOfPerfSquare);
+    //         i++;
+    //     }
+    //     dp[n] = ans;
+    //     return ans;
+    // }
+
+    public int bottomUp(int x){
+        
+        // step 1 : dp banao
+        int dp[] = new int[x+1];
+        
+        // step 2 : base case dekho
+        dp[0] = 0; // 0 can be calculated in 0 counts
+        dp[1] = 1; // 1 can be calculated in 1 count
+
+        // step 3 : baki ko handle karo
+        for(int n = 1 ; n<=x; n++)    {
+            int i = 1;
+            int end = (int)(Math.sqrt(n));
+            int ans = Integer.MAX_VALUE;
+
+            while(i <= end){
+                int perfectSquare = i*i;
+                int numOfPerfSquare = 1 + dp[n-perfectSquare];
+                ans = Math.min(ans,numOfPerfSquare);
+                i++;
+            }
+            dp[n] = ans;
+        }
+    
+        return dp[x];
+    }
+
+    public int numSquares(int n) {
+        // recursive
+        // int ans = solve(n);
+        // return ans-1;
+
+        // topDown
+        // int dp[] = new int[n+1];
+        // Arrays.fill(dp,-1);
+        // int ans = topDown(n,dp);
+        // return ans-1;
+
+        // bottomUp
+        int ans = bottomUp(n);
+        return ans;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/perfect-squares/description/

@@ -1,0 +1,102 @@
+class Solution {
+
+    // Recursive function to calculate the minimum cost of constructing a tree
+    public int solve(int arr[], int maxi[][], int left, int right) {
+        if (left == right) return 0;
+
+        int ans = Integer.MAX_VALUE;
+
+        // Try all possible split points within the current range
+        for (int i = left; i < right; i++) {
+            // Calculate the cost of combining two subtrees and add it to the answer
+            int ansFromLeft = solve(arr, maxi, left, i);
+            int ansFromRight = solve(arr, maxi, i + 1, right);
+            ans = Math.min(ans, (maxi[left][i] * maxi[i + 1][right] + ansFromLeft + ansFromRight));
+        }
+
+        return ans;
+    }
+
+    // Top-down dynamic programming approach with memoization
+    public int topDown(int arr[], int maxi[][], int left, int right, int dp[][]) {
+        if (left == right) return 0;
+
+        if (dp[left][right] != 0) return dp[left][right];
+
+        int ans = Integer.MAX_VALUE;
+
+        // Iterate through possible split points, utilizing memoization
+        for (int i = left; i < right; i++) {
+            int ansFromLeft = topDown(arr, maxi, left, i, dp);
+            int ansFromRight = topDown(arr, maxi, i + 1, right, dp);
+            ans = Math.min(ans, (maxi[left][i] * maxi[i + 1][right] + ansFromLeft + ansFromRight));
+        }
+
+        dp[left][right] = ans;
+        return ans;
+    }
+
+    // Bottom-up dynamic programming approach
+    public int bottomUp(int arr[], int maxi[][]) {
+
+        int n = arr.length;
+        int dp[][] = new int[n + 1][n + 1];
+
+        // Iterate over all subarrays, building the DP table from smaller subproblems
+        for (int left = n - 1; left >= 0; left--) {
+            for (int right = 0; right <= n - 1; right++) {
+
+                int ans = Integer.MAX_VALUE;
+
+                if (left == right) {
+                    continue; // Subarray with only one element, no cost
+                } else {
+                    // Find the optimal split point within the current subarray
+                    for (int i = left; i < right; i++) {
+                        int ansFromLeft = dp[left][i];
+                        int ansFromRight = dp[i + 1][right];
+                        ans = Math.min(ans, (maxi[left][i] * maxi[i + 1][right] + ansFromLeft + ansFromRight));
+                    }
+                }
+
+                dp[left][right] = ans;
+            }
+        }
+
+        return dp[0][n - 1]; // Result is stored in the top-left corner of DP table
+    }
+
+    // Main function to calculate the minimum cost of constructing the tree
+    public int mctFromLeafValues(int[] arr) {
+        int n = arr.length;
+        int maxi[][] = new int[n][n];
+
+        // Pre-calculate the maximum value in each subarray
+        for (int i = 0; i < n; i++) {
+            int maxVal = arr[i];
+
+            for (int j = i; j < n; j++) {
+                maxVal = Math.max(maxVal, arr[j]);
+                maxi[i][j] = maxVal;
+            }
+        }
+
+        // Uncomment the approach you want to use
+        // Recursive approach
+        // int ans = solve(arr, maxi, 0, n - 1);
+
+        // Top-down approach with memoization
+        // int dp[][] = new int[n + 1][n + 1];
+        // int ans = topDown(arr, maxi, 0, n - 1, dp);
+
+        // Bottom-up approach
+        int ans = bottomUp(arr, maxi);
+
+        return ans; // Return the minimum cost of constructing the tree
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/minimum-cost-tree-from-leaf-values/description/
+
+

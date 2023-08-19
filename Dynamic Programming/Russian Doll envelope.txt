@@ -1,0 +1,53 @@
+import java.util.*;
+
+class Solution {
+    public int maxEnvelopes(int[][] arr) {
+        // Sort the envelopes based on their widths in ascending order.
+        // If two envelopes have the same width, sort them based on height in descending order.
+        Arrays.sort(arr, (a, b) -> a[0] != b[0] ? a[0] - b[0] : b[1] - a[1]);
+        
+        // Create a list to store the heights of the envelopes that can be nested.
+        List<Integer> a = new ArrayList<>();
+        a.add(arr[0][1]); // Add the height of the first envelope.
+        
+        // Iterate through the sorted envelopes to find the maximum number of nested envelopes.
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i][1] > a.get(a.size() - 1)) {
+                // If the height of the current envelope is greater than the height of the last envelope in 'a',
+                // add it to the 'a' list, as it can be nested inside the previous envelope.
+                a.add(arr[i][1]);
+            } else {
+                // If the height of the current envelope is not greater, find the appropriate position for it using binary search.
+                int index = binarySearch(a, arr[i][1]);
+                a.set(index, arr[i][1]); // Replace the height at the found index with the new height.
+            }
+        }
+        
+        // The size of list 'a' represents the maximum number of nested envelopes.
+        return a.size();
+    }
+
+    public int binarySearch(List<Integer> a, int target) {
+        int left = 0;
+        int right = a.size() - 1;
+
+        // Perform binary search to find the correct position for the new height 'target' in the 'a' list.
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (a.get(mid) == target) {
+                return mid; // Return the index if the target height is found.
+            } else if (a.get(mid) < target) {
+                left = mid + 1; // Adjust the left boundary if the current height is smaller than the target.
+            } else {
+                right = mid - 1; // Adjust the right boundary if the current height is greater than the target.
+            }
+        }
+
+        // Return the index where the new height should be inserted.
+        return left;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/russian-doll-envelopes/description/

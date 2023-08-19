@@ -1,0 +1,74 @@
+class Solution {
+    public int solve(int start , int end){
+        if(start >= end) return 0;
+
+        int ans = Integer.MAX_VALUE;
+        // check for all possible number and generate the maximum penalty from all possible ways. (Math.max wala part)
+        // now we need the min of the penalties.(Math.min wala part)
+        
+        for(int i = start; i <= end ; i++){
+            ans = Math.min(ans,i + Math.max(solve(start,i-1),solve(i+1,end)));
+        }
+
+        // return ans.
+        return ans;
+    }
+
+    public int topDown(int start , int end,int dp[][]){
+        if(start >= end) return 0;
+
+        int ans = Integer.MAX_VALUE;
+        if(dp[start][end] != 0) return dp[start][end];
+
+        for(int i = start; i <= end ; i++){
+            ans = Math.min(ans,i + Math.max(topDown(start,i-1,dp),topDown(i+1,end,dp)));
+        }
+
+        dp[start][end] = ans;
+        return ans;
+    }
+
+
+    public int bottomUp(int n){
+        
+        int dp[][] = new int[n+2][n+2];
+
+        for(int start = n ; start >= 1 ; start--){
+            for(int end = 1 ; end <= n ; end++){
+
+                if(start >= end) continue;
+                else{
+                    int ans = Integer.MAX_VALUE;
+                    if(dp[start][end] != 0) return dp[start][end];
+
+                    for(int i = start; i <= end ; i++){
+                        ans = Math.min(ans,i + Math.max(dp[start][i-1],dp[i+1][end]));
+                    }
+
+                    dp[start][end] = ans;
+                }
+               
+            }
+        }
+
+        return dp[1][n];
+    }
+
+
+
+    public int getMoneyAmount(int n) {
+        // recursive
+        // int ans = solve(1,n);
+
+        // topDown 
+        // int dp[][] = new int[n+1][n+1];
+        // int ans = topDown(1,n,dp);
+
+        // bottomUp
+        int ans = bottomUp(n);
+        return ans;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/guess-number-higher-or-lower-ii/description/
