@@ -1,0 +1,120 @@
+class Solution {
+
+  public int solve(int prices[],int day,int hasStock,int fee){
+
+      if(day >= prices.length ) return 0;
+
+      // kuchh mat karo
+      int profit1 = solve(prices,day+1,hasStock,fee);
+
+      // sell wala case (agar stock hai to bech do).
+      if(hasStock == 1){
+          int profit2 = prices[day] + solve(prices,day+1,0,fee) -fee;
+          return Math.max(profit1,profit2);
+      }else{ // buy wala case (khali baithe ho to stock kharid lo)
+          int profit3 = -prices[day] + solve(prices,day+1,1,fee);
+          return Math.max(profit1,profit3);
+      }
+
+  }
+
+  // public int topDown(int prices[],int day,int hasStock,int dp[][],int fee){
+
+  //     if(day >= prices.length ) return 0;
+
+  //     if(dp[day][hasStock] != -1) return dp[day][hasStock];
+
+  //     // kuchh mat karo
+  //     int profit1 = topDown(prices,day+1,hasStock,dp,fee);
+
+  //     // sell wala case (agar stock hai to bech do).
+  //     if(hasStock == 1){
+  //         int profit2 = prices[day] + topDown(prices,day+1,0,dp,fee)  - fee;
+  //         dp[day][hasStock] =  Math.max(profit1,profit2);
+  //         return dp[day][hasStock];
+  //     }else{ // buy wala case (khali baithe ho to stock kharid lo)
+  //         int profit3 = -prices[day] + topDown(prices,day+1,1,dp,fee);
+  //         dp[day][hasStock] = Math.max(profit1,profit3);
+  //         return dp[day][hasStock];
+  //     }
+
+  // }
+
+  // public int bottomUp(int prices[],int fee) {
+
+  //   int n = prices.length;
+  //   int dp[][] = new int[n + 1][2];
+
+  //   for (int day = n - 1; day >= 0; day--) {
+  //     for (int hasStock = 1; hasStock >= 0; hasStock--) {
+  //       // kuchh mat karo
+  //       int profit1 = dp[day + 1][hasStock];
+
+  //       // sell wala case (agar stock hai to bech do).
+  //       if (hasStock == 1) {
+  //         int profit2 = prices[day] + dp[day + 1][0]  - fee;
+  //         dp[day][hasStock] = Math.max(profit1, profit2);
+
+  //       } else { // buy wala case (khali baithe ho to stock kharid lo)
+  //         int profit3 = -prices[day] + dp[day + 1][1];
+  //         dp[day][hasStock] = Math.max(profit1, profit3);
+
+  //       }
+  //     }
+  //   }
+
+  //   return dp[0][0];
+  // }
+
+  public int spaceOptimized(int prices[],int fee) {
+
+    int n = prices.length;
+    int dp[][] = new int[2][2];
+
+    for (int day = n - 1; day >= 0; day--) {
+      for (int hasStock = 1; hasStock >= 0; hasStock--) {
+        // kuchh mat karo
+        int profit1 = dp[1][hasStock];
+
+        // sell wala case (agar stock hai to bech do).
+        if (hasStock == 1) {
+          int profit2 = prices[day] + dp[1][0]  - fee;
+          dp[0][hasStock] = Math.max(profit1, profit2);
+
+        } else { // buy wala case (khali baithe ho to stock kharid lo)
+          int profit3 = -prices[day] + dp[1][1];
+          dp[0][hasStock] = Math.max(profit1, profit3);
+
+        }
+      }
+
+      int temp[] = dp[0];
+      dp[0] = dp[1];
+      dp[1] = temp;
+    }
+
+    return dp[1][0];
+  }
+
+  public int maxProfit(int[] prices, int fee) {
+    // recursive
+    // int ans = solve(prices,0,0,fee);   
+
+    // topDown
+    // int dp[][] = new int[prices.length+1][2];
+    // for(int row[] : dp) Arrays.fill(row,-1);
+    // int ans = topDown(prices,0,0,dp,fee);
+
+    // bottomUp
+    // int ans = bottomUp(prices,fee);
+
+    // space optimized
+    int ans = spaceOptimized(prices,fee);
+
+    return ans;
+  }
+}
+
+LeetCode :- https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/best-time-to-buy-and-sell-stock-with-transaction-fee_3118974?leftPanelTab=0

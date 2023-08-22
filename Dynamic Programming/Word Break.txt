@@ -1,0 +1,144 @@
+class Solution {
+
+    public boolean check(String word,List<String> wordDict){
+
+        for(String x : wordDict){
+            if(x.equals(word)) return true;
+        }
+
+        return false;
+    }
+
+    public boolean solve(String s , List<String> wordDict,int start){
+
+        if(start == s.length()) return true;
+
+        String word = "";
+        boolean flag = false;
+
+        for(int i = start; i<s.length(); i++) {
+            word += s.charAt(i);
+
+            if(check(word,wordDict)){
+                flag = flag || solve(s,wordDict,i+1);
+            }
+        }
+
+        return flag;
+    }
+
+    public boolean topDown(String s , List<String> wordDict,int start,int dp[]){
+
+        if(start == s.length()) return true;
+
+        if(dp[start]  != 0) return dp[start] == 1 ? true : false;
+        
+        String word = "";
+        boolean flag = false;
+
+        for(int i = start; i<s.length(); i++) {
+            word += s.charAt(i);
+
+            if(check(word,wordDict)){
+                flag = flag || topDown(s,wordDict,i+1,dp);
+            }
+        }
+
+        dp[start] = flag ? 1 : -1;
+        return flag;
+    }  
+
+    public boolean bottomUp(String s , List<String> wordDict){
+
+        // if(start == s.length()) return true;
+
+        int n = s.length();
+        int dp[] = new int[n+1];
+        
+        // base case handling 
+        // method 1
+        // since out of bound hone pe true return ho raha tha
+        // so initially last wale element ko true mark karna jaruri hai.
+        dp[n] = 1;
+
+        // method 2
+        // Arrays.fill(dp,1); // ye bhi kar sakte the but ye complxity increase karega.
+
+        for(int start = n-1; start >= 0; start--){
+            
+            String word = "";
+            boolean flag = false;
+            for(int i = start; i<s.length(); i++) {
+                word += s.charAt(i);
+
+                if(check(word,wordDict)){
+                    flag = flag || dp[i+1] == 1 ? true : false ;
+                }
+            }
+
+            dp[start] = flag ? 1 : -1;
+        }
+
+
+        return dp[0] == 1 ? true : false;
+    }   
+
+     public boolean setMemo(String s , Set<String> wordSet){
+
+        // if(start == s.length()) return true;
+
+        int n = s.length();
+        int dp[] = new int[n+1];
+        
+        // base case handling 
+        // method 1
+        // since out of bound hone pe true return ho raha tha
+        // so initially last wale element ko true mark karna jaruri hai.
+        dp[n] = 1;
+
+        // method 2
+        // Arrays.fill(dp,1); // ye bhi kar sakte the but ye complxity increase karega.
+
+        for(int start = n-1; start >= 0; start--){
+            
+            String word = "";
+            boolean flag = false;
+            for(int i = start; i<s.length(); i++) {
+                word += s.charAt(i);
+
+                if(wordSet.contains(word)){
+                    flag = flag || dp[i+1] == 1 ? true : false ;
+                }
+            }
+
+            dp[start] = flag ? 1 : -1;
+        }
+
+
+        return dp[0] == 1 ? true : false;
+    }          
+
+    public boolean wordBreak(String s, List<String> wordDict) {
+        
+        // recursive
+        // boolean ans = solve(s,wordDict,0);
+
+        // topDown
+        // int dp[] = new int[s.length() + 1];
+        // boolean ans = topDown(s,wordDict,0,dp);
+
+        // bottomUp
+           boolean ans = bottomUp(s,wordDict);
+        
+        // set method
+        // Set<String> wordSet = new HashSet<>(wordDict);
+        // boolean ans = setMemo(s,wordSet);
+
+        
+        return ans;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/word-break/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/word-break_1094901?leftPanelTab=0

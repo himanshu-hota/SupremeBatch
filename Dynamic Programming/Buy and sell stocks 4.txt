@@ -1,0 +1,138 @@
+class Solution {
+
+  // public int solve(int prices[],int day,int hasStock,int limit){
+  //     if(day == prices.length || limit == 0) return 0;
+
+  //     // Do nothing wala case
+  //     int profit1 = solve(prices,day+1,hasStock,limit);
+  //     int profit2 = Integer.MIN_VALUE;
+
+  //     // sell wala case
+  //     if(hasStock == 1){
+  //         profit2 = prices[day] + solve(prices,day+1,0,limit-1);
+  //     }else{ // buy wala case
+  //         profit2 = -prices[day] + solve(prices,day+1,1,limit);
+  //     }
+
+  //     return Math.max(profit2,profit1);
+  // }
+
+  // public int topDown(int prices[],int day,int hasStock,int limit,int dp[][][]){
+  //     if(day == prices.length || limit == 0) return 0;
+
+  //     if(dp[day][hasStock][limit] != -1) return dp[day][hasStock][limit];
+
+  //     // Do nothing wala case
+  //     int profit1 = solve(prices,day+1,hasStock,limit);
+  //     int profit2 = Integer.MIN_VALUE;
+
+  //     // sell wala case
+  //     if(hasStock == 1){
+  //         profit2 = prices[day] + solve(prices,day+1,0,limit-1);
+  //     }else{ // buy wala case
+  //         profit2 = -prices[day] + solve(prices,day+1,1,limit);
+  //     }
+
+  //     dp[day][hasStock][limit] = Math.max(profit2,profit1);
+
+  //     return dp[day][hasStock][limit];
+  // }
+
+  // public int bottomUp(int prices[],int k){
+
+  //     int n = prices.length;
+  //     int dp[][][] = new int[n+1][2][k+1];        
+
+  //     for(int day = n-1; day >=0; day--){
+  //         for(int hasStock = 1; hasStock >=0; hasStock--){
+  //             for(int limit = 1 ; limit<=k ; limit++){ // limit 0 k liye 0 hi ans hoga jo ki already stored hai isiliye limit  ko ` se start kiya hai
+  //                 // Do nothing wala case
+  //                 int profit1 = dp[day+1][hasStock][limit];
+  //                 int profit2 = Integer.MIN_VALUE;
+
+  //                 // sell wala case
+  //                 if(hasStock == 1){
+  //                     profit2 = prices[day] + dp[day+1][0][limit-1];
+  //                 }else{ // buy wala case
+  //                     profit2 = -prices[day] + dp[day+1][1][limit];
+  //                 }
+
+  //                 dp[day][hasStock][limit] = Math.max(profit2,profit1);
+
+  //             }
+  //         }
+  //     }
+
+  //     // 0 0 k kaise? --> loop ko dekho upar se niche range ko.
+  //     // pahle for ka range >=0 so 0 yaha se le liye.
+  //     // dusre for ka range >=0 so 0 yaha se le liya.
+  //     // teesre for ka range <=k so k yaha se le liya.
+  //     return dp[0][0][k];
+  // }
+
+  public int spaceOptimized(int prices[], int k) {
+
+    int n = prices.length;
+    int dp[][][] = new int[2][2][k + 1];
+
+    for (int day = n - 1; day >= 0; day--) {
+      for (int hasStock = 1; hasStock >= 0; hasStock--) {
+        for (int limit = 1; limit <= k; limit++) { // limit 0 k liye 0 hi ans hoga jo ki already stored hai isiliye limit  ko ` se start kiya hai
+          // Do nothing wala case
+          int profit1 = dp[1][hasStock][limit];
+          int profit2 = Integer.MIN_VALUE;
+
+          // sell wala case
+          if (hasStock == 1) {
+            profit2 = prices[day] + dp[1][0][limit - 1];
+          } else { // buy wala case
+            profit2 = -prices[day] + dp[1][1][limit];
+          }
+
+          dp[0][hasStock][limit] = Math.max(profit2, profit1);
+
+        }
+
+      }
+      int temp[][] = dp[0];
+      dp[0] = dp[1];
+      dp[1] = temp;
+    }
+
+    // 1 0 k kaise? --> yaha 2*2*2 ka matrix hai in other words 3d hai.
+    // jab swapping karte hue aate hai to last wale range ko pakdo pahle subsript k liye
+    // in other words hum [x][][] x ko 0 -> 1 le ja rahe hai to last yani ki 1 ko pakdo baki subscript ko same rahne do.
+    // dusre for ka range >=0 so 0 yaha se le liya.
+    // teesre for ka range <=k so k yaha se le liya.
+    return dp[1][0][k];
+  }
+
+  public int maxProfit(int k, int[] prices) {
+    // recursive
+    // int ans = solve(prices,0,0,k);
+
+    // topDown
+    // int n = prices.length;
+    // int dp[][][] = new int[n+1][2][k+1];
+    // for(int twoD[][] : dp) {
+    //     for(int row[]:twoD){
+    //         Arrays.fill(row,-1);
+    //     }
+    // }
+    // int ans = topDown(prices,0,0,k,dp);
+
+    // bottomUp 
+    // int ans = bottomUp(prices,k);
+
+    // spaceOptimized
+    int ans = spaceOptimized(prices, k);
+    return ans;
+  }
+}
+
+// Note :- each line of code is exactly same as 'Buy and sell stocks 3' just replace 2 with k .
+
+
+LeetCode :- https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/best-time-to-buy-and-sell-stock_1080698?leftPanelTab=0

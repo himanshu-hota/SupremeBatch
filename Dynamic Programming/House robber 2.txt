@@ -1,0 +1,143 @@
+class Solution {
+
+    // public int solve(int arr[],int start,int end){
+    //     if(start == end) return arr[start];
+
+    //     if(start+1 == end) return Math.max(arr[start],arr[start+1]);
+
+    //     int whenRobbed = arr[start] + solve(arr,start+2,end);
+    //     int whenSkipped = 0 + solve(arr,start+1,end);
+
+    //     return Math.max(whenRobbed,whenSkipped);
+    // }
+
+
+    // public int topDown(int arr[],int start,int end,int dp[]){
+    //     if(start == end) return arr[start];
+
+    //     if(start+1 == end) return Math.max(arr[start],arr[start+1]);
+
+    //     if(dp[start] != -1) return dp[start];
+
+    //     int whenRobbed = arr[start] + topDown(arr,start+2,end,dp);
+    //     int whenSkipped = 0 + topDown(arr,start+1,end,dp);
+
+    //     dp[start] = Math.max(whenRobbed,whenSkipped);
+
+    //     return dp[start];
+    // }
+
+    public int bottomUp(int arr[],int start,int end){
+        
+        int n = arr.length;
+        int dp[] = new int[n+2];
+
+        for(int idx = end ; idx >= start ; idx--){
+            
+            if(idx-1 == start){
+                dp[idx] =Math.max(arr[idx],arr[idx-1]);
+            }
+
+            int whenRobbed = arr[idx] + dp[idx+2];
+            int whenSkipped = 0 + dp[idx+1];
+
+            dp[idx] = Math.max(whenRobbed,whenSkipped);
+        }
+
+        // start kyun? kyoki dhyan se dekho bottomUp(arr,start,end) is call me start vary kar rha hai 
+        // 0 and 1 me (kaise ? rob function me dekho)
+        // so rather than ki ek fixed index pe answer store ho yaha bhi vary karega ki answer kaha store hoga. isiliye dp[start] bheja hai.
+        // in simple words jaha tak jate hai loop me (idx>=start) isi pe answer store hota hai. (VVIMP).
+
+        return dp[start];
+    }
+
+    public int spaceOptimized(int arr[],int start,int end){
+        
+        int n = arr.length;
+        int dp[] = new int[3];
+
+        dp[0] = 0;
+        dp[1] = arr[end];
+        dp[2] = 0;
+
+        for(int idx = end-1 ; idx >= start ; idx--){
+            
+            if(idx-1 == start){
+                dp[2] =Math.max(arr[idx],arr[idx-1]);
+            }
+
+            int whenRobbed = arr[idx] + dp[0];
+            int whenSkipped = 0 + dp[1];
+
+            dp[2] = Math.max(whenRobbed,whenSkipped);
+
+            dp[0] = dp[1];
+            dp[1] = dp[2];
+        }
+
+        // jisme store kiya tha usi ko return kar do (trick).
+        return dp[1];
+    }
+
+    public int spaceOptimized2(int arr[],int start,int end){
+        
+        int prev2 = 0;
+        int prev1 = arr[end];
+        int curr = 0;
+
+        for(int idx = end-1 ; idx >= start ; idx--){
+            
+            if(idx-1 == start){
+                curr =Math.max(arr[idx],arr[idx-1]);
+            }
+
+            int whenRobbed = arr[idx] + prev2;
+            int whenSkipped = 0 + prev1;
+
+            curr = Math.max(whenRobbed,whenSkipped);
+
+            prev2 = prev1;
+            prev1 = curr;
+        }
+
+        return prev1;
+    }
+
+
+    public int rob(int[] nums) {
+     if(nums.length == 0) return 0;
+     if(nums.length == 1) return nums[0];
+
+    // recursive
+    //  int n = nums.length;   
+    //  int whenLastHouseIncluded = solve(nums,0,n-2);
+    //  int whenLastHouseExcluded = solve(nums,1,n-1);
+
+    // topDown
+    //  int n = nums.length;   
+    // int dp[] = new int[n+1];
+    // Arrays.fill(dp,-1);
+    // int whenLastHouseIncluded = topDown(nums,0,n-2,dp);
+    // Arrays.fill(dp,-1);
+    // int whenLastHouseExcluded = topDown(nums,1,n-1,dp);
+    
+
+    // bottomUp
+    // int n = nums.length;   
+    // int whenLastHouseIncluded = bottomUp(nums,0,n-2);
+    // int whenLastHouseExcluded = bottomUp(nums,1,n-1);
+
+    // spaceoptimized
+    int n = nums.length;   
+    int whenLastHouseIncluded = spaceOptimized(nums,0,n-2);
+    int whenLastHouseExcluded = spaceOptimized(nums,1,n-1);
+
+    return Math.max(whenLastHouseExcluded,whenLastHouseIncluded);
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/house-robber-ii/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/house-robber_839733?leftPanelTab=0

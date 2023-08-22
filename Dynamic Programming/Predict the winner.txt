@@ -1,0 +1,91 @@
+class Solution {
+
+    // public int solve(int arr[],int start, int end){
+        
+    //     // if(i>j) return 0;
+    //     if(start == end) return arr[start];
+           
+           // when player 1 chose value from starting of the array.
+    //     int choseFirst = arr[start] - solve(arr,start+1,end); 
+            // when player 1 chose value from ending of the array.
+    //     int choseLast = arr[end] - solve(arr,start,end-1);
+
+    //     return Math.max(choseFirst,choseLast);
+
+    // }
+
+    // public int topDown(int arr[],int start , int end,int dp[][]){
+        
+    //     // if(i>j) return 0;
+    //     if(start == end) return arr[start];
+
+    //     if(dp[start][end] != -1) return dp[start][end];
+
+    //     int choseFirst = arr[start] - topDown(arr,start+1,end,dp); 
+    //     int choseLast = arr[end] - topDown(arr,start,end-1,dp);
+
+    //     dp[start][end] = Math.max(choseFirst,choseLast);
+
+    //     return dp[start][end];
+
+    // }
+
+    public int bottomUp(int arr[]){
+        
+        // if(i>j) return 0;
+        
+        int n = arr.length;
+        int dp[][] = new int[n+1][n+1];
+        
+        // base case ko handle kiya hai yaha.
+        // kaise ? -> dhyan se dekho
+        // topDown me jab 0 -> diagonal && n-1 -> diagonal ja rahe hain.
+        // to sare diagonal elements pe jo value honge wo yaha handle kiya hai.
+        for(int i = 0; i<n ;i++) dp[i][i] = arr[i];
+
+
+        // since bottomUp me ulta chalte hain to rather than ki diagonal tak jaye.
+        // hum diagonal se jaenge , in other words diagonal se start karenge.
+        // 
+        int i = n;
+
+        for(int start = n-1; start >= 0; start--){
+            for(int end = i; end <=n-1; end++){
+                
+                int choseFirst = arr[start] - dp[start+1][end]; 
+                int choseLast = arr[end] - dp[start][end-1];
+
+                dp[start][end] = Math.max(choseFirst,choseLast);
+
+            }
+            i--;
+        }
+
+        // simply lopk at middle conditions of for loop and pass the same.
+        return dp[0][n-1];
+
+    }
+
+    public boolean predictTheWinner(int[] nums) {
+        
+        // recursive
+        // int ans = solve(nums,0,nums.length-1);
+
+        // topDown
+        // int n = nums.length;
+        // int dp[][] = new int[n+1][n+1];
+        // for(int row[] : dp) Arrays.fill(row,-1);
+        // int ans = topDown(nums,0,n-1,dp);
+
+        // bottomUp
+        int n = nums.length;
+        int ans = bottomUp(nums);
+
+        return ans >= 0 ? true : false;
+
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/predict-the-winner/description/
+
+    

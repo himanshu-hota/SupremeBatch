@@ -1,0 +1,90 @@
+class Solution {
+
+  // public int solve(int prices[],int day,int hasStock){
+
+  //     if(day >= prices.length ) return 0;
+
+  //     // kuchh mat karo
+  //     int profit1 = solve(prices,day+1,hasStock);
+
+  //     // sell wala case (agar stock hai to bech do).
+  //     if(hasStock == 1){
+  //         int profit2 = prices[day] + solve(prices,day+2,0);
+  //         return Math.max(profit1,profit2);
+  //     }else{ // buy wala case (khali baithe ho to stock kharid lo)
+  //         int profit3 = -prices[day] + solve(prices,day+1,1);
+  //         return Math.max(profit1,profit3);
+  //     }
+
+  // }
+
+  // public int topDown(int prices[],int day,int hasStock,int dp[][]){
+
+  //     if(day >= prices.length ) return 0;
+
+  //     if(dp[day][hasStock] != -1) return dp[day][hasStock];
+
+  //     // kuchh mat karo
+  //     int profit1 = topDown(prices,day+1,hasStock,dp);
+
+  //     // sell wala case (agar stock hai to bech do).
+  //     if(hasStock == 1){
+  //         int profit2 = prices[day] + topDown(prices,day+2,0,dp);
+  //         dp[day][hasStock] =  Math.max(profit1,profit2);
+  //         return dp[day][hasStock];
+  //     }else{ // buy wala case (khali baithe ho to stock kharid lo)
+  //         int profit3 = -prices[day] + topDown(prices,day+1,1,dp);
+  //         dp[day][hasStock] = Math.max(profit1,profit3);
+  //         return dp[day][hasStock];
+  //     }
+
+  // }
+
+  public int bottomUp(int prices[]){
+
+      int n = prices.length;
+      int dp[][] = new int[n+2][2];
+
+      for(int day = n-1 ; day>=0 ;day--){
+          for(int hasStock = 1 ; hasStock >= 0 ; hasStock--){
+                 // kuchh mat karo
+              int profit1 = dp[day+1][hasStock];
+              int profit2 = 0;
+
+              // sell wala case (agar stock hai to bech do).
+              if(hasStock == 1){
+                  profit2 = prices[day] + dp[day+2][0];
+              }else{ // buy wala case (khali baithe ho to stock kharid lo)
+                  profit2 = -prices[day] + dp[day+1][1];
+              }
+
+              dp[day][hasStock] =  Math.max(profit1,profit2);
+          }
+      }
+
+      return dp[0][0];
+  }
+
+  public int maxProfit(int[] prices) {
+
+    // recursive
+    // int ans = solve(prices,0,0);
+
+    // topDown
+    // int dp[][] = new int[prices.length+1][2];
+    // for(int row[] : dp) Arrays.fill(row,-1);
+    // int ans = topDown(prices,0,0,dp);
+
+    // bottomUp
+    int ans = bottomUp(prices);
+
+    return ans;
+  }
+}
+
+LeetCode :- https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/buy-stock-with-cooldown/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/best-time-to-buy-and-sell-stock-with-cooldown_3125969
+

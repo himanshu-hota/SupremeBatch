@@ -106,7 +106,136 @@ class Solution {
     }
 }
 
+--------------------------------------------------------- Or ----------------------------------------------------------
+
+
+class Solution {
+
+    // Recursive approach
+    public int solve(int arr[], int i) {
+        // Base case: If we've reached the end of the array, no more houses to consider
+        if (i >= arr.length) return 0;
+
+        // Calculate the maximum profit when the current house is robbed (and skip the next)
+        int whenRobbed = arr[i] + solve(arr, i + 2);
+
+        // Calculate the maximum profit when the current house is skipped
+        int whenSkipped = 0 + solve(arr, i + 1);
+
+        // Return the maximum of the two possibilities
+        return Math.max(whenRobbed, whenSkipped);
+    }
+
+    // Top-down dynamic programming approach
+    public int topDown(int arr[], int i, int dp[]) {
+        // Base case: If we've reached the end of the array, return zero profit
+        if (i >= arr.length) return 0;
+
+        // If the solution for the current house is already calculated, return it
+        if (dp[i] != -1) return dp[i];
+
+        // Calculate the maximum profit when the current house is robbed (and skip the next)
+        int whenRobbed = arr[i] + topDown(arr, i + 2, dp);
+
+        // Calculate the maximum profit when the current house is skipped
+        int whenSkipped = 0 + topDown(arr, i + 1, dp);
+
+        // Store the calculated result in the DP array and return it
+        dp[i] = Math.max(whenRobbed, whenSkipped);
+        return dp[i];
+    }
+
+    // Bottom-up dynamic programming approach
+    public int bottomUp(int arr[]) {
+        int n = arr.length;
+        int dp[] = new int[n + 3];
+
+        // Start from the last house and work backward
+        for (int i = n - 1; i >= 0; i--) {
+            // Calculate the maximum profit when the current house is robbed (and skip the next)
+            int whenRobbed = arr[i] + dp[i + 2];
+
+            // Calculate the maximum profit when the current house is skipped
+            int whenSkipped = 0 + dp[i + 1];
+
+            // Store the calculated result in the DP array
+            dp[i] = Math.max(whenRobbed, whenSkipped);
+        }
+
+        // The final result is the maximum profit for starting at the first house
+        return dp[0];
+    }
+
+    // Space-optimized dynamic programming approach
+    public int spaceOptimized(int arr[]) {
+        int n = arr.length;
+        int dp[] = new int[3];
+
+        dp[0] = 0;
+        dp[1] = arr[n - 1]; // Start with the last house being robbed
+        dp[2] = 0;
+
+        // Start from the second-to-last house and work backward
+        for (int i = n - 2; i >= 0; i--) {
+            // Calculate the maximum profit when the current house is robbed (and skip the next)
+            int whenRobbed = arr[i] + dp[2];
+
+            // Calculate the maximum profit when the current house is skipped
+            int whenSkipped = 0 + dp[1];
+
+            // Store the calculated result in dp[0] (current maximum profit)
+            dp[0] = Math.max(whenRobbed, whenSkipped);
+
+            // Update the shifting of values in dp array
+            dp[2] = dp[1];
+            dp[1] = dp[0];
+        }
+
+        // The final result is the maximum profit for starting at the first house
+        return dp[1];
+    }
+
+    // Further space-optimized dynamic programming approach
+    public int spaceOptimized2(int arr[]) {
+        int n = arr.length;
+
+        // Initialize variables to keep track of previous two maximum profits and current maximum profit
+        int prev2 = 0;
+        int prev1 = arr[n - 1]; // Start with the last house being robbed
+        int curr = 0;
+
+        // Start from the second-to-last house and work backward
+        for (int i = n - 2; i >= 0; i--) {
+            // Calculate the maximum profit when the current house is robbed (and skip the next)
+            int whenRobbed = arr[i] + prev2;
+
+            // Calculate the maximum profit when the current house is skipped
+            int whenSkipped = 0 + prev1;
+
+            // Store the calculated result in the current variable
+            curr = Math.max(whenRobbed, whenSkipped);
+
+            // Update the shifting of values
+            prev2 = prev1;
+            prev1 = curr;
+        }
+
+        // The final result is the maximum profit for starting at the first house
+        return prev1;
+    }
+
+    public int rob(int[] nums) {
+        // Choose the approach to use
+        int ans = spaceOptimized2(nums);
+        return ans;
+    }
+}
+
 Time complexity :- O(n);
 Space complexity :- O(1);
 
 LeetCode :- https://leetcode.com/problems/house-robber/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/house-robber_630510?leftPanelTab=0
+
+GFG :- https://practice.geeksforgeeks.org/problems/stickler-theif-1587115621/1

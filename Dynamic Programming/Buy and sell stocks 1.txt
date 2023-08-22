@@ -1,0 +1,62 @@
+
+
+class Solution {
+    class Stock {
+        int minPrice = Integer.MAX_VALUE;
+        int maxProfit = Integer.MIN_VALUE;
+    }
+
+
+    static void maxProfitRec(int prices[],Stock stock , int i ){
+        
+        if(i == prices.length){
+            return;
+        }
+
+        if(prices[i] < stock.minPrice) stock.minPrice = prices[i];
+        int todayProfit = prices[i] - stock.minPrice;
+        if(todayProfit > stock.maxProfit) stock.maxProfit = todayProfit;
+
+        // Rec call
+        maxProfitRec(prices,stock,i+1);
+
+    }
+
+    public int bottomUp(int prices[]){
+
+        // lets assume the price at first day is the min of all prices, so buy stocks today.
+        int minPrice = prices[0];
+        // lets assume initial profit is 0.
+        int profit = 0;
+        
+        for(int i = 1; i<prices.length ; i++){
+            // get current day price
+            int currPrice = prices[i];
+            // calculate profit on current day.
+            int currProfit = currPrice - minPrice;
+            // if todays profit is greater then sell the stock.
+            profit = Math.max(profit,currProfit);
+            // if todays price is less then buy the stock.
+            minPrice = Math.min(currPrice,minPrice);
+        }
+
+
+        return profit;
+
+    }
+
+    public int maxProfit(int[] prices) {
+        Stock stock = new Stock();
+
+        // maxProfitRec(prices,stock,0);
+        // return stock.maxProfit;
+
+        int ans = bottomUp(prices);
+        return ans;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/best-time-to-buy-and-sell-stock_893405
+

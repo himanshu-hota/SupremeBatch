@@ -1,0 +1,84 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+
+    // Helper function to calculate the maximum amount that can be robbed from a subtree rooted at 'root'
+    public int solve(TreeNode root) {
+        if (root == null) return 0;
+
+        int whenRobbed = 0; // Maximum amount when the current node is robbed
+        int whenSkipped = 0; // Maximum amount when the current node is skipped
+
+        // Robbing the current node's value and its grandchildren (to avoid robbing direct children)
+        whenRobbed += root.val;
+        if (root.left != null) {
+            whenRobbed += solve(root.left.left) + solve(root.left.right);
+        }
+        if (root.right != null) {
+            whenRobbed += solve(root.right.left) + solve(root.right.right);
+        }
+
+        // Skipping the current node and considering the children
+        whenSkipped += solve(root.left) + solve(root.right);
+
+        // Returning the maximum amount between robbing and skipping the current node
+        return Math.max(whenRobbed, whenSkipped);
+    }
+
+    // Top-down dynamic programming using memoization
+    public int topDown(TreeNode root, Map<TreeNode, Integer> dp) {
+        if (root == null) return 0;
+
+        if (dp.get(root) != null) return dp.get(root);
+
+        int whenRobbed = 0; // Maximum amount when the current node is robbed
+        int whenSkipped = 0; // Maximum amount when the current node is skipped
+
+        // Robbing the current node's value and its grandchildren (to avoid robbing direct children)
+        whenRobbed += root.val;
+        if (root.left != null) {
+            whenRobbed += topDown(root.left.left, dp) + topDown(root.left.right, dp);
+        }
+        if (root.right != null) {
+            whenRobbed += topDown(root.right.left, dp) + topDown(root.right.right, dp);
+        }
+
+        // Skipping the current node and considering the children
+        whenSkipped += topDown(root.left, dp) + topDown(root.right, dp);
+
+        int ans = Math.max(whenRobbed, whenSkipped);
+
+        // Storing the computed maximum amount in the memoization map
+        dp.put(root, ans);
+
+        return ans;
+    }
+
+    public int rob(TreeNode root) {
+        // Using memoization to avoid redundant calculations
+        Map<TreeNode, Integer> dp = new HashMap<>();
+
+        // Calling the top-down DP function to get the maximum amount that can be robbed
+        int ans = topDown(root, dp);
+
+        return ans;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/house-robber-iii/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/amusement-park_1280139?leftPanelTab=0
