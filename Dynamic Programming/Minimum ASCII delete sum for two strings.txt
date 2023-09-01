@@ -1,0 +1,114 @@
+class Solution {
+
+    // Recursive approach to solve the problem
+    public int solve(String s1, String s2, int i, int j) {
+        int cost = 0;
+        
+        // Base case: If either of the strings is fully processed,
+        // calculate the cost of remaining characters' ASCII values
+        if (i == s1.length() || j == s2.length()) {
+            for (int x = i; x < s1.length(); x++) cost += (int) (s1.charAt(x));
+            for (int x = j; x < s2.length(); x++) cost += (int) (s2.charAt(x));
+            return cost;
+        }
+
+        // If characters at the current indices match, no deletion needed
+        if (s1.charAt(i) == s2.charAt(j)) {
+            cost = 0 + solve(s1, s2, i + 1, j + 1);
+        } else {
+            // Calculate the cost of deletion for each string and take the minimum
+            int cost1 = (int) (s1.charAt(i)) + solve(s1, s2, i + 1, j);
+            int cost2 = (int) (s2.charAt(j)) + solve(s1, s2, i, j + 1);
+            cost = Math.min(cost1, cost2);
+        }
+
+        return cost;
+    }
+
+    // Top-down approach with memoization
+    public int topDown(String s1, String s2, int i, int j, int dp[][]) {
+        int cost = 0;
+        
+        // Base case: Same as in the recursive approach
+        if (i == s1.length() || j == s2.length()) {
+            for (int x = i; x < s1.length(); x++) cost += (int) (s1.charAt(x));
+            for (int x = j; x < s2.length(); x++) cost += (int) (s2.charAt(x));
+            return cost;
+        }
+
+        // If the result is already calculated, return it from the dp array
+        if (dp[i][j] != -1) return dp[i][j];
+
+        // Similar logic as the recursive approach, but with memoization
+        if (s1.charAt(i) == s2.charAt(j)) {
+            cost = 0 + topDown(s1, s2, i + 1, j + 1, dp);
+        } else {
+            int cost1 = (int) (s1.charAt(i)) + topDown(s1, s2, i + 1, j, dp);
+            int cost2 = (int) (s2.charAt(j)) + topDown(s1, s2, i, j + 1, dp);
+            cost = Math.min(cost1, cost2);
+        }
+
+        dp[i][j] = cost;
+        return cost;
+    }
+
+    // Bottom-up approach using dynamic programming
+    public int bottomUp(String s1, String s2) {
+        int n1 = s1.length();
+        int n2 = s2.length();
+        int dp[][] = new int[n1 + 1][n2 + 1];
+
+        // Base case initialization, calculating costs for the suffixes of both strings
+        for (int x = n1 - 1; x >= 0; x--) {
+            dp[x][n2] = (int) (s1.charAt(x)) + dp[x + 1][n2];
+        }
+
+        for (int x = n2 - 1; x >= 0; x--) {
+            dp[n1][x] = (int) (s2.charAt(x)) + dp[n1][x + 1];
+        }
+
+        // Filling up the dp array from the bottom-up approach
+        for (int i = n1 - 1; i >= 0; i--) {
+            for (int j = n2 - 1; j >= 0; j--) {
+                int cost = 0;
+                if (s1.charAt(i) == s2.charAt(j)) {
+                    cost = 0 + dp[i + 1][j + 1];
+                } else {
+                    int cost1 = (int) (s1.charAt(i)) + dp[i + 1][j];
+                    int cost2 = (int) (s2.charAt(j)) + dp[i][j + 1];
+                    cost = Math.min(cost1, cost2);
+                }
+
+                dp[i][j] = cost;
+            }
+        }
+
+        return dp[0][0];
+    }
+
+    public int minimumDeleteSum(String s1, String s2) {
+        // Choose and call the desired approach here
+        
+        // Recursive approach
+        // int ans = solve(s1, s2, 0, 0);
+
+        // Top-down approach with memoization
+        // int n1 = s1.length();
+        // int n2 = s2.length();
+        // int dp[][] = new int[n1 + 1][n2 + 1];
+        // for (int row[] : dp) Arrays.fill(row, -1);
+        // int ans = topDown(s1, s2, 0, 0, dp);
+
+        // Bottom-up approach
+        // int ans = bottomUp(s1, s2);
+
+        return ans;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/minimum-ascii-delete-sum-for-two-strings/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/ascii-delete-sum_3754957?leftPanelTab=0
+
+GFG :- https://practice.geeksforgeeks.org/problems/minimum-cost-to-make-two-strings-identical1107/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

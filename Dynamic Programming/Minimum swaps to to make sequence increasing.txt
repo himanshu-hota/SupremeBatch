@@ -1,0 +1,72 @@
+
+
+class Solution {
+
+    // Recursive approach to solve the problem
+    public int solve(int A[], int B[], int index, int p1, int p2) {
+        // Base case: reached the end of arrays
+        if (index == A.length) return 0;
+
+        // Initialize swap and no-swap costs
+        int swap = Integer.MAX_VALUE;
+        int noswap = Integer.MAX_VALUE;
+
+        // Check if a swap is possible and calculate the cost
+        if (p1 < B[index] && p2 < A[index]) {
+            swap = 1 + solve(A, B, index + 1, B[index], A[index]);
+        }
+
+        // Check if no swap is performed and calculate the cost
+        if (p1 < A[index] && p2 < B[index]) {
+            noswap = solve(A, B, index + 1, A[index], B[index]);
+        }
+
+        // Return the minimum of swap and no-swap costs
+        return Math.min(swap, noswap);
+    }
+
+    // Top-down approach using memoization
+    public int topDown(int A[], int B[], int index, int p1, int p2, int dp[][], int isSwap) {
+        // Base case: reached the end of arrays
+        if (index == A.length) return 0;
+
+        // If the result is already calculated, return it from dp array
+        if (dp[index][isSwap] != -1) return dp[index][isSwap];
+
+        int swap = Integer.MAX_VALUE;
+        int noswap = Integer.MAX_VALUE;
+
+        // Check if a swap is possible and calculate the cost
+        if (p1 < B[index] && p2 < A[index]) {
+            swap = 1 + topDown(A, B, index + 1, B[index], A[index], dp, 1);
+        }
+
+        // Check if no swap is performed and calculate the cost
+        if (p1 < A[index] && p2 < B[index]) {
+            noswap = topDown(A, B, index + 1, A[index], B[index], dp, 0);
+        }
+
+        // Store the minimum cost in the dp array and return it
+        dp[index][isSwap] = Math.min(swap, noswap);
+        return dp[index][isSwap];
+    }
+
+    public int minSwap(int[] nums1, int[] nums2) {
+        // Initialize the length of the arrays
+        int n = nums1.length;
+        
+        // Create a dp array to store the results of subproblems
+        int dp[][] = new int[n + 2][2];
+
+        // Fill the dp array with initial values
+        for (int row[] : dp) Arrays.fill(row, -1);
+
+        // Call the top-down approach to solve the problem
+        int ans = topDown(nums1, nums2, 0, -1, -1, dp, 0);
+
+        return ans;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/minimum-swaps-to-make-sequences-increasing/description/

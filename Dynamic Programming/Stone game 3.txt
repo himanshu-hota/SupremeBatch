@@ -1,0 +1,88 @@
+class Solution {
+
+    // public int solve(int stones[],int i){
+    //     if(i>= stones.length) return 0;
+
+    //     int ans = Integer.MIN_VALUE;
+    //     int currTotScore = 0;
+
+    //     for(int x = 1; x<=3; x++){
+    //         if(i+x-1 >= stones.length) break;
+    //         currTotScore += stones[i+x-1];
+            
+    //         int diffOfScore = solve(stones,i+x); // Alice - Bob
+    //         ans = Math.max(ans,currTotScore - diffOfScore);
+    //     }
+
+    //     return ans;
+    // }
+
+    public int topDown(int stones[],int i,int dp[]){
+        if(i>= stones.length) return 0;
+
+        if(dp[i] != -1) return dp[i];
+
+        int ans = Integer.MIN_VALUE;
+        int currTotScore = 0;
+
+        for(int x = 1; x<=3; x++){
+            if(i+x-1 >= stones.length) break;
+            currTotScore += stones[i+x-1];
+            
+            int diffOfScore = topDown(stones,i+x,dp); // Alice - Bob
+            ans = Math.max(ans,currTotScore - diffOfScore);
+        }
+
+        dp[i] = ans;
+
+        return ans;
+    }
+
+
+    public int bottomUp(int stones[]){
+        
+        int n = stones.length;
+        int dp[] = new int[n+1];
+
+        for(int i = n-1 ; i>=0 ; i--){
+
+            int ans = Integer.MIN_VALUE;
+            int currTotScore = 0;
+
+            for(int x = 1; x<=3; x++){
+                if(i+x-1 >= stones.length) break;
+                currTotScore += stones[i+x-1];
+                
+                int diffOfScore = dp[i+x]; // Alice - Bob
+                ans = Math.max(ans,currTotScore - diffOfScore);
+            }
+
+            dp[i] = ans;
+        }
+
+
+        return dp[0];
+    }
+
+    public String stoneGameIII(int[] stoneValue) {
+        
+        // recursive
+        // int ans = solve(stoneValue,0);
+
+        // topdown
+        // int n = stoneValue.length;
+        // int dp[] = new int[n+1];
+        // Arrays.fill(dp,-1);
+        // int ans = topDown(stoneValue,0,dp);
+
+        // bottomUP
+        int ans = bottomUp(stoneValue);
+
+        if(ans > 0) return "Alice";
+        if(ans < 0) return "Bob";
+        return "Tie";
+
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/stone-game-iii/description/

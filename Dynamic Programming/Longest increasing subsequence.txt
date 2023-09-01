@@ -167,3 +167,8 @@ class Solution {
 LeetCode :- https://leetcode.com/problems/longest-increasing-subsequence/description/
 
 CodeStudio :- https://www.codingninjas.com/studio/problems/longest-increasing-subsequence_630459?leftPanelTab=1
+
+
+// ye question aata hai to ye bhi ban jayega
+
+LeetCode :- https://leetcode.com/problems/minimum-number-of-removals-to-make-mountain-array/description/

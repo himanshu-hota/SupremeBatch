@@ -1,0 +1,97 @@
+class Solution {
+
+    public int solve(int sat[],int index,int time){
+        if(index == sat.length) return 0;
+
+        int cookDish = (time * sat[index]) + solve(sat,index+1,time+1);
+        int skipDish = 0 + solve(sat,index+1,time); // j is same becase we didn't cook this dish so time wont increase for this dish
+
+        return Math.max(cookDish,skipDish);
+        
+    }
+
+    public int topDown(int sat[],int index,int time,int dp[][]){
+        if(index == sat.length) return 0;
+
+        if(dp[index][time] != -1) return dp[index][time];
+
+        int cookDish = (time * sat[index]) + topDown(sat,index+1,time+1,dp );
+        int skipDish = 0 + topDown(sat,index+1,time,dp ); // j is same becase we didn't cook this dish so time wont increase for this dish
+
+        int ans = Math.max(cookDish,skipDish);
+        dp[index][time] = ans;
+
+        return ans;
+        
+    }
+
+    public int bottomUp(int sat[]){
+        
+        int n = sat.length;
+        int dp[][] = new int[n+2][n+2];
+
+        for(int index = n-1; index >= 0; index--){
+            for(int time = n ; time >= 1 ; time--){
+                int cookDish = (time * sat[index]) + dp[index+1][time+1];
+                int skipDish = 0 + dp[index+1][time]; // j is same becase we didn't cook this dish so time wont increase for this dish
+
+                int ans = Math.max(cookDish,skipDish);
+                dp[index][time] = ans;
+            }
+        }
+
+           
+        return dp[0][1];
+        
+    }
+
+    public int spaceOptimized(int sat[]){
+        
+        int n = sat.length;
+        int dp[][] = new int[2][n+2];
+
+        for(int index = n-1; index >= 0; index--){
+            for(int time = n ; time >= 1 ; time--){
+                int cookDish = (time * sat[index]) + dp[1][time+1];
+                int skipDish = 0 + dp[1][time]; // j is same becase we didn't cook this dish so time wont increase for this dish
+
+                int ans = Math.max(cookDish,skipDish);
+                dp[0][time] = ans;
+            }
+
+            int temp[] = dp[0];
+            dp[0] = dp[1];
+            dp[1] = temp;
+        }
+
+        return dp[1][1];
+        
+    }    
+
+    public int maxSatisfaction(int[] sat) {
+        if(sat.length == 0) return 0;
+        
+        // sort the array to place higher satisfactory dishes at the end to maximized the ans
+        Arrays.sort(sat);
+
+        // recursive
+        // int ans = solve(sat,0,1);
+
+        // topDown
+        // int n = sat.length;
+        // int dp[][] = new int[n+1][n+1];
+        // for(int row[] : dp) Arrays.fill(row,-1);
+        // int ans = topDown(sat,0,1,dp); 
+
+        // bottomUp
+        //  int ans = bottomUp(sat); 
+
+        // space optimized
+        int ans = spaceOptimized(sat); 
+
+        return ans;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/reducing-dishes/description/

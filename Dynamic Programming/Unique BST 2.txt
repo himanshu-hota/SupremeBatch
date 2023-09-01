@@ -1,0 +1,101 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+
+    public List<TreeNode> solve(int start, int end){
+       List<TreeNode> ans = new ArrayList<>();
+
+        if (start > end) {
+            ans.add(null);  // Return a list with a single null node
+            return ans;
+        }
+
+        
+        for(int i = start; i<=end; i++){
+            List<TreeNode> left = solve(start,i-1);
+            List<TreeNode> right = solve(i+1,end);
+
+            // try each element in the left as a left node and right as right node,
+            // get all the combinations using the left and right list.
+            for(int j = 0 ; j<left.size();j++){
+                for(int k = 0; k<right.size();k++){
+                    TreeNode root = new TreeNode(i);
+                    root.left = (left.get(j));
+                    root.right = (right.get(k));
+
+                    ans.add(root);
+                }
+            }
+
+        }
+
+        return ans;
+    }
+
+    public Map<Integer,Map<Integer,List<TreeNode>>> dp = new HashMap<>();
+    public List<TreeNode> topDown(int start, int end){
+       List<TreeNode> ans = new ArrayList<>();
+
+        if (start > end) {
+            ans.add(null);  // Return a list with a single null node
+            return ans;
+        }
+
+        if(((dp.get(start) != null) && (dp.get(start).get(end) != null)) &&  dp.get(start).get(end).size() != 0) return dp.get(start).get(end);
+
+        
+        for(int i = start; i<=end; i++){
+            List<TreeNode> left = topDown(start,i-1);
+            List<TreeNode> right = topDown(i+1,end);
+
+            // try each element in the left as a left node and right as right node,
+            // get all the combinations using the left and right list.
+            for(int j = 0 ; j<left.size();j++){
+                for(int k = 0; k<right.size();k++){
+                    TreeNode root = new TreeNode(i);
+                    root.left = (left.get(j));
+                    root.right = (right.get(k));
+
+                    ans.add(root);
+                }
+            }
+
+        }
+
+        Map<Integer,List<TreeNode>> curr = new HashMap<>();
+        curr.put(end,ans);
+        dp.put(start,curr);
+
+        return ans;
+    }
+
+
+    public List<TreeNode> generateTrees(int n) {
+        if(n == 0) return new ArrayList<>();
+
+        // recursive
+        // return solve(1,n);
+
+        // topdown
+        
+        return topDown(1,n);
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/unique-binary-search-trees-ii/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/unique-bsts_3583797?leftPanelTab=0

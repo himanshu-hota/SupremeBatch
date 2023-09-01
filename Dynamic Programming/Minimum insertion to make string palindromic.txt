@@ -1,0 +1,169 @@
+import java.util.*;
+
+
+class Solution {
+  
+    
+    public int solve(String s, int left, int right) {
+        if (left >= right) {
+            return 0;
+        }
+        
+        // if both characters are same then go ahead.
+        if (s.charAt(left) == s.charAt(right)) {
+            return solve(s, left + 1, right - 1);
+        } else {
+            // try inserting on the left part of the string
+            int insertLeft = solve(s, left + 1, right) + 1;
+            // try inserting on the right part of the string
+            int insertRight = solve(s, left, right - 1) + 1;
+            // return the ans which requires minimum insertion.
+            return Math.min(insertLeft, insertRight);
+        }
+    }
+
+    public int topDown(String s, int left, int right,int dp[][]) {
+        if (left >= right) {
+            return 0;
+        }
+
+        if(dp[left][right] != -1) return dp[left][right];
+
+        int ans = 0;
+        
+        if (s.charAt(left) == s.charAt(right)) {
+            ans = topDown(s, left + 1, right - 1,dp);
+        } else {
+            int insertLeft = 1 + topDown(s, left + 1, right,dp);
+            int insertRight = 1 + topDown(s, left, right - 1,dp);
+            ans =  Math.min(insertLeft, insertRight);
+        }
+
+        dp[left][right] = ans;
+
+        return ans;
+    }
+
+    
+    public int bottomUp(String s) {
+        
+        int n = s.length();
+        int dp[][] = new int[n+1][n+1];
+
+        for(int left = n-1; left>= 0; left--){
+            for(int right = 0 ; right <= n-1 ; right ++){
+                int ans = 0;
+        
+                if(left >= right) continue;
+
+                if (s.charAt(left) == s.charAt(right)) {
+                    ans = dp[left + 1][right - 1];
+                } else {
+                    int insertLeft = 1 + dp[left + 1][ right];
+                    int insertRight = 1 + dp[left][right - 1];
+                    ans =  Math.min(insertLeft, insertRight);
+                }
+
+                dp[left][right] = ans;
+
+            }
+        }
+
+        return dp[0][n-1];
+    }
+
+    public int spaceOptimized(String s) {
+        
+        int n = s.length();
+        int dp[][] = new int[2][n+1];
+
+        for(int left = n-1; left>= 0; left--){
+            for(int right = 0 ; right <= n-1 ; right ++){
+                int ans = 0;
+        
+                if(left >= right) continue;
+
+                if (s.charAt(left) == s.charAt(right)) {
+                    ans = dp[1][right - 1];
+                } else {
+                    int insertLeft = 1 + dp[1][ right];
+                    int insertRight = 1 + dp[0][right - 1];
+                    ans =  Math.min(insertLeft, insertRight);
+                }
+
+                dp[0][right] = ans;
+
+            }
+
+            int temp[] = dp[0];
+            dp[0] = dp[1];
+            dp[1] = temp;
+        }
+
+        return dp[1][n-1];
+    }
+
+    // Longest Palindromic Subsequences method.
+    public int solveUsingLPS(String str1,String str2){
+        
+        int n1 = str1.length();
+        int n2 = str2.length();
+        int dp[][] = new int[2][n2+1];
+
+        for(int i = n1-1; i>=0 ;i--){
+            for(int j = n2-1; j>=0 ; j--){
+                int ans = 0;
+
+                if(str1.charAt(i) == str2.charAt(j)) {
+                    ans = 1 + dp[1][j+1];
+                }else{
+                    int ansByincldingstr1 = dp[1][j];
+                    int ansByincldingstr2 = dp[0][j+1];
+
+                    ans = 0 + Math.max(ansByincldingstr1,ansByincldingstr2);
+                }
+
+                dp[0][j] = ans;
+            }
+
+            int temp[] = dp[0];
+            dp[0] = dp[1];
+            dp[1] = temp;
+        }
+
+        return dp[1][0];
+    }
+
+
+    public int minInsertions(String s) {
+        // recursive
+        // return solve(s, 0, s.length() - 1);
+
+        // topdown
+        // int n = s.length();
+        // int dp[][] = new int[n+1][n+1];
+        // for(int row[] : dp) Arrays.fill(row,-1);
+        // return topDown(s, 0, s.length() - 1,dp);
+
+        // bottomUp
+        // return bottomUp(s);
+
+        // spaceOptimized
+        // return spaceOptimized(s);
+
+        // LongestPalindromicSubsequences
+        StringBuilder s2 = new StringBuilder(s);
+        s2.reverse();
+        return s.length() - solveUsingLPS(s,s2.toString());
+    }
+}
+
+// note:- s - LPS = ans  =>> s-ans = LPS
+// LPS pata ho to ye question aaram se ban jayega bas string.length() me LPS minus karna hai.
+// LPS solve karne k liye LCS aana jaruri hai usi ka same code use hoga isme.
+
+LeetCode :- https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/form-a-palindrome2544/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/minimum-insertions-to-make-palindrome_985293?leftPanelTab=0

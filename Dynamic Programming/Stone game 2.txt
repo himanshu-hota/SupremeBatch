@@ -1,0 +1,109 @@
+class Solution {
+
+    public int solve(int piles[],int i ,int m,int alice){
+        if(i >= piles.length) return 0;
+
+        int ans = alice == 1 ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        int currTotalScore =0;
+
+        for(int x = 1 ; x<=2*m;x++){
+            if((i+x -1) >= piles.length) break;
+
+            currTotalScore += piles[i+x -1];
+
+            if(alice == 1){
+                int scoreFromRecursion = solve(piles,i+x,Math.max(x,m),alice == 1 ? 0 : 1);
+                ans = Math.max(ans,currTotalScore + scoreFromRecursion);
+            }else{
+                int scoreFromRecursion = solve(piles,i+x,Math.max(x,m),alice == 1 ? 0 : 1);
+                ans = Math.min(ans,0 + scoreFromRecursion);
+            }
+        }
+
+        return ans;
+    }
+
+    public int topDown(int piles[],int i ,int m,int alice,int dp[][][]){
+        if(i >= piles.length) return 0;
+
+        if(dp[i][m][alice] != -1) return dp[i][m][alice];
+
+        int ans = alice == 1 ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        int currTotalScore =0;
+
+        for(int x = 1 ; x<=2*m;x++){
+            if((i+x -1) >= piles.length) break;
+
+            currTotalScore += piles[i+x -1];
+
+            if(alice == 1){
+                int scoreFromRecursion = topDown(piles,i+x,Math.max(x,m),alice == 1 ? 0 : 1,dp);
+                ans = Math.max(ans,currTotalScore + scoreFromRecursion);
+            }else{
+                int scoreFromRecursion = topDown(piles,i+x,Math.max(x,m),alice == 1 ? 0 : 1,dp);
+                ans = Math.min(ans,0 + scoreFromRecursion);
+            }
+        }
+
+        dp[i][m][alice] = ans;
+
+        return ans;
+    }
+
+    public int bottomUp(int piles[]){
+        
+        int n = piles.length;
+        int dp[][][] = new int[n+1][n+1][2];
+
+        // yaha m ko n-1 se na init kar k n se kiya kyoki ye index nahi hai,
+        // ye number of piles hai that can be chosen so ye 1 -> n tak jaega na ki 0 -> n-1
+        for(int i = n-1 ; i>= 0 ; i--){
+            for(int m = n ; m>=1; m--){ 
+                for(int alice = 0 ; alice<=1 ; alice++){
+                    
+                        int ans = alice == 1 ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+                        int currTotalScore =0;
+
+                        for(int x = 1 ; x<=2*m;x++){
+                            if((i+x -1) >= piles.length) break;
+
+                            currTotalScore += piles[i+x -1];
+
+                            if(alice == 1){
+                                int scoreFromRecursion = dp[i+x][Math.max(x,m)][alice == 1 ? 0 : 1];
+                                ans = Math.max(ans,currTotalScore + scoreFromRecursion);
+                            }else{
+                                int scoreFromRecursion = dp[i+x][Math.max(x,m)][alice == 1 ? 0 : 1];
+                                ans = Math.min(ans,0 + scoreFromRecursion);
+                            }
+                        }
+
+                        dp[i][m][alice] = ans;
+                }
+            }
+        }
+
+        return dp[0][1][1];
+    }
+
+    public int stoneGameII(int[] piles) {
+        
+        // recursive
+        // return solve(piles,0,1,1);
+
+        // // topDown
+        // int n = piles.length;
+        // int dp[][][] = new int[n+1][n+1][2];
+        // for(int twoD[][] : dp){
+        //     for(int row[] : twoD){
+        //         Arrays.fill(row,-1);
+        //     }
+        // }
+        // return topDown(piles,0,1,1,dp);
+
+        // bottomUp
+        return bottomUp(piles);
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/stone-game-ii/description/

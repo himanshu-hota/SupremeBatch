@@ -113,10 +113,18 @@ class Solution {
 }
 
 
-Note :- Ye bhi include exclude pattern hai
+
 
 LeetCode :- https://leetcode.com/problems/longest-common-subsequence/description/
 
 CodeStudio :- https://www.codingninjas.com/studio/problems/longest-common-subsequence_1063255?leftPanelTab=0
 
 GFG :- https://practice.geeksforgeeks.org/problems/longest-common-subsequence-1587115620/1
+
+
+// ye aata ha to ye bhi ban jayega
+
+LeetCode :- https://leetcode.com/problems/longest-palindromic-substring/description/
+
+LeetCode :- https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/description/
+

@@ -1,0 +1,113 @@
+// // method 1 :
+
+// class Solution {
+
+//     // public int solve(int piles[],int i){
+//     //     if(i >= piles.length) return 0;
+
+//     //     int include = piles[i] + solve(piles,i+1);
+
+//     //     int exclude = 0 + solve(piles,i+1);
+
+//     //     return Math.max(include,exclude);
+//     // }
+
+//     // public int topDown(int piles[],int i,int dp[]){
+//     //     if(i >= piles.length) return 0;
+
+//     //     if(dp[i] != -1) return dp[i];
+
+//     //     int include = piles[i] + topDown(piles,i+1,dp);
+
+//     //     int exclude = 0 + topDown(piles,i+1,dp);
+
+//     //     int ans = Math.max(include,exclude);
+
+//     //     dp[i] = ans;
+
+//     //     return ans;
+//     // }
+
+//     // public int bottomUp(int piles[]){
+        
+//     //    int n = piles.length;
+//     //    int dp[] = new int[n+1];
+
+//     //    for(int i = n-1 ; i>= 0; i--){
+//     //         int include = piles[i] + dp[i+1];
+
+//     //         int exclude = 0 + dp[i+1];
+
+//     //         int ans = Math.max(include,exclude);
+
+//     //         dp[i] = ans;
+//     //    }
+
+//     //     return dp[0];
+//     // }
+
+//     public int spaceOptimized(int piles[]){
+        
+//        int n = piles.length;
+//        int dp[] = new int[2];
+
+//        for(int i = n-1 ; i>= 0; i--){
+//             int include = piles[i] + dp[1];
+
+//             int exclude = 0 + dp[1];
+
+//             int ans = Math.max(include,exclude);
+
+//             dp[0] = ans;
+
+//             // shifting
+//             int temp = dp[0];
+//             dp[0] = dp[1];
+//             dp[1] = temp;
+//        }
+
+//         return dp[0];
+//     }
+
+
+//     public boolean stoneGame(int[] piles) {
+//         int total = 0;
+
+//         for(int x : piles) total += x;
+        
+//         // using recursion
+//         // int AliceScore = solve(piles,0);
+
+//         // topDown
+//         // int dp[] = new int[piles.length + 1];
+//         // Arrays.fill(dp,-1);
+//         // int AliceScore = topDown(piles,0,dp);
+
+//         // bottomUp
+//         // int AliceScore = bottomUp(piles);
+
+//         // spaceoptimized
+//         int AliceScore = spaceOptimized(piles);
+
+//         int BobScore = total - AliceScore;
+
+//         return AliceScore > BobScore;
+
+
+//     }
+// }
+
+
+// method 2 
+
+
+class Solution {
+
+  public boolean stoneGame(int[] piles) {
+       
+       return true;
+
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/stone-game/description/

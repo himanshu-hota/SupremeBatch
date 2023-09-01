@@ -1,0 +1,99 @@
+class Solution {
+
+    // public int solve(String s,String t, int i,int j){
+    //     // yaha order matter karta hai. 
+    //     if(j == t.length()) return 1; // pahle ye likhna hi hai.
+    //     if(i == s.length()) return 0; // fir ye likhna hai.
+    //     // aisa kyun? -> kyoki agar t hi exhause ho chuki hai to answer dhundhne ka kya matlab.
+
+    //     int ans = 0;
+
+    //     // match karne par dono ko aage badhao
+    //     if(s.charAt(i) == t.charAt(j)){
+    //         ans += solve(s,t,i+1,j+1);
+    //     }
+
+    //     // aur ek bar i ko skip kar k dekho
+    //     ans += solve(s,t,i+1,j);
+
+    //     return ans;
+
+    // }
+
+
+    public int topDown(String s,String t, int i,int j,int dp[][]){
+        // yaha order matter karta hai. 
+        if(j == t.length()) return 1; // pahle ye likhna hi hai.
+        if(i == s.length()) return 0; // fir ye likhna hai.
+        // aisa kyun? -> kyoki agar t hi exhause ho chuki hai to answer dhundhne ka kya matlab.
+
+        if(dp[i][j] != -1) return dp[i][j];
+
+        int ans = 0;
+
+        // match karne par dono ko aage badhao
+        if(s.charAt(i) == t.charAt(j)){
+            ans += topDown(s,t,i+1,j+1,dp);
+        }
+
+        // aur ek bar i ko skip kar k dekho
+        ans += topDown(s,t,i+1,j,dp);
+
+        dp[i][j] = ans;
+
+        return ans;
+
+    }
+
+
+     public int bottomUp(String s,String t){
+
+        int n1 = s.length();
+        int n2 = t.length();
+        int dp[][] = new int[n1+1][n2+1];
+
+        // base case handling
+        for(int i = 0 ; i<n1;i++) {
+            dp[i][n2] = 1;
+        }
+
+        for(int i = n1-1; i>=0 ; i-- ){
+            for(int j = n2-1; j>=0; j--){
+                int ans = 0;
+
+                // match karne par dono ko aage badhao
+                if(s.charAt(i) == t.charAt(j)){
+                    ans += topDown(s,t,i+1,j+1,dp);
+                }
+
+                // aur ek bar i ko skip kar k dekho
+                ans += topDown(s,t,i+1,j,dp);
+
+                dp[i][j] = ans;
+            }
+        }
+
+        return dp[0][0];
+
+    }
+
+    public int numDistinct(String s, String t) {
+        
+        // recursive
+        // int ans = solve(s,t,0,0);
+
+        // topDown
+        // int n1 = s.length();
+        // int n2 = t.length();
+        // int dp[][] = new int[n1+1][n2+1];
+        // for(int row[]:dp) Arrays.fill(row,-1);
+        // int ans = topDown(s,t,0,0,dp);
+
+        // bottomUp
+        int ans = bottomUp(s,t);
+
+        return ans;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/distinct-subsequences/description/

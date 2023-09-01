@@ -1,0 +1,114 @@
+class Solution {
+
+    // yaha n ko n se start kar rahe hai isiliye loop me i ko 1 se start kiya hai ans n tak le gaye hain. (VVIMP)
+
+    public int solve(int n){
+        if(n <= 1) return 1;
+
+        int ans = 0;
+
+        // consider each time i as a root
+        for(int i = 1; i<=n ;i++){
+            ans += (solve(i-1) * solve(n-i));
+        }
+
+        return ans;
+    
+    }
+
+    public int topDown(int n,int dp[]){
+        if(n <= 1) return 1;
+
+        if(dp[n] != -1) return dp[n];
+
+        int ans = 0;
+
+        // consider each time i as a root
+        for(int i = 1; i<=n ;i++){
+            ans += (topDown(i-1,dp) * topDown(n-i,dp));
+        }
+
+        dp[n] = ans;
+
+        return ans;
+    
+    }
+
+    public int bottomUp(int x){
+        
+        int dp[] = new int[x+1];
+
+        dp[0] = 1;
+        dp[1] = 1;
+
+        for(int n = 2 ; n<=x; n++){
+            
+            int ans = 0;
+
+            // consider each time i as a root
+            for(int i = 1; i<=n ;i++){
+                ans += (dp[i-1] * dp[n-i]);
+            }
+
+            dp[n] = ans;
+        }
+
+        
+
+
+        return dp[x];
+    
+    }
+
+    public int numTrees(int n) {
+        
+        // recursive
+        // int ans = solve(n);
+
+        // topDown
+        // int dp[] = new int[n+1];
+        // Arrays.fill(dp,-1);
+        // int ans = topDown(n,dp);
+
+        // bottomUp
+        int ans = bottomUp(n);
+
+        return ans;
+
+    }
+}
+
+// Note :- this question is related to catalan Number
+
+
+class Solution{
+    
+       static int m = 1000000007;
+    public static int findCatalan(int n) {
+        long dp[] = new long[n+1];
+        dp[0]=1; dp[1]=1;
+        for(int i =2; i<=n ; i++)
+        {
+            for(int j=0; j<i; j++)
+            dp[i] = (dp[i]+ (dp[j]*dp[i-j-1])%m)%m;
+        }
+        return (int)dp[n];
+    }
+    
+    //Function to return the total number of possible unique BST.
+    static int numTrees(int n)
+    {
+        // Your code goes here
+        return findCatalan(n);
+        
+    }
+}
+
+// this code produces the nth catalan number , which is exactly the same count of unique BSTs.
+
+
+LeetCode :- https://leetcode.com/problems/unique-binary-search-trees/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/unique-binary-search-trees_1266110?leftPanelTab=0
+
+GFG : - https://practice.geeksforgeeks.org/problems/unique-bsts-1587115621/1

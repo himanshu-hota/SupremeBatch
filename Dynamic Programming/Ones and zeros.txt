@@ -1,0 +1,179 @@
+
+class Pair{
+    int first;
+    int second;
+
+    Pair(int a , int b){
+        this.first = a;
+        this.second = b;
+    }
+}
+
+
+class Solution {
+
+    public void countZerosAndOnes(String strs[],Pair[] freq){
+
+        int p = 0;
+        for(String str : strs){
+            int zero = 0;
+            int ones = 0;
+            for(int i = 0; i<str.length() ; i++){
+                if(str.charAt(i) == '0') zero++;
+                if(str.charAt(i) == '1') ones++;
+            }
+
+            freq[p++] = new Pair(zero,ones);
+
+        }
+
+        
+    }
+
+    // public int solve(Pair freq[], int i,int m , int n ) {
+    //     if (i >= freq.length) return 0; // Use i >= strs.length instead of i > strs.length
+
+        
+    //     int zeroCount = freq[i].first;
+    //     int onesCount = freq[i].second;
+    
+    //     int include = 0;
+         
+    //     include the current string only if the count of zeros and ones and smaller than available count of 0 and 1.
+    //     this condition also reduce the calls for negative values.
+    //     if(m - zeroCount >= 0 && n - onesCount >= 0){
+    //         include =  1 + solve(freq, i + 1, m - zeroCount, n - onesCount); 
+    //     }
+        
+    //     int exclude = 0 + solve(freq, i + 1, m, n);
+        
+    //     int ans = Math.max(include,exclude); 
+
+    //     return ans;
+    // }
+
+    public int topDown(Pair freq[], int i,int m , int n,int dp[][][]) {
+        
+        if (i >= freq.length) return 0; // Use i >= strs.length instead of i > strs.length
+
+        if(dp[i][m][n] != -1) return dp[i][m][n];
+
+        int zeroCount = freq[i].first;
+        int onesCount = freq[i].second;
+    
+        int include = 0;
+
+        if(m - zeroCount >= 0 && n - onesCount >= 0){
+            include =  1 + topDown(freq, i + 1, m - zeroCount, n - onesCount,dp); 
+        }
+        
+        int exclude = 0 + topDown(freq, i + 1, m, n,dp);
+        
+        int ans = Math.max(include,exclude); 
+
+        dp[i][m][n] = ans;
+
+        return ans;
+    }
+
+    public int bottomUp(Pair freq[], int M , int N) {
+        
+        int len = freq.length;
+        int dp[][][] = new int[len+1][M+1][N+1];
+
+        for(int i = len-1 ; i >= 0; i-- ){
+            for(int m = 0 ; m <= M ; m++){
+                for(int n = 0; n <= N; n++){
+                    int zeroCount = freq[i].first;
+                    int onesCount = freq[i].second;
+                
+                    int include = 0;
+
+                    if(m - zeroCount >= 0 && n - onesCount >= 0){
+                        include =  1 + dp[i + 1][m - zeroCount][n - onesCount]; 
+                    }
+                    
+                    int exclude = 0 + dp[i + 1][m][n];
+                    
+                    dp[i][m][n] = Math.max(include,exclude); 
+                }
+            }
+        }
+
+       
+
+        return dp[0][M][N];
+    }
+
+   // bottomup me dhyan se dekha ki i jo hai wo i+1 pe depend kar raha hai , so yaha bas 2 row se kam chal jaega
+   // 3d array k terms me bole to 2 page me kam chal jaega.
+    public int spaceOptimized(Pair freq[], int M , int N) {
+        
+        int len = freq.length;
+        int dp[][][] = new int[2][M+1][N+1];
+
+        for(int i = len-1 ; i >= 0; i-- ){
+            for(int m = 0 ; m <= M ; m++){
+                for(int n = 0; n <= N; n++){
+                    int zeroCount = freq[i].first;
+                    int onesCount = freq[i].second;
+                
+                    int include = 0;
+
+                    if(m - zeroCount >= 0 && n - onesCount >= 0){
+                        include =  1 + dp[1][m - zeroCount][n - onesCount]; 
+                    }
+                    
+                    int exclude = 0 + dp[1][m][n];
+                    
+                    dp[0][m][n] = Math.max(include,exclude); 
+                }
+
+         
+            }
+                   int temp[][] = dp[0];
+                dp[0] = dp[1];
+                dp[1] = temp;
+        }
+
+       
+
+        return dp[1][M][N];
+    }
+    
+
+    public int findMaxForm(String[] strs, int m, int n) {
+
+        int len = strs.length;
+
+        // count zero and ones of each string
+        Pair freq[] = new Pair[len];
+        countZerosAndOnes(strs,freq);
+
+
+        // recursive
+        // int ans = solve(freq, 0,m,n);
+
+
+        // topDown
+        // int dp[][][] =  new int[len+1][m+1][n+1];
+        // for(int twod[][] : dp){
+        //     for(int row[] : twod){
+        //         Arrays.fill(row,-1);
+        //     }
+        // }
+        // int ans = topDown(freq,0,m,n,dp);
+
+        // bottomUp
+        // int ans = bottomUp(freq,m,n);
+
+        // space optimized
+        int ans = spaceOptimized(freq,m,n);
+
+        return ans;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/ones-and-zeroes/description/
+

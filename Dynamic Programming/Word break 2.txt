@@ -1,0 +1,94 @@
+class Solution {
+
+    // List < String > solve(String s, int start, Map < String, Boolean > dict) {
+
+    //     List < String > ans = new ArrayList < > ();
+    //     if (start == s.length()) {
+    //         ans.add(""); // Add an empty string to mark the end of the valid word sequence
+    //         return ans;
+    //     }
+
+    //     StringBuilder word = new StringBuilder();
+
+    //     for (int i = start; i < s.length(); i++) {
+    //         word.append(s.charAt(i));
+
+    //         if (dict.getOrDefault(word.toString(), false)) {
+    //             List < String > right = solve(s, i + 1, dict);
+    //             for (String eachRightPart: right) {
+    //                 if (eachRightPart.isEmpty()) {
+    //                     ans.add(word.toString() + eachRightPart);
+    //                 } else {
+    //                     ans.add(word.toString() + " " + eachRightPart);
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     return ans;
+    // }
+
+    public Map < Integer, List < String >> dp = new HashMap < > ();
+
+    List < String > topDown(String s, int start, Map < String, Boolean > dict) {
+
+        List < String > ans = new ArrayList < > ();
+        if (start == s.length()) {
+            ans.add(""); // Add an empty string to mark the end of the valid word sequence
+            return ans;
+        }
+
+        if(dp.getOrDefault(start,null) != null) return dp.get(start);
+
+        StringBuilder word = new StringBuilder();
+
+        for (int i = start; i < s.length(); i++) {
+            word.append(s.charAt(i));
+
+            if (dict.getOrDefault(word.toString(), false)) {
+                List < String > right = topDown(s, i + 1, dict);
+                for (String eachRightPart: right) {
+                    // agar empty string mila to sirf word ko ans me dalo
+                    // aur agar empty nahi hai to bich me ek space dal k dalo.
+                    if (eachRightPart.isEmpty()) {
+                        ans.add(word.toString() + eachRightPart);
+                    } else {
+                        ans.add(word.toString() + " " + eachRightPart);
+                    }
+
+                    
+                }
+            }
+        }
+
+        
+        dp.put(start,ans);
+
+        return ans;
+    }
+
+    public List < String > wordBreak(String s, List < String > wordDict) {
+        Map < String, Boolean > dict = new HashMap < > ();
+
+        for (String x: wordDict) dict.put(x, true);
+
+        // recursive
+        // return solve(s, 0, dict);
+
+        // topDown
+        return topDown(s, 0, dict);
+    }
+}
+
+
+steps :- 1. Pick each character and check whether it is a valid word or not.
+         2. if it is a valid word then make recursive call for the rest string and get all the valid strings.
+         3. now iterate through the list and check if it has characters or not
+         4. it it has characters then add space between word and eachRightPart otherwise add word as it is.
+
+
+LeetCode :- https://leetcode.com/problems/word-break-ii/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/word-break-part-23249/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/word-break-ii_983635?leftPanelTab=0

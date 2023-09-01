@@ -1,0 +1,99 @@
+class Solution {
+
+    public static void reverseArray(int[] arr) {
+        int start = 0;
+        int end = arr.length - 1;
+
+        while (start < end) {
+            // Swap elements at start and end positions
+            int temp = arr[start];
+            arr[start] = arr[end];
+            arr[end] = temp;
+
+            // Move pointers
+            start++;
+            end--;
+        }
+    }
+
+     static int binarySearch(List<Integer> list, int target) {
+        int left = 0;
+        int right = list.size();
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            if (list.get(mid) == target) {
+                return mid;
+            } else if (list.get(mid) < target) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+
+        // if element not found then returning the just greater element's index
+        return left;
+    }
+
+    public List<Integer> DPwithBS(int nums[],List<Integer> LIS){
+
+        int n = nums.length;
+        List<Integer> ans = new ArrayList<>();
+        
+        
+        ans.add(nums[0]);
+        LIS.add(1);
+        // logic : if current element is greater than the last element of the ans list then add it to the ans list
+        // otherwise find the just greater element's index in the ans list and replace it with curr element
+        for (int i = 1; i < n; i++) {
+            if (nums[i] > ans.get(ans.size() - 1)) {
+                ans.add(nums[i]);
+                LIS.add(ans.size());
+                
+            } else {
+                int idx = binarySearch(ans, nums[i]);
+                ans.set(idx, nums[i]);
+                LIS.add(idx+1);
+            }
+        }
+
+        return LIS;
+
+    }
+    public int minimumMountainRemovals(int[] nums) {
+        
+
+        // calculate LIS.
+        List<Integer> LIS = new ArrayList<>();
+        DPwithBS(nums,LIS);
+        
+        // reverse the array to calculate LDS.
+        reverseArray(nums);
+        
+        // calculate LDS.
+        List<Integer> LDS = new ArrayList<>();
+        DPwithBS(nums,LDS);
+        
+        // inital size of largest mountain.
+        int largestMountain = Integer.MIN_VALUE;
+        
+        // size of array.
+        int n = nums.length;
+        // caclulate largest mountain size.
+        for(int i = 0 ;i < n; i++){
+            // if LIS or LDS is 1 then skip calculation 
+            if(LIS.get(i) == 1 || LDS.get(n-i-1) == 1) continue;
+            // calculate largest mountain size
+            largestMountain = Math.max(largestMountain,(LIS.get(i) + LDS.get(n-i-1) -1));
+        }   
+
+        // subtract array size with largestMountain size.
+        return nums.length - largestMountain;
+
+
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/minimum-number-of-removals-to-make-mountain-array/description/

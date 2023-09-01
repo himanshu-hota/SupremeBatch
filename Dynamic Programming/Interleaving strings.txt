@@ -1,0 +1,109 @@
+class Solution {
+    // public boolean solve(String s1,String s2,String s3,int i ,int j, int k){
+
+    //     if(i == s1.length() && j == s2.length() && k == s3.length() ) return true;
+
+    //     if(k >= s3.length()) return false;
+
+    //     boolean ans = false;
+
+ 
+    //     if ( (k<s3.length()) && ((i < s1.length())) && s1.charAt(i) == s3.charAt(k)) {
+    //         ans = ans || solve(s1, s2, s3, i + 1, j, k + 1);
+    //     }
+
+    //     if ( (k<s3.length()) && ((j < s2.length())) && s2.charAt(j) == s3.charAt(k)) {
+    //         ans = ans || solve(s1, s2, s3, i, j + 1, k + 1);
+    //     }
+
+    //     return ans;
+
+    // }
+
+    // public boolean topDown(String s1, String s2, String s3, int i, int j, int k, int dp[][][]) {
+    //     if (i == s1.length() && j == s2.length() && k == s3.length()) return true;
+
+        
+
+    //     if (dp[i][j][k] != -1) return dp[i][j][k] == 1;
+
+    //     boolean ans = false;
+
+    //     if ( (k<s3.length()) && ((i < s1.length())) && s1.charAt(i) == s3.charAt(k)) {
+    //         ans = ans || topDown(s1, s2, s3, i + 1, j, k + 1, dp);
+    //     }
+
+    //     if ( (k<s3.length()) && ((j < s2.length())) && s2.charAt(j) == s3.charAt(k)) {
+    //         ans = ans || topDown(s1, s2, s3, i, j + 1, k + 1, dp);
+    //     }
+
+    //     dp[i][j][k] = ans ? 1 : 0;
+
+    //     return ans;
+    // }
+
+    public boolean bottomUp(String s1, String s2,String s3) {
+       
+        int n1 = s1.length();
+        int n2 = s2.length();
+        int n3 = s3.length();
+        int dp[][][] = new int[n1 + 1][n2 + 1][n3 + 1];
+
+        // base case handling
+        dp[n1][n2][n3] = 1;
+
+        // rest case handling  // yaha n1 n2 n3 se start kiya hai yaha galti kar sakte hain bhai yad rakhna
+        for(int i = n1; i>= 0; i--){
+            for(int j = n2; j>= 0; j--){
+                for(int k = n3; k>= 0; k--){
+
+                        if (i == s1.length() && j == s2.length() && k == s3.length()) continue;
+
+                        boolean ans = false;
+
+                        if ( (k<s3.length()) && ((i < s1.length())) && s1.charAt(i) == s3.charAt(k)) {
+                            ans = ans || (dp[i + 1][j][k + 1] == 1);
+                        }
+
+                        if ( (k<s3.length()) && ((j < s2.length())) && s2.charAt(j) == s3.charAt(k)) {
+                            ans = ans || (dp[i][j + 1][k + 1] == 1);
+                        }
+
+                        dp[i][j][k] = ans ? 1 : -1;
+                }
+            }
+        }
+
+
+
+        return dp[0][0][0] == 1;
+    }
+
+
+    
+    public boolean isInterleave(String s1, String s2, String s3) {
+
+        // recursive
+        // boolean ans = solve(s1,s2,s3,0,0,0);
+
+        // topDown
+        // int n1 = s1.length();
+        // int n2 = s2.length();
+        // int n3 = s3.length();
+        // int dp[][][] = new int[n1 + 2][n2 + 2][n3 + 2];
+        // for (int twoD[][]: dp) {
+        //     for (int row[]: twoD)
+        //         Arrays.fill(row, -1);
+        // }
+        // boolean ans = topDown(s1, s2, s3, 0, 0, 0, dp);
+
+
+        // bottomUp
+        boolean ans = bottomUp(s1, s2, s3);
+
+        return ans;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/interleaving-string/description/

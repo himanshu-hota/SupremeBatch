@@ -1,0 +1,123 @@
+class Solution {
+
+  int maxLen = 0;          // To store the length of the longest palindrome found
+  int startingIdx = 0;     // To store the starting index of the longest palindrome
+
+  // Recursive function to check if a substring from 'start' to 'end' is a palindrome
+  public boolean solve(String s, int start, int end) {
+    if (start >= end) return true;  // Base case: if the substring has 1 or 0 characters, it's a palindrome
+
+    boolean ans = false;  // Initialize the answer as false
+
+    // Check if the characters at 'start' and 'end' are the same
+    if (s.charAt(start) == s.charAt(end)) {
+      ans = solve(s, start + 1, end - 1);  // Recur for the substring inside
+    }
+
+    // If the substring is a palindrome, update the maximum length and starting index
+    if (ans) {
+      int currLen = end - start + 1;
+      if (currLen > maxLen) {
+        maxLen = currLen;
+        startingIdx = start;
+      }
+    }
+
+    return ans;
+  }
+
+  // Top-down dynamic programming function to find the longest palindromic substring
+  public boolean topDown(String s, int start, int end, int dp[][]) {
+    if (start >= end) return true;  // Base case: if the substring has 1 or 0 characters, it's a palindrome
+
+    // Check if we've already computed the result for this substring
+    if (dp[start][end] != -1) return dp[start][end] == 1 ? true : false;
+
+    boolean ans = false;  // Initialize the answer as false
+
+    // Check if the characters at 'start' and 'end' are the same
+    if (s.charAt(start) == s.charAt(end)) {
+      ans = topDown(s, start + 1, end - 1, dp);  // Recur for the substring inside
+    }
+
+    // If the substring is a palindrome, update the maximum length and starting index
+    if (ans) {
+      int currLen = end - start + 1;
+      if (currLen > maxLen) {
+        maxLen = currLen;
+        startingIdx = start;
+      }
+    }
+
+    dp[start][end] = ans ? 1 : 0;  // Store the result in the dp table
+
+    return ans;
+  }
+
+  public String longestPalindrome(String s) {
+
+    if (s.length() == 1) return s;  // Special case: if the input has only one character, it's a palindrome
+    int n = s.length();  // Length of the input string
+
+    // Top-down dynamic programming approach
+    int dp[][] = new int[n + 1][n + 1];
+    for (int row[]: dp) Arrays.fill(row, -1);  // Initialize the dp table with -1 values
+
+    // Iterate through all possible substrings and compute the result using top-down approach
+    for (int i = 0; i < n; i++) {
+      for (int j = i; j < n; j++) {
+        topDown(s, i, j, dp);
+      }
+    }
+
+    // Adjust the ending index for the substring
+    int endingIdx = startingIdx + maxLen;
+    if (endingIdx == 0) endingIdx++;  // If maxLen is 0, set endingIdx to 1 to avoid empty string
+    return s.substring(startingIdx, endingIdx);  // Return the longest palindromic substring
+  }
+}
+
+
+
+--------------------------------------------- Non DP method ------------------------------------------------------
+
+class Solution {
+
+private static String expandAroundCenter(String s, int left, int right) {
+    while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+        left--;
+        right++;
+    }
+    return s.substring(left+1, right);
+}
+
+    public String longestPalindrome(String s) {
+    if (s == null || s.length() < 2) {
+        return s;
+    }
+
+    String longest = "";
+
+    for (int i = 0; i < s.length(); i++) {
+        // Find palindromes with odd length
+        String oddPalindrome = expandAroundCenter(s, i, i);
+        if (oddPalindrome.length() > longest.length()) {
+            longest = oddPalindrome;
+        }
+
+        // Find palindromes with even length
+        String evenPalindrome = expandAroundCenter(s, i, i+1);
+        if (evenPalindrome.length() > longest.length()) {
+            longest = evenPalindrome;
+        }
+    }
+
+    return longest;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/longest-palindromic-substring/description/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/longest-palindromic-substring_758900?leftPanelTab=0
+
+GFG :- https://practice.geeksforgeeks.org/problems/longest-palindrome-in-a-string1956/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
