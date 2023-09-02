@@ -1,0 +1,92 @@
+class Solution {
+
+    public int solve(int nums[],int start,int end){
+        if(start > end) return 0;
+
+        int coins = Integer.MIN_VALUE;
+
+        for(int i = start ; i<=end ; i++){
+            int currEarnedCoins = (nums[start-1] * nums[i] * nums[end+1]);
+            int ansFromLeft = solve(nums,start,i-1);
+            int ansFromRight = solve(nums,i+1,end) ;
+            coins = Math.max(coins, currEarnedCoins + ansFromLeft + ansFromRight );
+        }
+
+        return coins;
+    }
+
+    public int topDown(int nums[],int start,int end,int dp[][]){
+        if(start > end) return 0;
+
+        if(dp[start][end] != -1) return dp[start][end];
+
+        int coins = Integer.MIN_VALUE;
+
+        for(int i = start ; i<=end ; i++){
+            int currEarnedCoins = (nums[start-1] * nums[i] * nums[end+1]);
+            int ansFromLeft = topDown(nums,start,i-1,dp);
+            int ansFromRight = topDown(nums,i+1,end,dp) ;
+            coins = Math.max(coins, currEarnedCoins + ansFromLeft + ansFromRight );
+        }
+
+        dp[start][end] = coins;
+
+        return coins;
+    }
+
+    public int bottomUp(int nums[]){
+        
+        int n = nums.length;
+        int dp[][] = new int[n][n];
+
+        for(int start = n-2 ; start >=1 ; start --){
+            for(int end = 1 ; end <= n-2; end++){
+
+                if(start >end) continue;
+
+                int coins = Integer.MIN_VALUE;
+
+                for(int i = start ; i<=end ; i++){
+                    int currEarnedCoins = (nums[start-1] * nums[i] * nums[end+1]);
+                    int ansFromLeft = dp[start][i-1];
+                    int ansFromRight = dp[i+1][end] ;
+                    coins = Math.max(coins, currEarnedCoins + ansFromLeft + ansFromRight );
+                }
+
+                dp[start][end] = coins;
+            }
+        }
+
+        return dp[1][n-2];
+    }
+
+  
+    public int maxCoins(int[] nums) {
+        int Nums[] = new int[nums.length+2];
+
+        Nums[0] = 1;
+        Nums[Nums.length-1] = 1;
+        int j = 1;
+        for(int x : nums){
+            Nums[j++]  = x;
+        }
+
+        // recurison
+        // int ans = solve(Nums,1,Nums.length-2);
+
+        // topDown
+        // int n = Nums.length;
+        // int dp[][] = new int[n][n];
+        // for(int row[] : dp) Arrays.fill(row,-1);
+        // int ans = topDown(Nums,1,Nums.length-2,dp);
+
+        // bottom up
+        int ans = bottomUp(Nums);
+
+        return ans;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/burst-balloons/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/burst-balloons/1
