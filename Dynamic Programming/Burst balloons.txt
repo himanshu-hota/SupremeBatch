@@ -6,8 +6,11 @@ class Solution {
         int coins = Integer.MIN_VALUE;
 
         for(int i = start ; i<=end ; i++){
+            // ye wo wala case hai jab last me ek hi balloon the to iske left me 1 aur right me 1 assume karte the.
             int currEarnedCoins = (nums[start-1] * nums[i] * nums[end+1]);
+            // ab sochte the ki iske pehle kon sa foota hoga bhai. 
             int ansFromLeft = solve(nums,start,i-1);
+
             int ansFromRight = solve(nums,i+1,end) ;
             coins = Math.max(coins, currEarnedCoins + ansFromLeft + ansFromRight );
         }

@@ -1,0 +1,39 @@
+import java.util.*;
+
+public class Graph {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+	Scanner sc = new Scanner(System.in);
+	System.out.println("Enter number of nodes");
+	int n = sc.nextInt();
+	
+	System.out.println("Enter number of edges");
+	int e = sc.nextInt();
+	
+	int adj[][] = new int[n][n];
+	
+    // take edges as input
+	for(int i = 0; i<e;i++) {
+		int u = sc.nextInt();
+		int v = sc.nextInt();
+		
+		adj[u][v] = 1;
+	}
+	
+    // print graph
+	for(int row[]: adj) {
+		for(int vertex : row) {
+			System.out.print(vertex + " ");
+		}
+		System.out.println();
+	}
+	
+	
+	
+	sc.close();
+		
+	}
+
+}
