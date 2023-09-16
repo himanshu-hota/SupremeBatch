@@ -1,0 +1,116 @@
+
+class Solution {
+    
+    public boolean checkCycle(int src,Map<Integer,Boolean> visited,Map<Integer,Boolean> DFSvisited,ArrayList<ArrayList<Integer>> adj){
+        
+        // visited mark karo
+        visited.put(src,true);
+        // custom recursion stack me dalo is call ko.
+        DFSvisited.put(src,true);
+        
+        // neighbour ko iterate karo.
+        for(int nbr : adj.get(src)){
+            // agar visited nahi hai to visit karo.
+            if(!visited.getOrDefault(nbr,false)){
+                // aage ka ans nikalo.
+                boolean ans = checkCycle(nbr,visited,DFSvisited,adj);
+                // agar kahi cycle mila to true return kar do.
+                if(ans) return ans;
+            }else{
+                // yaha pahuche matlab already visited hai ye neighbour
+                // ab check karo ki kya ye wali call already stack me hai.
+                // agar hai to cycle present hai bhai.
+                if(DFSvisited.get(nbr)){
+                    return true;
+                }
+            }
+        }
+        
+        // yahi pe galti karenge bhai.
+        // backtrack karo ( is call ko recursion stack se hata do )
+        DFSvisited.put(src,false);
+        return false;
+    }
+    
+    // Function to detect cycle in a directed graph.
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+        
+    Map<Integer, Boolean> visited = new HashMap<>();
+    Map<Integer, Boolean> DFSvisited = new HashMap<>();
+
+    // ye for loop disconnected graph ko handle karta hai.
+    for (int i = 0; i < V; i++) {
+        if (!visited.getOrDefault(i, false)) {
+            boolean ans = checkCycle(i, visited, DFSvisited, adj);
+            // agar cycle mil gaya to true return kar do.
+            if (ans) return true;
+        }
+    }
+
+    // yaha tak pahuche matlab cycle nahi mila.
+    return false;
+    }
+}
+
+--------------------------------------------- Using topological sort -------------------------------------------------
+
+
+class Solution {
+    
+    static int count;
+    
+    static void BFS(ArrayList<ArrayList<Integer>> adj) {
+        int V = adj.size();
+        Queue<Integer> q = new LinkedList<>();
+        int[] indegree = new int[V]; // Store indegrees of vertices
+        
+        // Calculate indegrees efficiently
+        for (int i = 0; i < V; i++) {
+            for (int nbr : adj.get(i)) {
+                indegree[nbr]++;
+            }
+        }
+        
+        // Push vertices with indegree 0 to the queue
+        for (int i = 0; i < V; i++) {
+            if (indegree[i] == 0) {
+                q.add(i);
+            }
+        }
+        
+        int i = 0; // Initialize the index for the result array
+        
+        // Traverse the graph (BFS logic)
+        while (!q.isEmpty()) {
+            int frontNode = q.poll();
+            count++;
+            
+            for (int nbr : adj.get(frontNode)) {
+                // indegree -- kar do 
+                indegree[nbr]--;
+                
+                // ab agar kisi kisi vertex ki indegree 0 hai to usko queue me dal ko
+                if (indegree[nbr] == 0) {
+                    q.add(nbr);
+                }
+            }
+        }
+    }
+    
+    
+    
+    // Function to detect cycle in a directed graph.
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+        
+ 
+        count = 0; 
+        // topologial sort
+        BFS(adj);
+    
+        return count != V;
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1
+
+Time complexity :- O(V*(V+E))

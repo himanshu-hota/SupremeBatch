@@ -1,0 +1,92 @@
+
+class Solution {
+
+    static void BFS(int ans[], ArrayList<ArrayList<Integer>> adj) {
+        int V = adj.size();
+        Queue<Integer> q = new LinkedList<>();
+        int[] indegree = new int[V]; // Store indegrees of vertices
+        
+        // Calculate indegrees efficiently
+        for (int i = 0; i < V; i++) {
+            for (int nbr : adj.get(i)) {
+                indegree[nbr]++;
+            }
+        }
+        
+        // Push vertices with indegree 0 to the queue
+        for (int i = 0; i < V; i++) {
+            if (indegree[i] == 0) {
+                q.add(i);
+            }
+        }
+        
+        int i = 0; // Initialize the index for the result array
+        
+        // Traverse the graph (BFS logic)
+        while (!q.isEmpty()) {
+            int frontNode = q.poll();
+            ans[i++] = frontNode;
+            
+            for (int nbr : adj.get(frontNode)) {
+                // indegree -- kar do 
+                indegree[nbr]--;
+                
+                // ab agar kisi kisi vertex ki indegree 0 hai to usko queue me dal ko
+                if (indegree[nbr] == 0) {
+                    q.add(nbr);
+                }
+            }
+        }
+    }
+   
+
+    // its a normal DFS traversal
+    static void DFS(int src, Map<Integer, Boolean> visited, ArrayList<ArrayList<Integer>> adj, Stack<Integer> st) {
+        visited.put(src, true);
+
+        for (int nbr : adj.get(src)) {
+            if (!visited.getOrDefault(nbr, false)) {
+                DFS(nbr, visited, adj, st);
+            }
+        }
+
+        // just this line is an extra add-on
+        // what we are doing is when we return from the function ( jab wapas jate hain) add the current vertex to stack.
+        st.push(src);
+    }
+
+    static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) {
+     // DFS
+        
+        // Map<Integer, Boolean> visited = new HashMap<>();
+        // Stack<Integer> st = new Stack<>();
+
+        // for (int i = 0; i < V; i++) { // Use 0-based indexing
+        //     if (!visited.getOrDefault(i, false)) {
+        //         DFS(i, visited, adj, st);
+        //     }
+        // }
+
+        // int ans[] = new int[st.size()];
+
+        // int i = 0;
+
+        // while (!st.isEmpty()) {
+        //     ans[i++] = st.pop();
+        // }
+
+       
+       // ------------------------------------------------
+       
+       
+       // BFS
+         int ans[] = new int[V];
+        BFS(ans, adj);
+        return ans;
+    }
+}
+
+
+ Note :- why stack ? -> ArrayList bhi use kar sakte hai bas usko reverse karna padega.
+
+ GFG :- https://practice.geeksforgeeks.org/problems/topological-sort/1

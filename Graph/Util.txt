@@ -1,3 +1,5 @@
+// ------------------------------------------------ Matrix implemention ------------------------------------------------
+
 import java.util.*;
 
 public class Graph {
@@ -37,3 +39,257 @@ public class Graph {
 	}
 
 }
+
+
+// ------------------------------------------------ List implemention --------------------------------------------------
+
+import java.util.*;
+
+
+class Pair{
+	int node;
+	int weight;
+	
+	Pair(int n,int w){
+		this.node = n;
+		this.weight = w;
+	}
+}
+
+class Graphs {
+	
+	// without weight
+//	Map<Integer,List<Integer>> adjList = new HashMap<>();
+	
+	// with weight
+	Map<Integer,List<Pair>> adjList = new HashMap<>();
+	
+//	public void addEdge(int u ,int v , boolean directed) {
+//		
+//		// directed = true -> Directed Graph.
+//		// directed = false-> Undirected Graph.
+//		
+//		if(adjList.get(u) == null) {
+//			List<Integer> neighbours = new ArrayList<>();
+//			adjList.put(u, neighbours);
+//		}
+//		
+//		// create edge from u to v.
+//		adjList.get(u).add(v);
+//		
+//		// if it is a undirected graph then v should also point to u.
+//		if(!directed) {
+//			// create edge from v to u.
+//			if(adjList.get(v) == null) {
+//				List<Integer> neighbours = new ArrayList<>();
+//				adjList.put(v, neighbours);
+//			}
+//			adjList.get(v).add(u);	
+//		}
+//		
+//	}
+//	
+//	public void printAdjList() {
+//	
+//		
+//		// method 1
+//		
+////		for(List<Integer> edges : adjList.values()) {
+////			for(Integer vertex : edges) {
+////				System.out.print(vertex + " ");
+////			}
+////			System.out.println();
+////		}
+//	
+//		
+//		for(Map.Entry<Integer,List<Integer>> e : adjList.entrySet()) {
+//			System.out.print(e.getKey() + " -> ");
+//			
+//			for(Integer vertex : e.getValue()) {
+//				System.out.print(vertex + " ");
+//			}
+//			System.out.println();
+//		}
+//		
+//	}
+//		
+	public void addEdgeWithWeight(int u ,int v , int w,boolean directed) {
+		
+		// directed = true -> Directed Graph.
+		// directed = false-> Undirected Graph.
+		
+		if(adjList.get(u) == null) {
+			List<Pair> neighbours = new ArrayList<>();
+			adjList.put(u, neighbours);
+		}
+		
+		// create edge from u to v.
+		adjList.get(u).add(new Pair(v,w));
+		
+		// if it is a undirected graph then v should also point to u.
+		if(!directed) {
+			// create edge from v to u.
+			if(adjList.get(v) == null) {
+				List<Pair> neighbours = new ArrayList<>();
+				adjList.put(v, neighbours);
+			}
+			adjList.get(v).add(new Pair(u,w));	
+		}
+		
+	}
+	
+	public void printAdjListWithWeight() {
+	
+		
+		// method 1
+		
+//		for(List<Integer> edges : adjList.values()) {
+//			for(Integer vertex : edges) {
+//				System.out.print(vertex + " ");
+//			}
+//			System.out.println();
+//		}
+	
+		
+		for(Map.Entry<Integer,List<Pair>> e : adjList.entrySet()) {
+			System.out.print(e.getKey() + " -> ");
+			
+			for(Pair p : e.getValue()) {
+				System.out.print("(" + p.node + "," + p.weight + "), ");
+			}
+			System.out.println();
+		}
+		
+	}
+		
+	
+}
+
+public class Graph {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		Graphs g = new Graphs();
+		
+		// undirect graph
+//		g.addEdge(0, 1, false);
+//		g.addEdge(1, 2, false);
+//		g.addEdge(0, 2, false);
+		
+		// directed graph
+		g.addEdgeWithWeight(0, 1,8, true);
+		g.addEdgeWithWeight(1, 2,5, true);
+		g.addEdgeWithWeight(0, 2,6, true);
+		
+		g.printAdjListWithWeight();
+		
+	}
+
+}
+
+
+
+
+---------------------------------------------------- BFS -------------------------------------------------------------
+	
+	public void bfs(int src) {
+		Queue<Integer> q = new LinkedList<>();
+		Map<Integer,Boolean> visited = new HashMap<>();
+		
+		// initially add src to queue
+		q.add(src);
+		// initially mark src as visited
+		visited.put(src,true);
+		
+		while(!q.isEmpty()) {
+            // poll one element form the queue
+			int front = q.poll();
+			// print it
+			System.out.print( front + ",");
+			
+			// add neighbours to queue
+			for(Integer x : adjList.get(front)) {
+				if(!visited.getOrDefault(x,false)) {
+                    // add neighbour
+					q.add(x);
+                    // mark it as visited
+					visited.put(x, true);
+				}
+			}
+		}
+	}
+
+
+	-- handle disconnected graph --
+
+
+	public void bfs(int src,int end) {
+	    Map<Integer,Boolean> visited = new HashMap<>();
+		// what we simply did is we iterate through each element and check if it has been traversed or not.
+		// if it is not traversed yet then traverse it.
+        for(int i = src; i<=end;i++){
+            if(!visited.getOrDefault(i,false)){
+                bfshelper(src,visited);
+            }
+        }
+
+	}
+
+    public void bfshelper(int src,Map<Integer,Boolean> visited){
+        	Queue<Integer> q = new LinkedList<>();
+		
+		
+		// initially add src to queue
+		q.add(src);
+		// initially mark src as visited
+		visited.put(src,true);
+		
+		while(!q.isEmpty()) {
+            // poll one element form the queue
+			int front = q.poll();
+			// print it
+			System.out.print( front + ",");
+			
+			// add neighbours to queue
+			for(Integer x : adjList.get(front)) {
+				if(!visited.getOrDefault(x,false)) {
+                    // add neighbour
+					q.add(x);
+                    // mark it as visited
+					visited.put(x, true);
+				}
+			}
+		}
+    }
+
+
+
+--------------------------------------------------- DFS -------------------------------------------------------
+
+    public void dfs(int src,int end) {
+	    Map<Integer,Boolean> visited = new HashMap<>();
+
+        for(int i = src; i<=end;i++){
+            if(!visited.getOrDefault(i,false)){
+                dfshelper(i,visited);
+            }
+        }
+
+	}
+
+    public void dfshelper(int src,Map<Integer,Boolean> visited){
+        
+		// print current vertex
+		System.out.print(src + ",");
+		// mark src as visited
+		visited.put(src,true);
+		
+		// recursively call for its children
+		for(int x : adjList.get(src)){
+            if(!visited.getOrDefault(x,false)){
+                dfshelper(x,visited);
+            }
+        }
+    }
+	

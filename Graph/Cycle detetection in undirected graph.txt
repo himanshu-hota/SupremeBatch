@@ -1,0 +1,136 @@
+
+----------------------------------------------------- BFS -------------------------------------------------------------
+
+class Solution {
+    // Function to detect cycle in an undirected graph.
+    
+    public boolean checkCycle(int src,Map<Integer,Boolean> visited,ArrayList<ArrayList<Integer>> adj){
+        
+        // store the parent of each vertex.
+        Map<Integer,Integer> parent = new HashMap<>();
+        // queue to traverse each vertex.
+        Queue<Integer> q = new LinkedList<>();
+        
+        // initially add the src to queue.
+        q.add(src);
+        // mark it as visited.
+        visited.put(src,true);
+        // tell that it has no parent
+        parent.put(src,-1);
+        
+        // iterate through the graph.
+        while(!q.isEmpty()){
+            
+            // pull one vertex.
+            int frontNode = q.poll();
+            
+            // traverse its neighbours. 
+            for(int nbr : adj.get(frontNode)){
+                // check if it has not been visited yet.
+                if(!visited.getOrDefault(nbr,false)){
+                    // if not visited then visit it by adding it to queue.
+                    q.add(nbr);
+                    // mark it as visited.
+                    visited.put(nbr,true);
+                    // tell thet its parent is the frontNode as we visited this vertex with the help of frontNode.
+                    parent.put(nbr,frontNode);
+                }else{
+                    // if we reach here then it means it is already visited.
+                    // now check if neighbour is the parent of frontNode, if yes then we cant visit this neighbour.
+                    // if no then we it has been visited and also it is not the parent of frontNode, which simply means that we found a cycle here.
+                    if(nbr != parent.get(frontNode)){
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        // if no cycle was found then return false;
+        return false;
+    }
+    
+    public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+        // Code here
+        
+        boolean ans = false;
+        Map<Integer,Boolean> visited = new HashMap<>();
+        
+        // this for loop handle the case of disconnected graph.
+        for(int i = 0 ; i<V ;i++ ){
+            // if any node is already visited then dont visit it unnecessarily.
+            if(!visited.getOrDefault(i,false)){
+                ans = checkCycle(i,visited,adj);
+            }
+            
+            // if found a cycle then return from here no need for further check (VVIMP).
+            if(ans == true) return true;
+        }
+        
+        
+        // if we do like this then it will not handle the disconnected graph scenario.
+        // ans = checkCycle(0,visited,adj);
+        
+        return ans;
+    }
+}
+
+Time complexity :- O(V*(v+E));  
+
+
+----------------------------------------------------- DFS ------------------------------------------------------------
+
+
+class Solution {
+    
+    
+    public boolean checkCycle(int src,Map<Integer,Boolean> visited,ArrayList<ArrayList<Integer>> adj,int parent){
+        
+        // mark src as visited.
+        visited.put(src,true);
+        
+        // iterate its neighbours
+        for(int nbr : adj.get(src)){
+            // if this neighbour is not visited then visit it.
+            if(!visited.getOrDefault(nbr,false)){
+                // make recursive calls for the rest.
+                boolean ans = checkCycle(nbr,visited,adj,src);
+                // if we found any cycle then return from here no need for further checks.
+                if(ans) return ans;
+            }else{
+                // if this neighbour is visited already and is not parent of frontNode then we found a cycle 
+                if(nbr != parent){
+                    return true;
+                }
+            }
+        }
+        
+        // if we reach here then there is no cycle.
+        return false;
+    }
+    
+    // Function to detect cycle in an undirected graph.
+    public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+        
+        Map<Integer,Boolean> visited = new HashMap<>();
+        boolean ans = false;
+        
+        // this for loops handle the disconnected graph case.
+        for(int i = 0 ; i<V; i++){
+            // if any node is already visited then dont visit it unnecessarily.
+            if(!visited.getOrDefault(i,false)){
+                ans = checkCycle(i,visited,adj,-1);
+                
+                // if found a cycle then return from here no need for further check (VVIMP).
+                if(ans) return ans;
+            }
+        }
+        
+        return false;
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+
+Time complexity :- O(V*(v+E));  
