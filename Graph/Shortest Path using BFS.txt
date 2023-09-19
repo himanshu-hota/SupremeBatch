@@ -1,0 +1,165 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+
+import java.util.*;
+
+
+class Pair{
+	int node;
+	int weight;
+	
+	Pair(int n,int w){
+		this.node = n;
+		this.weight = w;
+	}
+}
+
+class Graphs {
+	
+	// with weight
+	Map<Integer,List<Pair>> adjList = new HashMap<>();
+	
+    public void addEdgeWithWeight(int u ,int v , int w,boolean directed) {
+		
+		// directed = true -> Directed Graph.
+		// directed = false-> Undirected Graph.
+		
+		if(adjList.get(u) == null) {
+			List<Pair> neighbours = new ArrayList<>();
+			adjList.put(u, neighbours);
+		}
+		
+		// create edge from u to v.
+		adjList.get(u).add(new Pair(v,w));
+		
+		// if it is a undirected graph then v should also point to u.
+		if(!directed) {
+			// create edge from v to u.
+			if(adjList.get(v) == null) {
+				List<Pair> neighbours = new ArrayList<>();
+				adjList.put(v, neighbours);
+			}
+			adjList.get(v).add(new Pair(u,w));	
+		}
+		
+	}
+	
+	public void printAdjListWithWeight() {
+	
+	
+		for(Map.Entry<Integer,List<Pair>> e : adjList.entrySet()) {
+			System.out.print(e.getKey() + " -> ");
+			
+			for(Pair p : e.getValue()) {
+				System.out.print("(" + p.node + "," + p.weight + "), ");
+			}
+			System.out.println();
+		}
+		
+	}
+
+    public void BFSPath(int src,int dest){
+        // map to keep track of visited elements
+        Map<Integer,Boolean> visited = new HashMap<>();
+        // map to keep track of parent element of each element
+        Map<Integer,Integer> parent = new HashMap<>();
+        // queue to traverse the graph
+        Queue<Integer> q = new LinkedList<>();
+
+        // initially add src to queue to start traversing
+        q.add(src);
+        // mark src as visited
+        visited.put(src,true);
+        // set parent of src as -1 as source is the starting point and it can not have any parent
+        parent.put(src,-1);
+
+        // traverse the queue
+        while(!q.isEmpty()){
+            // pull out one element from the queue
+            int fNode = q.poll();
+
+            // traverse its neighbours
+            for(Pair nbr : adjList.getOrDefault(fNode, new ArrayList<>())){
+                // perform these operations only if this neighbour has not been visited
+                if(!visited.getOrDefault(nbr.node,false)){
+                    // add it to the queue
+                    q.add(nbr.node);
+                    // mark it as visited
+                    visited.put(nbr.node,true);
+                    // set its parent to fnode as it is traversed by fnode
+                    parent.put(nbr.node,fNode);
+                }
+            }
+        }
+
+        System.out.println("Parent list -> ");
+        for(Map.Entry<Integer,Integer> e : parent.entrySet()){
+            System.out.println(e.getKey() + "," + e.getValue());
+        }
+
+        // we are using stack not ArrayList 
+        // why ? -> to get elements in correct order
+        Stack<Integer> ans = new Stack();
+
+        int node = dest;
+        // traverse parent map till we go to the src
+        // here src is identified as -1
+        while(parent.getOrDefault(node,-1) != -1){
+            ans.push(node);
+            node = parent.get(node);
+        }
+
+
+
+        System.out.println("Path => ");
+        System.out.print(src + " => ");
+        while(!ans.isEmpty()){
+            System.out.print(ans.pop() + " => ");
+        }
+
+    }
+		
+	
+}
+	
+	
+
+
+
+class Solution {
+
+
+    public static void main(String[] args) {
+        // Write your code here
+        Graphs g = new Graphs();
+		
+		// undirect graph
+		g.addEdgeWithWeight(0, 1,8, true);
+        g.addEdgeWithWeight(0, 3,4, true);
+        g.addEdgeWithWeight(0, 2,4, true);
+
+		g.addEdgeWithWeight(1, 4,5, true);
+        g.addEdgeWithWeight(1, 0,5, true);
+
+        g.addEdgeWithWeight(2, 5,4, true);
+        g.addEdgeWithWeight(2, 0,4, true);
+
+		g.addEdgeWithWeight(3, 6,6, true); 
+        g.addEdgeWithWeight(3, 0,6, true); 
+
+        g.addEdgeWithWeight(4, 5,4, true);
+        g.addEdgeWithWeight(4, 1,4, true);
+
+        g.addEdgeWithWeight(5, 4,4, true);
+        g.addEdgeWithWeight(5, 2,4, true);
+        g.addEdgeWithWeight(5, 6,4, true);
+
+        g.addEdgeWithWeight(6, 5,4, true);
+        g.addEdgeWithWeight(6, 3,4, true);
+
+        g.printAdjListWithWeight();
+        g.BFSPath(1,6);
+        
+    }
+}

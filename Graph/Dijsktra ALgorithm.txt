@@ -1,0 +1,134 @@
+import java.util.*;
+
+class Pair {
+    int node;
+    int weight;
+
+    Pair(int n, int w) {
+        this.node = n;
+        this.weight = w;
+    }
+}
+
+class PairWeightComparator implements Comparator<Pair> {
+    @Override
+    public int compare(Pair pair1, Pair pair2) {
+        // Compare pairs based on their weights in increasing order
+        return Integer.compare(pair1.weight, pair2.weight);
+    }
+}
+
+class Graphs {
+
+    // Store the adjacency list with weights
+    Map<Integer, List<Pair>> adjList = new HashMap<>();
+
+    // Add an edge with weight to the graph
+    public void addEdgeWithWeight(int u, int v, int w, boolean directed) {
+
+        // directed = true -> Directed Graph.
+        // directed = false -> Undirected Graph.
+
+        if (adjList.get(u) == null) {
+            List<Pair> neighbours = new ArrayList<>();
+            adjList.put(u, neighbours);
+        }
+
+        // Create an edge from u to v with weight w.
+        adjList.get(u).add(new Pair(v, w));
+
+        // If it is an undirected graph, v should also point to u.
+        if (!directed) {
+            // Create an edge from v to u with the same weight w.
+            if (adjList.get(v) == null) {
+                List<Pair> neighbours = new ArrayList<>();
+                adjList.put(v, neighbours);
+            }
+            adjList.get(v).add(new Pair(u, w));
+        }
+
+    }
+
+    // Print the adjacency list with weights
+    public void printAdjListWithWeight() {
+        for (Map.Entry<Integer, List<Pair>> e : adjList.entrySet()) {
+            System.out.print(e.getKey() + " -> ");
+
+            for (Pair p : e.getValue()) {
+                System.out.print("(" + p.node + "," + p.weight + "), ");
+            }
+            System.out.println();
+        }
+
+    }
+
+    // Dijkstra's algorithm for finding the shortest paths from a source node
+    public void dijsktra(int src, int n) {
+        int dist[] = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        TreeSet<Pair> st = new TreeSet<>(new PairWeightComparator()); // Reverse order
+
+        // Initial steps
+        st.add(new Pair(src, 0));
+        dist[src] = 0;
+
+        while (!st.isEmpty()) {
+
+            // Fetch the smallest element from st
+            Pair topElement = st.first();
+            int node = topElement.node;
+            int distance = topElement.weight;
+
+            // Remove it from the set
+            st.pollFirst();
+
+            // Traverse neighbors
+            for (Pair nbr : adjList.getOrDefault(node, new ArrayList<>())) {
+                if (distance + nbr.weight < dist[nbr.node]) {
+                    // Update the distances
+
+                    // 1. Update in the priority queue (st)
+                    if (st.contains(nbr)) {
+                        st.remove(nbr);
+                    }
+
+                    // 2. Update in the distances array (dist)
+                    dist[nbr.node] = distance + nbr.weight;
+                    st.add(new Pair(nbr.node, dist[nbr.node]));
+                }
+            }
+        }
+
+        // Print the computed distances
+        for (int x : dist) {
+            System.out.print(x + ",");
+        }
+
+    }
+}
+
+public class Solution {
+
+    public static void main(String[] args) {
+        // Create a Graphs object
+        Graphs g = new Graphs();
+
+        // Add edges with weights to the graph (an undirected graph)
+        g.addEdgeWithWeight(6, 3, 2, false);
+        g.addEdgeWithWeight(6, 1, 14, false);
+        g.addEdgeWithWeight(3, 1, 9, false);
+        g.addEdgeWithWeight(3, 2, 10, false);
+        g.addEdgeWithWeight(1, 2, 7, false);
+        g.addEdgeWithWeight(2, 4, 15, false);
+        g.addEdgeWithWeight(4, 3, 11, false);
+        g.addEdgeWithWeight(6, 5, 9, false);
+        g.addEdgeWithWeight(4, 5, 6, false);
+
+        // Print the adjacency list with weights
+        g.printAdjListWithWeight();
+
+        // Run Dijkstra's algorithm from node 6 to compute the shortest paths
+        g.dijsktra(6, 7);
+
+    }
+}

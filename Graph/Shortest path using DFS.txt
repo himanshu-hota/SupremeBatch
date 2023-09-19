@@ -1,0 +1,170 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+
+import java.util.*;
+
+
+class Pair{
+	int node;
+	int weight;
+	
+	Pair(int n,int w){
+		this.node = n;
+		this.weight = w;
+	}
+}
+
+class Graphs {
+	
+	// with weight
+	Map<Integer,List<Pair>> adjList = new HashMap<>();
+	
+    public void addEdgeWithWeight(int u ,int v , int w,boolean directed) {
+		
+		// directed = true -> Directed Graph.
+		// directed = false-> Undirected Graph.
+		
+		if(adjList.get(u) == null) {
+			List<Pair> neighbours = new ArrayList<>();
+			adjList.put(u, neighbours);
+		}
+		
+		// create edge from u to v.
+		adjList.get(u).add(new Pair(v,w));
+		
+		// if it is a undirected graph then v should also point to u.
+		if(!directed) {
+			// create edge from v to u.
+			if(adjList.get(v) == null) {
+				List<Pair> neighbours = new ArrayList<>();
+				adjList.put(v, neighbours);
+			}
+			adjList.get(v).add(new Pair(u,w));	
+		}
+		
+	}
+	
+	public void printAdjListWithWeight() {
+	
+	
+	for(Map.Entry<Integer,List<Pair>> e : adjList.entrySet()) {
+			System.out.print(e.getKey() + " -> ");
+			
+			for(Pair p : e.getValue()) {
+				System.out.print("(" + p.node + "," + p.weight + "), ");
+			}
+			System.out.println();
+		}
+		
+	}
+
+
+    public Stack<Integer> topoSort(){
+         Map<Integer, Boolean> visited = new HashMap<>();
+        Stack<Integer> st = new Stack<>();
+        int V = adjList.size();
+        int src = 0;
+        for (int i = 0; i < V; i++) { // Use 0-based indexing
+            if (!visited.getOrDefault(i, false)) {
+                topoOrder(i, visited, st);
+            }
+        }
+
+        return st;
+    }
+		
+	     // its a normal DFS traversal
+    public void topoOrder(int src, Map<Integer, Boolean> visited, Stack<Integer> st) {
+        visited.put(src, true);
+
+        for (Pair nbr : adjList.getOrDefault(src,new ArrayList<>())) {
+            if (!visited.getOrDefault(nbr.node, false)) {
+                topoOrder(nbr.node, visited, st);
+            }
+        }
+
+        // just this line is an extra add-on
+        // what we are doing is when we return from the function ( jab wapas jate hain) add the current vertex to stack.
+        st.push(src);
+    }
+
+    
+    public void shortestPathDFS(int dest,int n){
+        // get topological sort order
+        Stack<Integer> topOrder = topoSort();
+        // just to pring nothing to do with logic
+        Stack<Integer> xz = topoSort();
+
+        System.out.println("topo order => ");
+        for(int x : xz) System.out.print(x + ",");
+        System.out.println("");
+
+        // array to store distance from src
+        int dist[] = new int[n];
+        Arrays.fill(dist,Integer.MAX_VALUE);
+
+        // pick one element from the stack(topological order)
+        int src = topOrder.pop();
+        // mark its distance as 0
+        dist[src] = 0;
+
+        // get its distance from its neighbours
+        // VVIMP (it has to be handled separately)
+        for(Pair nbr : adjList.get(0)){
+            if(dist[0] + nbr.weight < dist[nbr.node]){
+                dist[nbr.node] = dist[0] + nbr.weight;
+            }
+        }
+
+
+        // now process for the rest elements
+        while(!topOrder.isEmpty()){
+            int topElement = topOrder.pop();
+                // only update the distance when distance is not Int.max
+                if(dist[topElement] != Integer.MAX_VALUE){
+                    for(Pair nbr : adjList.getOrDefault(topElement, new ArrayList<>())){
+                        // only update the distance when current Calculated distance is lesser than previous Calculated.
+                        if(dist[topElement] + nbr.weight < dist[nbr.node]){
+                            dist[nbr.node] = dist[topElement] + nbr.weight;
+                        }
+                    }
+                }
+        }
+
+        for(int x : dist){
+            System.out.print(x + ", ");
+        }
+
+    }
+
+}
+	
+	
+
+
+
+class Solution {
+
+   
+    public static void main(String[] args) {
+        // Write your code here
+        Graphs g = new Graphs();
+		
+		// undirect graph
+		g.addEdgeWithWeight(0, 1,5, true);
+        g.addEdgeWithWeight(0, 2,3, true);
+        g.addEdgeWithWeight(2, 1,2, true);
+        g.addEdgeWithWeight(1, 3,3, true);
+        g.addEdgeWithWeight(2, 3,5, true);
+        g.addEdgeWithWeight(2, 4,6, true);
+        g.addEdgeWithWeight(4, 3,1, true);
+
+
+
+        g.printAdjListWithWeight();
+        
+        g.shortestPathDFS(3,5);
+        
+    }
+}
