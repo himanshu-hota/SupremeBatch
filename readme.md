@@ -1,4 +1,4 @@
-# Love Babbar Data Structures and Algorithms Course Companion in Java
+# Love Babbar Data Structures and Algorithms Course Companion in Java (Supreme 1.0)
 
 ![Course Logo](https://dz8fbjd9gwp2s.cloudfront.net/courses/63ac9183e4b0f1067f1b7b32/63ac9183e4b0f1067f1b7b32_scaled_cover.jpg?v=1) <!-- You can replace this with your logo or banner -->
 
@@ -28,6 +28,12 @@ We've meticulously curated this repository to provide a seamless learning experi
 ## 🤝 Get Involved
 
 Contributions and feedback are always welcome! Help us improve and expand this resource for the benefit of the entire coding community. Feel free to open issues, submit pull requests, or share your suggestions.
+
+**Connect with me on social media:**
+
+- [LinkedIn](https://www.linkedin.com/in/himanshu-hota/)
+- [GitHub](https://github.com/himanshu-hota)
+- [Instagram](https://www.instagram.com/himanshuhota01/)
 
 ## 📌 Ready to Get Started?
 
