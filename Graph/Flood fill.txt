@@ -1,0 +1,89 @@
+class Solution {
+    int dx[] = {-1, 0, 1, 0};
+    int dy[] = {0, 1, 0, -1};
+
+    private void DFS(int x, int y, int oldColor, int newColor, boolean visited[][], int image[][]) {
+        // mark it as visited
+        visited[x][y] = true;
+        // update color
+        image[x][y] = newColor;
+
+        for (int i = 0; i < 4; i++) {
+            // calculate coordinates
+            int newX = x + dx[i];
+            int newY = y + dy[i];
+
+            boolean validDirection = (newX >= 0) && (newX < image.length) && (newY >= 0) && (newY < image[0].length);
+            // only make call when direction is valid, current color is same as old color and it has not been visited.
+            if (validDirection && (!visited[newX][newY] && image[newX][newY] == oldColor)) {
+                DFS(newX, newY, oldColor, newColor, visited, image);
+            }
+        }
+    }
+
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        int ans[][] = image;
+        int oldColor = image[sr][sc];
+        int row = image.length;
+        int col = image[0].length;
+        boolean visited[][] = new boolean[row][col];
+        // dont make call of give new color and old color is same 
+        if (oldColor != color) {
+            DFS(sr, sc, oldColor, color, visited, ans);
+        }
+
+        return ans;
+    }
+}
+
+---------------------------------------------------- BFS ------------------------------------------------------------
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+class Solution {
+    int dx[] = {-1, 0, 1, 0};
+    int dy[] = {0, 1, 0, -1};
+
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        int oldColor = image[sr][sc];
+        if (oldColor == newColor) {
+            return image; // No need to make changes if old and new colors are the same.
+        }
+
+        int row = image.length;
+        int col = image[0].length;
+
+        boolean[][] visited = new boolean[row][col];
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{sr, sc});
+
+        while (!queue.isEmpty()) {
+            int[] current = queue.poll();
+            int x = current[0];
+            int y = current[1];
+
+            image[x][y] = newColor;
+            visited[x][y] = true;
+
+            for (int i = 0; i < 4; i++) {
+                int newX = x + dx[i];
+                int newY = y + dy[i];
+
+                if (newX >= 0 && newX < row && newY >= 0 && newY < col && !visited[newX][newY] && image[newX][newY] == oldColor) {
+                    queue.offer(new int[]{newX, newY});
+                }
+            }
+        }
+
+        return image;
+    }
+}
+
+
+
+LeetCode :- https://leetcode.com/problems/flood-fill/?envType=study-plan&id=algorithm-i
+
+GFG :- https://practice.geeksforgeeks.org/problems/flood-fill-algorithm1856/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/flood-fill-_1082141?leftPanelTab=0

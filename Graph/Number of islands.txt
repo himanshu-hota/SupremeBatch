@@ -1,0 +1,135 @@
+class Pair{
+    int first;
+    int second;
+
+    Pair(int x,int y){
+        this.first = x;
+        this.second = y;
+    }
+}
+
+class Solution {
+
+    private void BFS(boolean visited[][],int row, int col , char grid[][]){
+        
+        // queue to store indices (row,col);
+        Queue<Pair> q = new LinkedList<>();
+        // helper arrays to go UP RIGHT DOWN LEFT.
+        int dx[] = {-1,0,1,0}; // Up Right Down Left
+        int dy[] = {0,1,0,-1}; // Up Right Down Left
+
+        // initially add a pair to the queue lets say (0,0) is the starting ponit so add it in the queue.
+        q.add(new Pair(row,col));
+        // mark it as visited.
+        visited[row][col] = true;
+
+        // traverse till the queue has elements.
+        while(!q.isEmpty()){
+            
+            // pick one entry from the queue
+            Pair fNode = q.poll();
+            // extract coordinates
+            int x = fNode.first;
+            int y = fNode.second;
+
+            // i can move in 4 directions
+            for(int i = 0;i < 4 ; i++){
+                // generate UP DOWN RIGHT LEFT coordinates
+                int newX = dx[i] + x;
+                int newY = dy[i] + y;
+
+                // check if it is a valid coordinate
+                boolean validDirection = (newX >=0 ) && (newX < grid.length) && (newY >= 0) && (newY < grid[0].length);
+                // only add to the queue when direction is valid and it has not been visited and a node is present 
+                if(validDirection && (!visited[newX][newY]) && (grid[newX][newY] == '1')){ 
+                    q.add(new Pair(newX,newY));
+                    visited[newX][newY] = true;
+                }
+            }
+            
+        }
+
+    }
+
+    public int numIslands(char[][] grid) {
+
+        int rowSize = grid.length;
+        int colSize = grid[0].length;
+        int count = 0;
+        boolean visited[][] = new boolean[rowSize][colSize];
+
+        // this handles the case of disconnected graph ( or in this case islands ).
+        for(int row = 0; row < rowSize; row++){
+            for(int col = 0 ; col< colSize; col++){
+                // only apply BFS when it has not been visited and land is present 
+                // ( grid[row][col] == '1' means land is there)
+                if(!visited[row][col] && grid[row][col] == '1'){
+                    BFS(visited,row,col,grid);
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+}
+
+---------------------------------------------------- DFS --------------------------------------------------------------
+
+class Solution {
+
+    private void DFS(boolean visited[][], int row, int col, char grid[][]) {
+        // helper arrays to go UP RIGHT DOWN LEFT.
+        int dx[] = {-1, 0, 1, 0}; // Up Right Down Left
+        int dy[] = {0, 1, 0, -1}; // Up Right Down Left
+
+        visited[row][col] = true;
+
+        // Traverse in all four directions
+        for (int i = 0; i < 4; i++) {
+            int newX = dx[i] + row;
+            int newY = dy[i] + col;
+
+            // Check if it is a valid coordinate
+            boolean validDirection = (newX >= 0) && (newX < grid.length) && (newY >= 0) && (newY < grid[0].length);
+
+            // Only visit valid and unvisited neighbors that are land ('1')
+            if (validDirection && (!visited[newX][newY]) && (grid[newX][newY] == '1')) {
+                DFS(visited, newX, newY, grid);
+            }
+        }
+    }
+
+    public int numIslands(char[][] grid) {
+        int rowSize = grid.length;
+        if (rowSize == 0) return 0; // Handle the case of an empty grid
+        int colSize = grid[0].length;
+        int count = 0;
+        boolean visited[][] = new boolean[rowSize][colSize];
+
+        // Traverse the grid
+        for (int row = 0; row < rowSize; row++) {
+            for (int col = 0; col < colSize; col++) {
+                // Only apply DFS when it has not been visited and land is present
+                // (grid[row][col] == '1' means land is there)
+                if (!visited[row][col] && grid[row][col] == '1') {
+                    DFS(visited, row, col, grid);
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/number-of-islands/description/ (4 directions)
+
+GFG :- https://practice.geeksforgeeks.org/problems/find-the-number-of-islands/1 (8 directions)
+
+    // change following and the code is same.
+    int dx[] = {-1,-1,0,1,1,1,0,-1}; // U UR R DR D DL L UL
+    int dy[] = {0,1,1,1,0,-1,-1,-1}; // U UR R DR D DL L UL
+
+    for(int i = 0;i < 8 ; i++)

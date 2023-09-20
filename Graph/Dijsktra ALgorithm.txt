@@ -15,6 +15,9 @@ class PairWeightComparator implements Comparator<Pair> {
     public int compare(Pair pair1, Pair pair2) {
         // Compare pairs based on their weights in increasing order
         return Integer.compare(pair1.weight, pair2.weight);
+
+        // or
+        // return (pair1.weight - pair2.weight);
     }
 }
 

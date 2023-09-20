@@ -1,0 +1,96 @@
+class Solution {
+
+    public void DFS(int src,Map<Integer,Boolean> visited,int[][] isConnected){
+
+        // row -> src
+        visited.put(src,true);
+
+        // col -> loop
+        for(int col = 0; col< isConnected[src].length ; col++){
+            int nbr = isConnected[src][col];
+            // src != col reresent node is connected to itself , which we want to exclude from recurision as there is no need to check for that.
+            // diagonal elements dekho matrix ka , wo yahi batata hai ki node khud se connected hai , isko check kar k kya hi kar lenge , isliye skip kiya hai.
+            if( src != col && !visited.getOrDefault(col,false) ){
+                // here nbr == 1 represents if nodes are connected or not
+                if(nbr == 1){
+                    DFS(col,visited,isConnected);
+                }
+                    
+            }
+        }
+
+    }
+
+    public int findCircleNum(int[][] isConnected) {
+        Map<Integer,Boolean> visited = new HashMap<>();
+        int n = isConnected.length;
+        int count = 0;
+        // for loop checks for all components (handles disconnected graph case)
+        for(int i = 0; i< n ; i++){
+            if(!visited.getOrDefault(i,false)){
+                DFS(i,visited,isConnected);
+                // increase the count of components
+                count++;
+            }
+        }
+
+        return count;
+    }
+}
+
+
+---------------------------------------------------- Optimized -------------------------------------------------------
+
+class Solution {
+
+    private void DFS(int src, boolean visited[],int[][] isConnected){
+
+        // row -> src
+        // visited.put(src,true);
+        visited[src] = true;
+
+        // col -> loop
+        for(int col = 0; col< isConnected[src].length ; col++){
+            int nbr = isConnected[src][col];
+            // src != col reresent node is connected to itself , which we want to exclude from recurision as there is no need to check for that.
+            // diagonal elements dekho matrix ka , wo yahi batata hai ki node khud se connected hai , isko check kar k kya hi kar lenge , isliye skip kiya hai.
+            if( src != col && !visited[col] ){
+                // here nbr == 1 represents if nodes are connected or not
+                if(nbr == 1){
+                    DFS(col,visited,isConnected);
+                }
+                    
+            }
+        }
+
+    }
+
+    public int findCircleNum(int[][] isConnected) {
+        // Map<Integer,Boolean> visited = new HashMap<>();
+        int n = isConnected.length;
+        boolean visited[] = new boolean[n];
+        int count = 0;
+        // for loop checks for all components (handles disconnected graph case)
+        for(int i = 0; i< n ; i++){
+            if(!visited[i]){
+                DFS(i,visited,isConnected);
+                // increase the count of components
+                count++;
+            }
+        }
+
+        return count;
+    }
+}
+
+// Note :- 1.) findCircleNum wale function me jo for loop hai usme looping 0->n-1 tak kiya hai, yaha hum index pe khel rahe hain.
+
+// 2.) agar hum nodes se khelna chahe to loop ko 1->n chala ke i ko i-1 kar k bhejna padega, ye bhi sahi hoga.
+
+Time Complexity :- ek n find wale function k for loop ka , aur ek n DFS wale function k for loop ka => O(n*n)
+
+LeetCode :- https://leetcode.com/problems/number-of-provinces/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/find-the-number-of-states_1377943?leftPanelTab=0
+
+GFG :- https://practice.geeksforgeeks.org/problems/number-of-provinces/1

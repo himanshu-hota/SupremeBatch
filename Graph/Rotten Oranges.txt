@@ -1,0 +1,75 @@
+class Pair{
+    int x,y,time;
+    
+    Pair(int x ,int y , int t){
+        this.x = x;
+        this.y = y;
+        this.time = t;
+    }
+}
+
+class Solution {
+
+    int dx[] = {-1,0,1,0};
+    int dy[] = {0,1,0,-1};
+
+    public int orangesRotting(int[][] grid) {
+        Queue<Pair> q = new LinkedList<>();
+        int ansTime = 0;
+        int freshOranges = 0;
+        // add rotten oranges to queue and keep track of fresh oranges
+       for(int row = 0; row < grid.length; row++){
+           for(int col = 0; col < grid[0].length ; col++){
+               if(grid[row][col] == 2){
+                   q.add(new Pair(row,col,0));
+               }else if(grid[row][col] == 1){
+                   freshOranges++;
+               }
+           }
+       }
+
+       // processing
+       while(!q.isEmpty()){
+           // pull out 1 element
+           Pair fNode = q.poll();
+           // extract coordinates
+           int x = fNode.x;
+           int y = fNode.y;
+           int time = fNode.time;
+
+           // rott in 4 directions
+           for(int i = 0 ; i<4; i++){
+               // generate new coordinates
+               int newX = x + dx[i];
+               int newY = y + dy[i];
+               // check for valid direction
+               boolean validDirection = (newX >= 0) && (newX < grid.length) && (newY >= 0) && (newY < grid[0].length);
+
+                // only add to queue when direction is valid and we found a fresh orange
+               if(validDirection && grid[newX][newY] == 1){
+                   // rott the orange
+                   grid[newX][newY] = 2;
+                   // update the time
+                   ansTime = Math.max(ansTime,time+1);
+                   // add to queue
+                   q.add(new Pair(newX,newY,time+1));
+                   // decrease count of fresh oranges
+                   freshOranges--;
+               }
+           }
+           
+       }
+
+        // if there are still fresh oranges then return -1
+        if(freshOranges != 0) return -1;
+
+        // finaly return ans
+        return ansTime;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/rotting-oranges/
+
+GFG :- https://practice.geeksforgeeks.org/problems/rotten-oranges2536/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/rotting-oranges_701655?leftPanelTab=0
