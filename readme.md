@@ -1,4 +1,4 @@
-# Love Babbar Data Structures and Algorithms Course Companion in Java (Supreme 1.0)
+# Data Structures and Algorithms Course Companion in Java (Supreme 1.0)
 
 ![Course Logo](https://dz8fbjd9gwp2s.cloudfront.net/courses/63ac9183e4b0f1067f1b7b32/63ac9183e4b0f1067f1b7b32_scaled_cover.jpg?v=1) <!-- You can replace this with your logo or banner -->
 
@@ -41,8 +41,8 @@ Dive into the world of algorithms in Java with Love Babbar's Data Structures and
 
 ## 🧑‍💻 Instructors
 
-- **Love Babbar** - [Linkedin](https://www.linkedin.com/in/love-babbar-38ab2887/)
-- **Lakshay Kumar** - [Linkedin](https://www.linkedin.com/in/lakshayk12/)
+- **Love Babbar Bhaiya** - [Linkedin](https://www.linkedin.com/in/love-babbar-38ab2887/)
+- **Lakshay Kumar Bhaiya** - [Linkedin](https://www.linkedin.com/in/lakshayk12/)
 
 
 <!-- Add any additional sections, images, or links as needed -->
