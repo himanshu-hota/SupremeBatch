@@ -12,7 +12,7 @@ Love Babbar's Data Structures and Algorithms course is renowned for its depth an
 
 ## 🔧 What's Inside
 
-- **Lecture Notes:** Questions coverd in each lecture.
+- **Lecture Notes:** Questions covered in each lecture.
 - **Homework Solutions:** Step-by-step solutions to all homework questions.
 - **Java Codes:** Translated C++ code examples into Java for easy comprehension.
 - **Practice Links:** Convenient links to practice problems for further skill development.
