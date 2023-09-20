@@ -39,4 +39,10 @@ Contributions and feedback are always welcome! Help us improve and expand this r
 
 Dive into the world of algorithms in Java with Love Babbar's Data Structures and Algorithms Course Companion. Start exploring now!
 
+## 🧑‍💻 Instructors
+
+- **Love Babbar** - [Linkedin](https://www.linkedin.com/in/love-babbar-38ab2887/)
+- **Lakshay Kumar** - [Linkedin](https://www.linkedin.com/in/lakshayk12/)
+
+
 <!-- Add any additional sections, images, or links as needed -->
