@@ -1,6 +1,6 @@
 # Love Babbar Data Structures and Algorithms Course Companion in Java
 
-![Course Logo](course-logo.png) <!-- You can replace this with your logo or banner -->
+![Course Logo](https://dz8fbjd9gwp2s.cloudfront.net/courses/63ac9183e4b0f1067f1b7b32/63ac9183e4b0f1067f1b7b32_scaled_cover.jpg?v=1) <!-- You can replace this with your logo or banner -->
 
 ## 🚀 Introduction
 
