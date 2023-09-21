@@ -79,8 +79,9 @@ class Solution {
        // ------------------------------------------------
        
        
-       // BFS
-         int ans[] = new int[V];
+        // BFS  
+        // isme for loop kyo nahi laga ? -> kyoki jab indegree calculate kar rahe the to already humne har node ko traverse kar liye , so yaha disconnected graph wala scenario cover ho gaya.
+        int ans[] = new int[V];
         BFS(ans, adj);
         return ans;
     }

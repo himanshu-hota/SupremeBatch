@@ -1,0 +1,61 @@
+class Pair{
+    StringBuilder str;
+    int count;
+
+    Pair(String str,int op){
+        this.str = new StringBuilder(str);
+        this.count = op;
+    }
+}
+
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+
+     Queue<Pair> q = new LinkedList<>();
+     // initially add all strings to set
+     Set<String> st = new HashSet<>(wordList);
+
+     // jo string q me dalenge usko set se hata denge taki dubara wo galti se add na ho jaye.
+     // dubara galti se add kab hoga? -> jab a-z loop chala k replace kar kar k dekhenge.
+     q.add(new Pair(beginWord,1));
+     st.remove(beginWord);
+     
+     // traverse the graph
+     while(!q.isEmpty()){
+         // pick one node
+        Pair fNode = q.poll();
+        StringBuilder currString = fNode.str;
+        int currCount = fNode.count;
+
+        // check if we have reached our destination
+        if(currString.toString().equals(endWord)){
+            return currCount;
+        }
+        
+        // har ek character ko change kar k dekhenge
+        for(int i = 0; i<currString.length(); i++){     
+            char originalChar = currString.charAt(i);
+
+            for(char ch ='a'; ch<='z'; ch++){
+                currString.setCharAt(i,ch);
+                if(st.contains(currString.toString())){
+                    q.add(new Pair(currString.toString(),currCount+1));
+                    st.remove(currString.toString());
+                }
+            }
+            // backtrack
+            currString.setCharAt(i,originalChar);
+        }
+
+
+     }
+
+    return 0;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/word-ladder/
+
+GFG :- https://practice.geeksforgeeks.org/problems/word-ladder/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/word-ladder_1102319?leftPanelTab=0

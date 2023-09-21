@@ -1,0 +1,81 @@
+class Solution {
+
+        public int[] topoSortBFS(Map<Integer,List<Integer>> adjList,int n){
+        
+        Queue<Integer> q = new LinkedList<>();
+        List<Integer> ans = new ArrayList<>();
+        int indegree[] = new int[n];
+
+        // calculate indegree
+        for(int i = 0; i< n ;i++){
+            for(int nbr : adjList.getOrDefault(i, new ArrayList<>())){
+                indegree[nbr]++;
+            }
+        }
+
+        // 0 indegree wale elements ko queue me dalo
+        for(int i = 0; i< n ;i++){
+            if(indegree[i] == 0){
+                q.add(i);
+            }
+        }
+        
+        // queue ko traverse karo
+        while(!q.isEmpty()){
+            int fNode = q.poll();
+            ans.add(fNode);
+
+            for(int nbr : adjList.getOrDefault(fNode, new ArrayList<>())){
+                // indegree--
+                indegree[nbr]--;
+
+                if(indegree[nbr] == 0){
+                    q.add(nbr);
+                }
+            }
+        }
+
+        // agar topoSorted courses ka count total courses k equal hai to cycle present nahi hai 
+        // aur cycle present nahi hai matlab sare courses complete kar sakte hain.
+        if(ans.size() == n)  {
+            int finalAns[] = new int[n] ;
+            int i = 0;
+            for(int x : ans){
+                finalAns[i++] = x;
+            }   
+
+            return finalAns;
+        }else{
+            return new int[0];
+        }
+
+    }
+
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+         
+        Map<Integer,List<Integer>> adjList = new HashMap<>();
+        
+        // adjlist banao
+        for(int task[] : prerequisites){
+            int u = task[0];
+            int v = task[1];
+
+            if(adjList.get(v) == null){
+                List<Integer> neighbours = new ArrayList<>();
+                neighbours.add(u);
+
+                adjList.put(v,neighbours);
+            }else{
+                adjList.get(v).add(u);
+            }
+        }
+
+        return topoSortBFS(adjList,numCourses);
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/course-schedule-ii/
+
+GFG :- https://practice.geeksforgeeks.org/problems/course-schedule/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/course-schedule-ii_1069243?leftPanelTab=0
