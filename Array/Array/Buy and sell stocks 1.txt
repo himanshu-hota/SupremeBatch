@@ -12,3 +12,5 @@
 				
 		System.out.println("Maximum profit is : " + profit);
 	}
+
+	GFG :- https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/

@@ -1,0 +1,73 @@
+class Solution {
+
+    private List<List<Integer>> bridges;
+    private List<List<Integer>> adj;
+    int timer;
+    int low[];
+    int tin[];
+    
+    
+    private void dfs(int src,int parent){
+        tin[src] = timer;
+        low[src] = timer;
+        timer++;
+
+        for(int nbr : adj.get(src)){
+            // if nbr and parent is same then skip this scenario (to avoid cycle)
+            if(nbr == parent) continue;
+
+            // if it has not been visited
+            if(tin[nbr] == 0)
+                dfs(nbr,src);
+
+            // update low
+            low[src] = Math.min(low[nbr],low[src]);
+        }
+
+
+        // bridge check
+        // yaha pakka galti karoge 
+        // tin[parent] ki jagah low[parent] likh doge
+        // why tin[parent] not low[parent] ?
+        // becaus bade graph k case me ho sakta hai ki low[parent] uske kisi ek neighbours se update ho jaye to fir baki neighbour k liye ye to galat ho jaega jabki same value se compare hona the . thats why ek fixed value tin[parent] use kiya hai.
+        if(low[src] > tin[parent]){
+            List<Integer> bridge = new ArrayList<>();
+            bridge.add(src);
+            bridge.add(parent);
+            bridges.add(bridge);
+
+        }
+    }
+
+
+    public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
+        
+        // initialization
+        bridges = new ArrayList<>();
+        adj = new ArrayList<>();
+        low = new int[n];
+        tin = new int[n];
+        timer = 1;
+
+        for(int i = 0 ;i < n ;i++) adj.add(new ArrayList<>());
+
+        // create Adj list
+        for(List<Integer> edge : connections){
+            int u = edge.get(0);
+            int v = edge.get(1);
+            // add edge u -> v
+            adj.get(u).add(v);
+            // add edge v -> u
+            adj.get(v).add(u);
+        }
+        
+        // dfs call
+        dfs(0,0);
+
+        return bridges;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/critical-connections-in-a-network/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/bridges-in-graph_893026?leftPanelTab=0

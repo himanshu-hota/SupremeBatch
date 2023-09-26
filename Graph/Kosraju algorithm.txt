@@ -1,0 +1,68 @@
+
+
+class Solution{
+    
+    private void topo(int node, boolean []vis, ArrayList<ArrayList<Integer>> adj,
+                     Stack<Integer> st) {
+        vis[node] = true;
+        for (Integer it : adj.get(node)) {
+            if (!vis[it]) {
+                topo(it, vis, adj, st);
+            }
+        }
+        st.push(node);
+    }
+    
+    private void dfs(int node, boolean[] vis, ArrayList<ArrayList<Integer>> adjT) {
+        vis[node] = true;
+        for (Integer it : adjT.get(node)) {
+            if (!vis[it]) {
+                dfs(it, vis, adjT);
+            }
+        }
+    }
+    
+    
+    //Function to find number of strongly connected components in the graph.
+    public int kosaraju(int V, ArrayList<ArrayList<Integer>> adj){
+        
+        // step 1 : topo sort nikalo
+        boolean[] vis = new boolean[V];
+        Stack<Integer> st = new Stack<Integer>();
+        for (int i = 0; i < V; i++) {
+            if (!vis[i]) {
+                topo(i, vis, adj, st);
+            }
+        }
+
+        // step 2 : reverse kar do sare edges ko
+        ArrayList<ArrayList<Integer>> adjT = new ArrayList<ArrayList<Integer>>();
+        for (int i = 0; i < V; i++) {
+            adjT.add(new ArrayList<Integer>());
+        }
+        for (int i = 0; i < V; i++) {
+            vis[i] = false;
+            for (Integer it : adj.get(i)) {
+                // i -> it
+                // it -> i
+                adjT.get(it).add(i);
+            }
+        }
+
+        // step 3 : normal DFS lagao
+        int scc = 0;
+        while (!st.isEmpty()) {
+            int node = st.peek();
+            st.pop();
+            if(!vis[node])  {
+                scc++;
+                dfs(node, vis, adjT);
+            }
+        }
+        return scc;
+    }
+}
+
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/strongly-connected-components-kosarajus-algo/1

@@ -33,3 +33,6 @@
         
         return finalAnswer;
     }
+
+
+    GFG :- https://practice.geeksforgeeks.org/problems/common-elements1132/1

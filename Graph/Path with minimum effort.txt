@@ -1,0 +1,83 @@
+class Pair{
+    int x ; // x coordinate
+    int y ; // y coordinate
+    int d ; // distance
+
+    Pair(int x ,int y, int d){
+        this.x = x;
+        this.y = y;
+        this.d = d;
+    }
+}
+
+class Solution {
+    public int minimumEffortPath(int[][] heights) {
+        // edge case
+        if(heights.length <= 1 && heights[0].length <= 1 ) return 0;
+        // pq to get cell with minimum distance when added in queue.
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b) -> (a.d)-(b.d));
+        // initially add (0,0) coordinate with distance 0 to the queue
+        pq.add(new Pair(0,0,0));
+
+        // helper array to traverse in 4 direction
+        int dx[] = {-1,0,1,0};
+        int dy[] = {0,1,0,-1};
+
+        // array to store distance of each cell from (0,0)
+        int dist[][] = new int[heights.length][heights[0].length];
+
+        //  initially fill dist with integer.max
+        for(int row[] : dist) Arrays.fill(row,Integer.MAX_VALUE);
+
+        // traverse the queue
+        while(!pq.isEmpty()){
+            // pull out one element from queue
+            Pair fNode = pq.poll();
+            
+            // extract coordinates
+            int x = fNode.x;    
+            int y = fNode.y;
+            int d = fNode.d;
+
+            // if we reach the destination the return from here.
+            if(x == heights.length-1 && y == heights[0].length -1){
+                return dist[x][y];
+            }
+
+            // try going in 4 directions
+            for(int i = 0; i<4 ;i++){
+                // generate each directionn (U , L , D , R)
+                int newX = x + dx[i];
+                int newY = y + dy[i];
+
+                // check if it is a valid cell
+                boolean validBoundary = (newX>=0) && (newX < heights.length) && (newY >= 0) && (newY < heights[0].length);
+
+                // if it is a valid cell then
+                if(validBoundary){
+                    // calculate current distance
+                    int currD = Math.abs(heights[newX][newY] - heights[x][y]);
+                    // get the maximum absolute difference
+                    int newMax = Math.max(currD,d);
+                    // if new max difference is smaller than the stored distance then 
+                    if(newMax < dist[newX][newY]){
+                        // store the new calculated max difference
+                        dist[newX][newY] = newMax;
+                        // add this cell to the queue
+                        pq.add(new Pair(newX,newY,newMax));
+                    }
+                }
+            }
+
+            
+        }
+
+        // if we reach till here then no ans is possible
+        return 0;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/path-with-minimum-effort/
+
+GFG :- https://practice.geeksforgeeks.org/problems/path-with-minimum-effort/1

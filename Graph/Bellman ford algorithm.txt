@@ -1,0 +1,118 @@
+class Solution {
+    
+    static int constant = 100000000; // Define a constant value to represent infinity
+    
+    static int[] bellman_ford(int V, ArrayList<ArrayList<Integer>> edges, int S) {
+        // Initialize an array to store the shortest distances from the source vertex S to all other vertices
+        int dist[] = new int[V];
+        
+        // Initialize all distances to 'constant' (infinity) initially
+        Arrays.fill(dist, constant);
+        
+        // The distance from the source vertex to itself is always 0
+        dist[S] = 0;
+        
+        // Loop through all vertices V times (where V is the number of vertices)
+        for(int i = 0 ; i < V; i++){
+            
+            // Iterate through all the edges in the 'edges' ArrayList
+            for(ArrayList<Integer> edge : edges){
+                
+                int u = edge.get(0); // Get the source vertex of the edge
+                int v = edge.get(1); // Get the destination vertex of the edge
+                int wt = edge.get(2); // Get the weight of the edge
+                
+                // Relaxation step: Update the distance to vertex 'v' if a shorter path is found through 'u'
+                if( dist[u] != constant && (dist[u] + wt < dist[v])){
+                    dist[v] = dist[u] + wt;
+                }
+                
+            }
+        }
+        
+        boolean change = false; // Flag to check if there is a negative weight cycle
+        
+        // Check for negative weight cycles by iterating through the edges again
+        for(ArrayList<Integer> edge : edges){
+                
+            int u = edge.get(0); // Get the source vertex of the edge
+            int v = edge.get(1); // Get the destination vertex of the edge
+            int wt = edge.get(2); // Get the weight of the edge
+            
+            // If a shorter path is found through 'u' again, there is a negative weight cycle
+            if( dist[u] != constant && (dist[u] + wt < dist[v])){
+                dist[v] = dist[u] + wt;
+                change = true;
+            }
+                
+        }
+        
+        // If there is a negative weight cycle, return an array containing only -1
+        if(change){
+            int ans[] = {-1};
+            return ans;
+        }else{
+            // If no negative weight cycle is found, return the array of shortest distances
+            return dist;
+        }
+        
+    }
+}
+
+
+--------------------------------------------- Little optimized --------------------------------------------------------
+
+class Solution {
+    
+    static int constant = 100000000; // Define a constant value to represent infinity
+    
+    static int[] bellman_ford(int V, ArrayList<ArrayList<Integer>> edges, int S) {
+        // Initialize an array to store the shortest distances from the source vertex S to all other vertices
+        int dist[] = new int[V];
+        
+        // Initialize all distances to 'constant' (infinity) initially
+        Arrays.fill(dist, constant);
+        
+        // The distance from the source vertex to itself is always 0
+        dist[S] = 0;
+        
+        // Loop through all vertices V times (where V is the number of vertices)
+        for(int i = 0 ; i < V; i++){
+            
+            // Iterate through all the edges in the 'edges' ArrayList
+            for(ArrayList<Integer> edge : edges){
+                
+                int u = edge.get(0); // Get the source vertex of the edge
+                int v = edge.get(1); // Get the destination vertex of the edge
+                int wt = edge.get(2); // Get the weight of the edge
+                
+                // Relaxation step: Update the distance to vertex 'v' if a shorter path is found through 'u'
+                if( dist[u] != constant && (dist[u] + wt < dist[v])){
+                    dist[v] = dist[u] + wt;
+                }
+                 
+            }
+        }
+        
+        // Check for negative weight cycles by iterating through the edges again
+        for(ArrayList<Integer> edge : edges){
+                
+            int u = edge.get(0); // Get the source vertex of the edge
+            int v = edge.get(1); // Get the destination vertex of the edge
+            int wt = edge.get(2); // Get the weight of the edge
+            
+            // If a shorter path is found through 'u' again, there is a negative weight cycle
+            if( dist[u] != constant && (dist[u] + wt < dist[v])){
+                int ans[] = {-1};
+                return ans;
+            }
+                
+        }
+        
+        return dist;
+        
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/distance-from-the-source-bellman-ford-algorithm/1
