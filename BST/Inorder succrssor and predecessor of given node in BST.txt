@@ -48,4 +48,4 @@ public class Solution {
 
 CodeStudio :- https://www.codingninjas.com/studio/problems/predecessor-and-successor_920476?leftPanelTab=1
 
-GFG :- https://practice.g eeksforgeeks.org/problems/predecessor-and-successor/1
+GFG :- https://practice.geeksforgeeks.org/problems/predecessor-and-successor/1

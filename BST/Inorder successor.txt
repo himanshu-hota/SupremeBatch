@@ -49,3 +49,5 @@ class Solution
 }
 
 ---------------------------- Inorder method ------------------------------
+
+GFG :- https://practice.geeksforgeeks.org/problems/inorder-successor-in-bst/1
