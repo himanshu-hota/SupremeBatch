@@ -1,0 +1,75 @@
+// User function Template for Java
+class Pair implements Comparable<Pair> {
+    int wt; // Weight of the edge
+    int v;  // Vertex connected by the edge
+
+    Pair(int v, int wt) {
+        this.v = v;
+        this.wt = wt;
+    }
+
+    // Custom comparison method to sort pairs based on weight
+    public int compareTo(Pair that) {
+        return this.wt - that.wt;
+    }
+}
+
+class Solution {
+    static int spanningTree(int V, int E, int edges[][]) {
+        // Create an adjacency list to represent the graph
+        Map<Integer, ArrayList<Pair>> adj = new HashMap<>();
+
+        // Initialize the adjacency list for each vertex
+        for (int i = 0; i < V; i++) {
+            adj.put(i, new ArrayList<>());
+        }
+
+        // Populate the adjacency list with edges and their weights
+        for (int i = 0; i < E; i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            int wt = edges[i][2];
+
+            // Adding both u-v and v-u since the graph is undirected
+            adj.get(u).add(new Pair(v, wt));
+            adj.get(v).add(new Pair(u, wt)); // If the graph is undirected, add this line
+        }
+
+        // Array to keep track of visited vertices
+        boolean vis[] = new boolean[V];
+
+        // Priority queue to maintain the minimum weight edge at the top
+        PriorityQueue<Pair> q = new PriorityQueue<>();
+
+        int ans = 0; // Total weight of the minimum spanning tree
+        q.add(new Pair(0, 0)); // Start from vertex 0 with weight 0
+
+        while (!q.isEmpty()) {
+            Pair curr = q.poll();
+            int u = curr.v;
+
+            if (vis[u]) continue; // Skip if the vertex is already visited
+
+            ans += curr.wt; // Add the weight of the current edge to the answer
+            vis[u] = true; // Mark the current vertex as visited
+
+            ArrayList<Pair> nbr = adj.get(u); // Get neighbors of the current vertex
+
+            for (Pair neighbor : nbr) {
+                int v = neighbor.v;
+                int wt = neighbor.wt;
+
+                // If the neighbor is not visited, add it to the priority queue
+                if (!vis[v]) {
+                    q.add(new Pair(v, wt));
+                }
+            }
+        }
+
+        return ans; // Return the total weight of the minimum spanning tree
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/minimum-spanning-tree/1
+

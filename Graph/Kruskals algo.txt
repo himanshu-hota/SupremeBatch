@@ -1,0 +1,91 @@
+class Triplet implements Comparable<Triplet> {
+    int u; // The first node of the edge
+    int v; // The second node of the edge
+    int wt; // The weight of the edge
+
+    // Constructor to initialize the Triplet object
+    Triplet(int u, int v, int wt) {
+        this.u = u;
+        this.v = v;
+        this.wt = wt;
+    }
+
+    // Implementing the compareTo method to compare Triplets based on weight
+    public int compareTo(Triplet that) {
+        return this.wt - that.wt;
+    }
+}
+
+class Solution {
+
+    // Function to find the parent of a node using path compression
+    static int findParent(int parent[], int node) {
+        // If the node is its own parent, it's the root of the set
+        if (parent[node] == node) return node;
+
+        // Recursively find the root (representative) of the set and perform path compression
+        parent[node] = findParent(parent, parent[node]);
+        return parent[node];
+    }
+
+    // Function to union two sets based on rank to optimize union operation
+    static void unionSet(int u, int v, int parent[], int rank[]) {
+        // Find the roots of the sets to which u and v belong
+        u = findParent(parent, u);
+        v = findParent(parent, v);
+
+        // Attach the smaller rank tree under the root of the larger rank tree
+        if (rank[u] < rank[v]) {
+            parent[u] = v;
+            rank[v]++;
+        } else {
+            parent[v] = u;
+            rank[u]++;
+        }
+    }
+
+    // Kruskal's algorithm to find the minimum spanning tree
+    static int spanningTree(int V, int E, int edges[][]) {
+        // Initialize parent and rank arrays for the union-find data structure
+        int parent[] = new int[V];
+        int rank[] = new int[V];
+        for (int u = 0; u < V; u++) {
+            parent[u] = u; // Each node is initially its own parent (representative)
+        }
+
+        // Create a priority queue to store edges sorted by weight
+        PriorityQueue<Triplet> pq = new PriorityQueue<>((a, b) -> a.wt - b.wt);
+
+        // Add all edges to the priority queue
+        for (int i = 0; i < edges.length; i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            int wt = edges[i][2];
+            pq.add(new Triplet(u, v, wt));
+        }
+
+        int ans = 0; // Initialize the total weight of the minimum spanning tree
+
+        while (!pq.isEmpty()) {
+            Triplet curr = pq.poll(); // Get the edge with the smallest weight
+
+            int u = curr.u;
+            int v = curr.v;
+            int wt = curr.wt;
+
+            // Find the roots (representatives) of the sets to which u and v belong
+            u = findParent(parent, u);
+            v = findParent(parent, v);
+
+            if (u != v) {
+                unionSet(u, v, parent, rank); // Union the sets if they are not in the same set
+                ans += wt; // Add the weight of the edge to the total weight of the minimum spanning tree
+            }
+        }
+
+        return ans; // Return the total weight of the minimum spanning tree
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/minimum-spanning-tree/1
