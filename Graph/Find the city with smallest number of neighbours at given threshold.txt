@@ -1,0 +1,96 @@
+class Pair implements Comparable<Pair> {
+    int vertex;  // Vertex number
+    int weight;  // Weight of the edge
+
+    public Pair(int vertex, int weight) {
+        this.vertex = vertex;
+        this.weight = weight;
+    }
+
+    @Override
+    public int compareTo(Pair other) {
+        // Compare pairs based on their weights
+        return Integer.compare(this.weight, other.weight);
+    }
+}
+
+class Solution {
+
+
+ static int dijkstra(int V,Map<Integer,ArrayList<Pair>>adj, int source,int distTh)
+    {
+        int[] distances = new int[V];
+        Arrays.fill(distances, Integer.MAX_VALUE);
+        distances[source] = 0;
+        int reachableCities = 0;
+
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        pq.offer(new Pair(source, 0));
+
+        while (!pq.isEmpty()) {
+            Pair current = pq.poll();
+            int u = current.vertex;
+            int dist = current.weight;
+
+            if (dist > distances[u]) {
+                continue;
+            }
+
+            if(u != source && dist <= distTh) ++reachableCities;
+            
+            
+            for (Pair neighbor : adj.get(u)) {
+                int v = neighbor.vertex;
+                int weight = neighbor.weight;
+                if (dist + weight < distances[v]) {
+                    distances[v] = dist + weight;
+                    pq.offer(new Pair(v, distances[v]));
+                }
+            }
+        }
+        
+        return reachableCities;
+    }
+
+    public int findTheCity(int n, int[][] edges, int distanceThreshold) {
+        
+        // convert the given edgelist to adjlist
+        Map<Integer,ArrayList<Pair>> adj = new HashMap<>();
+
+        for(int i = 0; i< n ;i++) adj.put(i,new ArrayList<Pair>());
+
+        for(int edge[] : edges){
+            int u = edge[0];
+            int v = edge[1];
+            int wt = edge[2];
+
+            // add edge u -> v
+            adj.get(u).add(new Pair(v,wt));
+            // add edge v -> u
+            adj.get(v).add(new Pair(u,wt));
+            
+        }
+
+        // store the min neighbors count
+        int minCities = Integer.MAX_VALUE;
+        // the actual city which we want to return as a answer
+        int city = 0;
+
+        for(int i = 0 ;i< n ;i++){
+            // get the count of eligible neighbors of city i
+            int reachableCitiesCount = dijkstra(n,adj,i,distanceThreshold);    
+            // check if it has the smallest neighbor count  ( here <= is very important because = handles the case when two cities have the same count of neighbor but the question requires the city with higher number so we need to update the city even if it has the same count.)
+            if(reachableCitiesCount <= minCities){
+                // if yes then store its neighbors count
+                minCities = reachableCitiesCount;
+                // store the city count
+                city = i;
+            }
+
+        }
+
+        return city;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/

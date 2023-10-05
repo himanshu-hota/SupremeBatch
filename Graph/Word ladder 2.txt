@@ -1,0 +1,81 @@
+import java.util.*;
+
+class Pair {
+    ArrayList<String> seq;
+    int level;
+
+    Pair(ArrayList<String> seq, int level) {
+        this.seq = seq;
+        this.level = level;
+    }
+}
+
+class Solution {
+    public ArrayList<ArrayList<String>> findSequences(String startWord, String targetWord, String[] wordList) {
+        // Create a queue to perform breadth-first search
+        Queue<Pair> q = new LinkedList<>();
+        // Initially, add all words from the wordList to a set for fast lookup
+        Set<String> st = new HashSet<>();
+        for (String word : wordList)
+            st.add(word);
+
+        // Create an initial sequence containing only the startWord and add it to the queue
+        ArrayList<String> initial = new ArrayList<>();
+        initial.add(startWord);
+        q.add(new Pair(initial, 1));
+
+        // Initialize a list to keep track of words to be removed from the set
+        ArrayList<String> toBeRemoved = new ArrayList<>();
+        int prevLevel = -1;
+        ArrayList<ArrayList<String>> ans = new ArrayList<>(); // List to store all valid sequences
+
+        // Traverse the graph using breadth-first search
+        while (!q.isEmpty()) {
+            // Pick one node from the queue
+            Pair fNode = q.poll();
+            ArrayList<String> currSeq = fNode.seq; // Current sequence of words
+            String currString = currSeq.get(currSeq.size() - 1); // Current word in the sequence
+            int currLevel = fNode.level; // Current level (distance from startWord)
+
+            // Remove words from the set that were added in the previous level
+            if (currLevel != prevLevel) {
+                for (String s : toBeRemoved)
+                    st.remove(s);
+                toBeRemoved.clear();
+                prevLevel = currLevel;
+            }
+
+            // Check if we have reached our destination (targetWord)
+            if (currString.equals(targetWord)) {
+                ans.add(currSeq); // Add the current sequence to the list of valid sequences
+            }
+
+            // Explore all possible character replacements
+            for (int i = 0; i < currString.length(); i++) {
+                char originalChar = currString.charAt(i);
+
+                for (char ch = 'a'; ch <= 'z'; ch++) {
+                    if (ch == originalChar)
+                        continue; // Skip if the character is the same as the original
+
+                    // Create a new string with a character replacement
+                    StringBuilder tempString = new StringBuilder(currString);
+                    tempString.setCharAt(i, ch);
+
+                    // If the modified string is in the set, add it to the queue
+                    if (st.contains(tempString.toString())) {
+                        ArrayList<String> temp = new ArrayList<>(currSeq);
+                        temp.add(tempString.toString());
+                        q.add(new Pair(temp, currLevel + 1));
+                        toBeRemoved.add(tempString.toString()); // Mark it for removal from the set
+                    }
+                }
+            }
+        }
+
+        return ans; // Return the list of valid sequences
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/word-ladder-ii/1

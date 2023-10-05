@@ -1,0 +1,85 @@
+class Solution {
+
+    // Function to find the parent of a node in a disjoint-set
+    public int findParent(int parent[], int node) {
+        // If the node is its own parent, return the node
+        if (parent[node] == node)
+            return node;
+
+        // Recursively find the parent of the node and compress the path
+        parent[node] = findParent(parent, parent[node]);
+
+        // Return the updated parent
+        return parent[node];
+    }
+
+    // Function to union two sets by rank
+    public void unionSet(int u, int v, int parent[], int rank[]) {
+        // Find the parents of both nodes
+        u = findParent(parent, u);
+        v = findParent(parent, v);
+
+        // If the rank of u is less than the rank of v, make v the parent of u
+        if (rank[u] < rank[v]) {
+            parent[u] = v;
+            rank[v]++;
+        } else {
+            // Otherwise, make u the parent of v
+            parent[v] = u;
+            rank[u]++;
+        }
+    }
+
+    // Main function to make connections and determine the minimum number of cables required
+    public int makeConnected(int n, int[][] connections) {
+
+        // Initialize arrays to track parents and ranks
+        int rank[] = new int[n];
+        int parent[] = new int[n];
+
+        // Initialize each node as its own parent initially
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+
+        // Count of extra edges (redundant connections)
+        int countOfExtraEdges = 0;
+
+        // Iterate through the given connections
+        for (int connection[] : connections) {
+            int u = connection[0];
+            int v = connection[1];
+
+            // Find the parents of u and v
+            u = findParent(parent, u);
+            v = findParent(parent, v);
+
+            // If they have different parents, merge their sets
+            if (u != v) {
+                unionSet(u, v, parent, rank);
+            } else {
+                // If they have the same parent, it's an extra edge
+                countOfExtraEdges++;
+            }
+        }
+
+        // Count the number of connected components
+        int numberOfConnectedComponents = 0;
+
+        // Count the number of nodes whose parent is themselves (representing root nodes)
+        for (int i = 0; i < n; i++) {
+            if (parent[i] == i) {
+                numberOfConnectedComponents++;
+            }
+        }
+
+        // Calculate the minimum number of cables required to connect all components
+        int requiredCables = numberOfConnectedComponents - 1;
+
+        // Check if there are enough extra edges to connect the components
+        return countOfExtraEdges >= requiredCables ? requiredCables : -1;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/number-of-operations-to-make-network-connected/

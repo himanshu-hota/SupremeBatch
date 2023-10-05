@@ -135,3 +135,67 @@ public class Solution {
 
     }
 }
+
+---------------------------------------------------------------------------------------------------------------------------
+
+// Create a Pair class to represent vertices and their weights
+class Pair implements Comparable<Pair> {
+    int vertex;  // Vertex number
+    int weight;  // Weight of the edge
+
+    public Pair(int vertex, int weight) {
+        this.vertex = vertex;
+        this.weight = weight;
+    }
+
+    @Override
+    public int compareTo(Pair other) {
+        // Compare pairs based on their weights
+        return Integer.compare(this.weight, other.weight);
+    }
+}
+
+// Main solution class
+class Solution {
+    // Function to find the shortest distance of all the vertices
+    // from the source vertex S.
+    static int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int source) {
+        // Create an array to store the shortest distances from the source
+        int[] distances = new int[V];
+        Arrays.fill(distances, Integer.MAX_VALUE);  // Initialize distances with infinity
+        distances[source] = 0;  // Distance to the source vertex is 0
+
+        // Create a priority queue to select the next vertex to explore
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        pq.offer(new Pair(source, 0));  // Add the source vertex to the priority queue with distance 0
+
+        // Dijkstra's algorithm
+        while (!pq.isEmpty()) {
+            Pair current = pq.poll();  // Get the vertex with the minimum distance from the queue
+            int u = current.vertex;  // Current vertex
+            int dist = current.weight;  // Distance to the current vertex
+
+            if (dist > distances[u]) {
+                continue;  // Skip if this vertex has been visited with a shorter path
+            }
+
+            ArrayList<ArrayList<Integer>> nbrs = adj.get(u);  // Get neighbors of the current vertex
+
+            for (ArrayList<Integer> neighbor : nbrs) {
+                int v = neighbor.get(0);  // Neighbor vertex
+                int weight = neighbor.get(1);  // Weight of the edge to the neighbor
+
+                // Relaxation step: Update the distance if a shorter path is found
+                if (dist + weight < distances[v]) {
+                    distances[v] = dist + weight;
+                    pq.offer(new Pair(v, distances[v]));  // Add the updated distance to the queue
+                }
+            }
+        }
+
+        return distances;  // Return the array of shortest distances
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1

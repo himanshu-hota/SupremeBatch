@@ -1,0 +1,46 @@
+
+class Solution {
+    
+    static int MOD = 100000;
+    
+    int minimumMultiplications(int[] arr, int start, int end) {
+
+        // queue to perform BFS
+        Queue<Integer> q = new LinkedList<>();
+        // this array works as visited array in BFS traversal
+        int ans[] = new int[MOD];
+        // initially no node is visited
+        Arrays.fill(ans,-1);
+        
+        // initially add start to queue or start traversing from 0
+        q.add(start);
+        // mark start as visited or in other words "to reach start we need 0 steps"
+        ans[start] = 0;
+        
+        while(!q.isEmpty()){
+            // pick one element from queue
+            int front = q.poll();
+            
+            // check if we have reached our destination
+            if(front == end) return ans[front];
+            // multiply by each value.
+            for(int it : arr){
+                int newVal = (front * it) % MOD;
+                // if it has not been visited then go ahead and visit
+                if(ans[newVal] == -1){
+                    // add one step more to previously needed steps
+                    ans[newVal] = ans[front] + 1;
+                    // add it to queue
+                    q.add(newVal);
+                }
+            }
+            
+            
+        }
+        
+        // if we reach till here then we didn't find our answer
+        return -1;
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/minimum-multiplications-to-reach-end/1

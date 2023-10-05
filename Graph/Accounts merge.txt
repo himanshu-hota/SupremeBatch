@@ -1,0 +1,104 @@
+class Solution {
+    // Function to find the parent (root) of a set that 'node' belongs to
+    public int findParent(int parent[], int node) {
+        // If the node is its own parent, it's the root of the set
+        if (parent[node] == node) return node;
+
+        // Recursively find the root (representative) of the set and perform path compression
+        parent[node] = findParent(parent, parent[node]);
+        return parent[node];
+    }
+
+    // Function to union two sets based on rank to optimize union operation
+    public void unionSet(int u, int v, int parent[], int rank[]) {
+        // Find the roots of the sets to which u and v belong
+        u = findParent(parent, u);
+        v = findParent(parent, v);
+
+        // Attach the smaller rank tree under the root of the larger rank tree
+        if (u != v) {
+            if (rank[u] < rank[v]) {
+                parent[u] = v;
+            } else if (rank[u] > rank[v]) {
+                parent[v] = u;
+            } else {
+                // If ranks are equal, choose one as the parent and increment its rank
+                parent[u] = v;
+                rank[v]++;
+            }
+        }
+    }
+
+    // Main function to merge email accounts
+    public List<List<String>> accountsMerge(List<List<String>> accounts) {
+        int n = accounts.size();
+        int parent[] = new int[n]; // Array to track parent of each account
+        int rank[] = new int[n];   // Array to track rank (depth) of trees for union operation
+
+        // Initialize parent array with each account as its own parent
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+
+        // Map to associate each email with its corresponding account
+        Map<String, Integer> map = new HashMap<>();
+
+        // Iterate through accounts and merge them based on shared emails
+        for (int i = 0; i < n; i++) {
+            List<String> account = accounts.get(i);
+            for (int j = 1; j < account.size(); j++) {
+                String email = account.get(j);
+                if (map.containsKey(email)) {
+                    // Union accounts with the same email
+                    unionSet(i, map.get(email), parent, rank);
+                } else {
+                    // Map email to the current account
+                    map.put(email, i);
+                }
+            }
+        }
+
+        // Create a map to store preliminary merged accounts
+        Map<Integer, TreeSet<String>> preAns = new HashMap<>();
+
+        // Initialize the map with sets for each account
+        for (int i = 0; i < n; i++) {
+            preAns.put(i, new TreeSet<>());
+        }
+
+        // Populate preliminary merged accounts
+        for (Map.Entry<String, Integer> e : map.entrySet()) {
+            String email = e.getKey();
+            int accountNo = e.getValue();
+
+            // Find the representative account for the current email
+            accountNo = findParent(parent, accountNo);
+
+            // Add the email to the corresponding preliminary merged account
+            preAns.get(accountNo).add(email);
+        }
+
+        // Create the final merged accounts list
+        List<List<String>> ans = new ArrayList<>();
+
+        // Populate the final merged accounts list
+        for (Map.Entry<Integer, TreeSet<String>> e : preAns.entrySet()) {
+            int accountNo = e.getKey();
+            TreeSet<String> set = e.getValue();
+
+            List<String> v = new ArrayList<>();
+            v.add(accounts.get(accountNo).get(0)); // Add the account name
+            v.addAll(set); // Add all emails associated with the account
+            if (v.size() > 1) {
+                ans.add(v); // Add the merged account to the final list
+            }
+        }
+
+        // Return the final merged accounts list
+        return ans;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/accounts-merge/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/accounts-merge_1089558?leftPanelTab=1
