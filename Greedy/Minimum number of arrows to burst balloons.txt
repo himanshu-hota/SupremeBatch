@@ -1,0 +1,85 @@
+public class Solution {
+    public int findMinArrowShots(int[][] points) {
+        Arrays.sort(points, new C());
+        long last = Long.MIN_VALUE;
+        int count = 0;
+        for (int i = 0; i < points.length; i++) {
+            if (last < points[i][0]) {
+                last = points[i][1];
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    class C implements Comparator<int[]> {
+        public int compare(int[] a1, int[] a2) {
+            return Integer.compare(a1[1], a2[1]);
+        }
+    }
+}
+
+
+
+------------------------------------------------------ or ------------------------------------------------------ 
+
+
+
+class Pair implements Comparable<Pair> {
+    int start;
+    int end;
+    
+    Pair(int a, int b){
+        this.start = a;
+        this.end = b;
+    }
+    
+    public int compareTo(Pair that){
+        // return this.end - that.end;
+        return Integer.compare(this.end,that.end);
+    }
+}
+
+public class Solution {
+    public int findMinArrowShots(int[][] points) {
+         
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        int n = points.length;
+        for (int i = 0; i < n; i++) {
+
+            int start = points[i][0];
+            int end = points[i][1];
+
+            pq.add(new Pair(start,end));
+        }
+        
+        // get the previous one
+        Pair last = pq.poll();
+        int lastEnd = last.end;
+        // initially mark count as 1
+        int count = 1;
+        
+        while(!pq.isEmpty()){
+            // ek node nikalo
+            Pair fNode = pq.poll();
+            // start and end nikalo current wala.
+            int currEnd = fNode.end;
+            int currStart = fNode.start;
+            
+            // yaha galti karoge, >= nahi lagana hai kyoki ek time pe ek hi kam ho sakta hai 
+            // ek khatam kar k hi dusra start karna hai bhai yad rakhna.
+            // agar abhi ka start previous ke end se bada hai tabhi ye task ho sakta hai
+            if(currStart > lastEnd){
+                lastEnd = currEnd;
+                count++;
+            }
+        }
+        
+        return count;
+    }
+    
+    
+}
+
+
+LeetCode :- https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/

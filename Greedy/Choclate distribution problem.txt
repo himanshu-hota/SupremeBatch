@@ -1,0 +1,35 @@
+class Solution
+{
+    public long findMinDiff (ArrayList<Integer> a, int n, int m){
+        
+        // sort the array 
+        Collections.sort(a);
+        
+        // pointers of slideing window
+        int start = 0; 
+        int end =  m-1;
+        
+        // final ans
+        int ans = Integer.MAX_VALUE;
+        
+        // loop till the window is in the range
+        while(end<n){
+            // calculate curr difference in choclates in current window
+            int currDiff = a.get(end) - a.get(start);
+            
+            // store the min 
+            ans = Math.min(currDiff,ans);
+            
+            // move the pointers ahead
+            start++;
+            end++;
+        }
+        
+        // finally return the ans.
+        return ans;
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/chocolate-distribution-problem3825/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/chocolate-problem_893280?leftPanelTab=0

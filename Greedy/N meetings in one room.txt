@@ -1,0 +1,58 @@
+class Pair implements Comparable<Pair> {
+    int start;
+    int end;
+    
+    Pair(int a, int b){
+        this.start = a;
+        this.end = b;
+    }
+    
+    public int compareTo(Pair that){
+        return this.end - that.end;
+    }
+}
+
+
+class Solution 
+{
+    //Function to find the maximum number of meetings that can
+    //be performed in a meeting room.
+    public static int maxMeetings(int start[], int end[], int n)
+    {
+         // min heap to store values based on end time
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        // put all entries into heap
+        for (int i = 0; i < n; i++) {
+            pq.add(new Pair( start[i],end[i]));
+        }
+        
+        // get the previous one
+        Pair last = pq.poll();
+        int lastEnd = last.end;
+        // initially mark count as 1
+        int count = 1;
+        
+        while(!pq.isEmpty()){
+            // ek node nikalo
+            Pair fNode = pq.poll();
+            // start and end nikalo current wala.
+            int currEnd = fNode.end;
+            int currStart = fNode.start;
+            
+            // yaha galti karoge, >= nahi lagana hai kyoki ek time pe ek hi kam ho sakta hai 
+            // ek khatam kar k hi dusra start karna hai bhai yad rakhna.
+            // agar abhi ka start previous ke end se bada hai tabhi ye task ho sakta hai
+            if(currStart > lastEnd){
+                lastEnd = currEnd;
+                count++;
+            }
+        }
+        
+        return count;
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/n-meetings-in-one-room-1587115620/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/maximum-meetings_1062658?leftPanelTab=0

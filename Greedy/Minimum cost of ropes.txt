@@ -1,0 +1,31 @@
+
+class Solution
+{
+    //Function to return the minimum cost of connecting the ropes.
+    long minCost(long arr[], int n) 
+    {
+        PriorityQueue<Long> pq = new PriorityQueue<>();
+        
+        for(long x : arr) pq.add(x);
+        
+        long cost = 0;
+        
+        while(!pq.isEmpty()){
+            
+            long first = pq.poll();
+            long second = 0;
+            // only poll when there are remaining ropes
+            if(!pq.isEmpty()){
+                second = pq.poll();    
+                pq.add(first+second);
+                cost += first+second;
+                System.out.println(cost);
+            }
+            
+        }
+        
+        return cost;
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/minimum-cost-of-ropes-1587115620/1 

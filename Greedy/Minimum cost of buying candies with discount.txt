@@ -1,0 +1,27 @@
+class Solution {
+    public int minimumCost(int[] candies) {
+        // sort
+        Arrays.sort(candies);
+
+        int N = candies.length;
+        
+        int free  = N-1;
+        
+        int maxAmount = 0;
+        
+        // max money
+        while(free>=0){
+            // buy 1 candy
+            maxAmount += candies[free];
+            // try to buy 1 again if possible
+            if(free-1 >=0) maxAmount += candies[free-1];
+            // decrement by 3 because 3rd candy wlll be free for us
+            free -=3;
+        }
+        
+
+        return maxAmount;
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/minimum-cost-of-buying-candies-with-discount/

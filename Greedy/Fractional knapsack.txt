@@ -1,0 +1,40 @@
+
+class Solution
+{
+    // Function to get the maximum total value in the knapsack.
+    double fractionalKnapsack(int W, Item arr[], int n) {
+        
+        // Sort based on value/weight.
+        Arrays.sort(arr, (a, b) -> Double.compare((b.value / (double)b.weight), (a.value / (double)a.weight)));
+        
+        double totalValue = 0;
+        
+        for(int i = 0; i < n; i++){
+            Item curr = arr[i];
+            
+            // if possible to put the whole item then put it completely
+            if(curr.weight <= W){
+                // add this value to total values.
+                totalValue += curr.value;
+                // reduce the capacity by item's weight.
+                W -= curr.weight;
+            } else {
+                // if need to put some fraction of the item then get the per item price
+                double ratio = (double)curr.value / curr.weight;
+                // get the amount of items that can be put.
+                double valueToAdd = ratio * W;
+                // add it to total values;
+                totalValue += valueToAdd;
+                // now the capacity should be 0 at this moment because we have utilized all the capacity.
+                W = 0;
+            }
+        }
+        
+        return totalValue;
+    }
+}
+
+
+GFG :- https://practice.geeksforgeeks.org/problems/fractional-knapsack-1587115620/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/fractional-knapsack_975286?leftPanelTab=0
