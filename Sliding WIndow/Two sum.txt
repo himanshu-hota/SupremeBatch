@@ -1,0 +1,33 @@
+import java.util.*;
+
+class Solution {
+    public int[] twoSum(int[] arr, int target) {
+        Arrays.sort(arr);  // Sort the input array in ascending order.
+
+        int n = arr.length - 1;  // Calculate the index of the last element in the sorted array.
+        int ans[] = new int[2];  // Initialize an array to store the result indices (default to -1).
+        ans[0] = ans[1] = -1;  // Initialize both result indices to -1.
+
+        int left = 0;           // Initialize a pointer 'left' at the beginning of the sorted array.
+        int right = n - 1;      // Initialize a pointer 'right' at the end of the sorted array.
+
+        while (left < right) {  // While 'left' is less than 'right', indicating there are elements to consider.
+            int sum = arr[left] + arr[right];  // Calculate the sum of elements at 'left' and 'right'.
+
+            if (sum == target) {
+                ans[0] = left;   // If the sum equals the target, store the index 'left' in the result array.
+                ans[1] = right;  // Store the index 'right' in the result array.
+                return ans;      // Return the result array with the found indices.
+            } else if (sum < target) {
+                left++;  // If the sum is less than the target, move the 'left' pointer to the right.
+            } else {
+                right--;  // If the sum is greater than the target, move the 'right' pointer to the left.
+            }
+        }
+
+        return ans;  // If no valid pair is found, return the result array with both indices set to -1.
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/two-sum/description/

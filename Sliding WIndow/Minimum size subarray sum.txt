@@ -1,0 +1,26 @@
+class Solution {
+    public int minSubArrayLen(int target, int[] nums) {
+        int i = 0;              // Initialize a pointer 'i' at the start of the array.
+        int j = 0;              // Initialize a pointer 'j' at the start of the array.
+        int sum = 0;            // Initialize a variable 'sum' to keep track of the sum of the current subarray.
+        int len = Integer.MAX_VALUE; // Initialize 'len' to a maximum value to keep track of the minimum subarray length.
+
+        while (j < nums.length) {  // Iterate through the array using the 'j' pointer.
+            sum += nums[j];      // Add the element at 'j' to the current subarray sum.
+
+            // reduce the window size if sum exceeds the target value
+            while (sum >= target) {  // Check if the sum of the current subarray is greater than or equal to the target.
+                len = Math.min(len, j - i + 1); // Calculate the minimum length of the subarray and update 'len'.
+                sum -= nums[i];     // Remove the element at 'i' from the subarray sum and move 'i' pointer to the right.
+                i++;               // Increment 'i' to move to the next element.
+            }
+
+            j++;  // Move the 'j' pointer to the right to expand the current subarray.
+        }
+
+        return len == Integer.MAX_VALUE ? 0 : len; // If 'len' is still the maximum value, return 0 (no subarray found), otherwise return the minimum subarray length.
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/minimum-size-subarray-sum/
