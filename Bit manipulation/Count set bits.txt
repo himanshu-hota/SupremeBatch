@@ -1,0 +1,50 @@
+
+// method 1
+
+class Solution {
+    static int setBits(int n) {
+        
+        // initial count is 0        
+        int count = 0;
+        
+        while(n != 0){
+            // get the last bit
+            int lastBit = n & 1;
+            
+            // if it is 1 then increase the count
+            if(lastBit == 1) count++;
+            
+            // right shift one time
+            n = n>>1;
+            
+        }
+        
+        // finally return the count
+        return count;
+        
+    }
+}
+
+
+// method 2
+
+class Solution {
+    static int setBits(int n) {
+        
+        // initial count is 0        
+        int count = 0;
+        
+        while(n != 0){
+            // by doing this we are removing the rightmost set bit each time we enter loop.
+            n = n & (n-1);
+            count++;
+            
+        }
+        
+        // finally return the count
+        return count;
+        
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/set-bits0143/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

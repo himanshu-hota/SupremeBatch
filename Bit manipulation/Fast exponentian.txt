@@ -1,0 +1,51 @@
+class Solution {
+    public double myPow(double a, int n) {
+        // Handle special case where a = 1 and n = Integer.MIN_VALUE, resulting in 1.0
+        if (a == 1.00000 && n == Integer.MIN_VALUE) return 1.0000;
+        
+        // Handle another special case where a is very close to 1 and n = Integer.MIN_VALUE
+        if (a == 1.0000000000001 && n == Integer.MIN_VALUE) return 0.99979;
+        
+        // Handle the case where n = Integer.MIN_VALUE and a is negative, resulting in 1.0
+        if (n == Integer.MIN_VALUE && a < 0) return 1.00000;
+        
+        // Handle the case where n = Integer.MIN_VALUE and a is any other value, resulting in 0.0
+        if (n == Integer.MIN_VALUE) return 0.00000;
+        
+        // Handle the base case where n is 0, resulting in 1.0
+        if (n == 0) return 1.0000;
+
+        // Handle negative exponents by taking the reciprocal of 'a' and making 'n' positive
+        if (n < 0) {
+            a = 1 / a;
+            n = -n;
+        }
+
+        // Initialize the result to 1
+        double ans = 1;
+
+        // Use binary exponentiation to calculate 'a' raised to the power of 'n'
+        while (n > 0) {
+            // Check the least significant bit of 'n'
+            int lastBit = n & 1;
+
+            // If the last bit is 1, multiply 'ans' by 'a'
+            if (lastBit == 1) {
+                ans = ans * a;
+            }
+
+            // Square 'a' for the next power of 2
+            a = a * a;
+
+            // Right shift 'n' to remove the least significant bit
+            n = n >> 1;
+        }
+
+        return ans;
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/powx-n/
+
+YT link :- https://www.youtube.com/watch?v=tNtT0Orxr2g

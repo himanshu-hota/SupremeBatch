@@ -1,0 +1,50 @@
+import java.util.*;
+import java.io.*;
+import java.util.ArrayList;
+
+class Solution {
+    // Function to generate all subsequences of a given string
+    public static ArrayList<String> subsequences(String str) {
+        // Create an ArrayList to store the subsequences
+        ArrayList<String> ans = new ArrayList<>();
+
+        // Get the length of the input string
+        int n = str.length();
+
+        // Generate all possible subsequences using binary representation
+        for (int i = 0; i < (1 << n); i++) {
+            // Create a StringBuilder to build the current subsequence
+            StringBuilder temp = new StringBuilder();
+
+            // Iterate over the characters of the input string
+            for (int j = 0; j < n; j++) {
+                char ch = str.charAt(j);
+
+                // Check if the j-th bit of i is set (1) to include the character in the subsequence
+                if ((i & (1 << j)) != 0) {
+                    temp.append(ch);
+                }
+            }
+
+            // If the subsequence is not empty, add it to the ArrayList
+            if (temp.length() > 0) {
+                ans.add(temp.toString());
+            }
+        }
+
+        // Return the ArrayList containing all subsequences
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        // Example usage of the subsequences function
+        String input = "abc";
+        ArrayList<String> result = subsequences(input);
+        for (String subsequence : result) {
+            System.out.println(subsequence);
+        }
+    }
+}
+
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/subsequences-of-string_985087?leftPanelTab=0
