@@ -1,0 +1,24 @@
+class Solution {
+    public int singleNumber(int[] nums) {
+        int start = 0 ; 
+        int end = nums.length-1;
+        int ans =0;
+
+        while(start <= end){
+            ans = ans ^ nums[start];
+            start++;
+        }
+
+        return ans;
+
+    }
+}
+
+Note :- 1. If we XOR two same numbers then it gives 0 as output, and if XOR two different numbers it gives 1.
+        2. If we XOR any num with 0 then it gives the same num.
+
+LeetCode :- https://leetcode.com/problems/single-number/
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/occurs-once_1214969?leftPanelTab=0
+
+GFG :- https://practice.geeksforgeeks.org/problems/single-number1014/1

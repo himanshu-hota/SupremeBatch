@@ -1,0 +1,66 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+class Solution {
+
+    // Function to get the bit at a specific position in an integer
+    static void getBit(int n , int pos){
+        int bitmask = 1 << pos;  // Create a bitmask with only the bit at 'pos' set to 1
+        int bit = n & bitmask;   // Perform a bitwise AND operation to check the bit
+
+        if(bit == 0){
+            System.out.println("Bit was 0");
+        } else {
+            System.out.println("Bit was 1");
+        }
+    }
+
+    // Function to set the bit at a specific position in an integer to 1
+    static void setBit(int n , int pos){
+        int bitmask = 1 << pos;  // Create a bitmask with only the bit at 'pos' set to 1
+        int bit = n | bitmask;   // Perform a bitwise OR operation to set the bit to 1
+
+        System.out.println("Old value is : " + n);
+        System.out.println("New value is : " + bit );
+    }
+
+    // Function to clear (set to 0) the bit at a specific position in an integer
+    static void clearBit(int n , int pos){
+        int bitmask = 1 << pos;      // Create a bitmask with only the bit at 'pos' set to 1
+        int newBitMask = ~bitmask;   // Invert the bitmask to set the 'pos' bit to 0 and others to 1
+        int bit = n & newBitMask;    // Perform a bitwise AND operation to clear the bit
+
+        System.out.println("Old value is : " + n);
+        System.out.println("New value is : " + bit );
+    }
+
+    // Function to update the bit at a specific position to a given target value (0 or 1)
+    static void updateBit(int n , int pos, int target){
+
+        // Store the original number
+        int m = n;
+
+        // Clear the bit at the given position
+        int bitmask = ~(1 << pos);
+        n = n & bitmask;
+
+        // Update the bit to the target value at the specified position
+        int newBitmask = target << pos;
+        int bit = n | newBitmask;
+
+        System.out.println("Old value is : " + m);
+        System.out.println("New value is : " + bit );
+    }
+
+    public static void main(String[] args) {
+
+        int n = 10;
+        int pos = 0;
+
+        // Call the functions to demonstrate their usage
+        getBit(n, pos);
+        setBit(n, pos);
+        clearBit(n, pos);
+        updateBit(n, pos, 1);
+    }
+}

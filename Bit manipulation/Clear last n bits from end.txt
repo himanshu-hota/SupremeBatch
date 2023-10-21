@@ -1,0 +1,23 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+class Solution {
+
+    // A static method that clears the bits from position i to the right in the binary representation of n.
+    static void clearNBits(int n, int i) {
+        int m = n; // Store the original value of n.
+        int mask = -1 << i; // Create a bitmask with 1s to the left of position i and 0s to the right.
+        n = n & mask; // Apply the mask to clear the bits from position i to the right.
+
+        // Print the original and new values of n.
+        System.out.println("Old value : " + m);
+        System.out.println("New value : " + n);
+    }
+
+    public static void main(String[] args) {
+        
+        int n = 7; // Input integer value.
+        int i = 2; // Position from which to clear the bits.
+        clearNBits(n, i); // Call the clearNBits method with n and i.
+    }
+}

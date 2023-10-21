@@ -1,0 +1,29 @@
+class Solution {
+    
+    // A method that checks if a given integer is a power of two.
+    public boolean isPowerOfTwo(int n) {
+        // Check if n is 0 or the minimum value of an integer, which is not a power of two.
+        if (n == 0 || n == Integer.MIN_VALUE) {
+            return false;
+        }
+        
+        // Subtract 1 from n to create a number with all bits to the right of the lowest set bit turned on.
+        int m = n - 1;
+        
+        // Perform a bitwise AND operation between n and m to check if there is only one set bit in n.
+        int ans = n & m;
+        
+        // If the result is 0, there is only one set bit, indicating that n is a power of two.
+        if (ans == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+LeetCode :- https://leetcode.com/problems/power-of-two/description/
+
+GFG :- https://practice.geeksforgeeks.org/problems/power-of-2-1587115620/1
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/power-of-two_893061?leftPanelTab=0
