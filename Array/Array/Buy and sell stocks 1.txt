@@ -1,16 +1,30 @@
 	public static void BuyAndSellStocks1(int arr[]) {
-		int profit = 0;
-		int buy= arr[0];
 		
-		for(int i = 1 ;i<arr.length; i++) {
-			if(buy>arr[i]) {
-				buy = arr[i];
-			}else if(arr[i] - buy > profit) {
-				profit = arr[i] - buy;
-			}
-		}
-				
-		System.out.println("Maximum profit is : " + profit);
+		// initially mark min price as todays price
+        int minPrice = prices[0];
+		// initially mark max profit to MIN.
+        int maxProfit = Integer.MIN_VALUE;
+
+
+        for(int i = 0; i<prices.length ;i++){
+			// Calculate profit if we sell today
+            int todaysProfit = prices[i] - minPrice ;
+			
+			// update(sell) profit if we found higher profit today
+            if(todaysProfit > maxProfit) maxProfit = todaysProfit;
+
+			// update(buy) minPrice if we found a price drop today 
+            if(prices[i] < minPrice) minPrice = prices[i];
+        }
+
+        return maxProfit;
 	}
 
-	GFG :- https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/
+	Leetcode :- https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/
+
+
+	Steps :- 
+
+	1. Calculate profit each day and compare with last , if todays profit is greater then update maxProfit.
+	2. Buy if todays price is less.
+	3. Sell if todays price is high.

@@ -1,3 +1,6 @@
+
+
+
    ArrayList<Integer> findSum(int a[], int b[]) {
         
         ArrayList<Integer> ans = new ArrayList<Integer>();
@@ -56,3 +59,9 @@
            return ans;
         
     }
+
+Steps:- 1. Add each digit from end of the both arrays.
+        2. If num1 has more count of digits then add the remaining digits of num1 to ans.
+        3. If num2 has more count of digits then add the remaining digits of num2 to ans.
+
+GFG :- https://practice.geeksforgeeks.org/problems/sum-of-two-numbers-represented-as-arrays3110/1

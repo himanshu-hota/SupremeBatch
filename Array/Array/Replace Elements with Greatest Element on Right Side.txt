@@ -19,3 +19,5 @@ class Solution {
 }
 
 LeetCode :- https://leetcode.com/problems/replace-elements-with-greatest-element-on-right-side/
+
+GFG :- https://practice.geeksforgeeks.org/problems/greater-on-right-side4305/1

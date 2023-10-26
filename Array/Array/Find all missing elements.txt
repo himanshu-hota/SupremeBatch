@@ -29,3 +29,10 @@
 	        
     return arr;
     }
+
+	LeetCode :- https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/
+
+	Steps :- 1. Pick one index and check if it has the correct value (i+1 value).
+			    if yes then go ahead.
+				if no then place it in its correct position.
+			 2. Now check which index doesn't has i+1 value, that is the missing element.
