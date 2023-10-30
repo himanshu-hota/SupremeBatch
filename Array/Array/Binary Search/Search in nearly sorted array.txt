@@ -26,5 +26,7 @@
 	}
 
 
+	GFG :- https://www.geeksforgeeks.org/search-almost-sorted-array/
 
-    Note : - We have added condition that >= start and <= end to optimize the code , so that no unnecessary check is performed.
+    Note : - 1. We have added condition that >= start and <= end to optimize the code , so that no unnecessary check is performed.
+			 2. The question says the num is present at any of (ith,ith+1,ith-1), normally we in binary search we check at ith index, what we have to do in this question is that , just put two more check on ith+1 and ith-1 , thats it, and it is a normal binary search.

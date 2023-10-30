@@ -33,3 +33,5 @@ class Solution {
 
     }
 }
+
+GFG :- https://practice.geeksforgeeks.org/problems/searching-an-element-in-a-sorted-array-ternary-search--141631/1

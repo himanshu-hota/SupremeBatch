@@ -1,25 +1,32 @@
-public static void binarySearch(int arr[] , int target) {
-		int n = arr.length;
-		int start = 0;
-		int end = n;
-		int mid = start + (end - start)/2;
-		while(start<=end) {
-			// if element is found then break the loop
-			if(arr[mid] == target) {
-				
-				System.out.println("Element found at " + (mid + 1) +  "th position ");
-				return;
-			}else if(target < arr[mid]) { // if target is less than middle element then search for it in left part of the array
-				
-				end = mid-1;
-			}else { // if target is greater than middle element then search for it in right part of the array
-				
-				start = mid+1;
-			}
-			
-			//update middle index
-			mid =  start + (end - start)/2;
-		}
-		
-		System.out.println("ELement not Found!!!");
-	}
+
+class Solution {
+    int binarysearch(int arr[], int n, int k) {
+        // code here
+        
+        int start = 0;
+        int end = n - 1;
+        // calculate mid index
+        int mid = end - (end-start) /2;
+        
+        // find the target
+        while(start <= end){
+            
+            // if element is found then return the index.
+            if(arr[mid] == k){
+                return mid;
+            }else if(arr[mid] < k){ // if the middle element is smaller than the target then search on right.
+                start = mid+1;
+            }else{ // else search on left part
+                end = mid-1;
+            }
+            
+            // update the middle index
+            mid = end - (end-start) /2;
+        }
+        
+        // if the element was not found then return -1
+        return -1;
+    }
+}
+
+GFG :- https://practice.geeksforgeeks.org/problems/binary-search-1587115620/1
