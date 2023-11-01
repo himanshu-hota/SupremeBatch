@@ -64,3 +64,73 @@
 		
 		return ans;
 	}
+
+
+// Integer
+
+
+import java.util.*;
+
+class Solution {
+
+    public static boolean isPossible(ArrayList<Integer> trees,int n ,int totalWood, int minHeight){
+
+		// amount of woods collected
+        int collectedWoods = 0;
+
+        for(int i = 0; i<n ;i++){
+			// only include this tree if its height is higher than minHeight of maxSawBlade
+            if(trees.get(i) > minHeight){
+                collectedWoods += trees.get(i) - minHeight;
+            }
+            
+        }
+
+		// check if whether if collected required amount of woods or not
+        return collectedWoods >= totalWood;
+    }
+
+
+    public static int maxSawBlade(ArrayList<Integer> trees,int wood){
+
+        int n = trees.size();
+        int start = 0;
+        int end = trees.get(n-1);
+
+        int ans = 0;
+        while(start <= end){
+            int mid = start + (end - start)/2;
+
+			// check if we can raise the blade to at least mid height, if yes then store the height and try to maximize the height to minimize the cutting of trees.
+            if(isPossible(trees,n,wood,mid)){
+                start = mid+1;
+                ans = mid;
+            }else{ else minimize the height of sawblade to cut trees.
+                end = mid-1;
+            }
+
+        }
+
+        return ans;
+    }
+
+    public static void main(String[] args) {
+      	
+		ArrayList<Integer> trees = new ArrayList<>(Arrays.asList(20,15,10,17));
+       
+        int n = trees.size();
+        int m = 7;
+       
+		
+        //sort trees
+		Collections.sort(trees);
+		
+        // grab answer
+		int ans = maxSawBlade(trees,m);
+		
+		System.out.println("Answer is : " + ans);
+		
+    }
+}
+
+// EKO : https://www.spoj.com/problems/EKO/

@@ -1,4 +1,4 @@
-
+// Logic based on this question
 
      public static boolean isPossible(ArrayList<Integer> arr,int n , int k, int sol){
          
@@ -65,3 +65,75 @@
         
         return ans;
     }
+
+
+// Logic based on "Allocates min num of pages"
+
+public class Solution 
+{   
+     public static boolean isPossible(ArrayList<Integer> books,int maxStudents,int maxPages){
+        
+        int n = books.size();
+        int students = 1;
+        int pageSum = 0;
+        
+        
+        // try distributing books here
+        for(int i = 0; i<n ;i++){
+            
+            int book = books.get(i);
+            // if any single page has more than allowed pages then there is no way to distribute books to M students.
+            if(book > maxPages) return false;
+            
+            // adding current book exceeds the max allowed pages then allocate books till now excludint current book as it exceeds the limit.
+            if( pageSum + book > maxPages){
+                // allocate books excluding current book to one student.
+                students++;
+                // allocate new books from now on including this book.
+                pageSum = book;
+                
+                // if books are remaining and no strudents is left to allocate book then this is not a valid combination.
+                if(students > maxStudents){
+                    return false;
+                }
+                
+            }else{ // include current book.
+                pageSum += book;
+            }
+        }
+        
+        // if each book got allocated then this is a valid combination of distribution.
+        return true;
+    }
+    public static int findLargestMinDistance(ArrayList<Integer> A, int k)
+    {
+         int start = 0;
+         int M = k;
+        int end = 0;
+        
+        for(int x : A) end += x;        
+        
+        int ans = 0;
+        
+        while(start <= end){
+            
+            int mid = (start + (end - start)/2);
+             
+            if(isPossible(A,M,mid)){
+                ans = mid;
+                end = mid-1;
+            }else{
+                start = mid+1;
+            }
+        }
+
+        return ans;
+    }
+}
+
+
+CodeStudio :- https://www.codingninjas.com/studio/problems/painter-s-partition-problem_1089557
+
+Note :- This question can be solved by exactly same code and logic of "Allocate min num of pages" question.
+
+Link :- https://practice.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1

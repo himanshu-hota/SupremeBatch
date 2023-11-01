@@ -49,44 +49,49 @@ public class Solution {
 -----------------------------------Optimized---------------------------------------------------
 
 
-// import java.util.*;
+class Solution {
+    // Binary search method to check if 'target' exists in the sorted array 'arr'
+    public boolean bs(int arr[], int start, int target) {
+        int end = arr.length - 1;
+        
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
 
-// public class Solution {
+            if (arr[mid] == target) {
+                return true; // 'target' found, return true
+            } else if (arr[mid] < target) {
+                start = mid + 1; // Adjust 'start' to search in the right half
+            } else {
+                end = mid - 1; // Adjust 'end' to search in the left half
+            }
+        }
 
-// 	public static int bs(int arr[] , int start , int target){
+        return false; // 'target' not found, return false
+    }
 
-// 		int end = arr.length -1;
-// 		int mid = start + (end - start)/2;
+    // Method to find pairs in the 'nums' array with a difference of 'k'
+    public int findPairs(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>(); // Create a map to store pairs
+        Arrays.sort(nums); // Sort the 'nums' array
+        int count = 0;
+        int n = nums.length;
 
-// 		while(start <= end){
-// 			if(arr[mid] == target){
-// 				return mid;
-// 			}else if(target < arr[mid]){
-// 				end = mid -1;
-// 			}else{
-// 				start = mid+1;
-// 			}
+        for (int i = 0; i < n; i++) {
+            int num1 = nums[i];
+            int num2 = nums[i] + k; // Calculate the potential second number in the pair
 
-// 			mid = start + (end - start)/2;
-// 		}
+            // If a number with a difference of 'k' exists in the array, add it to the map
+            if (bs(nums, i + 1, num2)) {
+                map.put(num1, num2);
+            }
+        }
 
-// 		return -1;
-// 	}
+        
 
-// 	public static int getPairsWithDifferenceK(int arr[], int k) {
-// 		//Write your code here
-// 		int count = 0;
+        return map.size(); // Return the count of unique pairs found
+    }
+}
 
-// 		for(int i = 0  ;i < arr.length ; i++){
-// 			int ans = bs(arr, i+1 , arr[i] + k);
-// 			if(ans != -1){
-// 				count++;
-// 			}
-// 		}
-
-// 		return count+count;
-// 	}
-// }
 
 
 
@@ -97,3 +102,9 @@ Note :- 1. In the Optimized Solution we are sorting the array.
            which can be also written as arr[i] + k = arr[x]
         3. then we are performing Binary Search to search the element and then 
            adding the pair (arr[i] , arr[i+1] + k) to the map for unique pairs.
+
+
+
+LeetCode : https://leetcode.com/problems/k-diff-pairs-in-an-array/
+
+GFG : https://practice.geeksforgeeks.org/problems/count-distinct-pairs-with-difference-k1233/1
