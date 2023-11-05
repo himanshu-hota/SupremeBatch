@@ -1,0 +1,48 @@
+import java.util.*;
+
+public class Solution {
+    public static int getLongestSubarray(int[] a, int k) {
+        // Initialize the maximum length of the subarray to 0.
+        int max = 0;
+        
+        // Get the length of the input array 'a'.
+        int n = a.length;
+        
+        // Create a HashMap to store the cumulative sum of elements and their corresponding indices.
+        HashMap<Integer, Integer> sumTillNow = new HashMap<>();
+        
+        // Initialize the cumulative sum variable 'sum' to 0.
+        int sum = 0;
+        
+        // Initialize the HashMap with an initial entry for sum 0 at index -1.
+        sumTillNow.put(0, -1);
+
+        // Iterate through the elements of the array.
+        for (int i = 0; i < n; i++) {
+            // Update the cumulative sum.
+            sum += a[i];
+
+            // Check if the cumulative sum minus 'k' is present in the HashMap.
+            if (sumTillNow.containsKey(sum - k)) {
+                // Calculate the length of the subarray and update 'max' if necessary.
+                max = Math.max(max, i - sumTillNow.get(sum - k));
+            }
+
+            // If the cumulative sum is not present in the HashMap, add it with its current index.
+            if (!sumTillNow.containsKey(sum)) {
+                sumTillNow.put(sum, i);
+            }
+        }
+
+        // Return the maximum length of the subarray.
+        return max;
+    }
+}
+
+Steps: 1. The idea is to Calculate sum till now (at each index) and check if we have already summed up to sum - k previously.
+       2. Create a map and initially put (0,-1), which means that sum 0 is present at -1 index.
+       3. Now iterate through the array and at each point calculate sum and check if the map contains sum-k,
+        if yes then get the index and subtract with current index, and get the max of both.
+       4. Now check if the map contains sum , if no then put it in the map along with its index. 
+
+CodeStudio : https://www.codingninjas.com/studio/problems/longest-subarray-with-sum-k_5713505?utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_Arrayproblems&leftPanelTabValue=SUBMISSION

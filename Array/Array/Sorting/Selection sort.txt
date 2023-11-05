@@ -20,6 +20,11 @@
 	}
 
 
-	Note :- 1. In outer loop we are going till n-1 because we want inner loop to go toll <n .
+	Note :- 1. In outer loop we are going till n-1 because we want inner loop to go till <n .
 			2. If we try to put <n in outer loop then it will throw index out of bound .
 			3. In inner loop we are starting with i+1 because we want to leave 1 element at every iteration as 1 element at starting will be sorted at every iteration
+
+
+GFG : https://practice.geeksforgeeks.org/problems/selection-sort/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+CodeStudio : https://www.codingninjas.com/studio/problems/selection-sort_981162

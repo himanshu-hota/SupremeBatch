@@ -1,0 +1,74 @@
+class Solution {
+    public int maxSubArray(int[] nums) {
+        
+        int maxSoFar = Integer.MIN_VALUE;
+        // maintain a max value till now
+        int currSum = 0;
+
+        for(int x : nums){
+            // add the current value
+            currSum += x;
+            // update the max 
+            maxSoFar = Math.max(currSum,maxSoFar);
+
+            // if the sum becomes negative then reset it to 0;
+            if( currSum < 0) currSum = 0;
+        }
+
+        return maxSoFar;
+    }
+}
+
+// print subarray
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+// The main method must be in a class named "Main"
+class Main {
+
+  public static void maxSubArray(int[] nums) {
+        
+        int maxSoFar = Integer.MIN_VALUE;
+        // maintain a max value till now
+        int currSum = 0;
+
+        // pointers
+        int startFromHere = -1;
+        int start = -1;
+        int end = -1;
+
+        for(int i = 0; i< nums.length; i++){
+
+            if(currSum == 0) startFromHere = i;
+            int x = nums[i];
+            // add the current value
+            currSum += x;
+            // update the max 
+            if(currSum > maxSoFar){
+                maxSoFar = currSum;
+                start = startFromHere;
+                end = i;
+            }
+
+            // if the sum becomes negative then reset it to 0;
+            if( currSum < 0) currSum = 0;
+        }
+
+
+        System.out.print(start + ", " + end);
+
+
+        return ;
+    }
+
+    public static void main(String[] args) {
+
+        int nums[] = {-1,-96,5};
+
+        maxSubArray(nums);
+    }
+}
+
+
+LeetCode : https://leetcode.com/problems/maximum-subarray/

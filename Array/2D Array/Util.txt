@@ -1,0 +1,174 @@
+
+public class Revise {
+
+	public static int search(int arr[],int target) {
+		int n = arr.length;
+		int start = 0;
+		int end = n-1;
+		
+		
+		while(start <= end) {
+			int mid = start + (end - start)/2;
+			
+			if(arr[mid] == target) {
+				return mid;
+			}else if(arr[mid] < target) {
+				start = mid+1;
+			}else {
+				end = mid-1;
+			}
+			
+		}
+		
+		return -1;
+	}
+	
+	public static void searchIn2D(int arr[][],int target) {
+		
+		
+		
+		for(int i = 0; i< arr.length; i++) {
+			int ans = search(arr[i],target);
+			
+			if(ans >= 0) {
+				System.out.println(i + "," + ans);
+				break;
+			}
+		}
+		
+		
+	}
+	
+	public static int maxIn2D(int arr[][]) {
+		
+		int max = 0;
+		
+		for(int row[] : arr) {
+			for(int x : row) {
+				max = Math.max(max, x);
+			}
+		}
+		
+		return max;
+	}
+	
+	public static int minIn2D(int arr[][]) {
+		
+		int max = 0;
+		
+		for(int row[] : arr) {
+			for(int x : row) {
+				max = Math.min(max, x);
+			}
+		}
+		
+		return max;
+	}
+	
+	public static int rowWiseSum(int arr[][]) {
+		
+		int max = 0;
+		
+		for(int row[] : arr) {
+			int sum = 0;
+			for(int x : row) {
+				sum += x;
+			}
+			
+			System.out.println(sum);
+		}
+		
+		return max;
+	}
+	
+	public static void colWiseSum(int arr[][]) {
+		
+		
+		
+		int n = arr.length;
+		int maxCol = 0;
+		for(int row[] : arr) {
+			maxCol = Math.max(maxCol, row.length);
+		}
+		
+		
+		for(int col = 0; col < maxCol; col++ ) {
+			int currSum = 0;
+			
+			
+			for(int i = 0; i<n ; i++) {
+				if(col < arr[i].length)
+					currSum += arr[i][col];
+			}
+			
+			System.out.println(currSum); 
+		}
+		
+	}
+	
+	public static void transpose(int arr[][]) {
+	    // Get the number of rows and columns in the input array.
+	    int rows = arr.length;
+	    
+	    
+	    for (int i = 0; i < rows; i++) {
+            for (int j = i + 1; j < rows; j++) {
+                // Swap elements at (i, j) and (j, i)
+                int temp = arr[i][j];
+                arr[i][j] = arr[j][i];
+                arr[j][i] = temp;
+            }
+        }
+	}
+	
+	
+	public static void wavePrint(int mat[][]) {
+		
+		int rows = mat.length;
+		int cols = mat[0].length;
+		
+		boolean even = true;
+		
+		for(int j = 0; j< cols; j++) {
+			
+			
+			if(even) {
+				for(int i =0;i< rows;i++) {
+					System.out.print(mat[i][j] +  ",");
+				}
+			}else {
+				for(int i = rows-1; i>=0 ; i--){
+					System.out.print(mat[i][j] +  ",");
+				}
+			}
+			
+			
+			
+			even = even?false:true;
+		}
+		
+	}
+
+	
+	public static void printMatrix(int arr[][]) {
+		
+		for(int row[] : arr) {
+			for(int x : row) {
+				System.out.print(x + ",");
+			}
+			System.out.println();
+		}
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int arr[][] = {{1,2,3},{4,5,6},{7,8,9}};
+		int target = 6;
+		
+			
+		printMatrix(arr);
+		System.out.println();
+		wavePrint(arr);
+	}
+
+}

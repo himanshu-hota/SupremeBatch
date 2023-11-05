@@ -18,7 +18,7 @@
 
 
 Note :- 1. In outer loop we are going till n-1 because we want inner loop to go til n (j+1).
-		2. In inner loop we are going til n-i-1 because we are leaving 1 element at every iteration from the end as 1 element is sorte at every iteration.
+		2. In inner loop we are going til n-i-1 because we are leaving 1 element at every iteration from the end as 1 element is sorted at every iteration.
 	
 
 --------------------------------------------------- Optimized Bubble sort ---------------------------------------------------------------------
@@ -45,3 +45,9 @@ Note :- 1. In outer loop we are going till n-1 because we want inner loop to go 
 		System.out.print("Sorted Array is :");
 		printArray(arr);
 	}
+	\
+
+
+GFG : https://practice.geeksforgeeks.org/problems/bubble-sort/1
+
+CodeStudio :

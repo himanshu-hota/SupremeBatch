@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class Solution {
+
+    // Binary search function to check if 'target' exists in 'arr'.
+    public static boolean bs(int arr[], int target) {
+        int start = 0;
+        int end = arr.length - 1;
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+
+            if (arr[mid] == target) {
+                return true; // 'target' is found in 'arr'.
+            } else if (arr[mid] < target) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+
+        return false; // 'target' is not found in 'arr'.
+    }
+
+    // Main function to read 'n' books from the array 'book' and check if there are two books whose total pages sum to 'target'.
+    public static String read(int n, int[] book, int target) {
+        Arrays.sort(book); // Sort the 'book' array in ascending order.
+
+        for (int x : book) {
+            // Check if there is a book in the array whose pages add up to 'target - x'.
+            boolean found = bs(book, target - x);
+
+            if (found) {
+                return "YES"; // Two books are found with pages summing to 'target'.
+            }
+        }
+
+        return "NO"; // No two books are found with pages summing to 'target'.
+    }
+}
+
+
+CodeStudio : https://www.codingninjas.com/studio/problems/reading_6845742?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=SUBMISSION
+
+LeetCode : https://leetcode.com/problems/two-sum/description/

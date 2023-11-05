@@ -1,0 +1,43 @@
+class Solution {
+    public int maxProduct(int[] nums) {
+        // Initialize variables to track the maximum product, current minimum, and current maximum
+        int max = nums[0];
+        int currMin = nums[0];
+        int currMax = nums[0];
+
+        // Iterate through the elements in the input array starting from the second element (index 1)
+        for (int i = 1; i < nums.length; i++) {
+            int x = nums[i]; // Store the current element in a variable
+
+            // If the current element is negative, swap the current minimum and maximum values
+            if (x < 0) {
+                int temp = currMin;
+                currMin = currMax;
+                currMax = temp;
+            }
+
+            // Update the current maximum and minimum by considering the current element
+            currMax = Math.max(x, x * currMax);
+            currMin = Math.min(x, x * currMin);
+
+            // Update the maximum product if the current maximum is greater
+            max = Math.max(max, currMax);
+        }
+
+        // Return the maximum product found
+        return max;
+    }
+}
+
+
+Steps: 1. Maintain three vars, max,currMax,currMin.
+       2. Initially make first element as max , currMin, currMax.
+       3. Run the loop from 1 -> n.
+       4. At each iteration check if current element is negative then swap currMax and currMin.
+       5. Update currMax and currMin.
+       6. Update max.
+
+
+LeetCode : https://leetcode.com/problems/maximum-product-subarray/
+
+CodeStudio : https://www.codingninjas.com/studio/problems/subarray-with-maximum-product_6890008?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
