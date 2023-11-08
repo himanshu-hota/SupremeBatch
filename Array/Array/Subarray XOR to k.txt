@@ -1,0 +1,61 @@
+// Method 1
+
+public class Solution {
+    public static int subarraysWithSumK(int[] a, int b) {
+        int n = a.length;  // Get the length of the array 'a'.
+        int count = 0;     // Initialize the count of subarrays with XOR equal to 'b' to 0.
+
+        // Iterate through the array using two nested loops to consider all possible subarrays.
+        for (int i = 0; i < n; i++) {
+            int curr = 0;  // Initialize the cumulative XOR value 'curr' to 0.
+
+            for (int j = i; j < n; j++) {
+                curr ^= a[j];  // Update 'curr' by XOR-ing it with the current element 'a[j]'.
+
+                if (curr == b) {
+                    count++;  // If 'curr' is equal to 'b', increment the count, as it represents a subarray with the desired XOR value.
+                }
+            }
+        }
+
+        return count;  // Return the final count of subarrays with XOR equal to 'b'.
+    }
+}
+
+Note : The above approach is the bruteforce that checks for xor of each subarray and compare with given xor.
+
+// Method 2
+
+public class Solution {
+    public static int subarraysWithSumK(int[] a, int b) {
+        int xor = 0;  // Initialize the cumulative XOR value to 0.
+        int count = 0;  // Initialize the count of subarrays with XOR equal to 'b' to 0.
+
+        Map<Integer, Integer> map = new HashMap<>();  // Create a HashMap to store XOR values and their frequencies.
+
+        for (int x : a) {
+            xor ^= x;  // Update the cumulative XOR value by XOR-ing it with the current element 'x'.
+
+            if (xor == b) {
+                count++;  // If the cumulative XOR is equal to 'b', increment the count.
+            }
+
+            int temp = xor ^ b;  // Calculate the XOR value needed to achieve 'b'.
+
+            // Increment the count by the frequency of 'temp' in the map using 'getOrDefault'.
+            count += map.getOrDefault(temp, 0);
+
+            // Update the map with the current XOR value. If it's not in the map, initialize its frequency as 1.
+            map.put(xor, map.getOrDefault(xor, 0) + 1);
+        }
+
+        return count;  // Return the final count of subarrays with XOR equal to 'b'.
+    }
+}
+
+
+Steps : 1. Keep calculating XOR if found to k then increase the count.
+        2. Keep track of XOR till now, and search for k^(XOR till now), if found any then increase count.
+        3. Put this XOR into map for further calculation.
+
+CodeStudio : https://www.codingninjas.com/studio/problems/subarrays-with-xor-k_6826258?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

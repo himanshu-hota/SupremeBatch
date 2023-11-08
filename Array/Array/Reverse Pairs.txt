@@ -1,0 +1,85 @@
+// Method 1 
+
+
+
+
+// Method 2
+
+class Solution {
+    // Merge two sorted subarrays (low to mid and mid+1 to high) into a single sorted subarray.
+    public void merge(int [] nums, int low, int mid, int high) {
+        int left = low;
+        int right = mid + 1;
+        List<Integer> temp = new ArrayList<>();
+
+        // Merge the two subarrays into 'temp'.
+        while (left <= mid && right <= high) {
+            if (nums[left] <= nums[right]) {
+                temp.add(nums[left]);
+                left++;
+            } else {
+                temp.add(nums[right]);
+                right++;
+            }
+        }
+
+        // Add any remaining elements from the left subarray.
+        while (left <= mid) {
+            temp.add(nums[left++]);
+        }
+
+        // Add any remaining elements from the right subarray.
+        while (right <= high) {
+            temp.add(nums[right++]);
+        }
+
+        // Copy the merged elements from 'temp' back to the original 'nums' array.
+        for (int i = low; i <= high; i++) {
+            nums[i] = temp.get(i - low);
+        }
+    }
+
+    // Count the number of reverse pairs in the subarray from low to high.
+    public int countPairs(int[] arr, int low, int mid, int high) {
+        int right = mid + 1;
+        int cnt = 0;
+
+        for (int i = low; i <= mid; i++) {
+            // Count the pairs where arr[i] is greater than twice arr[right].
+            while (right <= high && (double) arr[i] > 2 * (double) arr[right]) {
+                right++;
+            }
+            cnt += (right - (mid + 1));
+        }
+
+        return cnt;
+    }
+
+    // Sort the given array using merge sort and count reverse pairs.
+    public int mergeSort(int nums[], int low, int high) {
+        int count = 0;
+
+        // Base case: If the subarray contains 0 or 1 element, it is already sorted.
+        if (low >= high) {
+            return 0;
+        }
+
+        // Find the middle of the subarray.
+        int mid = (low + high) / 2;
+
+        // Recursively merge and count reverse pairs in the left and right subarrays.
+        count += mergeSort(nums, low, mid);
+        count += mergeSort(nums, mid + 1, high);
+
+        // Count reverse pairs in the merged subarray and merge them.
+        count += countPairs(nums, low, mid, high);
+        merge(nums, low, mid, high);
+
+        return count;
+    }
+
+    // Entry point for counting reverse pairs in the given array.
+    public int reversePairs(int[] nums) {
+        return mergeSort(nums, 0, nums.length - 1);
+    }
+}
