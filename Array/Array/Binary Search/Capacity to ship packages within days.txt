@@ -1,0 +1,63 @@
+class Solution {
+
+    int solve (int cap, int days, int [] weights) {
+        int day = 1;
+        int total = 0;
+        for(int weight : weights) {
+            if ((total + weight) > cap) {
+                day++;
+                total = weight;
+            } else {
+                total += weight;
+            }
+        }
+        return day;
+    }
+
+    public int shipWithinDays(int[] weights, int days) {
+        
+        int totalW = 0;
+        int minCap = 0;
+        for(int x : weights){
+            totalW += x;
+            minCap = Math.max(minCap,x);
+        }
+
+        // why is that? because cargos capacity must be (must be) min of the max weights to carry the heaviest item in the weight array.
+        int start = minCap;
+        int end = totalW;
+
+        while(start <= end){
+            int mid = start + (end - start)/2;
+
+            int currdays = 1;
+            int load = 0;
+            // check how many days would it take if we try mid as min capacity
+            for(int weight : weights){
+                // if adding curr weight makes the cargo heavier then dont include curr weight today (increase days count),
+                // instead include it on the next day (reset load to curr)
+                if((load + weight) > mid){
+                    currdays++;
+                    load = weight;
+                }else{
+                    load+=weight;
+                }
+            }
+
+            // if the days we calculated is less than the required then we found a right choice of min capacity, try to reduce it.
+            if(currdays <= days ){
+                end = mid-1;
+            }else{ // otherwise, try to expand it.
+                start = mid+1;
+            }
+
+        }
+
+        return start;
+    }
+}
+
+
+LeetCode : https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/description/
+
+CodeStudio : https://www.codingninjas.com/studio/problems/capacity-to-ship-packages-within-d-days_1229379?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=SUBMISSION

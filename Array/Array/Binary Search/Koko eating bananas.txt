@@ -1,0 +1,44 @@
+class Solution {
+
+    public int minEatingSpeed(int[] piles, int h) {
+        
+        int totalBananas = 0;
+        int maxSpeed = 0;
+        for(int x : piles){
+            maxSpeed = Math.max(maxSpeed,x);
+            totalBananas += x;
+        }
+
+        int start = 1;
+        int end = maxSpeed;
+
+        while(start <= end){
+            int mid = start + (end - start)/2;
+
+            // check how many hours would it take to finish totalBanans with mid speed.
+            int totalHours = 0;
+            for(int i = 0; i< piles.length; i++){
+                totalHours += Math.ceil((double)piles[i] / (double)mid);
+            }
+
+            // if we got totalHours less then required hours then it is a possible soluion.
+            // try to minimize the hour.
+            if(totalHours <= h){
+                end = mid-1;
+            }else{
+                start = mid+1;
+            }
+        }
+
+        return start;
+    }
+}
+
+Steps : 1. Get the total count of bananas and pile that has max bananas(which will be the max speed).
+        2. Perform binary search from 1 -> totalBananas as the speed must be between this range.
+        3. From 1 -> totalBananas, try the mid as speed and check if koko can eat all bananas with mid speed, if yes then try to minimize the speed(as ques. said).
+        
+
+LeetCode : https://leetcode.com/problems/koko-eating-bananas/
+
+CodeStudio : https://www.codingninjas.com/studio/problems/minimum-rate-to-eat-bananas_7449064?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM&count=25&page=1&search=&sort_entity=order&sort_order=ASC

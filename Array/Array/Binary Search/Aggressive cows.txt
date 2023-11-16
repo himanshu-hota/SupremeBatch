@@ -5,7 +5,7 @@
  
     for(int i =1 ; i< n ; i++){
         // if current difference is a possible difference then place a new cow
-        if(arr[i] - pos >=d iff){
+        if(arr[i] - pos >= diff){
             cows++; // increase count of cows
             pos = arr[i]; //place a new cow
             

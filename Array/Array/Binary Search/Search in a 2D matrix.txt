@@ -1,0 +1,47 @@
+class Solution {
+
+    // Function to perform binary search in a sorted array
+    public boolean findInRow(int arr[], int target) {
+        int start = 0;
+        int end = arr.length - 1;
+
+        // Binary search in the row to find the target element
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+
+            if (arr[mid] == target) {
+                // Target element found in the row
+                return true;
+            } else if (arr[mid] < target) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+
+        // Target element not found in the row
+        return false;
+    }
+
+    // Function to search for a target element in a 2D matrix
+    public boolean searchMatrix(int[][] matrix, int target) {
+        
+        // Iterate through each row in the matrix
+        for (int row[] : matrix) {
+            // Check if the target element is present in the current row
+            boolean found = findInRow(row, target);
+            
+            // If found, return true
+            if (found) {
+                return true;
+            }
+        }
+
+        // Target element not found in any row
+        return false;
+    }   
+}
+
+LeetCode : https://leetcode.com/problems/search-a-2d-matrix/
+
+CodeStudio : https://www.codingninjas.com/studio/problems/search-in-a-2d-matrix_980531?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
