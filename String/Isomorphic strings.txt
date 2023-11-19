@@ -21,7 +21,7 @@ public boolean isIsomorphic(String s, String t) {
 			map2[str2.charAt(idx)]  = idx+1;
 		}
 
-        // if everything looks good then they are isIsomorphic
+        // if everything looks good then they are isomorphic
 		return true;
     }
 

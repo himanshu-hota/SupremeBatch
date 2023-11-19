@@ -1,0 +1,72 @@
+// Method 1
+
+import java.util.HashMap;
+
+public class Solution {
+    // Method to count substrings with exactly k distinct characters
+    public static int countSubStrings(String str, int k) {
+
+        // Get the length of the input string
+        int n = str.length();
+        // Initialize the count of substrings with k distinct characters
+        int count = 0;
+
+        // Iterate through all possible window sizes
+        for (int window = 1; window <= n; window++) {
+            // Initialize start and end pointers for the current window
+            int start = 0;
+            int end = window;
+
+            // HashMap to store the frequency of characters within the current window
+            HashMap<Character, Integer> map = new HashMap<>();
+
+            // Populate the frequency map for the initial window
+            for (int i = start; i < end; i++) {
+                map.put(str.charAt(i), map.getOrDefault(str.charAt(i), 0) + 1);
+            }
+
+            // Check if the current window has k distinct characters
+            if (map.size() == k) {
+                count++;
+            }
+
+            // Slide the window through the entire string
+            while (end < n) {
+                // Update the frequency of characters as the window slides
+                map.put(str.charAt(start), map.get(str.charAt(start)) - 1);
+                if (map.get(str.charAt(start)) == 0) {
+                    map.remove(str.charAt(start));
+                }
+
+                // Include the character at the new end position
+                map.put(str.charAt(end), map.getOrDefault(str.charAt(end), 0) + 1);
+
+                // Check if the updated window has k distinct characters
+                if (map.size() == k) {
+                    count++;
+                }
+
+                // Move the window forward
+                start++;
+                end++;
+            }
+        }
+
+        // Return the final count of substrings with k distinct characters
+        return count;
+    }
+}
+
+
+Special Note : This technequie is derived from "Sum of beauty of all substring".
+
+Logic : We will check for each window of size 1 -> <=n and check.
+
+Steps : 1. Pick a window.
+        2. Count distinct characters, if its count is k then increment the count.
+        3. Move the window by excluding the first char of current window and including the next char.
+        4. If the freq is 0 then remove it from the map.
+        5. Calculate ans for next window.
+
+
+CodeStudio : https://www.codingninjas.com/studio/problems/count-with-k-different-characters_1214627?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

@@ -1,4 +1,4 @@
-   public int compress(char[] chars) {
+    public int compress(char[] chars) {
         
         //total count of characters in out answer
         int total_count = 0;

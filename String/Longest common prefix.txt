@@ -1,0 +1,27 @@
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+
+        // sort lexicographically
+        Arrays.sort(strs);
+
+        int i = 0;
+        int j = 0;
+
+        // i<strs[0].length() && j < strs[strs.length -1].length() keeps the i and j pointer in range 
+        // strs[0].charAt(i) == strs[strs.length -1].charAt(j) keeps pointer move forward till they match
+        
+        while(i<strs[0].length() && j < strs[strs.length -1].length() && strs[0].charAt(i) == strs[strs.length -1].charAt(j)){
+            i++;
+            j++;
+        }
+            
+        return i > 0 ? strs[0].substring(0,i) : "";
+
+    }
+}
+
+Steps : 1. Sort the array( this will arrange the strings lexicographically).
+        2. Now by only comparing the first and the last string for equality we can tell how many characters are common.
+        3. Return the part of the string that matches.
+
+LeetCode : https://leetcode.com/problems/longest-common-prefix/

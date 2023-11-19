@@ -1,0 +1,84 @@
+// Mehod 1 
+
+public class Solution {
+    public boolean rotateString(String s, String g) {
+        // Check if the lengths of the strings are not equal
+        if (s.length() != g.length()) {
+            return false;
+        }
+
+        int j = 0;
+        
+        // Iterate through rotations
+        while (j != s.length()) {
+            // Perform rotation
+            String result = s.substring(1) + s.charAt(0);
+
+            // Check if the rotated string is equal to the target string
+            if (s.equals(g)) {
+                return true;
+            }
+
+            j++;
+            s = result;
+        }
+
+        
+        return false;
+    }
+}
+
+
+Logic : Rotate the given string n times and check if any of the rotated string mathches the goal.
+
+// Method 2 
+
+public class Solution {
+    public boolean rotateString(String s, String g) {
+        // Check if the lengths of the strings are not equal
+        if (s.length() != g.length()) {
+            return false;
+        }
+
+        StringBuilder a = new StringBuilder(s);
+        StringBuilder b = new StringBuilder(g);
+        int j = 0;
+        
+        // Iterate through rotations
+        while (j != s.length()) {
+            // Perform rotation
+            StringBuilder result = new StringBuilder(a.substring(1));
+            result.append(a.charAt(0));
+
+            // Check if the rotated string is equal to the target string
+            if (result.toString().equals(b.toString())) {
+                return true;
+            }
+
+            j++;
+            a = result;
+        }
+
+        return false;
+    }
+}
+
+// Optimized 
+
+public class Solution {
+    public boolean rotateString(String s, String g) {
+        // Check if the lengths of the strings are not equal
+        if (s.length() != g.length()) {
+            return false;
+        }
+
+        // Concatenate the original string with itself
+        String concatenated = s + s;
+
+        // Check if the target string is a substring of the concatenated string
+        return concatenated.contains(g);
+    }
+}
+
+
+LeetCode : https://leetcode.com/problems/rotate-string/

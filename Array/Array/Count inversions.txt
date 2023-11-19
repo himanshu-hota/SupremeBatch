@@ -1,3 +1,29 @@
+// Method 1 
+
+public class Solution {
+    public static int numberOfInversions(int []a, int n) {
+        
+        int count = 0;
+        
+        for(int i = 0; i< n ;i++){
+            
+            for(int j = i+1; j< n; j++){
+                if(a[i] > a[j]) count++;
+            }
+        }
+
+
+        return count++;
+    }
+}
+
+
+Logic : count all greater elements on right of the each index and that is the answer.
+
+
+
+// Method 2
+
 import java.util.*;
 
 public class Solution {
@@ -55,6 +81,9 @@ public class Solution {
         return mergeSort(a, new int[n], 0, n - 1);
     }
 }
+
+
+Logic : When applying mergeSort if the element from right part is smaller then count all the elements greater than that element and add it to the answer.
 
 
 CodeStudio : https://www.codingninjas.com/studio/problems/number-of-inversions_6840276?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=SUBMISSION

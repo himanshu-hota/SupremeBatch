@@ -74,7 +74,7 @@ class Solution {
 // and dont run the loop for duplicate value of nums[i]
 if (i > 0 && nums[i] == nums[i - 1]) continue; 
 
-// this handles the case of duplicacy of nums[i]
+// this handles the case of duplicacy of nums[j]
 // and dont run the loop for duplicate value of nums[j]
 if (j > i + 1 && nums[j] == nums[j - 1]) continue;
                 
@@ -83,7 +83,15 @@ while (k < l && nums[k] == nums[k - 1]) k++; // Skip duplicates in the left part
 
 // if two consecutive elements are same from end then skip it.
 while (k < l && nums[l] == nums[l + 1]) l--; // Skip duplicates in the right part of the quadruplet.
-                        
+
+
+Steps : 1. Sort the array.
+        2. Check if array has less than 4 elements then there is no ans possible.
+        3. 2 For loops and 1 while loop (keep in mind)                    .
+        4. Each pointer will be on one index ahead of previos pointer.
+        5. Keep in mind the sum variable will always be 'long'.
+        6. You will have to handle all the duplicate elements yourself.
+        
 
 LeetCode :- https://leetcode.com/problems/4sum/
 

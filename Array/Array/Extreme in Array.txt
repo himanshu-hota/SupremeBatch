@@ -24,7 +24,7 @@ What to do in this question ?
 
 ex. 1. arr => [1,2,3,4,5,6,7];
 
-print the aray in following way
+print the array in following way
 
 1,7,2,6,3,5,4
 

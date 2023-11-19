@@ -1,0 +1,31 @@
+class Solution {
+    public String removeOuterParentheses(String s) {
+
+        StringBuilder ans = new StringBuilder();
+        int count = 0;
+
+        for(int i = 0; i< s.length(); i++){
+            char ch = s.charAt(i);
+
+            if(ch == '('){
+                if(count > 0) ans.append(ch);
+                count++;
+            }else{
+                if(count > 1) ans.append(ch);
+                count--;
+            }
+        }
+
+        return ans.toString();
+    }
+}
+
+Special Note : 1. Balance tabhi hoga jab count even hoga (0 ko mat consider karna as even).  aur agar balanced hai to matlab hai ki ek valid pair mil gaya hai.
+               
+Steps : 1. If found '(' then increase the count.
+        2. If found ')' then decrease the count.
+        3. Include '(' only when you have more than 0 open paranthesis or in other words you have at least 1 open paranthesis.
+        4. Include ')' only when you have more than 1 open paranthesis or in other words you have at least 1 open paranthesis to close it and make a pair .
+
+
+CodeStudio : https://leetcode.com/problems/remove-outermost-parentheses/
