@@ -1,3 +1,32 @@
+// Method 1 
+
+class Solution {
+    public int firstUniqChar(String s) {
+        int[] map = new int[256];
+
+        // Populate the character frequency array
+        for (char ch : s.toCharArray()) {
+            map[ch]++;
+        }
+
+        // Find the index of the first unique character
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+
+            if(map[ch]  == 1) return i;
+        }
+
+        // Return -1 if no unique character is found
+        return -1;
+    }
+}
+
+Steps : 1. Map the frequencies.
+        2. Traverse the string from left(start) and check if we find any character with frequency 1 then it appeared only once in the entire string and it is the first char that is unique, so this is the our answer.
+
+
+// Method 2
+
 class Solution {
     // array to track frequency 
     static int freq[] = new int[26];

@@ -1,3 +1,43 @@
+// Method 1 
+
+public String removeDuplicates(String s) {
+        // Get the length of the input string
+        int n = s.length();
+
+        // If the string has 0 or 1 characters, no duplicates to remove
+        if (n <= 1) return s;
+
+        // Create a StringBuilder to store the result without consecutive duplicates
+        StringBuilder ans = new StringBuilder();
+        
+        // Initialize the index to traverse the input string
+        int i = 0;
+
+        // Iterate through each character in the input string
+        while (i < n) {
+            // Get the current character
+            char ch = s.charAt(i);
+
+            // If the result StringBuilder is not empty and the last character is equal to the current character,
+            // remove the last character to avoid consecutive duplicates
+            if (ans.length() > 0 && ans.charAt(ans.length() - 1) == ch) {
+                ans.deleteCharAt(ans.length() - 1);
+            } else {
+                // Append the current character to the result StringBuilder
+                ans.append(ch);
+            }
+
+            // Move to the next character in the input string
+            i++;
+        }
+
+        // Return the result as a string without consecutive duplicate characters
+        return ans.toString();
+    }
+
+
+// Method 2
+
  public static String removeDuplicates(String s) {
 
         //we are using StringBuilder because it is faster than regular string and StringBuffer

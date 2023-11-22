@@ -1,0 +1,23 @@
+public static String removeDuplicates(String str) {
+        // Create a HashSet to store unique characters
+        HashSet<Character> set = new HashSet<>();
+        
+        // Create a StringBuilder to store the result without duplicates
+        StringBuilder s = new StringBuilder();
+
+        // Iterate through each character in the input string
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+
+            // If the character is not in the set, add it to both the set and the StringBuilder
+            if (!set.contains(ch)) {
+                set.add(ch);
+                s.append(ch);
+            }
+        }
+
+        // Return the result as a string without duplicate characters
+        return s.toString();
+}
+
+LeetCode : https://www.codingninjas.com/studio/problems/remove-duplicates-from-string_630470?leftPanelTabValue=PROBLEM

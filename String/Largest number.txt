@@ -14,7 +14,7 @@
     }
 
 
-    Note :- here the custom comparator is sorting string in lexicographical order but if we have "3" and "30" then we will say 3 is greter not 30
+Note :- here the custom comparator is sorting string in lexicographical order but if we have "3" and "30" then we will say 3 is greter not 30
 
     int arr[] = {3,30,34,5,9};
 
@@ -48,4 +48,22 @@
         1. b+a - a+b =>  "3" + "34" - "34" + "3" => "334" - "343" => false
 
 
-    Leetcode :- https://leetcode.com/problems/largest-number/
+Special Note : 1. Here use of .equals when comparing two 'String' values. 
+               
+In Java, when comparing strings, you should use the equals method rather than the == operator. The == operator checks for reference equality (whether the two references point to the same object in memory), while the equals method checks for content equality (whether the characters in the two strings are the same).
+
+In the context of your code:
+
+return strs[0].equals("0") ? "0" : String.join("",strs);
+
+This line checks if the first element of the strs array is equal to the string "0". It uses the equals method to compare the content of the strings.
+
+On the other hand, if you use == like this:
+
+return strs[0] == "0" ? "0" : String.join("",strs);
+
+It checks for reference equality, which might not work as expected for string comparison. Strings in Java are objects, and using == will check if the two references point to the exact same object, not if the content of the strings is the same. In some cases, it might work due to string interning, but it's not guaranteed and can lead to unexpected behavior.
+
+In general, when comparing strings for equality in Java, it's safer to use the equals method.
+
+Leetcode :- https://leetcode.com/problems/largest-number/

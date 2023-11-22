@@ -1,3 +1,5 @@
+// Method 1
+
 public static String removeConsecutiveDuplicates(String s) {
 
 		// Write your code here
@@ -29,5 +31,50 @@ public static String removeConsecutiveDuplicates(String s) {
 		return ans.toString();
 	}
 
+// Method 2
 
-    CodeStudio :- https://www.codingninjas.com/codestudio/problems/remove-consecutive-duplicates_893195?leftPanelTab=1
+
+public class Solution {
+	public static String removeConsecutiveDuplicates(String s) {
+
+        // If the length of the input string is 0 or 1, no duplicates to remove
+        if (s.length() <= 1) {
+            return s;
+        }
+
+        // Create a StringBuilder to store the result, initially with the first character
+        StringBuilder ans = new StringBuilder();
+        ans.append(s.charAt(0));
+
+        // Initialize pointers for traversal
+        int i = 0;
+        int n = s.length();
+
+        // Iterate through each character in the input string
+        while (i < n) {
+
+            // Get the current character
+            char ch = s.charAt(i);
+
+            // If the current character is different from the last character in the result
+            if (ans.charAt(ans.length() - 1) != ch) {
+                // Append the current character to the result
+                ans.append(ch);
+            }
+
+            // Move to the next character
+            i++;
+        }
+
+        // Return the result as a string
+        return ans.toString();
+    }
+
+}
+
+Steps : 1. Create a string and initially add the first character fo the given string.
+		2. Now iterate through the given string and check whether the last character of the ans string is same as currect character , if yes then dont add this character to ans.
+		
+
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/remove-consecutive-duplicates_893195?leftPanelTab=1

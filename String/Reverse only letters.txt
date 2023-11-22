@@ -1,30 +1,43 @@
+class Solution {
+     public String reverseOnlyLetters(String s) {
 
-    public String reverseOnlyLetters(String S) {
-    
-        // createing string builder because in string builder operations are fast
-        StringBuilder sb = new StringBuilder(S);
+        // Create a StringBuilder to manipulate characters
+        StringBuilder ans = new StringBuilder(s);
 
-        // iterate through the letters
-        for (int i = 0, j = S.length() - 1; i < j;) {
+        // Initialize pointers for the start and end of the string
+        int i = 0;
+        int j = s.length() - 1;
 
-            
-            if (!Character.isLetter(sb.charAt(i))) {
-                ++i; // if currect character is not a valid a alphabet then move the pointer
-            } else if (!Character.isLetter(sb.charAt(j))) {
-                --j; // if currect character is not a valid a alphabet then move the pointer
-            } else { // if both characters are alphabet then swap 
-                char temp = S.charAt(j);
-                sb.setCharAt(j, S.charAt(i));
-                sb.setCharAt(i, temp);
+        // Continue swapping letters until the pointers meet
+        while (i < j) {
+
+            // If character at 'i' is not a letter, move 'i' pointer forward
+            if (!Character.isLetter(ans.charAt(i))) {
+                i++;
+            }
+            // If character at 'j' is not a letter, move 'j' pointer backward
+            else if (!Character.isLetter(ans.charAt(j))) {
+                j--;
+            }
+            // If both characters at 'i' and 'j' are letters, swap them and move pointers
+            else {
+                char a = ans.charAt(i);
+                char b = ans.charAt(j);
+
+                ans.setCharAt(i, b);
+                ans.setCharAt(j, a);
+
                 i++;
                 j--;
             }
         }
 
-        //conver it to a string 
-        return sb.toString();
+        // Return the string with reversed letters
+        return ans.toString();
     }
+}
 
-    Leetcode :- https://leetcode.com/problems/reverse-only-letters/
 
-    CodeStudio :- https://www.codingninjas.com/codestudio/problems/reverse-only-letters_1235236
+Leetcode :- https://leetcode.com/problems/reverse-only-letters/
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/reverse-only-letters_1235236

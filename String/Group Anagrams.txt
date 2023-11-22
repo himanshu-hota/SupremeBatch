@@ -27,6 +27,7 @@
 			}   
             // if current string is an anagram then it should be added to to the list of current anagram
             // if current string is a valid anagram the add it to the list of anagram of current string
+			// yaha galti karoge -- Is code ko upar wale if k else me mat dalna nahi to gadbad hogi.
 			map.get(key).add(str);
 		}
 
@@ -34,6 +35,8 @@
 		return new ArrayList<>(map.values());
 	}
 
-    LeetCode :- https://leetcode.com/problems/group-anagrams/description/
+Special Note : Which gadbad ? --> Agar else me dal diya to key wala string kabhi add hi nahi hoga final answer me.
 
-    CodeStudio :- https://www.codingninjas.com/codestudio/problems/group-anagrams-together_985354?leftPanelTab=1
+LeetCode :- https://leetcode.com/problems/group-anagrams/description/
+
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/group-anagrams-together_985354?leftPanelTab=1

@@ -97,6 +97,32 @@ public boolean isAnagram(String a, String b) {
         return true;
     }
 
+    // Method 3
+
+    import java.util.Arrays;
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        
+        if (s.length() != t.length()) {
+            return false;
+        }
+
+        // Convert strings to character arrays
+        char[] charArrayS = s.toCharArray();
+        char[] charArrayT = t.toCharArray();
+
+        // Sort the character arrays
+        Arrays.sort(charArrayS);
+        Arrays.sort(charArrayT);
+
+        // Compare the sorted arrays
+        return Arrays.equals(charArrayS, charArrayT);
+    }
+}
+
+
+
     LeetCode :- https://leetcode.com/problems/valid-anagram/
 
     CodeStudio :- https://www.codingninjas.com/codestudio/problems/anagram-pairs_626517
