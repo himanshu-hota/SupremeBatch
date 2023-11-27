@@ -1,3 +1,83 @@
+class GfG {
+
+    // Function to merge two sorted linked lists
+    static Node merge(Node list1, Node list2) {
+        // If list1 is empty, return list2
+        if (list1 == null) return list2;
+        // If list2 is empty, return list1
+        if (list2 == null) return list1;
+
+        // Pointers for traversing list1 and list2
+        Node a = list1;
+        Node b = list2;
+
+        // Dummy node for the merged list
+        Node ans = new Node(-1);
+        // Pointer to the head of the merged list
+        Node newHead = ans;
+
+        // Merge the lists
+        while (a != null && b != null) {
+            if (a.data <= b.data) {
+                // Link the current node from list1 to the merged list
+                ans.bottom = a;
+                // Move to the next node in list1
+                a = a.bottom;
+            } else {
+                // Link the current node from list2 to the merged list
+                ans.bottom = b;
+                // Move to the next node in list2
+                b = b.bottom;
+            }
+
+            // Move to the next node in the merged list
+            ans = ans.bottom;
+        }
+
+        // If there are remaining nodes in list1, add them to the merged list
+        while (a != null) {
+            ans.bottom = a;
+            a = a.bottom;
+            ans = ans.bottom;
+        }
+
+        // If there are remaining nodes in list2, add them to the merged list
+        while (b != null) {
+            ans.bottom = b;
+            b = b.bottom;
+            ans = ans.bottom;
+        }
+
+        // Return the head of the merged list (skipping the dummy node)
+        return newHead.bottom;
+    }
+
+    // Function to flatten a multilevel linked list
+    Node flatten(Node root) {
+        // If the root is null, return null
+        if (root == null) return null;
+
+        // Initialize the answer as null
+        Node ans = null;
+        // Pointer for traversing the levels of the multilevel linked list
+        Node tail = root;
+
+        // Iterate through each level and merge it with the previous levels
+        while (tail != null) {
+            ans = merge(ans, tail);
+            // Move to the next level
+            tail = tail.next;
+        }
+
+        // Return the flattened linked list
+        return ans;
+    }
+}
+
+
+ ----------------------------------------------------- Recursive -----------------------------------------------------
+
+
 class GfG
 {
     // Function to merge two sorted linked lists

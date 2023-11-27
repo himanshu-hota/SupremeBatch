@@ -33,4 +33,15 @@ static void linkdelete(Node head, int M, int N) {
 }
 
 
+Special Note : 1. Question says to delete N nodes after each M nodes till last of the linkedlist.
+               2. Recursion lagana padega bhai aage ke nodes k liye.
+
+Steps : 1. Skip M-1 nodes,and stand at mth node, now make sure that there are remaining nodes to delete, if no nodes available then return. (why skip m-1 nodes ? --> because deletion will be done from mth+1 node so we need the mth node to link it with the nodes after deletion).
+        2. Store the pointer of the mth node. and move the curr pointer one step ahead (VVIMP mat bhulna). (why moving one step ahead ? --> because we want deletion from mth+1 node).
+        3. Now delete N nodes.
+        4. Link the mth node pointer with curr pointer to link them together.
+        5. Recursive call for remaining nodes. (this is VVIMP dont forget to make recursive call).
+
+
+
 GFG :- https://practice.geeksforgeeks.org/problems/delete-n-nodes-after-m-nodes-of-a-linked-list/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

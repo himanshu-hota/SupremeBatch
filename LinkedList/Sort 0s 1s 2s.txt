@@ -38,51 +38,49 @@ public class Solution {
 // --------------------------------------- Pointer Approach ------------------------------------------------
 
 
-static Node segregate(Node head) {
-    // Check if the linked list is empty or contains only one node
-    if (head == null || head.next == null)
-        return head;
+public class Solution {
+    // Function to sort a linked list containing 0s, 1s, and 2s
+    public static Node sortList(Node head) {
+        // Create three dummy nodes to represent the heads of three sublists
+        Node zHead = new Node(-1); // Head of the sublist containing 0s
+        Node oHead = new Node(-1); // Head of the sublist containing 1s
+        Node tHead = new Node(-1); // Head of the sublist containing 2s
 
-    // Create three dummy nodes for each category
-    Node zeroHead = new Node(-1); // Head of the list containing 0s
-    Node oneHead = new Node(-1);  // Head of the list containing 1s
-    Node twoHead = new Node(-1);  // Head of the list containing 2s
+        // Create three tail pointers for the three sublists
+        Node zTail = zHead; // Tail of the sublist containing 0s
+        Node oTail = oHead; // Tail of the sublist containing 1s
+        Node tTail = tHead; // Tail of the sublist containing 2s
 
-    // Initialize tails for each category
-    Node zeroTail = zeroHead; // Tail of the list containing 0s
-    Node oneTail = oneHead;   // Tail of the list containing 1s
-    Node twoTail = twoHead;   // Tail of the list containing 2s
+        // Traverse the input linked list
+        Node curr = head;
 
-    // Traverse the linked list
-    Node current = head;
-    while (current != null) {
-        // Categorize the node based on its value
-        if (current.data == 0) {
-            // Append the node to the list of 0s
-            zeroTail.next = current;
-            zeroTail = current;
-        } else if (current.data == 1) {
-            // Append the node to the list of 1s
-            oneTail.next = current;
-            oneTail = current;
-        } else {
-            // Append the node to the list of 2s
-            twoTail.next = current;
-            twoTail = current;
+        while (curr != null) {
+            // Based on the value of the current node, add it to the appropriate sublist
+            if (curr.data == 0) {
+                zTail.next = curr;
+                zTail = zTail.next;
+            } else if (curr.data == 1) {
+                oTail.next = curr;
+                oTail = oTail.next;
+            } else {
+                tTail.next = curr;
+                tTail = tTail.next;
+            }
+
+            // Move to the next node in the input list
+            curr = curr.next;
         }
 
-        // Move to the next node
-        current = current.next;
+        // Connect the three sublists
+        zTail.next = oHead.next;
+        oTail.next = tHead.next;
+        tTail.next = null;
+
+        // The sorted list starts with the next node of the dummy node for 0s
+        return zHead.next;
     }
-
-    // Connect the three categories together
-    zeroTail.next = (oneHead.next != null) ? oneHead.next : twoHead.next; // Connect list of 0s with list of 1s or 2s
-    oneTail.next = twoHead.next; // Connect list of 1s with list of 2s
-    twoTail.next = null; // Set the next of the tail of 2s to null to end the list
-
-    // Return the head of the sorted linked list
-    return zeroHead.next;
 }
+
 
 
 

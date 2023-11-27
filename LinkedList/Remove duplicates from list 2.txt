@@ -35,4 +35,12 @@ class Solution {
 }
 
 
+Special Note : 1. We create a new node to handle the case if the starting point of the ll is duplicate itself.
+               2. We update the curr node only when the next if a distinct node (distinct means unique that has no duplicates).
+               3. If next of curr and next of next has the same value then 
+                    a. Pick the value that is duplicate.
+                    b. Keep updating the next of curr until we find the same value. ( most important is that we dont update the curr here, ye galti mat karna).
+                    
+
+
 LeetCode :- https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/

@@ -1,0 +1,71 @@
+// Method 1
+
+  public boolean hasCycle(ListNode head) {
+
+    if(head == null || head.next == null) return false;
+
+     ListNode slow = head;
+     ListNode fast = head; 
+     // loop till the fast reaches the end
+     while(fast != null && fast.next != null){
+         slow = slow.next;
+         fast = fast.next.next;
+        
+         // if any point of time slow and fast both are at same node then
+         // they are standing at any node that is in the path of the cycle
+         if(slow == fast) return true;
+     }
+
+     return false;
+    }
+
+
+public class Solution {
+   
+    public boolean hasCycle(ListNode head) {
+
+    if(head == null || head.next == null) return false;
+
+     ListNode slow = head;
+     ListNode fast = head.next; // yaha galti karoge, = head mat karna.
+
+     while(fast != null){
+         if(slow == fast) return true;
+
+         fast = fast.next;
+         if(fast != null){
+             fast = fast.next;
+             slow = slow.next;
+         }
+     }
+
+     return false;
+    }
+}
+
+Logic : logic used in the question is same as "Find middle of the linkedList"
+
+Link : https://leetcode.com/problems/middle-of-the-linked-list/description/
+
+
+Modifications : 1. ListNode fast = head.next;
+                2. if(slow == fast) return true;
+
+LeetCode : https://leetcode.com/problems/linked-list-cycle/
+
+CodeStudio : https://www.codingninjas.com/studio/problems/cycle-detection-in-a-singly-linked-list_628974?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
+
+
+----------------------- All these questions uses exactly same logic with some Modifications -------------------------
+
+1. Find the middle of the singly linkedList :
+https://leetcode.com/problems/middle-of-the-linked-list/description/
+
+2. Detect the cycle in singly linkedlist : 
+https://leetcode.com/problems/linked-list-cycle/
+
+3. Detect the cycle in singly linkedlist 2 :
+https://leetcode.com/problems/linked-list-cycle-ii/
+
+4. Find the length of the loop : 
+https://www.codingninjas.com/studio/problems/find-length-of-loop_8160455?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

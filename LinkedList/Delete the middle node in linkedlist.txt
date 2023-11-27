@@ -1,0 +1,37 @@
+class Solution {
+    public ListNode deleteMiddle(ListNode head) {
+        
+        // if list is null then there is no linkedlist to delelte node at the middle.
+        if(head == null) return head;
+        // if there is only one element then simply delete this only node and return null.
+        if(head.next == null) return null;
+
+        
+        ListNode slow = head;
+        ListNode fast = head; // fast = head.next gives the error thats why i tried for just head.
+        ListNode prev = head;
+
+        // find the middle
+        while(fast != null ){
+            fast = fast.next;
+
+            if(fast != null){
+                prev = slow;
+                slow = slow.next;
+                fast = fast.next;
+            }
+        }
+
+        // delete the middle
+        prev.next = slow.next;
+
+        return head;
+    }
+}
+
+Logic : Just maintain a prev to middle node and to delete the middle point the prev's next to middle's next.
+
+LeetCode : https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/
+
+CodeStudio : https://www.codingninjas.com/studio/problems/delete-middle-node_763267?leftPanelTabValue=PROBLEM
+

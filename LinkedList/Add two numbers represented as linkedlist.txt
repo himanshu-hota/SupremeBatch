@@ -1,11 +1,12 @@
-class Solution {
-    // Function to add two numbers represented by linked lists.
+// Method 1 
 
-    // Helper function to reverse a linked list.
-    static Node reverse(Node head) {
-        Node prev = null;
-        Node curr = head;
-        Node next = null;
+class Solution {
+
+    // Function to reverse a linked list
+    public ListNode reverse(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        ListNode next = null;
 
         // Reverse the linked list using three pointers.
         while (curr != null) {
@@ -18,40 +19,42 @@ class Solution {
         return prev;  // Return the new head of the reversed list.
     }
 
-    static Node addTwoLists(Node l1, Node l2) {
-        if (l1 == null) return l2;  // If one list is empty, return the other list.
+    // Function to add two numbers represented by linked lists
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        // Check if one of the lists is null
+        if (l1 == null) return l2;
         if (l2 == null) return l1;
 
-        // Reverse the input linked lists for easier addition.
-        l1 = reverse(l1);
-        l2 = reverse(l2);
+        int sum = 0;
+        int carry = 0;
 
-        Node ansHead = null;  // Head of the resulting sum list.
-        Node ansTail = null;  // Tail of the resulting sum list.
+        // Initialize pointers for the result linked list
+        ListNode ansHead = null;
+        ListNode ansTail = null;
 
-        int carry = 0;  // Carry value for addition.
-        int sum = 0;  // Sum of digits at the current positions.
-
-        // Perform addition digit by digit until both lists are processed.
+        // Traverse the input lists
         while (l1 != null || l2 != null) {
             sum = carry;
-            
-            // Add the digits from both lists and the carry.
+
+            // Add values of the current nodes
             if (l1 != null) {
-                sum += l1.data;
+                sum += l1.val;
                 l1 = l1.next;
             }
+
             if (l2 != null) {
-                sum += l2.data;
+                sum += l2.val;
                 l2 = l2.next;
             }
 
-            // Calculate the digit and carry for the current position.
+            // Extract the digit and carry
             int digit = sum % 10;
             carry = sum / 10;
 
-            // Create a new node for the digit and update the result list.
-            Node newNode = new Node(digit);
+            // Create a new node with the result digit
+            ListNode newNode = new ListNode(digit);
+
+            // Update the result linked list
             if (ansHead == null) {
                 ansHead = newNode;
                 ansTail = newNode;
@@ -61,21 +64,122 @@ class Solution {
             }
         }
 
-        // Add any remaining carry to the result list.
-        if (carry != 0) {
-            Node newNode = new Node(carry);
-            ansTail.next = newNode;
-            ansTail = newNode;
+        // Check if there's a remaining carry
+        if (carry > 0) {
+            ListNode lastDigit = new ListNode(carry);
+            ansTail.next = lastDigit;
+            ansTail = lastDigit;
         }
 
-        // Reverse the answer linked list to restore the correct order.
-        ansHead = reverse(ansHead);
-
-        return ansHead;  // Return the head of the resulting sum list.
+        return ansHead;
     }
 }
 
+// Method 2
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+
+ 
+
+class Solution {
+
+    static ListNode reverse(ListNode head){
+        ListNode temp = head;
+
+        ListNode prev = null;
+        ListNode curr = head;
+        ListNode next = null;
+
+        while(curr != null){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        return prev;
+    }
+
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        
+        if(l1 == null) return l2;
+        if(l2 == null) return l1;
+
+        // reverse 
+        // l1 = reverse(l1);
+        // l2 = reverse(l2);
+
+        ListNode ansHead = null;
+        ListNode ansTail = null;
+
+        // add
+        int carry = 0;
+        int sum = 0;
+        while(l1 != null && l2 != null){
+            sum = carry + l1.val + l2.val;
+            int digit = sum%10;
+            carry = sum/10;
+            ListNode newNode = new ListNode(digit);
+            if(ansHead == null){
+                ansHead = newNode;
+                ansTail = newNode; 
+            }else{
+                ansTail.next = newNode;
+                ansTail = newNode;
+            }
+
+            l1 = l1.next;
+            l2 = l2.next;
+
+        }
+
+        while(l1 != null){
+            sum = carry + l1.val;
+            int digit = sum%10;
+            carry = sum/10;
+            ListNode newNode = new ListNode(digit);
+            ansTail.next = newNode;
+            ansTail = newNode;
+            l1 = l1.next;
+        }
+
+        
+        while(l2 != null){
+            sum = carry + l2.val;
+            int digit = sum%10;
+            carry = sum/10;
+            ListNode newNode = new ListNode(digit);
+            ansTail.next = newNode;
+            ansTail = newNode;
+            l2 = l2.next;
+        }
+
+        while(carry != 0){
+            sum = carry ;
+            int digit = sum%10;
+            carry = sum/10;
+            ListNode newNode = new ListNode(digit);
+            ansTail.next = newNode;
+            ansTail = newNode;
+            
+        }
+
+        // ansHead = reverse(ansHead);
+        return ansHead;
+    }
+}
 
 LeetCode :- https://leetcode.com/problems/add-two-numbers/description/
 
 GFG :- https://practice.geeksforgeeks.org/problems/add-two-numbers-represented-by-linked-lists/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+CodeStudio : https://www.codingninjas.com/studio/problems/add-two-numbers_1170520?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

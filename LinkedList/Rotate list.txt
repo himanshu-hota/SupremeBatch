@@ -1,57 +1,56 @@
 class Solution {
 
-    // Method to find the length of the linked list
-    static int findLen(ListNode head){
-        if(head == null) return 0;
+    public int findLen(ListNode head){
+        ListNode curr = head;
+        int n = 0;
 
-        int count = 0;
-        ListNode temp = head;
-        while(temp != null){
-            temp = temp.next;
-            ++count;
+        while( curr != null ){
+            curr = curr.next;
+            n++;
         }
+        
+        return n;
 
-        return count;
     }
 
     public ListNode rotateRight(ListNode head, int k) {
-        // Check for edge cases
-        if(head == null) return head;
-        if(k <= 0) return head;
+     
+        if(head == null || head.next == null) return head;
 
-        int len = findLen(head);
+        int n = findLen(head);
 
-        int actualK = k % len;
+        if(k>n) k = k%n;
 
-        // If actualK is 0, the rotation doesn't change the list
-        if(actualK == 0 ) return head;
-        int newLastNodePos = len - actualK - 1;
+        if(k == 0 || k == n) return head;
 
-        int count = 0; 
-        ListNode newHead = null, newLastNode = head;
+        // go to till this node (the node just before our newHead)
+        int pos = n-k-1;
 
-        // Traverse to find the new last node position
-        while(newLastNode != null && count < newLastNodePos){
-            newLastNode = newLastNode.next;
-            count++;
+        ListNode tail = head;
+        
+        for(int i = 0; i< pos; i++){
+            tail = tail.next;
         }
 
-        // Set the new head and break the connection to form the rotated list
-        newHead = newLastNode.next;
-        newLastNode.next = null;
+        // break the link and make newHead
+        ListNode newHead = tail.next;
+        tail.next = null;
+
+        // Go to the last node
         ListNode temp = newHead;
 
-        // Traverse to the last node of the new head
-        while(temp.next != null){
-            temp = temp.next;
-        }
+        while(temp!= null && temp.next != null) temp = temp.next;
 
-        // Connect the last node of the new head to the original head
+        // connect this last node with starting node of previous list
         temp.next = head;
 
+        // final answer.
         return newHead;
+
     }
 }
 
 
 LeetCode :- https://leetcode.com/problems/rotate-list/description/
+
+CodeStudio : https://www.codingninjas.com/studio/problems/rotate-linked-list_920454?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=SUBMISSION

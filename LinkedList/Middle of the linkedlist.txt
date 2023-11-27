@@ -1,21 +1,82 @@
- public ListNode middleNode(ListNode head) {
+// Method 1
+
+public ListNode middleNode(ListNode head) {
+
+        if(head == null || head.next == null) return head;
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        loop tile the fast reaches the end
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // now slow is standing at the middle.
+        return slow;
+
+}
+
+// Mehtod 2
+
+public ListNode middleNode(ListNode head) {
         if(head == null) return null;
 
         if(head.next == null) return head;
 
+        // point both pointer at starting point of the linkedlist
         ListNode slow = head;
         ListNode fast = head;
         
+        // loop till any of these two becomes null ,   ----- while(fast != null) is also correct
         while(slow != null && fast != null){
+            // move fast by 1 step.
             fast = fast.next;
+            
+            // check if we can move further or not, if yes then move both pointers 1 step ahead.
             if(fast != null){
                 fast = fast.next;
                 slow = slow.next;
             }
         }
 
+        // slow will be standing at middle of the linkedlist
         return slow;
     }
 
 
-    LeetCode :- https://leetcode.com/problems/middle-of-the-linked-list/description/
+// Method 3 -- This logic always gives the correct middle element. the above two might give wrong ans sometime.
+
+        ListNode slow = head;
+        ListNode fast = head.next;
+
+        while(fast != null ){
+            fast = fast.next;
+
+            if(fast!= null){
+                slow = slow.next;
+                fast = fast.next;
+            }
+
+        }
+
+LeetCode :- https://leetcode.com/problems/middle-of-the-linked-list/description/
+
+CodeStudio : https://www.codingninjas.com/studio/problems/middle-of-linked-list_973250?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+
+
+
+----------------------- All these questions uses exactly same logic with some Modifications -------------------------
+
+1. Find the middle of the singly linkedList :
+https://leetcode.com/problems/middle-of-the-linked-list/description/
+
+2. Detect the cycle in singly linkedlist : 
+https://leetcode.com/problems/linked-list-cycle/
+
+3. Detect the cycle in singly linkedlist 2 :
+https://leetcode.com/problems/linked-list-cycle-ii/
+
+4. Find the length of the loop : 
+https://www.codingninjas.com/studio/problems/find-length-of-loop_8160455?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

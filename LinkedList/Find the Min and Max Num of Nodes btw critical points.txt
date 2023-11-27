@@ -40,5 +40,12 @@ public int[] nodesBetweenCriticalPoints(ListNode head) {
    return ans; // Return the answer array
 }
 
+Steps : 1. Check if we can get ciritical points or not ( if we have more than 3 nodes then only we can get critical points).
+        2. Traverse the LinkedList until the next pointer becomes null (why next ? -- > because next will be the last node if that exists then only ciritical points can be genereated).
+        3 If we got any critical point then check if it is the first critical point then update both firstCP and lastCP and keep moving forward without any Calculations.
+        4. Now if we got any critical point then we need to Calculate the minDistance and update only the lastCP pointer.
+        5. After the loop check if we have only 1 critical point , if yes then no ans is possible.
+        6. If we have more than 1 critical points than Calculate the max distance by subtracting the lastCP and firstCP and return ans.
+
 LeetCode :- https://leetcode.com/problems/find-the-minimum-and-maximum-number-of-nodes-between-critical-points/description/
 

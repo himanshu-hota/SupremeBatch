@@ -1,0 +1,47 @@
+ 
+public class Solution {
+    public static Node reverseDLL(Node head) {
+        // Check if the list is empty or contains only one node
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        // Initialize pointers for the reversal process
+        Node prev = null; // Points to the previous node during reversal
+        Node curr = head; // Points to the current node being processed
+
+        // Traverse the list and reverse the links
+        while (curr != null) {
+            // Swap the next and prev pointers of the current node
+            prev = curr.prev;
+            curr.prev = curr.next;
+            curr.next = prev;
+
+            // Move to the next node in the original list
+            curr = curr.prev;
+        }
+
+        // The previous node after the traversal is the new head of the reversed list
+        return prev.prev;
+    }
+}
+
+
+// recursive
+
+private static Node reverseDLLHelper(Node prev, Node curr) {
+        // Base case: if the current node is null, the reversal is complete
+        if (curr == null) {
+            return prev.prev; // The previous node after the traversal is the new head
+        }
+
+        // Swap the next and prev pointers of the current node
+        Node next = curr.next;
+        curr.next = prev;
+        curr.prev = next;
+
+        // Recursive call for the next node in the original list
+        return reverseDLLHelper(curr, next);
+}
+
+CodeStudio : https://www.codingninjas.com/studio/problems/reverse-a-doubly-linked-list_1116098?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

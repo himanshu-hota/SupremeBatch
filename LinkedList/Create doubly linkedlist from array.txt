@@ -1,0 +1,42 @@
+
+public class Solution
+{
+    
+    public static Node constructDLL(int []arr) {
+        
+        // Check if the array is empty
+        if(arr.length == 0) 
+            return null;
+        
+        // Check if the array has only one element
+        if(arr.length == 1) 
+            return new Node(arr[0]);
+
+        // Create the head node with the first element of the array
+        Node head = new Node(arr[0]);
+        Node temp = head;
+
+        // Iterate through the array to construct the doubly linked list
+        for(int i = 1; i < arr.length; i++){
+
+           // Create a new node with the current array element
+           Node curr = new Node(arr[i]);
+           
+           // Set the previous node of the current node to the temporary pointer
+           curr.prev = temp;
+           
+           // Set the next node of the temporary pointer to the current node
+           temp.next = curr;
+           
+           // Move the temporary pointer to the current node
+           temp = temp.next;
+
+        }
+
+        // Return the head of the constructed doubly linked list
+        return head;
+    }
+}
+
+
+CodeStudio : https://www.codingninjas.com/studio/problems/introduction-to-doubly-linked-list_8160413?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
