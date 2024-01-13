@@ -1,0 +1,74 @@
+// Generate all subarrays
+
+// Iterative approach
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+
+    public static List<List<Integer>> generateSubarrays(int[] array) {
+        List<List<Integer>> result = new ArrayList<>();
+
+        int n = array.length;
+
+        for(int i = 0; i < n ; i++){
+          for(int j = i ; j < n ; j++){
+            List<Integer> curr = new ArrayList<>();
+            for(int k = i ; k<=j ; k++){
+              curr.add(array[k]);
+            }
+            result.add(curr);
+          }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] inputArray = {1, 2, 3};
+        List<List<Integer>> subarrays = generateSubarrays(inputArray);
+
+        System.out.println("Original Array: " + Arrays.toString(inputArray));
+        System.out.println("All Subarrays:");
+        for (List<Integer> subarray : subarrays) {
+            System.out.println(subarray);
+        }
+    }
+}
+
+
+// Recursive approach
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+
+    public static void main(String[] args) {
+        int[] array = {1, 2, 3};
+
+        generateSubarrays(array, 0, new ArrayList<>());
+    }
+
+    public static void generateSubarrays(int[] array, int index, List<Integer> current) {
+        if (index == array.length) {
+            return;
+        }
+
+        for (int i = index; i < array.length; i++) {
+            current.add(array[i]);
+            printSubarray(current);
+            generateSubarrays(array, i + 1, current);
+            current.remove(current.size() - 1);
+        }
+    }
+
+    public static void printSubarray(List<Integer> subarray) {
+        for (int num : subarray) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+    }
+}

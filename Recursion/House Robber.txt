@@ -19,3 +19,7 @@ class Solution {
         return ans;
     }
 }
+
+LeetCode : https://leetcode.com/problems/house-robber/
+
+CodeStudio : https://www.codingninjas.com/studio/problems/loot-houses_630510

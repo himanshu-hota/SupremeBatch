@@ -1,0 +1,343 @@
+// Get all subsequences
+
+// Method 1
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+// The main method must be in a class named "Main"
+class Main {
+
+    public static void solve(int arr[],List<List<Integer>> ans,ArrayList<Integer> curr,int i){
+
+      if(i>=arr.length){
+        ans.add(new ArrayList(curr));
+        return;         
+      }
+
+     
+
+      // include
+      curr.add(arr[i]);
+      solve(arr,ans,curr,i+1);
+      curr.remove(curr.size()-1);
+
+      // exclude
+      solve(arr,ans,curr,i+1);
+
+    }
+
+    public static void main(String[] args) {
+        
+        int arr[] = {1,2,3};
+        
+        List<List<Integer>> ans = new ArrayList<>();
+        solve(arr,ans,new ArrayList<Integer>(),0);
+
+        for(List<Integer> row : ans){
+          for(int x : row){
+            System.out.print(x + ",");
+          }
+          System.out.println();
+        }
+
+    }
+}
+
+
+// Method 2
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+// The main method must be in a class named "Main"
+class Main {
+
+
+    public static void sub(int arr[],ArrayList<Integer> curr,int i){
+      if(i>=arr.length){
+
+        for(int x : curr){
+            System.out.print(x + ",");
+        }
+        System.out.println();
+
+        return;
+
+      }
+
+      curr.add(arr[i]);
+      sub(arr,curr,i+1);
+      curr.remove(curr.size()-1);
+
+      sub(arr,curr,i+1);
+
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Hello world!");
+
+        int arr[] = {1,2,3};
+
+        sub(arr,new ArrayList<Integer>(),0);
+    }
+}
+
+-----------------------------------------------------------------------------
+
+// Subsequence that sum to k (only 1)
+
+// method 1
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+// The main method must be in a class named "Main"
+class Main {
+
+    public static boolean helper(int arr[],int i,ArrayList<Integer> sub, int sum,int k){
+      if(sum > k) return false;
+
+      if(i >= arr.length){
+        if(sum == k){
+          for(int x : sub) System.out.print(x + ",");
+          return true;
+        }
+        return false;
+      }
+
+      sub.add(arr[i]);
+      boolean ans1 = helper(arr,i+1,sub,sum+arr[i],k);
+      if(ans1) return true;
+
+      sub.remove(sub.size() -1);
+
+      boolean ans2 = helper(arr,i+1,sub,sum,k);
+
+      if(ans2) return true;
+
+      return false;
+
+    }
+
+    public static void main(String[] args) {
+        
+       int arr[] = {1,2,3,4,5};
+
+      ArrayList<Integer> ans = new ArrayList<>();
+
+       helper(arr,0,ans,0,5);
+
+       
+
+    }
+}
+
+Note : 1. We used return type boolean to keep track of whether we have found any subsequence or not.
+       2. The if checks helps in avoiding the redundent recursive calls.
+       3. How ? --> 
+          a. We simply say if the sum exceeds the target then no possible ans so return from here. 
+          b. We make 1 recursive call and store its ans , this ans tell whether we found our ans in only after including the current element, if yes then no need to calculate the case of exclude, so return from here.
+          c. If after excluding the element we found our answer then no need for further recursive call so return from here.
+
+
+
+// Method 2
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+// The main method must be in a class named "Main"
+class Main {
+
+    public static boolean solve(int arr[],List<List<Integer>> ans,ArrayList<Integer> curr,int i,int sum){
+
+      if(sum < 0) return false;
+
+      if(i>=arr.length){
+        if(sum == 0){
+          ans.add(new ArrayList(curr));
+          return true;
+        }
+         return false;
+      }      
+
+      // include
+      curr.add(arr[i]);
+      boolean ans1 = solve(arr,ans,curr,i+1,sum-arr[i]);
+      if(ans1) return true;
+      curr.remove(curr.size()-1);
+
+      // exclude
+      boolean ans2 = solve(arr,ans,curr,i+1,sum);
+      if(ans2) return true;
+
+
+      return false;
+
+    }
+
+    public static void main(String[] args) {
+        
+        int arr[] = {1,2,3,4,5,6,7,8,9,10};
+        int sum = 10;
+        List<List<Integer>> ans = new ArrayList<>();
+        solve(arr,ans,new ArrayList<Integer>(),0,sum);
+
+        for(List<Integer> x : ans){
+          for(int z : x){
+             System.out.print(z + ",");
+          }
+           System.out.println();
+        }
+
+    }
+}
+
+-----------------------------------------------------------------------------
+
+// All subsequences that sums to k
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+// The main method must be in a class named "Main"
+class Main {
+
+    public static void solve(int arr[],List<List<Integer>> ans,ArrayList<Integer> curr,int i,int sum){
+
+      if(sum < 0) return;
+
+      if(i>=arr.length){
+        if(sum == 0){
+          ans.add(new ArrayList(curr));
+        }
+        return ;
+      }      
+
+      // include
+      curr.add(arr[i]);
+      solve(arr,ans,curr,i+1,sum-arr[i]);
+      curr.remove(curr.size()-1);
+
+      // exclude
+      solve(arr,ans,curr,i+1,sum);
+      
+      
+
+    }
+
+    public static void main(String[] args) {
+        
+        int arr[] = {1,2,3,4,5,6,7,8,9,10};
+        int sum = 10;
+        List<List<Integer>> ans = new ArrayList<>();
+        solve(arr,ans,new ArrayList<Integer>(),0,sum);
+
+        for(List<Integer> x : ans){
+          for(int z : x){
+             System.out.print(z + ",");
+          }
+           System.out.println();
+        }
+
+    }
+}
+
+-------------------------------------------------------------------------------
+
+// Count subsequences sum to k
+
+// Method 1
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+// The main method must be in a class named "Main"
+class Main {
+
+    public static void solve(int arr[],List<List<Integer>> ans,ArrayList<Integer> curr,int i,int sum){
+
+      if(sum < 0) return;
+
+      if(i>=arr.length){
+        if(sum == 0){
+          ans.add(new ArrayList(curr));
+        }
+        return ;
+      }      
+
+      // include
+      curr.add(arr[i]);
+      solve(arr,ans,curr,i+1,sum-arr[i]);
+      curr.remove(curr.size()-1);
+
+      // exclude
+      solve(arr,ans,curr,i+1,sum);
+      
+      
+
+    }
+
+    public static void main(String[] args) {
+        
+        int arr[] = {1,2,3,4,5,6,7,8,9,10};
+        int sum = 5;
+        List<List<Integer>> ans = new ArrayList<>();
+        solve(arr,ans,new ArrayList<Integer>(),0,sum);
+
+        for(List<Integer> x : ans){
+          for(int z : x){
+             System.out.print(z + ",");
+          }
+           System.out.println();
+        }
+
+
+        System.out.println("Subsequencs sum to k: " + ans.size());
+    }
+}
+
+// Method 2
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+// The main method must be in a class named "Main"
+class Main {
+
+    public static int solve(int arr[],int i,int sum){
+
+      if(sum < 0) return 0;
+
+      if(i>=arr.length){
+        if(sum == 0){
+          return 1;
+        }
+        return 0;
+      }      
+
+      // include
+      int ans1 = solve(arr,i+1,sum-arr[i]);
+      
+      // exclude
+      int ans2 = solve(arr,i+1,sum);
+      
+      return ans1 + ans2;
+
+    }
+
+    public static void main(String[] args) {
+        
+        int arr[] = {1,2,3,4,5,6,7,8,9,10};
+        int sum = 5;
+        int ans = solve(arr,0,sum);
+
+        System.out.println("Subsequencs sum to k: " + ans);
+    }
+}
+

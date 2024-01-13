@@ -1,0 +1,100 @@
+// SUBARRAYS AND SUBSEQUENCES
+
+Are subsequences and subarrays same?
+
+Subarray: A subarray is a contiguous subsequence of an array. In other words, a subarray is formed by selecting consecutive elements from the original array. For example, if you have an array [1, 2, 3], the subarrays would be [1], [2], [3], [1, 2], [2, 3], [1, 2, 3].
+
+Subsequence: A subsequence, on the other hand, doesn't have to be contiguous. It is a sequence of elements that appears in the same order as in the original array but not necessarily consecutively. Using the same example, the subsequences would be [], [1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3].
+
+In summary, every subarray is a subsequence, but not every subsequence is a subarray. Subsequences can have gaps between elements, while subarrays are always contiguous.
+
+---------------------------------------------------------------
+
+// 
+
+Subarray: 
+
+A subarray is a contiguous (consecutive) subsequence within an array.
+All the elements in a subarray are in the same order as they appear in the original array.
+Example: Consider the array [1, 2, 3, 4]. Subarrays include [1, 2], [2, 3, 4], and [3], but not [1, 3] or [1, 4].
+
+ex. Subarray of [1,2,3]
+[1]
+[1, 2]
+[1, 2, 3]
+[2]
+[2, 3]
+[3]
+
+
+Subsequence :
+
+A subsequence is a sequence of elements that appears in the same order as in the original sequence, but not necessarily consecutively.
+Elements in a subsequence are not required to be adjacent in the original sequence.
+Example: For the sequence [1, 2, 3], subsequences include [1, 2], [1, 3], [2, 3], and [1, 2, 3]. Note that [1, 3, 2] is not a subsequence.
+
+ex. subsequence of [1,2,3] :
+
+[]
+[1]
+[2]
+[3]
+[1, 2]
+[1, 3]
+[2, 3]
+[1, 2, 3]
+
+
+Subset :
+
+A subset is a set of elements that are chosen from a larger set, and the order of elements does not matter.
+Every array is a subset of itself, and the empty set is also considered a subset of any set.
+Example: For the set {1, 2, 3}, subsets include {1, 2}, {2, 3}, {1, 2, 3}, and the empty set {}. Note that the order of elements doesn't matter in subsets.
+
+ex. Subsets of [1,2,3]
+
+{}
+{1}
+{2}
+{3}
+{1, 2}
+{1, 3}
+{2, 3}
+{1, 2, 3}
+
+
+In summary:
+
+A subarray is a contiguous portion of an array.
+A subsequence is a sequence of elements that maintains their relative order, but not necessarily consecutively.
+A subset is a set of elements, and the order doesn't matter.
+Remember that the terms "subarray" and "subsequence" are often used in the context of arrays or sequences, while "subset" is a more general term used in set theory.
+
+-------------------------------------------------------------------
+
+// So can we say subsets and subsequences are same
+
+No, subsets and subsequences are not the same, although they share some similarities.
+
+Subsets:
+
+A subset is a set of elements that are chosen from a larger set.
+The order of elements does not matter.
+Every array is a subset of itself.
+The empty set is also considered a subset of any set.
+Example: For the array {1, 2, 3}, subsets include {}, {1}, {2}, {3}, {1, 2}, {1, 3}, {2, 3}, {1, 2, 3}.
+
+Subsequences:
+
+A subsequence is a sequence of elements that appears in the same order as in the original sequence, but not necessarily consecutively.
+The order of elements matters.
+Example: For the array {1, 2, 3}, subsequences include [], [1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3].
+
+
+In summary, while every subset is a subsequence, not every subsequence is a subset. Subsequences must maintain the order of elements, whereas subsets do not consider the order. The distinction becomes clearer when dealing with sequences or arrays where the order of elements matters.
+
+One liner : Note: A subarray is a subsequence, a subsequence is a subset but the reverse order is not correct.
+
+Read more :
+    1. https://www.scaler.com/topics/difference-between-subarray-subset-and-subsequence/
+    2. https://leetcode.com/discuss/study-guide/1497123/subarrays-vs-subsequence-vs-subsets#:~:text=For%20an%20array%2Fstring%20of,empty%20sub%2Dsequences%20in%20total.

@@ -1,0 +1,34 @@
+class Solution {
+
+    public void solve(int arr[],int i, List<List<Integer>> ans ,List<Integer> curr){
+
+        if(i >= arr.length){
+            ans.add(new ArrayList<>(curr));
+            return;
+        }
+
+        // include
+        curr.add(arr[i]);
+        solve(arr,i+1,ans,curr);
+        curr.remove(curr.size()-1);
+
+        // exclude
+        solve(arr,i+1,ans,curr);
+        
+
+    }
+
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+
+        List<Integer> curr = new ArrayList<>();
+
+        solve(nums,0,ans,curr);
+
+        return ans;
+    }
+}
+
+Note : 1. Either the element will be included or excluded, so follow this pattern.
+
+LeetCode : https://leetcode.com/problems/subsets/description/

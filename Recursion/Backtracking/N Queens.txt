@@ -1,94 +1,173 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+// Method 1
 
 class Solution {
 
-    private Map<Integer, Boolean> rowCheck;
-    private Map<Integer, Boolean> upperLeftDiagonalCheck;
-    private Map<Integer, Boolean> bottomLeftDiagonalCheck;
+    public boolean isSafe(char board[][],int row,int col){
 
-    // Store the solution as a list of strings
-    private void storeSolution(List<List<Character>> board, int n, List<List<String>> ans) {
-        List<String> temp = new ArrayList<>();
-        for (List<Character> row : board) {
-            StringBuilder output = new StringBuilder();
-            for (char cell : row) {
-                output.append(cell);
-            }
-            temp.add(output.toString());
+        int i = row;
+        int j = col;
+
+        // upLeft check
+        while( i>=0 && j>= 0){
+            if(board[i][j] == 'Q') return false;
+            i--;
+            j--;
         }
-        ans.add(temp);
-    }
 
-    // Check if it is safe to place a queen at a particular cell
-    private boolean isSafe(int row, int col, List<List<Character>> board, int n) {
-        if (rowCheck.getOrDefault(row, false))
-            return false;
+        // bottomLeft check
+        i = row;
+        j = col;
+        
+        while( i<board.length && j>= 0){
+            if(board[i][j] == 'Q') return false;
+            i++;
+            j--;
+        }
 
-        if (upperLeftDiagonalCheck.getOrDefault(n - 1 + col - row, false))
-            return false;
+        // row check
+        i = row;
+        j = col;
+        while( j>=0){
+            if(board[i][j] == 'Q') return false;
+            j--;
+        }
 
-        if (bottomLeftDiagonalCheck.getOrDefault(row + col, false))
-            return false;
 
         return true;
     }
 
-    // Recursive backtracking function to solve the N-Queens problem
-    private void solve(List<List<Character>> board, int col, int n, List<List<String>> ans) {
-        // Base case: If all queens have been placed, store the solution and return
-        if (col >= n) {
-            storeSolution(board, n, ans);
+    public void storeAns(char board[][],List<List<String>> ans){
+        
+        List<String> curr = new ArrayList<>();
+
+        // take each row and convert it into string and store int in a list.
+        for(char row[] : board){
+            String rowString = new String(row);
+            curr.add(rowString);
+        }
+
+        // finaly store the ans
+        ans.add(curr);
+    }
+
+    public void solve(List<List<String>> ans,char board[][],int col){
+        // base case
+        if(col >= board.length){
+            storeAns(board,ans);
             return;
         }
 
-        // Try placing a queen in each row of the current column
-        for (int row = 0; row < n; row++) {
-            if (isSafe(row, col, board, n)) {
-                // Place the queen at the cell
-                board.get(row).set(col, 'Q');
-                rowCheck.put(row, true);
-                upperLeftDiagonalCheck.put(n - 1 + col - row, true);
-                bottomLeftDiagonalCheck.put(row + col, true);
-
-                // Recurse to the next column
-                solve(board, col + 1, n, ans);
-
-                // Backtrack: Remove the queen from the cell
-                board.get(row).set(col, '.');
-                rowCheck.put(row, false);
-                upperLeftDiagonalCheck.put(n - 1 + col - row, false);
-                bottomLeftDiagonalCheck.put(row + col, false);
+        for(int row = 0; row < board.length; row++){
+            if(isSafe(board,row,col)){
+                board[row][col] = 'Q';
+                solve(ans,board,col+1);
+                board[row][col] = '.';
             }
         }
     }
 
-    // Main function to solve the N-Queens problem
+
     public List<List<String>> solveNQueens(int n) {
-        // Initialize the board with empty cells
-        List<List<Character>> board = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            List<Character> row = new ArrayList<>();
-            for (int j = 0; j < n; j++) {
-                row.add('.');
-            }
-            board.add(row);
-        }
-
-        // Initialize variables and maps
         List<List<String>> ans = new ArrayList<>();
-        int col = 0;
-        rowCheck = new HashMap<>();
-        upperLeftDiagonalCheck = new HashMap<>();
-        bottomLeftDiagonalCheck = new HashMap<>();
+        char board[][] = new char[n][n];
 
-        // Solve the N-Queens problem using backtracking
-        solve(board, col, n, ans);
+        // intial board values
+        for(char row[] : board) Arrays.fill(row,'.');
+
+        // solve using recursion
+        solve(ans,board,0);
+
         return ans;
     }
 }
+
+
+// Method 2
+
+class Solution {
+
+    public boolean isSafe(char board[][],int row,int col,Map<Integer,Boolean> rowCheck,Map<Integer,Boolean> bottomLeftCheck,Map<Integer,Boolean> upperLeftCheck){
+
+        // upLeft check
+        if(upperLeftCheck.getOrDefault(row-col,false)) return false;
+
+        // bottomLeft check
+        if(bottomLeftCheck.getOrDefault(row+col,false)) return false;
+
+        // row check
+        if(rowCheck.getOrDefault(row,false)) return false;
+
+
+        return true;
+    }
+
+    public void storeAns(char board[][],List<List<String>> ans){
+        
+        List<String> curr = new ArrayList<>();
+
+        // take each row and convert it into string and store int in a list.
+        for(char row[] : board){
+            String rowString = new String(row);
+            curr.add(rowString);
+        }
+
+        // finaly store the ans
+        ans.add(curr);
+    }
+
+    public void solve(List<List<String>> ans,char board[][],int col,Map<Integer,Boolean> rowCheck,Map<Integer,Boolean> bottomLeftCheck,Map<Integer,Boolean> upperLeftCheck){
+        // base case
+        if(col >= board.length){
+            storeAns(board,ans);
+            return;
+        }
+
+        for(int row = 0; row < board.length; row++){
+            if(isSafe(board,row,col,rowCheck,bottomLeftCheck,upperLeftCheck)){
+                board[row][col] = 'Q';
+                bottomLeftCheck.put(row+col,true);
+                upperLeftCheck.put(row-col,true);
+                rowCheck.put(row,true);
+
+                solve(ans,board,col+1,rowCheck,bottomLeftCheck,upperLeftCheck);
+
+                bottomLeftCheck.put(row+col,false);
+                upperLeftCheck.put(row-col,false);
+                rowCheck.put(row,false);
+                board[row][col] = '.';
+            }
+        }
+    }
+
+
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> ans = new ArrayList<>();
+        char board[][] = new char[n][n];
+
+        // intial board values
+        for(char row[] : board) Arrays.fill(row,'.');
+
+        // maps
+        Map<Integer,Boolean> row = new HashMap<>();
+        Map<Integer,Boolean> bottomLeft = new HashMap<>();
+        Map<Integer,Boolean> upperLeft = new HashMap<>();
+
+        // solve using recursion
+        solve(ans,board,0,row,bottomLeft,upperLeft);
+
+        return ans;
+    }
+}
+
+
+Notes : 1. We are placing queens on 1st column and then going on next columns one by one.
+        2. But we are Iterat row wise, why ?? --> because on the first column we are trying to put 1 queen at first row and we check if we can place it or not , then we put queen on second row being on the first col and so on....
+        3. When using map we put row + col for bottom left check and row-col for upper left check, why is that ? --> because when we create n*n matrix and put sum of its row index and col index on each cell, then we would find all diagonal elements on the right direction are same so we can make use of it to check for bottom left.
+
+        same for upper left.
+
+        One interesting thing is that we can either use row+col || col+row for bottom left particular and row-col || col-row for upper left part.
+        
 
 
 LeetCode :- https://leetcode.com/problems/n-queens/

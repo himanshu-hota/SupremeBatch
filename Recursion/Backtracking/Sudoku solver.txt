@@ -26,6 +26,7 @@ class Solution {
                     }
                     //if we could not get any solution by putting 1-9 
                     //then it means there is fault in placing previous element
+                    // yaha galti karoge -- isko likhna bhul jaoge
                     return false;
                 }
             }
@@ -59,6 +60,11 @@ class Solution {
     }
 }
 
+
+Notes : 1. In the for loop we are trying to put each value from 1 --> 9.
+        2. Each time we try to put any value if we were able to put any value then we make recursive call for rest of the board, if we got true then there is  a possible solution by putting the current value on this cell so return true for further filling the board.
+        3. If we got false then we need to backtrack, we previously put any value that shouldn't be there.
+        4. When we come out of loop we immediately see a 'return false', this indicates that we weren't able to put any value from 1 --> 9 which means that there is something wrong value on any previous cell.
 
 
 Leetcode :- https://leetcode.com/problems/sudoku-solver/description/

@@ -1,0 +1,56 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+
+    public static void main(String[] args) {
+        int[] array = {1, 2, 3};
+        
+        List<List<Integer>> subsequences = generateSubsequences(array);
+        System.out.println("Subsequences:");
+        for (List<Integer> subsequence : subsequences) {
+            System.out.println(subsequence);
+        }
+        
+        List<List<Integer>> subarrays = generateSubarrays(array);
+        System.out.println("Subarrays:");
+        for (List<Integer> subarray : subarrays) {
+            System.out.println(subarray);
+        }
+    }
+
+    public static List<List<Integer>> generateSubsequences(int[] array) {
+        List<List<Integer>> subsequences = new ArrayList<>();
+        generateSubsequencesHelper(array, 0, new ArrayList<>(), subsequences);
+        return subsequences;
+    }
+
+    private static void generateSubsequencesHelper(int[] array, int index, List<Integer> current, List<List<Integer>> subsequences) {
+        if (index == array.length) {
+            subsequences.add(new ArrayList<>(current));
+            return;
+        }
+        
+        // Exclude the current element
+        generateSubsequencesHelper(array, index + 1, current, subsequences);
+        
+        // Include the current element
+        current.add(array[index]);
+        generateSubsequencesHelper(array, index + 1, current, subsequences);
+        current.remove(current.size() - 1);
+    }
+
+    public static List<List<Integer>> generateSubarrays(int[] array) {
+        List<List<Integer>> subarrays = new ArrayList<>();
+        for (int i = 0; i < array.length; i++) {
+            for (int j = i; j < array.length; j++) {
+                List<Integer> subarray = new ArrayList<>();
+                for (int k = i; k <= j; k++) {
+                    subarray.add(array[k]);
+                }
+                subarrays.add(subarray);
+            }
+        }
+        return subarrays;
+    }
+}

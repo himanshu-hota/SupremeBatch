@@ -1,3 +1,46 @@
+// Bruteforce
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int sum = 0;
+        int n = nums.length;
+        int max = Integer.MIN_VALUE;
+        for(int i = 0; i< n; i++){
+            sum = 0;
+            for(int j = i ; j < n ; j++){
+                sum += nums[j];
+                max = Math.max(max,sum);
+            }
+        }
+
+
+        return max;
+    }
+}
+
+
+// Method 1 
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int maxSoFar = Integer.MIN_VALUE;
+        int currSum =0;
+        for(int i =0; i< nums.length; i++){
+            
+            // add current element to total sum.
+            currSum += nums[i];
+            // Update the max till now. 
+            maxSoFar = Math.max(maxSoFar,currSum);
+            // if at any point the total sum is negative then reset it to 0.
+            currSum = currSum < 0 ? 0 : currSum;
+        }
+
+        return maxSoFar;
+    }
+}
+
+// Method 2
+
 static int maxSubArrayDnC(int arr[], int start, int end) {
     if (start >= end) return arr[start];  // Base case: return the element itself if start and end are the same
 
@@ -37,3 +80,4 @@ static int maxSubArrayDnC(int arr[], int start, int end) {
 
 
 LeetCode :- https://leetcode.com/problems/maximum-subarray/
+

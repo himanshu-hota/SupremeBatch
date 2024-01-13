@@ -1,3 +1,5 @@
+// Method 1
+
 class Solution{
     
     public static Node reverse(Node head){
@@ -51,6 +53,42 @@ class Solution{
         
     }
 }
+
+// Mehod 2
+
+public static Node addOne(Node head){ 
+        
+        // reverse the entire list
+        head = reverse(head);;
+        Node curr = head;
+        Node tail = head;
+        
+        while(curr != null){
+            
+            // try to add 1 to the node
+            curr.data += 1;
+            
+            // check if carry is generated or not
+            if(curr.data < 10){
+                return reverse(head);
+            }else{
+                curr.data = 0;
+            }
+            
+            tail = curr;
+            curr = curr.next;
+            
+            
+        }
+        
+        // if we reach till here then it means we need to manually process for the last digit.
+        Node lastDigit = new Node(1);
+        tail.next = lastDigit;
+        
+        // reverse the list to get the correct order.
+        return reverse(head);
+        
+    }
 
 Special Note : 1. VVIMP is that we reverse the entire list and return the pointer to head and then assign the curr to head;
                     head = reverse(head);

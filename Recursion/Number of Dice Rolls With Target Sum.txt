@@ -12,3 +12,44 @@
 
         return ans;
     }
+
+
+Notes : 1. Yaha for loop kyo laga hai? 
+
+        lets say agar nahi lagate to kya hota, har ek dice ko manually throw karna padta aur uske liye case likhna padta k times. k times kyon? kyoki k faces hai aur har ek face k value ka combination banega to usko bhi to add karna padega. 
+         a. n dice fekne ka kam recursion kar rha 
+         b. k faces ko handle hume khud karna padega.
+
+        agar for loop nahi lagate to aisa karna padta
+
+        // k = 1 matlab dice ko fekne par 1 aaya
+        ans = ans + numRollsToTarget(n-1,k, target - 1); 
+
+        // k = 2 matlab dice ko fekne par 2 aaya
+        ans = ans + numRollsToTarget(n-1,k, target - 2); 
+
+        // k = 3 matlab dice ko fekne par 3 aaya
+        ans = ans + numRollsToTarget(n-1,k, target - 3); 
+
+        .
+        .
+
+        .
+        .
+        .
+        .
+        .
+
+        .
+
+        // k = k matlab dice ko fekne par k aaya
+        ans = ans + numRollsToTarget(n-1,k, target - k); 
+
+
+        for loop se ye code is tarah dikh rha hai
+
+        for(int i = 1; i<=k;i++){
+            ans += numRollsToTarget(n-1,k, target - i);
+        }
+
+LeetCode : https://leetcode.com/problems/number-of-dice-rolls-with-target-sum/description/

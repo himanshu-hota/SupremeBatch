@@ -29,4 +29,4 @@ class Solution {
 }
 
 
-Leetcode :- https://leetcode.com/problems/n-queens/submissions/954297581/
+Leetcode :- https://leetcode.com/problems/generate-parentheses/

@@ -76,34 +76,68 @@ public class QuickSort {
 
 // method 2
 
-
-static void quickSort(int arr[], int start, int end) {
-    if (start >= end)
-        return; // Base case: If the array has 0 or 1 elements, it is already sorted
-
-    int pivot = end; // Choose the last element as the pivot
-    int i = start - 1; // Initialize the index of the smaller element
-    int j = start; // Initialize the traversal index from the start
-    int temp = 0; // Temporary variable for swapping elements
-
-    while (j < end) {
-        if (arr[j] < arr[pivot]) {
-            ++i; // Increment the index of the smaller element
-            // Swap arr[i] and arr[j]
-            temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
-        }
-        ++j; // Move to the next element
+class Solution
+{
+    //Function to sort an array using quick sort algorithm.
+    static void quickSort(int arr[], int low, int high){
+        
+        if(low >= high) return ;
+        
+        int p = partition(arr,low,high);
+        
+        quickSort(arr,low,p-1);
+        quickSort(arr,p+1,high);
+        
     }
+   
+   static int partition(int arr[], int low, int high) {
+   
+        int pivotIndex = high;
+        int pivot = arr[pivotIndex];
+        int i = low-1;
+        int j = low;
+        
+        while( j < high){ // <= also works fine
+            
+            if(arr[j] < pivot){
+                i++;
+                swap(arr,i,j);
+            }
+            
+            j++;
+        }
+        
+        
+        swap(arr,i+1,pivotIndex);
+        
+        pivotIndex = i+1;
+        
+        return pivotIndex;
+    
+   }
 
-    ++i;
-    // Swap the pivot element with the element at index i
-    temp = arr[i];
-    arr[i] = arr[pivot];
-    arr[pivot] = temp;
-
-    // Recursively sort the two sub-arrays
-    quickSort(arr, start, i - 1); // Sort elements before the partition
-    quickSort(arr, i + 1, end); // Sort elements after the partition
+    
+    static void swap(int arr[], int i , int j){
+        
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
 }
+
+Steps : 1. Take last index as pivot index and last element as pivot element;
+        2. Put i pointer just 1 step behind the given low and j pointer on low index.
+        3. Iterate the array till j < high and do following
+            a. if element at jth index is less than the pivot then 
+                i. Move ith pointer 1 step ahead.
+                ii. Swap ith element with jth.
+            b. Move jth pointer 1 step ahead each time.
+        4. Now the ith index (including ith) contains the elements smaller than pivot, so i+1 will be the correct new index(partition point) for the pivot.
+        5. Place the pivot element at its correct index (i+1) by swapping i+1 with pivotIndex.
+        6. Update the pivotIndex to i+1.
+        7. Return this pivotIndex as left to pivotIndex are smaller than element at pivotIndex at right to pivotIndex are always greater than pivotIndex element.
+
+
+
+
+GFG : https://practice.geeksforgeeks.org/problems/quick-sort/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=quick-sort

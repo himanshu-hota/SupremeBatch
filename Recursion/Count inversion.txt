@@ -56,3 +56,5 @@ class Solution {
 
 
 GFG :- https://practice.geeksforgeeks.org/problems/inversion-of-array-1587115620/1
+
+CodeStudio : https://www.codingninjas.com/studio/problems/count-inversions_615

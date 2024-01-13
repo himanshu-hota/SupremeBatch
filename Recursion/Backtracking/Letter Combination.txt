@@ -44,5 +44,65 @@ class Solution {
 }
 
 
+// Rishta wahi soch nayi
+
+class Solution {
+
+    // Recursive function to generate letter combinations
+    private void solve(String digits, List<String> ans, List<String> phone, int index, StringBuilder output) {
+
+        // Base case: when the index exceeds the length of the input digits
+        if (index >= digits.length()) {
+            // Add the current combination to the result list
+            ans.add(output.toString());
+            return;
+        }
+
+        // Get the digit at the current index
+        int digit = digits.charAt(index) - '0';
+        // Get the corresponding letters for the digit from the phone mapping
+        String values = phone.get(digit);
+
+        // Iterate through the letters for the current digit
+        for (int i = 0; i < values.length(); i++) {
+            // Append the current letter to the output
+            output.append(values.charAt(i));
+            // Recursively call the function for the next index
+            solve(digits, ans, phone, index + 1, output);
+            // Backtrack: remove the last character to try other combinations
+            output.deleteCharAt(output.length() - 1);
+        }
+    }
+
+    // Main function to generate letter combinations for a given set of digits
+    public List<String> letterCombinations(String digits) {
+
+        // Result list to store generated combinations
+        List<String> ans = new ArrayList<>();
+
+        // Check if the input digits are empty
+        if (digits.length() == 0) return ans;
+
+        // Mapping of digits to corresponding letters on a phone keypad
+        List<String> phone = Arrays.asList("", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz");
+
+        // Call the recursive function to generate combinations
+        solve(digits, ans, phone, 0, new StringBuilder());
+
+        // Return the final list of combinations
+        return ans;
+    }
+}
+
+
+Notes: 1. Firstly we create a map that map 0 -> 9 with corresponding string values.
+       2. Make recursive call.
+       3. If we anyhow make it to reach till end of the digits string then we have successfully consumed all the characters.
+       4. Get the digit in number from the digits string.
+       5. Get its corresponding string value.
+       6. Now we have to map each of its character to characters of remaining digits.
+       7. Traverse the received string value of the digit.
+       8. Add 1 character each time and make recursive call for rest of its characters. 
+
 LeetCode :- https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/
-CodeStudio :- https://www.codingninjas.com/codestudio/problems/letter-combinations-of-a-phone-number_983623?leftPanelTab=1
+CodeStudio :- https://www.codingninjas.com/codestudio/problems/letter-combinations-of-a-phone-number_983623?leftPanelTab=1  

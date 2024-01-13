@@ -21,4 +21,16 @@ public class Solution {
     }
 }
 
+Trick : 1. 10 k bad 9 '0' maximum lagane hai -> 10
+                                             20
+                                             100
+                                             1000
+                                             1000000
+                                             1000000000
+
+        2. Har level me maximum 2 recursive call jayegi.
+        3. " " , "Hundred" , "Thousand" , "Million" , "Billion".
+        4. 100 se do function call start ho jaega.
+        5. 
+
 LeetCode :- https://leetcode.com/problems/integer-to-english-words/description/

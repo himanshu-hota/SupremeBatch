@@ -29,3 +29,6 @@
         //include
         subStr(str,output+  str.charAt(i),i+1);
     }
+
+
+    CodeStudio : https://www.codingninjas.com/studio/problems/all-substrings_1262347

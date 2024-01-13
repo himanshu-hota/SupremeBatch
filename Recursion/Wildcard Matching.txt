@@ -37,3 +37,33 @@ class Solution {
         return helper(s,0,p,0);
     }
 }
+
+
+// Cleaner way 
+
+
+    public boolean solve(String s,int si, String p,int pi){
+        if(si >= s.length() && pi >= p.length()) return true;
+        if(si < s.length() && pi >= p.length()) return false;
+        if(si >= s.length() && pi < p.length()){
+            for(int i = pi; i < p.length(); i++){
+                if(p.charAt(i) != '*') return false;
+            }
+
+            return true;
+        }
+        boolean way1 = false;
+        boolean way2 = false;
+
+        if(s.charAt(si) == p.charAt(pi) || p.charAt(pi) == '?'){
+            way1 = solve(s,si+1,p,pi+1);
+        }
+
+        if(p.charAt(pi) == '*'){
+            way2 = solve(s,si+1,p,pi) || solve(s,si,p,pi+1);
+        }
+
+        return way1 || way2;
+    }
+
+LeetCode : https://leetcode.com/problems/wildcard-matching/description/

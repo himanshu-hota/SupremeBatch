@@ -2,23 +2,6 @@
 
 class Solution {
 
-    // Function to reverse a linked list
-    public ListNode reverse(ListNode head) {
-        ListNode prev = null;
-        ListNode curr = head;
-        ListNode next = null;
-
-        // Reverse the linked list using three pointers.
-        while (curr != null) {
-            next = curr.next;  // Store the next node.
-            curr.next = prev;  // Reverse the current node's next pointer.
-            prev = curr;  // Move the prev pointer.
-            curr = next;  // Move the curr pointer.
-        }
-
-        return prev;  // Return the new head of the reversed list.
-    }
-
     // Function to add two numbers represented by linked lists
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         // Check if one of the lists is null
@@ -91,23 +74,6 @@ class Solution {
  
 
 class Solution {
-
-    static ListNode reverse(ListNode head){
-        ListNode temp = head;
-
-        ListNode prev = null;
-        ListNode curr = head;
-        ListNode next = null;
-
-        while(curr != null){
-            next = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = next;
-        }
-
-        return prev;
-    }
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         

@@ -1,0 +1,41 @@
+import java.util.* ;
+import java.io.*; 
+
+public class Solution{
+
+    // The method convertString takes a string str as input and converts the first character of each word in the string to uppercase.
+    // If a word is separated by spaces, the first character of the word will be capitalized.
+    // If the word is already capitalized, the method does not modify it.
+    public static String convertString(String str) {
+
+        // If the string is empty, return the empty string
+        if(str.length() == 0) return str;
+
+        // Create a StringBuilder object with the string str
+        StringBuilder s = new StringBuilder(str);
+
+        // Iterate through each character in the string
+        for(int i = 0; i< s.length(); i++){
+
+            // If the current character is a letter and it is the first character in the string or it follows a space,
+            // and it is not capitalized
+            if(i == 0 || (s.charAt(i-1) == ' ' && Character.isLetter(s.charAt(i)))){
+                if(!Character.isUpperCase(s.charAt(i))){
+                    // Convert the current character to uppercase by subtracting the ASCII value of 'a' from the
+                    // ASCII value of the current character and adding the ASCII value of 'A'.
+                    int id = s.charAt(i) - 'a';
+                    char newChar = (char)('A' + id);
+
+                    // Replace the current character with the uppercase character
+                    s.setCharAt(i, newChar);
+                }
+                
+            }
+
+        }
+
+        // Return the converted string
+        return s.toString();
+    }
+
+}

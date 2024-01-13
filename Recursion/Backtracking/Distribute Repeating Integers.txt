@@ -17,10 +17,8 @@ public class Solution {
             count[index++] = value;
         }
 
-        // Sort the 'quantity' array in ascending order
+        // thees two lines are optimizations.
         Arrays.sort(quantity);
-
-        // Reverse the 'quantity' array to have it in descending order
         reverseArray(quantity);
 
         // Check if the quantities can be distributed among the counts
@@ -66,6 +64,17 @@ public class Solution {
         }
     }
 }
+
+Steps: 1. First we get frequencies of items in the numbers array to make distribution easy.
+       2. Convert it into an array. (indices doesn't matter now (just keep in mind that we want to distribute, we are not asked to distribute any specific integer to any specific cutomer, so we can distribute any integer/item to any customer, with one constraint that only allowed to distribute same integer/item to ith customer)).
+       3. Call the Recursive function.
+       4. The base case saya that if we are able to reach till end of the array then we were successfull to distribute all integers to all customers.
+       5. Try to distribute integers from 0 -> n (of count array). why from 0? --> because we are trying to distribute integer in any order, no specific order.
+       6. If we have quantity equal to or more than the desired quantity from the customer then only we give this item to this customer.
+
+       Optimizations : If we sort the array in reverse order then we can easily tell that if the customer with largest quantity is not satisfied then no need to check for others as question says that satisfy all customer.
+
+Special Note :  solve(,,ithCustomer) ye wala parameter quantity array ko traverse karta hai aur Recursive function k andar wala for loop har ek ith customer k liye pure count array ko traverse karne k liye hai. pura kyo? kyoki kaise pata chalega ki kon sa count fit baith raha hai (sare combination try karna hai na).
 
 
 LeetCode :- https://leetcode.com/problems/distribute-repeating-integers/description/

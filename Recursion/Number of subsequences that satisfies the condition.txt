@@ -1,0 +1,41 @@
+// Method 1
+
+class Solution {
+    
+    public int helper(int arr[],int k , ArrayList<Integer> sub,int i){
+        
+        if(i>=arr.length){
+            int sum = 0;
+            int max = Integer.MIN_VALUE;
+            int min = Integer.MAX_VALUE;
+            for(int x : sub){
+                min = Math.min(min,x);
+                max = Math.max(max,x);
+            }
+            if(min+max <= k){
+                return 1;
+            }
+
+            return 0;
+        }
+
+        // include
+        sub.add(arr[i]);
+        int ans1 = helper(arr,k,sub,i+1);
+        sub.remove(sub.size()-1);
+        
+        // exclude
+        int ans2 = helper(arr,k,sub,i+1);
+
+        return ans1 + ans2;
+
+    }
+
+    public int numSubseq(int[] nums, int target) {
+        
+        return helper(nums,target,new ArrayList<Integer>(),0) -1;
+    }
+}
+
+// Method 2
+

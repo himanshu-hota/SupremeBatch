@@ -1,31 +1,34 @@
 class Solution {
+    // Function to find the minimum number of perfect squares that sum up to n
+    public int numSquares(int n) {
+        // Base case: If n is non-positive, there are no perfect squares to consider
+        if (n <= 0) return 0;
+        
+        // Initialize the answer to the maximum possible value
+        int ans = Integer.MAX_VALUE;
 
-    static int numHelper(int n){
-        // if n is 0 then we found a correct way to get answer
-        if(n == 0) return 1;
-        // if n is negative then sol not possible
-        if(n < 0) return 0;
+        // Determine the range of perfect squares to consider, from 1 to sqrt(n)
+        int start = 1;
+        int end = (int) Math.sqrt(n);
 
-        int ans = Integer.MAX_VALUE; // default value for answer
-        int end = (int)(Math.sqrt(n)); // get the perfect square just equal or smaller than n
-        int i = 1;
-        while(i <= end){
-            int perfectSquare = i*i; // generate perfect square of i
-            int numOfPerfectSquares = 1 + numHelper(n - perfectSquare); // count frequency of possible perfect square 
-            if(numOfPerfectSquares < ans) ans = numOfPerfectSquares; // if it is smaller than previously found answer then it is the new answer
-            ++i;
+        // Iterate through the possible perfect squares
+        for (int i = start; i <= end; i++) {
+            // Calculate the current perfect square
+            int perfectSquare = i * i;
+            
+            // Recursive call to find the minimum number of perfect squares for the remaining value
+            int countOfPerfectSquares = 1 + numSquares(n - perfectSquare);
+            
+            // Update the answer with the minimum count
+            ans = Math.min(ans, countOfPerfectSquares);
         }
 
-        // return answer        
+        // Return the final minimum count of perfect squares
         return ans;
-
-    }
-
-    public int numSquares(int n) {
-        return numHelper(n)-1; // -1 beacause the helper function returns answer with added 1
     }
 }
 
-
 Time complexity :- O(square root to the power n); -> O(n to the power n);
 Space complexity :- O(n)
+
+LeetCode : https://leetcode.com/problems/perfect-squares/
