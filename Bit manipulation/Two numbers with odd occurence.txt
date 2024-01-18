@@ -1,0 +1,36 @@
+public class Solution {
+    public static int[] twoOddNum(int[] arr) {
+        
+        // Step 1: Find the XOR of all elements in the array
+        int xor = 0;
+        for (int z : arr)
+            xor ^= z;
+
+        // Step 2: Find the rightmost set bit in the XOR result
+        int rmsb = (xor & (-xor));
+
+        // Step 3: Initialize two variables to store the two odd occurrence numbers
+        int x = 0;
+        int y = 0;
+
+        // Step 4: Iterate through the array again to separate the numbers based on the RMSB
+        for (int num : arr) {
+            if ((num & rmsb) > 0) {
+                x ^= num;
+            } else {
+                y ^= num;
+            }
+        }
+
+        // Step 5: Ensure x is greater than y and return the result
+        if (x > y) {
+            int[] result = {x, y};
+            return result;
+        } else {
+            int[] result = {y, x};
+            return result;
+        }
+    }
+}
+
+CodeStudio : https://www.codingninjas.com/studio/problems/two-numbers-with-odd-occurrences_8160466?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

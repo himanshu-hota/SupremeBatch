@@ -1,0 +1,46 @@
+class Solution {
+    // Method to perform integer division
+    public int divide(int dividend, int divisor) {
+        // Handle overflow case where dividend is Integer.MIN_VALUE and divisor is -1
+        if (dividend == Integer.MIN_VALUE && divisor == -1) return Integer.MAX_VALUE;
+
+        // Determine if the result should be negative based on the signs of dividend and divisor
+        boolean negative = (dividend < 0) ^ (divisor < 0);
+
+        // Take the absolute values of dividend and divisor for simplicity
+        dividend = Math.abs(dividend);
+        divisor = Math.abs(divisor);
+
+        // Initialize the result variable
+        int ans = 0;
+
+        // Perform the division using bitwise operations
+        while ((dividend - divisor) >= 0) {
+            int count = 0;
+
+            // Use bitwise left shift to efficiently find the maximum multiple of divisor
+            while (dividend - (divisor << 1 << count) >= 0) count++;
+
+            // Update the result and reduce the dividend accordingly
+            ans += (1 << count);
+            dividend -= (divisor << count);
+        }
+
+        // Return the result with the correct sign
+        return negative ? (-ans) : ans;
+    }
+}
+
+
+Note : 1. Dont use dividend >= divisor , why? --> because it doesn't handle the case of divisor being Integer.MAX/MIN, so instead use this --> (dividend - divisor) >= 0.
+       2. while (dividend - (divisor << 1 << count) >= 0) this code doubles the divisor in each iteration and check if still smaller than the dividend.
+       3. ans += (1 << count); this code generates how many time did we need to left shift to get close to dividend.
+       4. dividend -= (divisor << count); this code subtracts closest divisible number by divisor from divisor.
+       5. boolean negative = (dividend < 0) ^ (divisor < 0); this code returns true if any of given number is negative. 
+
+
+reference : https://www.youtube.com/watch?v=m4L_5qG4vG8
+
+CodeStudio : https://www.codingninjas.com/studio/problems/-divide-two-integers_1112617?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM&count=25&page=4&search=&sort_entity=order&sort_order=ASC
+
+LeetCode : https://leetcode.com/problems/divide-two-integers/description/

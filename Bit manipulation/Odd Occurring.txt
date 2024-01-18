@@ -1,0 +1,17 @@
+public class Solution{
+    public static int missingNumber(int n, int []arr){
+        
+        // Initialize x = 0 because XOR with 0 is the same as given number
+        int x = 0;
+
+        // XOR with each element in array to find the odd occurring element.
+        for(int y : arr){
+            x ^= y;
+        }
+
+        // Finally return the odd number.
+        return x;
+    }
+}
+
+CodeStudio : https://www.codingninjas.com/studio/problems/one-odd-occurring_4606074?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

@@ -1,0 +1,80 @@
+// LeetCode variant
+
+class Solution {
+    // Method to count the number of prime numbers less than a given number 'n'
+    public int countPrimes(int n) {
+        // If n is less than or equal to 2, there are no prime numbers
+        if(n <= 2) return 0;
+        
+        // Create a boolean array to mark non-prime numbers, initialized as false
+        boolean ans[] = new boolean[n];
+
+        // Calculate the square root of n, used as the limit for the outer loop
+        int limit = (int)(Math.sqrt(n));
+
+        // Sieve of Eratosthenes algorithm to mark non-prime numbers
+        for(int i = 2 ; i <= limit ; i++){
+            if(ans[i] == false){
+                // Mark multiples of the current prime number as true
+                for(int j = i*i; j < n ; j += i ){
+                    ans[j] = true;
+                }
+            }
+        }
+
+        // Count the number of remaining (non-marked) prime numbers
+        int count = 0;
+        for(int i = 2 ; i < n ; i++) if(!ans[i]) count++;
+
+        // Return the count of prime numbers
+        return count;
+    }
+}
+
+
+LeetCode : https://leetcode.com/problems/count-primes/description/
+
+
+// CodeStudio variant
+
+import java.util.*;
+
+public class Solution {
+    // Method to find and return a list of prime factors for a given number 'n'
+    public static List<Integer> countPrimes(int n) {
+        
+        // Create a list to store prime factors
+        List<Integer> ans = new ArrayList<>();
+
+        // If n is less than or equal to 2, return an empty list (no prime factors)
+        if (n <= 2) return ans;
+
+        // Create a boolean array to mark non-prime numbers
+        boolean primes[] = new boolean[n];
+        
+        // Calculate the square root of n, used as the limit for the outer loop
+        int limit = (int)(Math.sqrt(n));
+        
+        // Sieve of Eratosthenes algorithm to mark non-prime numbers
+        for (int i = 2; i <= limit; i++) {
+            if (primes[i] == false) {
+                // Mark multiples of the current prime number as true
+                for (int j = i * i; j < n; j += i) {
+                    primes[j] = true;
+                }
+            }
+        }
+
+        // Check for prime factors in the remaining (non-marked) numbers
+        for (int i = 2; i < n; i++) {
+            if (!primes[i] && (n % i == 0)) {
+                ans.add(i); // Add prime factors to the list
+            }
+        }
+
+        // Return the list of prime factors
+        return ans;
+    }
+}
+
+CodeStudio : https://www.codingninjas.com/studio/problems/prime-factorisation_1760849?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

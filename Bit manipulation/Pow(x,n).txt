@@ -1,0 +1,26 @@
+class Solution {
+    public double myPow(double x, int n) {
+        
+        long nn = Math.abs((long)(n));
+
+        // Initialize the result variable
+        double ans = 1.0;   
+
+       while (nn > 0) {
+            // If nn is even, square x and halve nn
+            if ((nn&1) == 0) {
+                x = x * x;
+                nn = nn / 2;
+            } else {
+                // If nn is odd, multiply ans by x and decrement nn by 1
+                ans = x * ans;
+                nn = nn - 1;
+            }
+        }
+
+    // if n was negative then do 1/x^n otherwise simply return x^n.
+    return n < 0 ? (double)(1.0) / (double)(ans) : ans;
+    }
+}
+
+LeetCode : https://leetcode.com/problems/powx-n/description/

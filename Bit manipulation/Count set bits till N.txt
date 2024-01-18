@@ -1,0 +1,54 @@
+public class Solution {
+
+    // Function to find the largest power of 2 that is less than or equal to a given number
+    // Parameters:
+    //   - n: The input number
+    // Returns:
+    //   - The largest power of 2 in the range [2^0, 2^x] where 2^x is less than or equal to n
+    public static int largestPowerof2InRange(int n) {
+
+        int x = 0;
+
+        // Iterate to find the largest power of 2 within the given range
+        while ((1 << x) <= n) {
+            x++;
+        }
+
+        // Return the exponent x - 1 as the largest power of 2
+        return x - 1;
+    }
+
+    // Function to count the total number of set bits in the binary representation of a number
+    // Parameters:
+    //   - n: The input number
+    // Returns:
+    //   - The count of set bits in the binary representation of n
+    public static int countSetBits(int n) {
+
+        // Base case: if n is less than or equal to 0, return 0
+        if (n <= 0) {
+            return 0;
+        }
+
+        // Find the largest power of 2 less than or equal to n
+        int x = largestPowerof2InRange(n);
+
+        // Calculate the number of set bits in the range [2^0, 2^x-1]
+        int bitsTill2x = x * (1 << (x - 1));
+
+        // Calculate the number of set bits in the most significant bit till 2^x
+        int MSBtill2x = n - (1 << x) + 1;
+
+        // Calculate the number of set bits in the remaining bits (excluding the MSB)
+        int rest = n - (1 << x);
+
+        // Recursively count the set bits in the remaining bits
+        int totalBits = bitsTill2x + MSBtill2x + countSetBits(rest);
+
+        // Return the total count of set bits
+        return totalBits;
+    }
+}
+
+
+CodeStudio : https://www.codingninjas.com/studio/problems/count-total-set-bits_784?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

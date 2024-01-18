@@ -47,4 +47,25 @@ class Solution {
     }
 }
 
+// Method 3
+
+class Solution {
+    static int setBits(int N) {
+        
+        int counter = 0;
+        
+        while(N > 0){
+            // get the right most setbit
+            int rsbm = N&(-N);
+            // mark it off by subtracting this rsbm(bitmask) from original N.
+            N -= rsbm;
+            // increment counter
+            counter++;
+        }
+        
+        return counter;
+        
+    }
+}
+
 GFG :- https://practice.geeksforgeeks.org/problems/set-bits0143/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article

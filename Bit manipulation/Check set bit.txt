@@ -1,0 +1,26 @@
+public class Solution {
+    
+    // Function to check if the kth bit is set in the binary representation of n
+    // Parameters:
+    //   - n: The integer for which the kth bit needs to be checked
+    //   - k: The position of the bit to be checked (1-indexed)
+    // Returns:
+    //   - true if the kth bit is set, false otherwise
+    static boolean isKthBitSet(int n, int k) {
+        
+        // Decrement k to make it 0-indexed (easier for bitwise operations)
+        k--;
+
+        // Create a bitmask with only the kth bit set to 1
+        int bitMask = 1 << k;
+
+        // Use bitwise AND to check if the kth bit is set in n
+        int bit = (n & bitMask) == 0 ? 0 : 1;
+
+        // Return true if the kth bit is 1, false otherwise
+        return bit == 1 ? true : false;
+    }
+}
+
+
+CodeStudio : https://www.codingninjas.com/studio/problems/check-whether-k-th-bit-is-set-or-not_5026446?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

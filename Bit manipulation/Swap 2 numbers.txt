@@ -1,0 +1,25 @@
+public class Solution {
+    
+    // Function to swap the values of two integer arrays a and b
+    // Parameters:
+    //   - a: The first integer array
+    //   - b: The second integer array
+    public static void swapNumber(int[] a, int[] b) {
+
+        // Swap values using XOR bitwise operations
+        // Explanation: 
+        // Let a = a1, b = b1
+        // After the following three operations:
+        //   1. a1 = a1 ^ b1
+        //   2. b1 = a1 ^ b1
+        //   3. a1 = a1 ^ b1
+        // a1 will contain the original value of b1, and b1 will contain the original value of a1
+        // Hence, the values of a and b are swapped.
+        a[0] = a[0] ^ b[0];
+        b[0] = a[0] ^ b[0];
+        a[0] = a[0] ^ b[0];
+    }
+}
+
+
+CodeStudio : https://www.codingninjas.com/studio/problems/swap-two-numbers_1380853?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM  

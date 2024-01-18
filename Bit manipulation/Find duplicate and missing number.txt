@@ -1,0 +1,57 @@
+class Solve {
+    
+    // Method to find two elements in the array with one missing and one repeated
+    int[] findTwoElement(int arr[], int n) {
+        
+        // Step 1: Calculate XOR of actual elements (1 to n)
+        int xor = 0;
+        for(int i = 1; i <= n; i++)
+            xor ^= i;
+        
+        // Step 2: XOR the result with the array elements
+        for(int z : arr)
+            xor ^= z;
+        
+        // Now 'xor' contains XOR of the two numbers: one missing and one repeated
+        
+        // Find the rightmost set bit (rmsb) in the XOR result
+        int rmsb = xor & (-xor);
+        
+        // Initialize variables to store the two numbers
+        int x = 0;
+        int y = 0;
+        
+        // Separate the numbers based on the rightmost set bit
+        for(int i : arr){
+            if((i & rmsb) == 0){
+                x ^= i;
+            } else {
+                y ^= i;
+            }
+        }
+        
+        // Repeat the separation for the actual elements (1 to n)
+        for(int i = 1; i <= n; i++) {
+            if((i & rmsb) == 0){
+                x ^= i;
+            } else {
+                y ^= i;
+            }
+        }
+        
+        // Iterate through the array to identify which number is repeated and which is missing
+        for(int i : arr){
+            if(x == i) {
+                return new int[]{x, y};
+            } else if(y == i) {
+                return new int[]{y, x};
+            }
+        }
+        
+        // This line should never be reached, but to satisfy the method signature
+        return new int[]{-1, -1};
+    }
+}
+
+
+GFG : https://www.geeksforgeeks.org/problems/find-missing-and-repeating2512/1

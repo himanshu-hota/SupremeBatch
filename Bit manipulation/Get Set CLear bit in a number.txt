@@ -1,0 +1,26 @@
+public class Solution {
+    
+    // Method to perform bit manipulation operations
+    public static int[] bitManipulation(int num, int i) {
+        
+        // Create a bitmask by left-shifting 1 by (i-1) positions
+        int bitMask = 1 << (i - 1);
+        
+        // Extract the nth bit (at position i) from the number
+        int nthBit = (num & bitMask) == 0 ? 0 : 1;
+        
+        // Set the nth bit to 1 in the number
+        int setBit = num | bitMask;
+        
+        // Clear the nth bit (set it to 0) in the number
+        int clearBit = num & (~(bitMask));
+
+        // Create an array to store the results of the operations
+        int ans[] = {nthBit, setBit, clearBit};
+
+        // Return the array containing the results
+        return ans;
+    }
+}
+
+CodeStudio : https://www.codingninjas.com/studio/problems/bit-manipulation_8142533?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

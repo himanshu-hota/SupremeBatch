@@ -1,0 +1,16 @@
+public class Solution {
+    
+    // Function to determine if a given integer is odd or even
+    // Parameters:
+    //   - N: The integer to be checked for odd or even
+    // Returns:
+    //   - "odd" if N is an odd number, "even" if N is an even number
+    public static String oddEven(int N){
+        
+        // Use bitwise AND to check the least significant bit
+        // If the result is 1, the number is odd; if 0, the number is even
+        return (N & 1) == 1 ? "odd" : "even";
+    }
+}
+
+CodeStudio : https://www.codingninjas.com/studio/problems/odd-even_7993579?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

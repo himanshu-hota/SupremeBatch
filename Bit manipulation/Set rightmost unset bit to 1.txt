@@ -1,0 +1,29 @@
+public class Solution {
+    
+    // Function to set the rightmost unset bit in the binary representation of N
+    // Parameters:
+    //   - N: The input number
+    // Returns:
+    //   - The modified number with the rightmost unset bit set
+    public static int setBits(int N) {
+        
+        // Copy the input number for modification
+        int x = N;
+
+        // Iterate to find the rightmost set bit in the binary representation
+        while ((x & 1) != 0) {
+            x = x >> 1;
+        }
+
+        // If x becomes 0, there are no unset bits, so return the original number
+        if (x == 0) {
+            return N;
+        } else {
+            // Create a bitmask to set the rightmost unset bit using bitwise OR operation
+            return N | (N + 1);
+        }
+    }
+}
+
+
+CodeStudio : https://www.codingninjas.com/studio/problems/set-the-rightmost-unset-bit_8160456?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

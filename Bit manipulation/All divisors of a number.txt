@@ -1,0 +1,51 @@
+// Method 1
+
+import java.util.*;
+
+public class Solution{
+    public static List< Integer > printDivisors(int n) {
+        
+        List< Integer > ans = new ArrayList<>();
+
+        for(int i = 1 ; i <= n ; i++){
+            if(n%i==0) ans.add(i);
+        }
+
+        return ans;
+
+    }
+}
+
+// Method 2
+import java.util.*;
+
+public class Solution {
+    // Function to print all divisors of a given number
+    public static List<Integer> printDivisors(int n) {
+        // Create a list to store the divisors
+        List<Integer> ans = new ArrayList<>();
+
+        // Loop through all numbers from 1 to the square root of n
+        for (int i = 1; i <= Math.sqrt(n); i++) {
+            // Check if i is a divisor of n
+            if (n % i == 0) {
+                // Add i to the list of divisors
+                ans.add(i);
+                
+                // If the divisor is not the same as its pair, add the pair to the list
+                if (n / i != i) {
+                    ans.add(n / i);
+                }
+            }
+        }
+
+        // Sort the list of divisors in ascending order
+        Collections.sort(ans);
+
+        // Return the list of divisors
+        return ans;
+    }
+}
+
+
+CodeStudio : https://www.codingninjas.com/studio/problems/print-all-divisors-of-a-number_1164188?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

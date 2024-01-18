@@ -1,0 +1,88 @@
+// CodeStudio variant
+
+import java.util.*;
+import java.io.*;
+import java.util.ArrayList;
+
+class Solution {
+    // Function to generate all subsequences of a given string
+    public static ArrayList<String> subsequences(String str) {
+        // ArrayList to store the generated subsequences
+        ArrayList<String> ans = new ArrayList<>();
+
+        // Length of the input string
+        int n = str.length();
+
+        // Loop to generate all possible subsequences using bitmasking
+        for (int i = 0; i < (1 << n); i++) {
+            // StringBuilder to store the current subsequence
+            StringBuilder curr = new StringBuilder();
+
+            // Loop to check each bit of the bitmask
+            for (int j = 0; j < n; j++) {
+                char ch = str.charAt(j);
+
+                // If the j-th bit of i is set, append the corresponding character to the current subsequence
+                if ((i & (1 << j)) != 0) {
+                    curr.append(ch);
+                }
+            }
+
+            // If the current subsequence is not empty, add it to the result
+            if (curr.length() > 0) {
+                ans.add(curr.toString());
+            }
+        }
+
+        // Return the list of generated subsequences
+        return ans;
+    }
+}
+
+
+// LeetCode variant
+
+import java.util.*;
+class Solution {
+    // Function to generate all subsets of a given integer array
+    public List<List<Integer>> subsets(int[] nums) {
+        // List to store the generated subsets
+        List<List<Integer>> ans = new ArrayList<>();
+
+        // Adding an empty subset to the result list
+        ans.add(new ArrayList<>());
+
+        // Length of the input array
+        int n = nums.length;
+
+        // Loop to generate all possible subsets using bitmasking
+        for (int i = 0; i < (1 << n); i++) {
+            // List to store the current subset
+            List<Integer> curr = new ArrayList<>();
+
+            // Loop to check each bit of the bitmask
+            for (int j = 0; j < n; j++) {
+                int x = nums[j];
+
+                // If the j-th bit of i is set, add the corresponding element to the current subset
+                if ((i & (1 << j)) != 0) {
+                    curr.add(x);
+                }
+            }
+
+            // If the current subset is not empty, add it to the result
+            if (curr.size() > 0) {
+                ans.add(curr);
+            }
+        }
+
+        // Return the list of generated subsets
+        return ans;
+    }
+}
+
+
+LeetCode : https://leetcode.com/problems/subsets/description/
+
+CodeStudio : https://www.codingninjas.com/studio/problems/subsequences-of-string_985087?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
+

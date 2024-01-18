@@ -71,6 +71,8 @@ class Solution {
     }
 }
 
+return n < 0 ? (double)(1.0) / (double)(ans) : ans; isme galti karoge , dono ko double me typecast kar k hi divide karna nahi to ans nahi aaega Integer.MIN_VALUE k liye.
+
 Notes : 1. We convert the given n into long value. why is that?
 
     

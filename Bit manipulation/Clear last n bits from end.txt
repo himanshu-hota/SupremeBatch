@@ -4,7 +4,7 @@
 class Solution {
 
     // A static method that clears the bits from position i to the right in the binary representation of n.
-    static void clearNBits(int n, int i) {
+    public static void clearNBits(int n, int i) {
         int m = n; // Store the original value of n.
         int mask = -1 << i; // Create a bitmask with 1s to the left of position i and 0s to the right.
         n = n & mask; // Apply the mask to clear the bits from position i to the right.
