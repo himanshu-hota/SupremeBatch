@@ -1,3 +1,5 @@
+// GFG Variant
+
 import java.util.*;
 
 class Stacks {
@@ -136,3 +138,78 @@ public class Stackss {
 
 
 GFG :- https://practice.geeksforgeeks.org/problems/implement-two-stacks-in-an-array/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+// CodeStudio Variant 
+
+
+import java.util.*;
+import java.io.*;
+
+public class TwoStack {
+
+    // Array to store elements of two stacks
+    int arr[];
+    
+    // Total size of the array
+    int size;
+    
+    // Top index for stack 1
+    int top1;
+    
+    // Top index for stack 2
+    int top2;
+
+    // Constructor to initialize the TwoStack class
+    public TwoStack(int s) {
+        this.arr = new int[s];
+        this.size = s;
+        
+        // Initialize top1 to -1 (empty stack 1)
+        this.top1 = -1;
+        
+        // Initialize top2 to size (empty stack 2)
+        this.top2 = size;
+    }
+
+    // Method to push an element onto stack 1
+    public void push1(int num) {
+        // Check if there is space in the array for stack 1
+        if (top1 + 1 < top2) {
+            arr[++top1] = num; // Increment top1 and push the element
+        }
+    }
+
+    // Method to push an element onto stack 2
+    public void push2(int num) {
+        // Check if there is space in the array for stack 2
+        if (top2 - 1 > top1) {
+            arr[--top2] = num; // Decrement top2 and push the element
+        }
+    }
+
+    // Method to pop an element from stack 1
+    public int pop1() {
+        // Check if stack 1 is not empty
+        if (top1 >= 0) {
+            int element = arr[top1]; // Get the element at top1
+            arr[top1--] = -1; // Clear the element at top1 and decrement top1
+            return element; // Return the popped element
+        } else {
+            return -1; // Return -1 if stack 1 is empty
+        }
+    }
+
+    // Method to pop an element from stack 2
+    public int pop2() {
+        // Check if stack 2 is not empty
+        if (top2 < size) {
+            int element = arr[top2]; // Get the element at top2
+            arr[top2++] = -1; // Clear the element at top2 and increment top2
+            return element; // Return the popped element
+        } else {
+            return -1; // Return -1 if stack 2 is empty
+        }
+    }
+}
+
+CodeStudio : https://www.codingninjas.com/studio/problems/two-stacks_983634?leftPanelTabValue=PROBLEM

@@ -1,0 +1,5 @@
+1. Maximum sum subarray : 
+https://leetcode.com/problems/maximum-subarray/
+
+2. Maximum product subarray : 
+https://leetcode.com/problems/maximum-product-subarray/

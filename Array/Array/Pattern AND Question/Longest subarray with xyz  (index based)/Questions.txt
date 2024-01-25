@@ -1,0 +1,8 @@
+1. Longest subarray with given sum (Postive + Negative) :
+https://www.codingninjas.com/studio/problems/longest-subarray-with-sum-k_5713505?utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_Arrayproblems&leftPanelTabValue=SUBMISSION
+
+2. Longest subarray with given sum (Postive) :
+https://www.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1
+
+3. Longest subarray with given 0 sum :
+https://www.codingninjas.com/studio/problems/longest-subarray-with-zero-sum_6783450?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM

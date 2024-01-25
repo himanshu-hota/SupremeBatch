@@ -1,0 +1,6 @@
+1. Count pairs with given sum :
+
+https://practice.geeksforgeeks.org/problems/count-pairs-with-given-sum5022/1
+
+2. 
+

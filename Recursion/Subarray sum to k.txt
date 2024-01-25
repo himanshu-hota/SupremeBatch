@@ -45,7 +45,7 @@ public class Solution {
     }
 }
 
-// optimized :
+// optimized : sliding window approach
 
 import java.util.*;
 
@@ -95,6 +95,8 @@ public class Solution {
     }
 }
 
+
+CodeStudio : https://www.codingninjas.com/studio/problems/subarrays-with-sum-%E2%80%98k'_6922076
 
 // LeetCode Variant
 
