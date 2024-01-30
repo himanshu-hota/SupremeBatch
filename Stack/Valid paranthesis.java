@@ -1,0 +1,30 @@
+class Solution {
+    public boolean isValid(String s) {
+        if (s.length() == 0)
+            return false;
+
+        Stack<Character> st = new Stack<>(); // Stack to store opening parentheses
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (ch == '{' || ch == '(' || ch == '[') {
+                st.push(ch); // Push opening parenthesis onto the stack
+            } else {
+                if (st.isEmpty()) {
+                    return false; // No matching opening parenthesis in the stack
+                } else {
+                    char top = st.peek(); // Get the top element from the stack
+                    if ((ch == '}' && top == '{') || (ch == ')' && top == '(') || (ch == ']' && top == '[')) {
+                        st.pop(); // Matching opening parenthesis found, pop it from the stack
+                    } else {
+                        return false; // Closing parenthesis does not match the top of the stack
+                    }
+                }
+            }
+        }
+
+        return st.isEmpty(); // Return true if stack is empty (all parentheses matched)
+    }
+}
+
+
+LeetCode :- https://leetcode.com/problems/33333333333333valid-parentheses/description/
