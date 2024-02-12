@@ -1,3 +1,50 @@
+// Method 1
+
+class Solution {
+
+    public int beauty(String sub){
+        if(sub.length() <= 2) return 0;
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+
+        int map[] = new int[256];
+
+        for(int i =0; i < sub.length(); i++){
+            char ch = sub.charAt(i);
+            int index = ch - 'a';
+            map[index]++;
+        }
+
+        for(int x : map){
+            if(x != 0){
+                min = Math.min(min,x);
+                max = Math.max(max,x);
+            }
+        }
+
+        return max - min;
+    }
+
+    public int beautySum(String s) {
+        int n = s.length();
+        int ans = 0;
+        for(int i = 0; i < n; i++){
+            for(int j = i+1; j < n ; j++){
+                // why +1 ? --> beacause substring excludes the jth index. so we have to manually add +1 to include jth char for current subarray.
+                String sub = s.substring(i,j+1);
+                ans += beauty(sub);
+            }
+        }
+
+        return ans;
+    }
+}
+
+Notes : 1. Get each subarray.
+        2. Count its beauty and add it to ans.
+        3. How to count ? --> get count of each character in the substring, and then find the most and least occuring characters and then return its differences.
+         
+
 class Solution {
 
     public int beauty(int freq[]){

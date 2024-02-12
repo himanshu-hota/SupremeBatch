@@ -1,3 +1,50 @@
+// method 1
+
+class Solution {
+
+    public boolean isLetter(char ch){
+        if((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))return true;
+        else return false;
+    }
+
+    public String reverseOnlyLetters(String s) {
+        StringBuilder ans = new StringBuilder(s);
+
+        int i = 0;
+        int j = s.length()-1;
+
+        while(i<=j){
+            char c1 = ans.charAt(i);
+            char c2 = ans.charAt(j);
+
+            boolean leftIsLetter = isLetter(c1);
+            boolean rightIsLetter = isLetter(c2);
+            boolean bothAreLetters = leftIsLetter && rightIsLetter;
+
+            if(bothAreLetters){
+                ans.setCharAt(i,c2);
+                ans.setCharAt(j,c1);
+                i++;
+                j--;
+            }else if(leftIsLetter && !rightIsLetter){
+                j--;
+            }else if(rightIsLetter && !leftIsLetter){
+                i++;
+            }else{
+                i++;
+                j--;
+            }
+
+        }
+
+
+        return ans.toString();
+
+    }
+}
+
+// method 2
+
 class Solution {
      public String reverseOnlyLetters(String s) {
 

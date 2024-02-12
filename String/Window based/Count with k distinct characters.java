@@ -1,5 +1,75 @@
 // Method 1
 
+import java.util.HashSet;
+
+public class Solution {
+    
+    // Method to count substrings with exactly 'k' distinct characters
+    public static int countSubStrings(String str, int k) {
+        
+        int n = str.length(); // Length of the input string
+        int count = 0; // Initialize count of substrings
+        
+        // Loop through each character in the input string
+        for(int i = 0; i < n; i++) {
+            StringBuilder sub = new StringBuilder(); // StringBuilder to store the substring
+            HashSet<Character> set = new HashSet<>(); // HashSet to store distinct characters
+            
+            // Loop through characters starting from index 'i'
+            for(int j = i; j < n; j++) {
+                char ch = str.charAt(j); // Get the character at index 'j'
+                sub.append(ch); // Append the character to the substring
+                set.add(ch); // Add the character to the set
+                
+                // If the size of the set becomes equal to 'k', increment count
+                if(set.size() == k) {
+                    count++;
+                }
+            }
+        }
+        
+        return count; // Return the count of substrings with exactly 'k' distinct characters
+    }
+    
+    public static void main(String[] args) {
+        String str = "ababa";
+        int k = 2;
+        System.out.println("Count of substrings with exactly " + k + " distinct characters: " + countSubStrings(str, k));
+    }
+}
+
+
+Note : Above method is derived from 'Subarray pattern of Array Section' where we Calculate each Subarray and then perform any operations.
+
+Little optimized : 
+
+import java.util.*;
+
+public class Solution {
+    public static int countSubStrings(String str, int k) {
+
+        int n = str.length();
+        int count = 0;
+
+        for(int i = 0;i < n; i++){
+            HashSet<Character> set = new HashSet<>();
+            for(int j = i; j < n ; j++){
+                char ch = str.charAt(j);
+                set.add(ch);
+                if(set.size() == k){
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+}
+
+Note : In Above we code we saw that there was no need of subarray string so we eliminated that.
+
+// Method 2
+
 import java.util.HashMap;
 
 public class Solution {
@@ -57,6 +127,8 @@ public class Solution {
     }
 }
 
+
+Yaha galti karoge --> <= n tak window size hoga bhai kyoki n size k window ko bhi consider karna hai
 
 Special Note : This technequie is derived from "Sum of beauty of all substring".
 

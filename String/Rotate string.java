@@ -1,32 +1,31 @@
 // Mehod 1 
 
-public class Solution {
-    public boolean rotateString(String s, String g) {
-        // Check if the lengths of the strings are not equal
-        if (s.length() != g.length()) {
-            return false;
-        }
-
+class Solution {
+    // Method to check if one string can be obtained by rotating another string
+    public boolean rotateString(String s, String goal) {
+        // Initialize a variable to track the number of rotations
         int j = 0;
-        
-        // Iterate through rotations
-        while (j != s.length()) {
-            // Perform rotation
-            String result = s.substring(1) + s.charAt(0);
 
-            // Check if the rotated string is equal to the target string
-            if (s.equals(g)) {
-                return true;
-            }
+        // Iterate through the string s to perform rotations
+        while(j < s.length()){
+            // Perform rotation by moving the first character to the end
+            String rotated = s.substring(1) + s.charAt(0);
 
+            // Check if the rotated string matches the goal string
+            if(rotated.equals(goal)) return true;
+
+            // Update the string for the next iteration
+            s = rotated;
+
+            // Increment the rotation counter
             j++;
-            s = result;
         }
 
-        
+        // If no match is found after all rotations, return false
         return false;
     }
 }
+
 
 
 Logic : Rotate the given string n times and check if any of the rotated string mathches the goal.
@@ -41,7 +40,7 @@ public class Solution {
         }
 
         StringBuilder a = new StringBuilder(s);
-        StringBuilder b = new StringBuilder(g);
+        
         int j = 0;
         
         // Iterate through rotations
@@ -51,9 +50,7 @@ public class Solution {
             result.append(a.charAt(0));
 
             // Check if the rotated string is equal to the target string
-            if (result.toString().equals(b.toString())) {
-                return true;
-            }
+            if(rotated.toString().equals(goal)) return true;
 
             j++;
             a = result;

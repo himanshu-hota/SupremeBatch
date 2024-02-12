@@ -41,6 +41,10 @@ public static String zigzagConversion(String s, int row) {
 	}
 
 
+Note : 1. First wala for loop top to bottom store kar raha hai.
+	   2. Second wala for loop bottom to top store kar raha hai. (first and last row ko chhod kar. why ? --> kyoki first loop loop handle kar leta hai is case ko, aur agar second wale for loop ko bhi n-1 -> 0 tak chalenge to n-1th and 0th row do do bar aa jaenge).
+
+
 
     Leetcode :- https://leetcode.com/problems/zigzag-conversion/
 

@@ -1,5 +1,36 @@
 // Method 1
 
+public class Solution {
+    
+    // Function to remove consecutive duplicates from a string
+    public static String removeConsecutiveDuplicates(String s) {
+        
+        // StringBuilder to store the result without consecutive duplicates
+        StringBuilder ans = new StringBuilder();
+        
+        // Initialize index variable
+        int i = 0;
+        
+        // Iterate through the input string
+        while (i < s.length()) {
+            // Check if the result is empty or the last character is not equal to the current character
+            if (ans.length() == 0 || ans.charAt(ans.length() - 1) != s.charAt(i)) {
+                // Append the current character to the result
+                ans.append(s.charAt(i));
+            }
+            
+            // Move to the next character in the input string
+            i++;
+        }
+        
+        // Convert the StringBuilder to a string and return the result
+        return ans.toString();
+    }
+}
+
+
+// Method 2
+
 public static String removeConsecutiveDuplicates(String s) {
 
 		// Write your code here

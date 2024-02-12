@@ -1,3 +1,38 @@
+// method 1
+
+class Solution {
+    public String removeOuterParentheses(String s) {
+        StringBuilder ans = new StringBuilder();
+
+        int i = 0;
+        int open = 0;
+        int start = 0;
+        while(i < s.length()){
+
+            char ch = s.charAt(i);
+
+            if(ch == '(') open++;
+            else if(ch == ')') open--;
+            
+            if(i>0 && open == 0){
+                ans.append(s.substring(start+1,i));
+                start = i+1;
+            }
+            
+
+        i++;
+        }
+
+        return ans.toString();
+    }
+}
+
+Note : 1. '(' ye mile to +1 kar do and ')' mile to -1.
+       2. jab open 0 hoga to iska matlab ye hai ki abhi jis index pe hu aur last starting point k beech k paranthesis balanced hai, to ye beech wale paranthesis ans me add honge.
+       3. start ko next se point kar to  kyoki is index tak ka ans store ho chuka hai.
+
+// method 2
+
 class Solution {
     public String removeOuterParentheses(String s) {
 

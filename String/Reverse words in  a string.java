@@ -16,7 +16,7 @@ class Solution {
             // Get and add the word
             ans.append(s.substring(wordStart,wordEnd));
 
-            if (end > 0) {
+            if (end > 0) { // galti karoge >= nahi hoga kyoki first wale character k bad space nahi chahiye.
                 ans.append(" "); // add a space between words
             }
 
