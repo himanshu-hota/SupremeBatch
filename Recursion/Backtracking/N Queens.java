@@ -161,7 +161,7 @@ class Solution {
 
 
 Notes : 1. We are placing queens on 1st column and then going on next columns one by one.
-        2. But we are Iterat row wise, why ?? --> because on the first column we are trying to put 1 queen at first row and we check if we can place it or not , then we put queen on second row being on the first col and so on....
+        2. But we are Iterating row wise, why ?? --> because on the first column we are trying to put 1 queen at first row and we check if we can place it or not , then we put queen on second row being on the first col and so on....
         3. When using map we put row + col for bottom left check and row-col for upper left check, why is that ? --> because when we create n*n matrix and put sum of its row index and col index on each cell, then we would find all diagonal elements on the right direction are same so we can make use of it to check for bottom left.
 
         same for upper left.

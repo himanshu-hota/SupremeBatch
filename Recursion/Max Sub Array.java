@@ -25,7 +25,7 @@ class Solution {
     public int maxSubArray(int[] nums) {
         int maxSoFar = Integer.MIN_VALUE;
         int currSum =0;
-        for(int i =0; i< nums.length; i++){
+        for(int i =0; i< nums.length; i
             
             // add current element to total sum.
             currSum += nums[i];

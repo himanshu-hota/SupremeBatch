@@ -42,7 +42,7 @@ CodeStudio : https://codingninjas.com/studio/problems/subset-sum_630213?utm_sour
 
 -----------------------------------------------------------------------------------------------
 
-// LeetCode Variant
+// GFG Variant
 
 class Solution {
     

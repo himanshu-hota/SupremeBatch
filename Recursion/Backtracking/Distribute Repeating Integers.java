@@ -17,7 +17,7 @@ public class Solution {
             count[index++] = value;
         }
 
-        // thees two lines are optimizations.
+        // these two lines are optimizations.
         Arrays.sort(quantity);
         reverseArray(quantity);
 

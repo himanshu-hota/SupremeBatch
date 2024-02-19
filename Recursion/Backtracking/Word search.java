@@ -57,7 +57,7 @@ class Solution {
 
 
 Note : 1. Go to each cell and check if found the first char of the given string.
-       2. If found the first char of the strig on any cell then start recursive call from this cell on all the poosible 4 directions(right,down,left,up). 
+       2. If found the first char of the strig on any cell then start recursive call from this cell on all the possible  directions(right,down,left,up). 
        3. If any possible ans is found then return true otherwise keep searching till last cell.
 
 

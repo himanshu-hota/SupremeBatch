@@ -1,3 +1,5 @@
+// Method 1
+
 class Solution {
 
     static int mincostTicketsHelper(int days[],int costs[],int i){
@@ -27,6 +29,40 @@ class Solution {
 
     public int mincostTickets(int[] days, int[] costs) {
         return mincostTicketsHelper(days,costs,0);
+    }
+}
+
+
+// Method 2 (optimized)
+
+class Solution {
+
+    public int solve(int days[],int costs[],int i,int dp[]){
+
+        if(i >= days.length) return 0;
+
+        if(dp[i] != 0) return dp[i];
+
+        // 1 Day cost
+        int cost1 = costs[0] + solve(days,costs,i+1,dp);
+        // 7 Day cost
+        int j = i;
+        int lastDay = days[i] + 7 - 1;
+        while(j < days.length && days[j] <= lastDay) j++;
+        int cost2 = costs[1] + solve(days,costs,j,dp);
+        // 30 Day cost
+        j = i;
+        lastDay = days[i] + 30 - 1;
+        while(j < days.length && days[j] <= lastDay) j++;
+        int cost3 = costs[2] + solve(days,costs,j,dp);
+
+        dp[i] =  Math.min(cost1,Math.min(cost2,cost3));
+        return dp[i];
+    }
+
+    public int mincostTickets(int[] days, int[] costs) {
+        int dp[] = new int[days.length+1];
+        return solve(days,costs,0,dp);
     }
 }
 

@@ -83,6 +83,33 @@ public class Solution {
 }
 
 
+// method 3 (optimized)
+
+class Solution{
+    
+    public int solve(int arr[],int i ,int n,int dp[]){
+        if(i >= n) return 0;
+        
+        if(dp[i] != 0) return dp[i];
+        // include
+        int ans1 = arr[i] + solve(arr,i+2,n,dp);
+        
+        // exclude 
+        int ans2 = 0 + solve(arr,i+1,n,dp);
+        
+        dp[i] = Math.max(ans1,ans2);
+        
+        return dp[i];
+    }
+    
+    //Function to find the maximum money the thief can get.
+    public int FindMaxSum(int arr[], int n)
+    {
+        int dp[] = new int[n+1];
+        return solve(arr,0,n,dp);
+    }
+}
+
 
 Special Note : INCLUDE EXCLUDE PATTERN HAI YE BHAI 🔥🔥🔥
 

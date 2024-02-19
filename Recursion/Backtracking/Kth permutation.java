@@ -1,3 +1,41 @@
+// Method 1
+
+class Solution {
+
+    public void solve(StringBuilder str,int i , List<String> ans){
+        if(i >= str.length()){
+            ans.add(str.toString());
+            return;
+        }
+
+        for(int idx = i; idx < str.length(); idx++){
+            swap(str,i,idx);
+            solve(str,i+1,ans);
+            swap(str,i,idx);
+        }
+    }
+
+    public void swap(StringBuilder str, int i , int j){
+        char temp = str.charAt(i);
+        str.setCharAt(i,str.charAt(j));
+        str.setCharAt(j,temp);
+    }
+
+    public String getPermutation(int n, int k) {
+
+        StringBuilder str = new StringBuilder();
+        for(int i = 1; i <= n; i++) str.append((char)('0' + i));
+
+        List<String> ans = new ArrayList<String>();
+        solve(str,0,ans);
+
+        Collections.sort(ans); // why sort ? --> to get in lexicographical order
+        return ans.get(k-1);
+    }
+}
+
+// Method 2
+
 class Solution {
     public String getPermutation(int n, int k) {
         
@@ -50,7 +88,7 @@ Notes : 1. Jo bhi 'n' diya hai us se ek kam size k, (n-1)! block banenge, kitne 
         n = 4  , k = 17 --> (17-1) ---> 16th permutation ====>
 
         0th    1 + [2,3,4]  | --> 0th to 5th
-        1st    2 + [1,3,4]  | --> 5th to 11th
+        1st    2 + [1,3,4]  | --> 6th to 11th
         2nd    3 + [1,2,4]  | --> 12th to 17th
         3rd    4 + [1,2,3]  | --> 18th to 23th
 

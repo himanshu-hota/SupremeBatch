@@ -95,4 +95,4 @@ By converting n to a long before taking its absolute value, you ensure that the 
         For example, if n is -3, then x^n is equivalent to 1 / (x^3). Therefore, when the exponent n is negative, the algorithm returns the reciprocal of the positive result.
 
 
-LeetCode : https://leetcode.com/pr oblems/powx-n/description/
+LeetCode : https://leetcode.com/problems/powx-n/description/

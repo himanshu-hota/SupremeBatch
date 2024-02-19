@@ -41,7 +41,7 @@ Notes : 1. The normal merge sort takes O(n) space complexity , to avoid this spa
         3. We take a gap variable and assign the value of Math.ceil((length of left arr + length of right arr)/2) or in other words (totalLen/2 + totalLen%2).
         4. We loop till we have an active gap is greater than 0.
         5. We take two pointers one is 'i' and one is 'j', assign 'i' to start , 'j' to start+gap.
-        6. Loop will j reaches the end and check if element at i greater than j , if yes then swap.
-        7. Now after the inner loop we update the gap sizet to again Math.ceil(total/2), but when gap size becomes 1 we dont half. why ? --> because if we try to do Math.ceil(1) it is always 1, so it would stuck in infinite loop, thats why don't break into half when gap becomes 1.
+        6. Loop till j reaches the end and check if element at i greater than j , if yes then swap.
+        7. Now after the inner loop we update the gap size to again Math.ceil(total/2), but when gap size becomes 1 we dont half. why ? --> because if we try to do Math.ceil(1) it is always 1, so it would stuck in infinite loop, thats why don't break into half when gap becomes 1.
 
 LeetCode :- https://leetcode.com/problems/sort-an-array/description/

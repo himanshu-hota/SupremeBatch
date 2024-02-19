@@ -128,4 +128,4 @@ Note : 1. We have used include/exclude pattern.
        2. We can use any digit any number of times so in the first recursive call we are not going forward, instead we are trying to add this number again and again untill we get the target or exceed it.
        3. In the second recursive call we are exluding this element and going forward.
 
-LeetCode :- https://leetcode.com/problems/combination-sum-iii/
+LeetCode :- https://leetcode.com/problems/combination-sum/description/

@@ -1,3 +1,5 @@
+// Method 1
+
 class Solution {
 
     // This method recursively generates all possible combinations of letters corresponding to the given digits
@@ -94,6 +96,42 @@ class Solution {
     }
 }
 
+// Method 2 
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Solution {
+
+	public static void solve(String s,int i,ArrayList<String> ans,ArrayList<String> phone,String str){
+		if(i>=s.length()){
+			ans.add(str);
+			return;
+		}
+
+		int digit = s.charAt(i) - '0';
+		String values = phone.get(digit);
+
+		for(int idx = 0; idx < values.length(); idx++){
+			char value = values.charAt(idx);
+			solve(s,i+1,ans,phone,str+value);
+		}
+	}
+    public static ArrayList<String> combinations(String s){
+	
+		ArrayList<String> ans = new ArrayList<>();
+
+		ArrayList<String> phone = new ArrayList<>();
+	
+
+		phone.addAll(Arrays.asList(" "," ","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"));
+
+		solve(s,0,ans,phone,"");
+
+		return ans;
+
+	}
+}
 
 Notes: 1. Firstly we create a map that map 0 -> 9 with corresponding string values.
        2. Make recursive call.

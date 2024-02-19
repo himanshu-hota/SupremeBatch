@@ -30,7 +30,8 @@ Trick : 1. 10 k bad 9 '0' maximum lagane hai -> 10
 
         2. Har level me maximum 2 recursive call jayegi.
         3. " " , "Hundred" , "Thousand" , "Million" , "Billion".
-        4. 100 se do function call start ho jaega.
-        5. 
+        4. 1000 se do function call start ho jaega.
+        5. return sirf last me hoga.
+        6. har if else check me ans me append hoga bhaisahab.
 
 LeetCode :- https://leetcode.com/problems/integer-to-english-words/description/

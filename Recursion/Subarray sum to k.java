@@ -1,3 +1,25 @@
+// brute force
+
+class Solution {
+
+    public int subarraySum(int[] nums, int k) {
+        
+        int n = nums.length;
+        int ans = 0;
+        for(int i = 0; i < n; i++){
+            int sum = 0;
+            for(int j = i ; j < n; j++){
+                sum += nums[j];
+                if(sum == k) ans++;
+            }
+        }
+
+        return ans;
+    }
+}
+
+
+
 // CodeStudio Variant
 
 import java.util.*;
@@ -44,6 +66,8 @@ public class Solution {
         return ans;
     }
 }
+
+
 
 // optimized : sliding window approach
 
@@ -100,6 +124,9 @@ CodeStudio : https://www.codingninjas.com/studio/problems/subarrays-with-sum-%E2
 
 // LeetCode Variant
 
+
+// Method 1
+
 // Class to store the result (count of subarrays)
 class Result {
     int count = 0;
@@ -145,6 +172,37 @@ class Solution {
 
         // Return the final count
         return ans.count;
+    }
+}
+
+
+// Method 2
+
+class Solution {
+
+    // Recursive helper function to find subarrays starting from index i with sum equal to target
+    public int solve(int arr[], int target, int i) {
+        // Base case: If the current index exceeds the array length, return 0
+        if (i >= arr.length) return 0;
+
+        int ans = 0; // Initialize the count of subarrays
+        int sum = 0; // Initialize the current sum
+
+        // Iterate through the array starting from index i
+        for (int start = i; start < arr.length; start++) {
+            sum += arr[start]; // Update the sum
+
+            // If the sum becomes equal to the target, increment the count
+            if (sum == target) ans++;
+        }
+
+        // Recursively call the function for the next index
+        return ans + solve(arr, target, i + 1);
+    }
+    
+    // Main function to find the total number of subarrays with sum equal to k
+    public int subarraySum(int[] nums, int k) {
+        return solve(nums, k, 0); // Start the recursive process from index 0
     }
 }
 

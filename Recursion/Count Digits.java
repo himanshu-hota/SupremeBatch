@@ -1,3 +1,25 @@
+// Method 1
+
+class Solution{
+    static int evenlyDivides(int n){
+        
+        if(n == 0) return 0;
+        int N = n;
+        int count = 0;
+        
+        while(N>0){
+            int digit = N%10;
+            if(digit != 0 && n%digit == 0) count++;
+            N /= 10;
+        }
+        
+        return count;
+        
+    }
+}
+
+// Method 2
+
 class Solution {
     
     // Function to count the number of digits in a given number

@@ -38,6 +38,47 @@ public class Main {
     }
 }
 
+// sliding window approach
+
+import java.util.*;
+
+class Solution {
+
+    public static void print(List<Integer> arr) {
+        for (int x : arr) System.out.print(x + ", ");
+
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        int arr[] = {1, 2, 3};
+
+        // yaha <= lagana hi padega kyoki lenght size k window ko bhi consider karna hai. (VVIMP).
+        for (int window = 1; window <= arr.length; window++) {
+
+            int start = 0;
+            int end = window;
+
+            List<Integer> ans = new ArrayList<>();
+
+            while (start < end) {
+                ans.add(arr[start++]);
+            }
+
+            // yaha <= lagana hi padega kyoki lenght size k window ko bhi consider karna hai. (VVIMP).
+            while (end <= arr.length) {
+                print(ans);
+                ans.remove(0); // Remove the first element in the window
+                if(end == arr.length) break;
+                ans.add(arr[end]); // Add the next element to the window
+                end++;
+                
+                
+            }
+        }
+    }
+}
+
 
 // Recursive approach
 
