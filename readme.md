@@ -41,8 +41,8 @@ Dive into the world of algorithms in Java with Love Babbar's Data Structures and
 
 ## 🧑‍💻 Instructors
 
-- **Love Babbar Bhaiya** - [Linkedin](https://www.linkedin.com/in/love-babbar-38ab2887/)
-- **Lakshay Kumar Bhaiya** - [Linkedin](https://www.linkedin.com/in/lakshayk12/)
+- **Love Babbar Bhaiya** - [🌍](https://www.linkedin.com/in/love-babbar-38ab2887/)
+- **Lakshay Kumar Bhaiya** - [🌍](https://www.linkedin.com/in/lakshayk12/)
 
 
 <!-- Add any additional sections, images, or links as needed -->
